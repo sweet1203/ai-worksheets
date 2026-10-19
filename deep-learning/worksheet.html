@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>인공신경망과 딥러닝 개념 정리 학습지</title>
+<style>
+  @page{size:A4;margin:11mm 12mm}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:9.6pt;line-height:1.5;color:#111}
+  .page{width:186mm;margin:0 auto}
+  .top{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #111;padding-bottom:4px;margin-bottom:7px}
+  .top h1{font-size:15pt;margin:0}
+  .top .who{font-size:9.5pt}
+  .top .who span{display:inline-block;border-bottom:1px solid #111;width:26mm;margin-left:3px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 7mm}
+  .box{border:1px solid #888;border-radius:4px;padding:5px 8px 6px;margin-bottom:6px;break-inside:avoid}
+  h2{font-size:10.5pt;margin:0 0 3px}
+  p{margin:3px 0}
+  table{border-collapse:collapse;width:100%;margin:4px 0;font-size:9pt}
+  th,td{border:1px solid #999;padding:2px 4px;text-align:center}
+  th{background:#eee}
+  td.l{text-align:left}
+  .b{display:inline-block;min-width:16mm;border-bottom:1px solid #111;text-align:center;color:transparent;padding:0 2px}
+  .b.s{min-width:10mm}
+  .b.w{min-width:26mm}
+  .flow{text-align:center;margin:4px 0}
+  .small{font-size:8.5pt;color:#444}
+  .line{border-bottom:1px solid #999;height:6.2mm}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top"><h1>인공신경망과 딥러닝 개념 정리</h1><div class="who">학번<span></span> 이름<span></span></div></div>
+
+  <div class="cols">
+  <div>
+    <div class="box">
+      <h2>1. 퍼셉트론</h2>
+      <p>퍼셉트론은 뇌의 신경 세포를 흉내 낸 <span class="b w"></span>이다.</p>
+      <p class="flow"><span class="b"></span> × <span class="b"></span>를 모두 더함 + <span class="b"></span><br>→ <span class="b w"></span> → <span class="b"></span></p>
+      <p>꽃 "가"(꽃잎 길이 1.4, 너비 0.2), 가중치 1·1, 편향 −3, 활성화 함수는 "0보다 크면 1, 아니면 0"</p>
+      <p>1.4×1 + 0.2×1 + (−3) = <span class="b s"></span> → 출력 <span class="b s"></span> (0 = 세토사)</p>
+      <p>틀리면 <span class="b"></span>와 <span class="b"></span>을 고친다. 이것을 컴퓨터가 데이터를 보며 스스로 하는 것이 <span class="b"></span>이다.</p>
+    </div>
+
+    <div class="box">
+      <h2>2. 인공신경망의 구조</h2>
+      <table>
+        <tr><th>층</th><th>하는 일</th><th>붓꽃</th></tr>
+        <tr><td><span class="b"></span></td><td class="l">데이터가 들어옴</td><td>4칸</td></tr>
+        <tr><td><span class="b"></span></td><td class="l">사이에 숨은 층</td><td>8칸</td></tr>
+        <tr><td><span class="b"></span></td><td class="l">답이 나옴</td><td>3칸</td></tr>
+      </table>
+      <p>퍼셉트론을 여러 층 쌓은 것: <span class="b w"></span></p>
+      <p>은닉층이 2개 이상: <span class="b w"></span> → 이것으로 학습하는 것이 <span class="b"></span></p>
+      <p>4 → 8 → 3 신경망의 가중치 4×8 + 8×3 = <span class="b s"></span>개, 편향 <span class="b s"></span>개</p>
+    </div>
+
+    <div class="box">
+      <h2>3. 활성화 함수</h2>
+      <table>
+        <tr><th>자리</th><th>활성화 함수</th></tr>
+        <tr><td>은닉층</td><td><span class="b w"></span></td></tr>
+        <tr><td>이진 분류 출력층</td><td><span class="b w"></span></td></tr>
+        <tr><td>다중 분류 출력층</td><td><span class="b w"></span></td></tr>
+        <tr><td>예측 모델 출력층</td><td><span class="b w"></span></td></tr>
+      </table>
+      <p>렐루: −1.4 → <span class="b s"></span>, 3.1 → <span class="b s"></span></p>
+      <p>소프트맥스 출력 (세토사 0.66, 버시컬러 0.24, 버지니카 <span class="b s"></span>) → 합은 항상 <span class="b s"></span></p>
+    </div>
+  </div>
+
+  <div>
+    <div class="box">
+      <h2>4. 딥러닝의 학습 과정</h2>
+      <p class="flow">① <span class="b"></span> → ② <span class="b"></span> → ③ <span class="b"></span> → 반복</p>
+      <p class="small">①: 입력층에서 출력층 쪽으로 계산해 답을 냄 / ③: 오차를 거꾸로 전하며 가중치·편향을 고침</p>
+    </div>
+
+    <div class="box">
+      <h2>5. 손실 함수</h2>
+      <table>
+        <tr><th>문제</th><th>붓꽃 예</th><th>손실 함수</th></tr>
+        <tr><td>이진 분류</td><td class="l">세토사인가?</td><td><span class="b w"></span></td></tr>
+        <tr><td>다중 분류</td><td class="l">세 품종 중 무엇?</td><td><span class="b w"></span></td></tr>
+        <tr><td>예측</td><td class="l">꽃잎 너비 몇 mm?</td><td><span class="b w"></span></td></tr>
+      </table>
+      <p>정답에 준 확률이 0.9일 때와 0.1일 때, 손실이 더 큰 쪽은 <span class="b s"></span>일 때이다.</p>
+      <table>
+        <tr><th>실제(mm)</th><th>예측(mm)</th><th>차이</th><th>차이의 제곱</th></tr>
+        <tr><td>2</td><td>4</td><td>2</td><td><span class="b s"></span></td></tr>
+        <tr><td>14</td><td>11</td><td>−3</td><td><span class="b s"></span></td></tr>
+        <tr><td>25</td><td>27</td><td>2</td><td><span class="b s"></span></td></tr>
+      </table>
+      <p>평균 제곱 오차 = (<span class="b s"></span>) ÷ 3 ≈ <span class="b s"></span></p>
+    </div>
+
+    <div class="box">
+      <h2>6. 경사 하강법</h2>
+      <p>새 w = 지금 w − 학습률 × 기울기 &nbsp;(학습률 0.01)</p>
+      <table>
+        <tr><th></th><th>시작</th><th>1번 후</th><th>2번 후</th></tr>
+        <tr><th>w</th><td>1.0</td><td><span class="b s"></span></td><td><span class="b s"></span></td></tr>
+        <tr><th>기울기</th><td>30</td><td>15</td><td>7.5</td></tr>
+        <tr><th>손실</th><td>9</td><td>2.25</td><td>0.56</td></tr>
+      </table>
+      <p>가중치를 <span class="b"></span>이 줄어드는 쪽으로 조금씩 고친다. 학습률이 너무 크면 손실이 오히려 <span class="b s"></span>.</p>
+    </div>
+
+    <div class="box">
+      <h2>7. 배치 사이즈와 에포크</h2>
+      <p><span class="b w"></span>: 가중치를 한 번 고치기 전에 넣는 데이터 수<br><span class="b w"></span>: 학습 데이터 전체를 한 바퀴 본 것</p>
+      <p>학습 데이터 120개, 배치 사이즈 10 → 1에포크에 <span class="b s"></span>번 고침</p>
+      <p>손글씨 60,000장, 배치 사이즈 32 → 화면의 <span class="b s"></span>/1875</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="box">
+    <h2>8. 한 줄로 쓰기 — 시그모이드와 소프트맥스는 무엇이 다른가?</h2>
+    <div class="line"></div>
+  </div>
+</div>
+</body>
+</html>
