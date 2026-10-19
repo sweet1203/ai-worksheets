@@ -102,6 +102,33 @@
   .cover p{color:#c8d6e8;font-size:1.05rem}
   .cover ol{margin:18px 0 26px;padding-left:20px;color:#e1e9f4;columns:2;column-gap:28px;font-size:.95rem}
   @media (max-width:700px){.cover{padding:30px 22px}.cover h1{font-size:2.2rem}.cover ol{columns:1}.cover svg{opacity:.35}}
+  .today{margin-top:26px}
+  .kicker{display:inline-block;font-family:"Black Han Sans",sans-serif;font-size:1.15rem;color:var(--navy);margin-bottom:6px;border-bottom:4px solid var(--amber);line-height:1.2}
+  .today-lead{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:22px 26px;margin-bottom:16px}
+  .today-lead p{font-size:1.12rem;margin:6px 0 0}
+  .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+  @media (max-width:900px){.why3{grid-template-columns:1fr}}
+  .why{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 22px}
+  .why ul{margin:6px 0 0;padding-left:18px;font-size:.95rem}
+  .why li{margin:6px 0}
+  .why ul.can{list-style:none;padding:0}
+  .why ul.can li{padding-left:28px;position:relative}
+  .why ul.can li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 7' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+  .why ul.uses{list-style:none;padding:0}
+  .why ul.uses li{border-left:3px solid var(--amber);padding-left:10px}
+  .glossary-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .glossary-head .muted{font-size:.88rem}
+  .glossary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+  @media (max-width:1000px){.glossary{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.glossary{grid-template-columns:1fr}}
+  .gcard{all:unset;box-sizing:border-box;cursor:pointer;display:block;background:#fff;border-radius:14px;padding:16px 16px 12px;box-shadow:var(--shadow);border-top:6px solid var(--g);position:relative;transition:transform .18s, box-shadow .18s}
+  .gcard:hover,.gcard:focus-visible{transform:translateY(-4px);box-shadow:0 22px 50px rgba(15,39,66,.16)}
+  .gcard:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+  .gcard i{position:absolute;right:14px;top:8px;font-style:normal;font-family:"Black Han Sans",sans-serif;font-size:1.9rem;color:var(--g);opacity:.25}
+  .gcard h4{margin:0 0 6px;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.2rem;color:var(--g)}
+  .gcard dl{margin:0;font-size:.88rem;line-height:1.45}
+  .gcard dt{font-weight:900;margin-top:7px}
+  .gcard dd{margin:1px 0 0;color:#3c4654}
   .fn{border-radius:14px;padding:14px;background:#fff;border:2px solid var(--line)}
   .fn h4{margin:0;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.3rem}
   .fn .where{font-size:.82rem;color:var(--muted)}
@@ -145,8 +172,70 @@
         <li>퍼셉트론</li><li>가중치와 편향 조정</li><li>인공신경망의 구조</li><li>활성화 함수</li>
         <li>딥러닝의 학습 과정</li><li>손실 함수</li><li>경사 하강법과 역전파</li><li>배치 사이즈와 에포크</li>
       </ol>
-      <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
+        <button class="btn" style="background:transparent;border:2px solid rgba(255,255,255,.5);box-shadow:none" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">오늘 배울 내용 보기 ↓</button>
+      </div>
     </div>
+  </div>
+
+  <div id="intro" class="today">
+    <div class="today-lead">
+      <span class="kicker">오늘 우리는</span>
+      <p>붓꽃 데이터를 가지고 <b>인공지능이 어떻게 판단하는지</b>, 그리고 <b>틀렸을 때 어떻게 스스로 고쳐 나가는지</b> 배웁니다. 꽃잎 길이와 너비만 보는 퍼셉트론 하나에서 시작해, 층을 여러 겹 쌓은 딥러닝까지 가 봅니다.</p>
+    </div>
+
+    <div class="why3">
+      <div class="why">
+        <span class="kicker">왜 배울까</span>
+        <ul>
+          <li>사진을 알아보고, 말을 알아듣고, 글을 번역하는 인공지능은 대부분 <b>딥러닝</b>으로 만들어졌습니다. 속이 어떻게 돌아가는지 알면 그 결과를 무작정 믿거나 막연히 두려워하지 않고 따져 볼 수 있습니다.</li>
+          <li>"인공지능을 <b>학습시킨다</b>", "인공지능이 <b>틀렸다</b>"는 말이 정확히 무슨 뜻인지 설명할 수 있게 됩니다.</li>
+          <li>다음에 배울 컴퓨터 비전, 음성 인식, 자연어 처리와 2차 수행평가의 이미지 분류 모델이 모두 오늘 배우는 원리 위에 있습니다.</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">어디에 쓰일까</span>
+        <ul class="uses">
+          <li><b>사진을 보는 인공지능</b> · 휴대폰 얼굴 인식 잠금 해제, 주차장 번호판 인식, 엑스레이 사진에서 이상한 부분 찾기</li>
+          <li><b>소리를 듣는 인공지능</b> · 음성 비서, 회의 내용을 글로 받아 적기, 동영상 자동 자막</li>
+          <li><b>글을 읽는 인공지능</b> · 번역기, 챗봇, 문장 자동 완성</li>
+          <li><b>다음 시간 실습</b> · 손으로 쓴 숫자 알아보기 (우편번호나 서류의 손글씨 숫자를 읽는 기술)</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">배우고 나면 할 수 있는 것</span>
+        <ul class="can">
+          <li>퍼셉트론에 숫자를 넣어 출력을 직접 계산한다.</li>
+          <li>신경망 그림에서 입력층·은닉층·출력층을 찾고 가중치 개수를 센다.</li>
+          <li>문제 종류에 맞는 활성화 함수와 손실 함수를 고른다.</li>
+          <li>딥러닝의 학습을 순전파 → 오차 계산 → 역전파로 설명한다.</li>
+          <li>평균 제곱 오차와 경사 하강법 한 걸음을 계산한다.</li>
+          <li>손글씨 실습 화면의 <span class="mono">epochs</span>, <span class="mono">1875/1875</span>가 무슨 뜻인지 읽는다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="glossary-head"><span class="kicker">미리 보는 용어</span><span class="muted">카드를 누르면 그 개념 화면으로 갑니다</span></div>
+    <div class="glossary">
+      <div class="gcard" role="button" tabindex="0" style="--g:#2f6fd0" onclick="go(1)"><i>01</i><h4>퍼셉트론</h4>
+        <dl><dt>퍼셉트론</dt><dd>뇌의 신경 세포를 흉내 낸 가장 작은 계산 단위</dd><dt>입력</dt><dd>판단에 쓰는 재료 값 (꽃잎 길이·너비)</dd><dt>가중치</dt><dd>입력마다 붙이는 '중요도'</dd><dt>편향</dt><dd>기준을 올리고 내리는 값</dd><dt>활성화 함수</dt><dd>계산 결과를 보고 출력을 정하는 규칙</dd><dt>출력</dt><dd>퍼셉트론이 내놓는 답</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#1f9d74" onclick="go(2)"><i>02</i><h4>조정</h4>
+        <dl><dt>조정</dt><dd>틀리면 가중치와 편향을 고치는 것</dd><dt>학습</dt><dd>그 고치기를 컴퓨터가 데이터를 보며 스스로 하는 것</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#9b4fc4" onclick="go(3)"><i>03</i><h4>신경망 구조</h4>
+        <dl><dt>인공신경망</dt><dd>퍼셉트론을 여러 개 이어 붙인 것</dd><dt>입력층</dt><dd>데이터가 들어오는 층</dd><dt>은닉층</dt><dd>사이에 숨어 있는 층</dd><dt>출력층</dt><dd>답이 나오는 층</dd><dt>다층 퍼셉트론</dt><dd>층을 여러 겹 쌓은 신경망</dd><dt>심층 신경망</dt><dd>은닉층이 2개 이상인 신경망</dd><dt>딥러닝</dt><dd>심층 신경망으로 하는 학습</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#e0702b" onclick="go(4)"><i>04</i><h4>활성화 함수</h4>
+        <dl><dt>렐루</dt><dd>음수는 0, 양수는 그대로 (은닉층)</dd><dt>시그모이드</dt><dd>0~1 사이 확률로 (예/아니오 문제)</dd><dt>소프트맥스</dt><dd>여러 답에 확률을 나눠 줌, 합은 1 (여러 개 중 하나 고르기)</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#1f9d74" onclick="go(5)"><i>05</i><h4>학습 과정</h4>
+        <dl><dt>순전파</dt><dd>앞으로 계산해서 답을 내기</dd><dt>오차 계산</dt><dd>답이 얼마나 틀렸는지 재기</dd><dt>역전파</dt><dd>거꾸로 돌아가며 가중치를 고치기</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#d64535" onclick="go(6)"><i>06</i><h4>손실 함수</h4>
+        <dl><dt>손실 함수</dt><dd>틀린 정도를 숫자 하나로 나타내는 방법</dd><dt>이진 교차 엔트로피 오차</dt><dd>예/아니오 문제에 쓰는 손실 함수</dd><dt>범주형 교차 엔트로피 오차</dt><dd>여러 개 중 하나 고르는 문제에 쓰는 손실 함수</dd><dt>평균 제곱 오차</dt><dd>숫자를 맞히는 문제에 쓰는 손실 함수</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#c98a00" onclick="go(7)"><i>07</i><h4>경사 하강법</h4>
+        <dl><dt>경사 하강법</dt><dd>손실이 줄어드는 쪽으로 조금씩 내려가기</dd><dt>학습률</dt><dd>한 번에 내딛는 걸음의 크기</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#2f6fd0" onclick="go(8)"><i>08</i><h4>배치·에포크</h4>
+        <dl><dt>배치 사이즈</dt><dd>한 번 고치기 전에 보는 데이터 수</dd><dt>에포크</dt><dd>전체 데이터를 한 바퀴 본 것</dd></dl></div>
+    </div>
+    <div style="text-align:center;margin-top:20px"><button class="btn" style="background:var(--navy)" onclick="go(1)">01 퍼셉트론부터 시작하기 →</button></div>
   </div>
 </section>
 
@@ -771,6 +860,7 @@ $('bsPlay').onclick=async()=>{
 };
 bPaint(-1);
 
+document.querySelectorAll('.gcard').forEach(c=>c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click();}}));
 updScore();
 const hm=location.hash.match(/^#p(\d+)$/); go(hm?+hm[1]:0);
 </script>
