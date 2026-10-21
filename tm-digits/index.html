@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>손글씨 숫자 학습</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202c; --muted:#5b6776; --paper:#f3efe7; --card:#fff; --line:#e3ddd2;
+    --navy:#0f2742; --amber:#f2a516; --blue:#2f6fd0; --blue-soft:#e6eefb; --mint:#1f9d74; --mint-soft:#e3f4ec;
+    --red:#d64535; --purple:#9b4fc4; --orange:#e0702b;
+    --shadow:0 18px 50px rgba(15,39,66,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:17px;line-height:1.7;
+    background-image:radial-gradient(rgba(15,39,66,.07) 1px,transparent 1px);background-size:22px 22px}
+  a{color:var(--blue)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 16px}
+
+  /* 상단 진행 바 */
+  .top{position:sticky;top:0;z-index:10;background:rgba(15,39,66,.97);color:#fff}
+  .top .wrap{display:flex;align-items:center;gap:12px;padding:10px 16px}
+  .brand{font-family:"Black Han Sans",sans-serif;font-size:1.1rem;white-space:nowrap}
+  .dots{display:flex;gap:5px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+  .dots::-webkit-scrollbar{display:none}
+  .dots a{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:700;color:#c9d6e6;background:rgba(255,255,255,.1);text-decoration:none}
+  .dots a.ok{background:var(--mint);color:#fff}
+  .bar{height:4px;background:rgba(15,39,66,.12)}
+  .bar i{display:block;height:100%;width:0;background:var(--amber);transition:width .3s}
+
+  .hero{border-radius:22px;margin:24px 0;padding:36px 34px;color:#fff;background:linear-gradient(135deg,#0f2742,#1c3d66);box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .hero .tag{display:inline-block;background:var(--amber);color:var(--navy);font-weight:900;font-size:.85rem;padding:3px 12px;border-radius:999px}
+  .hero h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:2.4rem;line-height:1.2;margin:14px 0 8px}
+  .hero p{margin:0;color:#d5e0ee;max-width:620px}
+  .hero .digits{position:absolute;right:26px;bottom:-14px;font-family:"Black Han Sans",sans-serif;font-size:8rem;color:rgba(255,255,255,.08);letter-spacing:.1em}
+  @media (max-width:720px){.hero{padding:26px 20px}.hero h1{font-size:1.8rem}.hero .digits{font-size:5rem}}
+
+  .box{background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:22px 26px;margin-bottom:18px}
+  @media (max-width:720px){.box{padding:18px 16px}}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+  .mini{background:#fbfaf7;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .mini h4{margin:0 0 4px;font-size:1.02rem}
+  .mini p{margin:0;font-size:.93rem}
+
+  /* 단계 */
+  .step{background:#fff;border-radius:20px;box-shadow:var(--shadow);margin:26px 0;overflow:hidden;scroll-margin-top:70px}
+  .step>header{display:flex;align-items:center;gap:14px;padding:18px 24px;background:var(--c);color:#fff}
+  .step>header .n{font-family:"Black Han Sans",sans-serif;font-size:2.4rem;line-height:1;opacity:.95}
+  .step>header h2{margin:0;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.5rem;line-height:1.2}
+  .step>header p{margin:2px 0 0;font-size:.9rem;opacity:.9}
+  .step .body{padding:20px 26px 22px}
+  @media (max-width:720px){.step .body{padding:16px}.step>header{padding:14px 16px}.step>header h2{font-size:1.25rem}}
+
+  ol.todo{list-style:none;margin:0;padding:0;counter-reset:t}
+  ol.todo>li{position:relative;padding:10px 0 10px 44px;border-top:1px dashed var(--line)}
+  ol.todo>li:first-child{border-top:0}
+  ol.todo>li::before{counter-increment:t;content:counter(t);position:absolute;left:0;top:10px;width:30px;height:30px;border-radius:50%;background:var(--c);color:#fff;font-weight:900;display:grid;place-items:center;font-size:.9rem}
+  .btnlabel{display:inline-block;background:#eef2f7;border:1px solid #c9d3df;border-radius:8px;padding:0 8px;font-weight:700;font-size:.92em;white-space:nowrap}
+
+  .tip,.warn,.link{border-radius:12px;padding:12px 16px;margin:12px 0;font-size:.95rem}
+  .tip{background:#fff8e6;border-left:5px solid var(--amber)}
+  .warn{background:#fdecea;border-left:5px solid var(--red)}
+  .link{background:var(--blue-soft);border-left:5px solid var(--blue)}
+  .tip b:first-child,.warn b:first-child,.link b:first-child{display:block;margin-bottom:2px}
+
+  .done-row{display:flex;justify-content:flex-end;margin-top:14px}
+  .done{font:inherit;font-weight:700;border:2px solid var(--mint);background:#fff;color:var(--mint);border-radius:12px;padding:8px 18px;cursor:pointer}
+  .done.on{background:var(--mint);color:#fff}
+
+  /* 티처블 머신 화면 흉내 */
+  .tm{background:#f1f3f4;border-radius:14px;padding:14px;margin:12px 0;font-size:.85rem}
+  .tm .cap{font-size:.78rem;color:var(--muted);margin-bottom:8px}
+  .tmflow{display:grid;grid-template-columns:1.3fr auto 1fr auto 1fr;gap:10px;align-items:center}
+  @media (max-width:760px){.tmflow{grid-template-columns:1fr}.tmflow .arr{transform:rotate(90deg);justify-self:center}}
+  .tmflow .arr{color:#9aa5b4;font-size:1.4rem}
+  .tmcol{display:flex;flex-direction:column;gap:8px}
+  .tmcard{background:#fff;border-radius:10px;padding:10px 12px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .tmcard .ttl{font-weight:700;display:flex;align-items:center;gap:6px}
+  .tmcard .ttl .pen{color:#9aa5b4;font-size:.8rem}
+  .tmcard .btns{display:flex;gap:6px;margin-top:6px}
+  .tmcard .btns span{flex:1;text-align:center;border:1px solid #c6d4f5;color:#1a73e8;border-radius:6px;padding:4px 0;font-size:.78rem;background:#f5f8ff}
+  .tmcard .thumbs{display:flex;gap:4px;margin-top:6px}
+  .tmcard .thumbs i{width:22px;height:22px;border-radius:4px;background:#fff;border:1px solid #ddd;font-style:normal;font-family:"Black Han Sans",sans-serif;display:grid;place-items:center;font-size:.85rem}
+  .tmcard.add{border:2px dashed #c3cad4;box-shadow:none;background:transparent;text-align:center;color:var(--muted)}
+  .tmtrain{background:#fff;border-radius:10px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.12);text-align:center}
+  .tmtrain .go{background:#1a73e8;color:#fff;border-radius:6px;padding:6px 10px;font-weight:700;margin:6px 0}
+  .tmtrain .adv{color:var(--muted);font-size:.78rem;text-align:left;border-top:1px solid #eee;padding-top:6px;margin-top:6px}
+  .bars .row{display:flex;align-items:center;gap:6px;margin:5px 0}
+  .bars .row b{width:16px;font-family:"Black Han Sans",sans-serif;font-weight:400}
+  .bars .row .t{flex:1;height:18px;background:#eee;border-radius:4px;overflow:hidden}
+  .bars .row .t i{display:block;height:100%;color:#fff;font-size:.72rem;font-style:normal;line-height:18px;padding-left:4px;white-space:nowrap}
+
+  /* 숫자 카드 */
+  .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:10px 0}
+  @media (max-width:640px){.cards{grid-template-columns:repeat(3,1fr)}}
+  .cards div{aspect-ratio:1;background:#fff;border:2px solid var(--line);border-radius:10px;display:grid;place-items:center;font-family:"Black Han Sans",sans-serif;font-size:2.6rem;color:#222}
+  .cards div.t{border-color:var(--orange);border-style:dashed}
+  .cards small{display:block}
+
+  table{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+  th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-size:.85rem;background:#fbfaf7}
+  td input,td textarea{width:100%;font:inherit;font-size:.92rem;border:1px solid #c5ccd5;border-radius:8px;padding:5px 8px;background:#fff}
+  td textarea{min-height:52px;resize:vertical}
+  td input.n{width:70px}
+  .scroll{overflow-x:auto}
+
+  .hl{background:linear-gradient(transparent 60%,#ffe39a 60%)}
+  footer{color:var(--muted);font-size:.85rem;text-align:center;padding:24px 0 40px}
+  @media print{.top,.done-row{display:none}.step{break-inside:avoid;box-shadow:none;border:1px solid #ccc}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="brand">✍️ 손글씨 숫자 학습</span>
+    <nav class="dots" id="dots"></nav>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <span class="tag">인공지능 기초 · 딥러닝 실습</span>
+    <h1>카메라로 가르치는<br>손글씨 숫자 인공지능</h1>
+    <p>코드 없이, 내가 쓴 숫자 사진으로 딥러닝 모델을 직접 학습시켜 봐요. 구글 <b>티처블 머신(Teachable Machine)</b>을 사용해요.</p>
+    <div class="digits">012</div>
+  </section>
+
+  <section class="box">
+    <h3 style="margin:0 0 8px">🎯 오늘의 목표</h3>
+    <div class="grid3">
+      <div class="mini"><h4>① 직접 학습시키기</h4><p>내가 쓴 0, 1, 2를 카메라로 보여 주고 인공지능을 학습시켜요.</p></div>
+      <div class="mini"><h4>② 실험해 보기</h4><p>에포크를 바꾸고, 헷갈리는 숫자를 넣어 보며 결과가 어떻게 달라지는지 관찰해요.</p></div>
+      <div class="mini"><h4>③ 개념과 연결하기</h4><p>오늘 한 일이 데이터 · 레이블 · 학습 · 에포크 · 소프트맥스 중 무엇인지 말할 수 있어요.</p></div>
+    </div>
+    <h3 style="margin:18px 0 8px">🎒 준비물</h3>
+    <div class="grid3">
+      <div class="mini"><h4>💻 웹캠이 있는 컴퓨터</h4><p>크롬 브라우저 추천. 웹캠이 없으면 휴대폰으로 찍어 업로드해도 돼요.</p></div>
+      <div class="mini"><h4>📄 흰 종이 (A4 1~2장)</h4><p>손바닥 크기로 잘라서 숫자 카드를 만들어요.</p></div>
+      <div class="mini"><h4>🖊️ 굵은 검정 사인펜</h4><p>얇은 볼펜은 카메라에 잘 안 보여요. 굵을수록 좋아요.</p></div>
+    </div>
+    <div class="tip"><b>💡 각 단계를 마치면</b>단계 아래의 <span class="btnlabel">✔ 다 했어요</span> 버튼을 눌러요. 위쪽 동그라미가 초록색으로 바뀌어요.</div>
+  </section>
+
+  <!-- 1 -->
+  <section class="step" id="s1" style="--c:#2f6fd0">
+    <header><span class="n">1</span><div><h2>손글씨 숫자 카드 만들기</h2><p>인공지능에게 보여 줄 "공부 자료(데이터)"를 만들어요</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li>종이를 <b>손바닥 크기</b>로 잘라 카드를 <b>12장</b> 만들어요.</li>
+        <li><b>학습용 카드 9장</b>: 0, 1, 2를 <b>3장씩</b> 써요. 한 장 한 장 <b>조금씩 다르게</b> 써 보세요. (크게, 작게, 기울여서, 동그랗게…)</li>
+        <li><b>테스트용 카드 3장</b>: 0, 1, 2를 <b>1장씩</b> 더 써서 <b>뒤집어 숨겨 둬요.</b> 학습이 끝난 뒤 인공지능이 처음 보는 숫자로 시험할 거예요.</li>
+        <li>모둠 친구와 카드를 몇 장 바꿔요. <b>다른 사람의 글씨</b>가 섞이면 인공지능이 더 똑똑해져요.</li>
+      </ol>
+      <div class="cards">
+        <div>0</div><div style="font-style:italic">0</div><div>1</div><div style="transform:rotate(-8deg)">1</div><div>2</div><div style="font-size:2rem">2</div>
+      </div>
+      <p style="margin:0;font-size:.88rem;color:var(--muted)">↑ 같은 숫자도 모양이 다양할수록 좋아요</p>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>숫자 카드 = <b>데이터</b>, 카드에 쓴 숫자 이름(0, 1, 2) = <b>레이블(정답)</b>이에요. 숨겨 둔 테스트 카드는 <b>테스트 데이터</b>예요. 공부할 때 본 문제가 아니라 처음 보는 문제로 시험해야 진짜 실력을 알 수 있어요.</div>
+      <div class="done-row"><button class="done" data-s="1">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="step" id="s2" style="--c:#1f9d74">
+    <header><span class="n">2</span><div><h2>티처블 머신 열기</h2><p>새 이미지 프로젝트를 만들어요</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li>크롬에서 <a href="https://teachablemachine.withgoogle.com/" target="_blank" rel="noopener"><b>teachablemachine.withgoogle.com</b></a> 에 들어가요. (회원가입 필요 없어요)</li>
+        <li><span class="btnlabel">시작하기 (Get Started)</span> 버튼을 눌러요.</li>
+        <li><span class="btnlabel">이미지 프로젝트 (Image Project)</span>를 고르고, <span class="btnlabel">표준 이미지 모델 (Standard image model)</span>을 눌러요.</li>
+        <li>아래 그림처럼 <b>왼쪽에 클래스 카드</b>, <b>가운데 학습</b>, <b>오른쪽 미리보기</b>가 있는 화면이 나오면 성공이에요.</li>
+      </ol>
+      <div class="tm">
+        <div class="cap">티처블 머신 화면 구조 (간단히 그린 그림)</div>
+        <div class="tmflow">
+          <div class="tmcol">
+            <div class="tmcard"><div class="ttl">Class 1 <span class="pen">✏️</span></div><div class="btns"><span>📷 웹캠</span><span>⬆ 업로드</span></div></div>
+            <div class="tmcard"><div class="ttl">Class 2 <span class="pen">✏️</span></div><div class="btns"><span>📷 웹캠</span><span>⬆ 업로드</span></div></div>
+            <div class="tmcard add">⊕ 클래스 추가</div>
+          </div>
+          <span class="arr">➜</span>
+          <div class="tmtrain"><b>학습</b><div class="go">모델 학습시키기</div><div class="adv">고급 ⌄</div></div>
+          <span class="arr">➜</span>
+          <div class="tmtrain"><b>미리보기</b><div style="color:var(--muted);font-size:.8rem;margin-top:6px">여기서 학습된 모델을<br>시험해요</div></div>
+        </div>
+      </div>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>왼쪽 → 가운데 → 오른쪽 순서가 바로 <b>데이터 모으기 → 학습 → 예측</b>이에요. 모든 인공지능은 이 순서로 만들어져요.</div>
+      <div class="done-row"><button class="done" data-s="2">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="step" id="s3" style="--c:#9b4fc4">
+    <header><span class="n">3</span><div><h2>클래스 만들기: 0, 1, 2</h2><p>인공지능이 구분할 "답의 종류"를 정해요</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li><b>Class 1</b> 옆의 연필 ✏️ 을 눌러 이름을 <b>0</b>으로 바꿔요.</li>
+        <li><b>Class 2</b>의 이름을 <b>1</b>로 바꿔요.</li>
+        <li>아래쪽 <span class="btnlabel">⊕ 클래스 추가</span>를 눌러 새 클래스를 만들고 이름을 <b>2</b>로 바꿔요.</li>
+      </ol>
+      <div class="tm">
+        <div class="cap">이렇게 되면 성공!</div>
+        <div class="grid3">
+          <div class="tmcard"><div class="ttl">0 <span class="pen">✏️</span></div><div class="btns"><span>📷 웹캠</span><span>⬆ 업로드</span></div></div>
+          <div class="tmcard"><div class="ttl">1 <span class="pen">✏️</span></div><div class="btns"><span>📷 웹캠</span><span>⬆ 업로드</span></div></div>
+          <div class="tmcard"><div class="ttl">2 <span class="pen">✏️</span></div><div class="btns"><span>📷 웹캠</span><span>⬆ 업로드</span></div></div>
+        </div>
+      </div>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>클래스가 3개니까 출력층의 칸도 <b>3칸</b>이에요. 여러 개 중 하나를 고르는 <b>다중 분류</b> 문제라서, 출력층에는 <b>소프트맥스</b>가 쓰여요. (다음 시간 파이썬 실습의 MNIST는 0~9라서 10칸이에요.)</div>
+      <div class="done-row"><button class="done" data-s="3">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="step" id="s4" style="--c:#e0702b">
+    <header><span class="n">4</span><div><h2>데이터 모으기: 카메라로 찍기</h2><p>숫자마다 사진을 50장 이상 모아요</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li><b>0</b> 클래스의 <span class="btnlabel">📷 웹캠</span>을 눌러요. 카메라 권한을 물으면 <span class="btnlabel">허용</span>을 눌러요.</li>
+        <li>학습용 <b>0 카드</b>를 카메라 앞에 들고, <span class="btnlabel">길게 눌러서 녹화하기</span> 버튼을 <b>꾹 누르고 있어요.</b> 누르는 동안 사진이 계속 찍혀요.</li>
+        <li>찍는 동안 카드를 <b>조금씩 움직여요.</b> 가까이 · 멀리 · 살짝 기울이기 · 다른 0 카드로 바꾸기!</li>
+        <li>사진이 <b>50장 이상</b> 모이면 손을 떼요. (클래스 카드에 <b>"이미지 샘플 ○○개"</b>로 표시돼요)</li>
+        <li><b>1</b>과 <b>2</b> 클래스도 똑같이 해요. 세 클래스의 사진 수가 <b>비슷하게</b> 되도록 해요.</li>
+      </ol>
+      <div class="grid2" style="margin-top:8px">
+        <div class="tip"><b>👍 잘 찍는 방법</b>숫자가 화면 <b>가운데</b>에, 화면을 <b>꽉 채우게</b>. 손가락이 숫자를 가리지 않게 카드 모서리를 잡아요. 밝은 곳에서 찍어요.</div>
+        <div class="warn"><b>🚫 이렇게 하면 안 돼요</b>얼굴이 크게 나오게 찍지 않아요. 숫자 없이 빈 화면만 찍히지 않게 해요. 테스트용 카드는 절대 찍지 않아요!</div>
+      </div>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>지금 모은 사진이 <b>학습 데이터</b>예요. 다양하게 찍을수록 처음 보는 숫자도 잘 맞혀요. 클래스마다 사진 수가 비슷해야 하는 이유는, 한쪽만 많으면 인공지능이 그쪽으로 <b>치우쳐서(편향)</b> 답하기 때문이에요.</div>
+      <div class="done-row"><button class="done" data-s="4">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="step" id="s5" style="--c:#c98a00">
+    <header><span class="n">5</span><div><h2>학습시키기</h2><p>버튼 하나로 딥러닝 학습이 시작돼요</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li>가운데 <b>학습</b> 칸의 <span class="btnlabel">고급 ⌄</span>을 눌러 펼쳐요. 아래 세 가지 숫자가 보여요. <b>지금은 바꾸지 말고 그대로</b> 두세요.</li>
+        <li><span class="btnlabel">모델 학습시키기 (Train Model)</span>를 눌러요.</li>
+        <li>학습이 끝날 때까지 기다려요. 보통 30초~1분 걸려요.</li>
+      </ol>
+      <table>
+        <tr><th>고급 설정에 보이는 것</th><th>기본값</th><th>뜻 (딥러닝 수업에서 배운 개념)</th></tr>
+        <tr><td><b>에포크 (Epochs)</b></td><td>50</td><td>모은 사진 전체를 <b>50바퀴</b> 보며 공부해요. 단어장을 50번 복습하는 것과 같아요.</td></tr>
+        <tr><td><b>배치 크기 (Batch Size)</b></td><td>16</td><td>사진 <b>16장씩</b> 보고 가중치를 한 번 고쳐요. 단어 16개씩 외우고 쪽지시험 보는 것과 같아요.</td></tr>
+        <tr><td><b>학습률 (Learning Rate)</b></td><td>0.001</td><td>한 번에 가중치를 <b>얼마나 크게</b> 고칠지예요. 언덕을 내려가는 걸음 크기예요.</td></tr>
+      </table>
+      <div class="warn"><b>⚠️ 학습하는 동안 다른 탭으로 가지 마세요!</b>브라우저 탭을 바꾸면 학습이 멈추거나 아주 느려져요. 화면을 그대로 두고 기다려요.</div>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>버튼을 누르면 컴퓨터 안에서 <b>순전파 → 오차 계산(손실 함수) → 역전파(경사 하강법)</b>가 계속 반복돼요. 우리가 수업에서 배운 그 과정이 지금 실제로 일어나고 있어요!</div>
+      <div class="done-row"><button class="done" data-s="5">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="step" id="s6" style="--c:#d64535">
+    <header><span class="n">6</span><div><h2>테스트하기: 처음 보는 숫자로 시험</h2><p>숨겨 둔 테스트 카드를 꺼내요</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li>학습이 끝나면 오른쪽 <b>미리보기</b>에 카메라 화면과 <b>막대그래프</b>가 나와요.</li>
+        <li>숨겨 둔 <b>테스트 카드</b> 0, 1, 2를 하나씩 카메라에 보여 줘요.</li>
+        <li>막대그래프의 <b>퍼센트(%)</b>를 읽고, 아래 <b>실험 기록표</b>의 "기본 모델" 줄에 맞힌 개수를 적어요.</li>
+      </ol>
+      <div class="grid2">
+        <div class="tm">
+          <div class="cap">미리보기 막대그래프 예시: 테스트 카드 "2"를 보여 줬을 때</div>
+          <div class="bars">
+            <div class="row"><b>0</b><span class="t"><i style="width:4%;background:#e0702b">4%</i></span></div>
+            <div class="row"><b>1</b><span class="t"><i style="width:9%;background:#2f6fd0">9%</i></span></div>
+            <div class="row"><b>2</b><span class="t"><i style="width:87%;background:#9b4fc4">87%</i></span></div>
+          </div>
+        </div>
+        <div class="mini" style="align-self:center"><h4>이 그래프를 읽으면?</h4><p>"이 숫자가 2일 가능성이 87%"라는 뜻이에요. 가장 높은 막대가 인공지능의 답이에요. 세 막대를 더하면 항상 <b>100%</b>예요.</p></div>
+      </div>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>세 칸의 합이 100%가 되게 나눠 주는 것이 바로 <b>소프트맥스</b> 활성화 함수예요. 퍼센트가 낮게 나왔다면 인공지능이 "헷갈려" 하는 거예요.</div>
+      <div class="done-row"><button class="done" data-s="6">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="step" id="s7" style="--c:#0f6e8c">
+    <header><span class="n">7</span><div><h2>실험 ①: 에포크를 바꾸면?</h2><p>공부를 적게 시키면 어떻게 될까요?</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li><b>예상하기</b>: 에포크를 50에서 <b>2</b>로 줄이면 결과가 어떻게 될지 먼저 기록표에 적어요.</li>
+        <li><span class="btnlabel">고급 ⌄</span>에서 <b>에포크를 2</b>로 바꾸고 <span class="btnlabel">모델 학습시키기</span>를 다시 눌러요.</li>
+        <li>테스트 카드 3장으로 다시 시험하고, 막대의 퍼센트가 어떻게 달라졌는지 기록해요.</li>
+        <li><span class="btnlabel">고급</span> 아래의 <span class="btnlabel">세부정보 보기 (Under the hood)</span>를 눌러 <b>에포크별 정확도·손실 그래프</b>를 확인해요.</li>
+        <li>확인이 끝나면 에포크를 다시 <b>50</b>으로 바꾸고 학습시켜요.</li>
+      </ol>
+      <div class="tm">
+        <div class="cap">세부정보 보기의 "에포크별 손실" 그래프는 보통 이런 모양이에요</div>
+        <svg viewBox="0 0 420 140" style="max-width:420px;display:block">
+          <line x1="40" y1="110" x2="400" y2="110" stroke="#9aa5b4"/><line x1="40" y1="10" x2="40" y2="110" stroke="#9aa5b4"/>
+          <path d="M40 18 C 80 70, 130 92, 200 100 S 330 106, 400 107" fill="none" stroke="#d64535" stroke-width="3.5"/>
+          <text x="46" y="16" font-size="12" fill="#5b6776">손실</text><text x="340" y="130" font-size="12" fill="#5b6776">에포크 →</text>
+        </svg>
+      </div>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>에포크가 너무 적으면 공부가 덜 돼서 <b>손실이 아직 큰 상태</b>로 끝나요. 그래프에서 에포크가 늘수록 손실이 줄어드는 모습이 바로 <b>경사 하강법으로 언덕을 내려가는 과정</b>이에요.</div>
+      <div class="done-row"><button class="done" data-s="7">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="step" id="s8" style="--c:#7a3fb0">
+    <header><span class="n">8</span><div><h2>실험 ②: 헷갈리는 숫자 7 추가</h2><p>1과 7을 인공지능이 구분할 수 있을까요?</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li>새 종이에 <b>7</b>을 3장 써요. 그중 하나는 <b>1과 비슷하게</b> 가늘고 길게 써 봐요. 테스트용 7 카드도 1장 더 만들어요.</li>
+        <li><span class="btnlabel">⊕ 클래스 추가</span>로 <b>7</b> 클래스를 만들고, 4단계처럼 사진을 50장 이상 찍어요.</li>
+        <li>다시 학습시키고, 테스트 카드 <b>1</b>과 <b>7</b>을 보여 줘요.</li>
+        <li>퍼센트가 낮게 나오거나 틀린 경우를 기록하고, <b>왜 헷갈렸을지</b> 생각해 적어요.</li>
+      </ol>
+      <div class="cards" style="grid-template-columns:repeat(4,1fr);max-width:360px">
+        <div>1</div><div>7</div><div style="transform:scaleX(.7)">1</div><div style="transform:scaleX(.7)">7</div>
+      </div>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>클래스가 4개가 되면 출력층도 4칸이 돼요. 모양이 비슷한 숫자는 사람도 헷갈리죠? 인공지능도 비슷한 데이터끼리는 확률이 나뉘어요. 이럴 때는 <b>더 다양하고 많은 데이터</b>가 필요해요. 그래서 MNIST는 <b>6만 장</b>이나 모았어요.</div>
+      <div class="done-row"><button class="done" data-s="8">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="step" id="s9" style="--c:#1d6b4f">
+    <header><span class="n">9</span><div><h2>실험 ③ (도전): 낯선 글씨로 시험하기</h2><p>내 글씨로만 공부한 인공지능은 친구 글씨도 알아볼까요?</p></div></header>
+    <div class="body">
+      <ol class="todo">
+        <li>모둠 친구에게 0, 1, 2를 <b>자기 스타일대로</b> 새로 써 달라고 해요. <b>빨간 펜</b>이나 <b>아주 작은 글씨</b>도 하나씩 써 봐요.</li>
+        <li>이 낯선 카드들을 내 모델에 보여 주고 결과를 기록해요.</li>
+        <li>잘 못 맞힌 카드가 있다면, 그런 카드를 학습 데이터에 <b>추가로 찍고</b> 다시 학습시켜 봐요. 좋아졌나요?</li>
+      </ol>
+      <div class="link"><b>🧠 딥러닝 개념과 연결</b>공부한 문제는 잘 푸는데 처음 보는 문제를 못 풀면 <b>과대적합</b>이에요. 해결 방법은 <b>다양한 데이터</b>를 더 모으는 것! MNIST가 학생과 직원 <b>수백 명</b>의 글씨를 모은 이유예요.</div>
+      <div class="done-row"><button class="done" data-s="9">✔ 다 했어요</button></div>
+    </div>
+  </section>
+
+  <!-- 기록표 -->
+  <section class="box" id="record">
+    <h3 style="margin:0 0 6px">📝 실험 기록표</h3>
+    <p style="margin:0 0 6px;color:var(--muted);font-size:.92rem">적은 내용은 이 컴퓨터의 브라우저에 자동으로 저장돼요. 선생님이 안내하면 그대로 인쇄하거나 캡처해서 제출해요.</p>
+    <div class="scroll">
+    <table>
+      <tr><th style="width:24%">실험</th><th style="width:20%">결과를 예상해요</th><th style="width:14%">맞힌 개수</th><th>관찰한 것 · 이유</th></tr>
+      <tr><td><b>기본 모델</b><br><small>에포크 50 · 클래스 0, 1, 2</small></td><td><input data-k="r0p" placeholder="예: 다 맞힐 것 같다"></td><td><input class="n" data-k="r0n" placeholder="/3"></td><td><textarea data-k="r0o" placeholder="막대 퍼센트, 헷갈린 숫자 등"></textarea></td></tr>
+      <tr><td><b>실험 ① 에포크 2</b></td><td><input data-k="r1p"></td><td><input class="n" data-k="r1n" placeholder="/3"></td><td><textarea data-k="r1o" placeholder="퍼센트가 어떻게 달라졌나요? 손실 그래프 모양은?"></textarea></td></tr>
+      <tr><td><b>실험 ② 7 추가</b><br><small>1과 7 테스트</small></td><td><input data-k="r2p"></td><td><input class="n" data-k="r2n" placeholder="/4"></td><td><textarea data-k="r2o" placeholder="1과 7을 헷갈렸나요? 왜 그랬을까요?"></textarea></td></tr>
+      <tr><td><b>실험 ③ 낯선 글씨</b><br><small>친구 글씨, 빨간 펜, 작은 글씨</small></td><td><input data-k="r3p"></td><td><input class="n" data-k="r3n" placeholder="/3"></td><td><textarea data-k="r3o" placeholder="데이터를 추가하고 나서 좋아졌나요?"></textarea></td></tr>
+    </table>
+    </div>
+    <h4 style="margin:16px 0 6px">🤔 생각 정리</h4>
+    <table>
+      <tr><td style="width:44%">인공지능이 숫자를 더 잘 맞히게 하려면 어떻게 해야 할까요?</td><td><textarea data-k="q1"></textarea></td></tr>
+      <tr><td>오늘 활동 중 가장 신기했던 점은?</td><td><textarea data-k="q2"></textarea></td></tr>
+    </table>
+  </section>
+
+  <!-- 정리 -->
+  <section class="box" id="summary">
+    <h3 style="margin:0 0 8px">✅ 오늘 한 일 = 딥러닝 개념</h3>
+    <div class="scroll">
+    <table>
+      <tr><th>오늘 티처블 머신에서 한 일</th><th>딥러닝 개념</th></tr>
+      <tr><td>숫자 카드를 카메라로 찍었다</td><td><b>학습 데이터</b> 모으기</td></tr>
+      <tr><td>클래스 이름을 0, 1, 2로 정했다</td><td><b>레이블(정답)</b>, 출력층 칸 수</td></tr>
+      <tr><td>숨겨 둔 카드로 시험했다</td><td><b>테스트 데이터</b>로 평가하기</td></tr>
+      <tr><td>모델 학습시키기 버튼을 눌렀다</td><td>순전파 → 손실 계산 → 역전파 <b>반복 = 학습</b></td></tr>
+      <tr><td>고급 설정의 에포크 · 배치 크기 · 학습률</td><td><b>에포크, 배치 사이즈, 학습률</b></td></tr>
+      <tr><td>막대그래프 퍼센트 (합 100%)</td><td><b>소프트맥스</b> 출력</td></tr>
+      <tr><td>낯선 글씨를 잘 못 맞혔다</td><td><b>과대적합</b>, 데이터 다양성의 중요성</td></tr>
+    </table>
+    </div>
+    <div class="tip" style="margin-top:14px"><b>🐍 다음 시간 예고: 같은 일을 파이썬 코드로!</b>오늘 버튼으로 한 일을 다음 시간에는 파이썬 코드로 실행해 봐요. 코드를 직접 짜지 않고 <b>실행 버튼만</b> 누르면 돼요. 오늘의 "숫자 카드 50장"이 <b>MNIST 손글씨 6만 장</b>으로, "클래스 3개"가 <b>0~9 10개</b>로 커져요. 오늘 쓴 기록표를 꼭 가지고 와요!</div>
+  </section>
+
+</main>
+
+<footer>인공지능 기초 · 딥러닝 실습 · 손글씨 숫자 카메라 학습 (Teachable Machine)</footer>
+
+<script>
+(()=>{
+  const KEY='tm-digits-v1';
+  let st={}; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){st={};}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}};
+  st.done=st.done||{}; st.rec=st.rec||{};
+
+  const steps=[...document.querySelectorAll('.step')];
+  const dots=document.getElementById('dots');
+  dots.innerHTML=steps.map((s,i)=>`<a href="#${s.id}" title="${s.querySelector('h2').textContent}">${i+1}</a>`).join('');
+  function paint(){
+    let n=0;
+    steps.forEach((s,i)=>{const k=s.id.slice(1), on=!!st.done[k]; if(on) n++;
+      dots.children[i].classList.toggle('ok',on);
+      const b=s.querySelector('.done'); b.classList.toggle('on',on); b.textContent=on?'✔ 완료!':'✔ 다 했어요';});
+    document.getElementById('bar').style.width=(n/steps.length*100)+'%';
+  }
+  document.querySelectorAll('.done').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.s; st.done[k]=!st.done[k]; save(); paint();}));
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    if(st.rec[el.dataset.k]!=null) el.value=st.rec[el.dataset.k];
+    el.addEventListener('input',()=>{st.rec[el.dataset.k]=el.value; save();});
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
