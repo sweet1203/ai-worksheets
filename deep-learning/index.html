@@ -213,6 +213,30 @@
   @media (max-width:640px){.case .pair{grid-template-columns:1fr}}
   .case .pair>div{background:#fff;border-radius:12px;padding:10px 12px;font-size:.93rem}
   .sum small{display:block;margin-top:6px;font-size:.8rem;color:var(--muted)}
+  .cx{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:18px;border-left:6px solid var(--acc)}
+  .cx>h3{margin:0 0 4px;font-size:1.15rem}
+  .cx>.lead2{color:var(--muted);margin:0 0 12px}
+  .vsteps{list-style:none;margin:0;padding:0;counter-reset:v}
+  .vsteps>li{position:relative;padding:10px 0 10px 46px;border-top:1px dashed var(--line)}
+  .vsteps>li:first-child{border-top:0}
+  .vsteps>li::before{counter-increment:v;content:counter(v);position:absolute;left:0;top:10px;width:32px;height:32px;border-radius:50%;background:var(--acc);color:#fff;font-weight:900;display:grid;place-items:center}
+  .vsteps b.t{display:block;font-size:1.02rem}
+  .vsteps p{margin:3px 0 0;font-size:.95rem}
+  .qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media (max-width:860px){.qa{grid-template-columns:1fr}}
+  .qa>div{background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .qa b.q{display:block;color:var(--acc);margin-bottom:3px}
+  .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+  @media (max-width:860px){.tri{grid-template-columns:1fr}}
+  .tri>div{border:2px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.92rem}
+  .tri>div.good{border-color:var(--mint);background:#effaf5}
+  .tri h4{margin:0 0 4px;font-size:1rem}
+  .formula{font-size:1.15rem;font-weight:900;text-align:center;background:#fbfaf7;border-radius:12px;padding:12px;margin:10px 0}
+  .formula small{display:block;font-size:.85rem;font-weight:400;color:var(--muted);margin-top:4px}
+  .pieces{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media (max-width:860px){.pieces{grid-template-columns:1fr}}
+  .pieces>div{background:#fbfaf7;border-radius:12px;padding:10px 12px;font-size:.92rem;border-top:4px solid var(--k)}
+  .pieces b{color:var(--k)}
   details.more{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:14px 20px;margin-bottom:18px}
   details.more>summary{cursor:pointer;font-weight:900;color:var(--acc)}
   details.more[open]>summary{margin-bottom:12px}
@@ -616,6 +640,27 @@
     </div>
     <p style="margin-top:10px">이걸 반복하면 실력이 늘죠? 사진 앱도 같은 방식으로 공부해요. 고양이 사진을 보고 <b>"강아지 70%"</b>라고 틀리면, 채점하고 거꾸로 고쳐서 다음엔 <b>"고양이"</b>라고 맞히게 돼요.</p>
   </div>
+  <div class="cx">
+    <h3>🧩 개념 쉽게 이해하기: 인공지능은 어떻게 똑똑해질까?</h3>
+    <p class="lead2">학습 = 정답이 있는 데이터를 많이 보여 주면서, 가중치를 조금씩 고쳐 나가는 것이에요.</p>
+    <ol class="vsteps">
+      <li><b class="t">처음에는 엉터리예요</b><p>막 만든 신경망의 가중치는 아무렇게나(무작위로) 정해져 있어요. 그래서 처음엔 고양이 사진을 보고도 "자동차!"라고 할 수 있어요. 아직 공부를 안 한 상태예요.</p></li>
+      <li><b class="t">순전파: 데이터가 앞으로 흘러가며 답을 만들어요</b><p>사진(입력)이 입력층 → 은닉층 → 출력층으로 흘러가요. 층마다 퍼셉트론들이 "입력 × 가중치를 더하고 → 활성화 함수"를 계산해서 다음 층에 넘겨요. 마지막 출력층에서 "고양이 30%, 강아지 70%" 같은 답이 나와요.</p></li>
+      <li><b class="t">오차 계산: 정답과 비교해서 얼마나 틀렸는지 재요</b><p>정답은 고양이인데 고양이에 30%밖에 안 줬으니 꽤 틀렸어요. 틀린 정도를 숫자 하나(손실)로 나타내요. 이 숫자를 계산하는 규칙이 06의 <b>손실 함수</b>예요.</p></li>
+      <li><b class="t">역전파: 틀린 책임을 거꾸로 나눠 주며 가중치를 고쳐요</b><p>출력층에서부터 입력층 쪽으로 거슬러 가면서 "이 가중치가 틀린 답에 얼마나 영향을 줬나?"를 따져요. 영향을 많이 준 가중치는 많이, 적게 준 가중치는 조금 고쳐요. 고치는 방법이 07의 <b>경사 하강법</b>이에요.</p></li>
+      <li><b class="t">반복하면 손실이 점점 줄어요</b><p>이 과정을 수천~수만 번 반복하면 가중치가 점점 알맞게 바뀌어서 손실이 줄어들어요. 손실이 충분히 작아지면 학습이 끝난 거예요.</p>
+        <svg viewBox="0 0 420 150" style="max-width:420px;margin-top:6px" aria-label="반복할수록 손실이 줄어드는 그래프">
+          <line x1="40" y1="120" x2="400" y2="120" stroke="#9aa5b4"/><line x1="40" y1="12" x2="40" y2="120" stroke="#9aa5b4"/>
+          <path d="M40 20 C 90 70, 140 95, 210 105 S 330 114, 400 115" fill="none" stroke="var(--acc)" stroke-width="4"/>
+          <text x="46" y="16" font-size="12" fill="#5b6776">손실</text><text x="330" y="140" font-size="12" fill="#5b6776">반복 횟수 →</text>
+          <text x="70" y="44" font-size="12" fill="var(--red)">처음: 많이 틀림</text><text x="260" y="100" font-size="12" fill="var(--mint)">나중: 거의 안 틀림</text>
+        </svg></li>
+    </ol>
+    <div class="qa">
+      <div><b class="q">Q. 왜 "거꾸로" 고쳐요?</b>틀렸다는 건 맨 끝(출력층)에서야 알 수 있어요. 그래서 끝에서부터 앞쪽으로 "누구 때문에 틀렸지?"를 따라가는 게 가장 빨라요. 문제 풀이에서 틀린 답부터 거꾸로 검토하는 것과 같아요.</div>
+      <div><b class="q">Q. 왜 한 번에 다 못 고치고 반복해요?</b>가중치가 수만 개라서 한 번에 정답을 찾을 수 없어요. 조금씩 고치고 다시 확인하는 게 안전해요. 샤워 손잡이를 살짝씩 돌리는 것과 같아요.</div>
+    </div>
+  </div>
   <div class="grid2">
     <div class="card">
       <svg id="cycle" viewBox="0 0 440 400"></svg>
@@ -660,6 +705,17 @@
     </div>
     <p style="margin-top:10px">숫자를 맞히는 문제라면 "얼마나 차이 나는지"로 벌점을 매겨요. 실제 기온이 20도인데 22도라고 했으면 2도, 30도라고 했으면 10도 차이니까 훨씬 큰 벌점을 받아요.</p>
   </div>
+  <div class="cx">
+    <h3>🧩 개념 쉽게 이해하기: 왜 "틀린 정도"를 숫자로 재야 할까?</h3>
+    <p class="lead2">컴퓨터는 "좀 틀린 것 같은데…"라는 느낌을 이해하지 못해요. <b>숫자</b>가 있어야 "더 좋아졌다 / 나빠졌다"를 판단하고 고칠 수 있어요.</p>
+    <ol class="vsteps">
+      <li><b class="t">손실은 "벌점"이에요</b><p>손실 = 0이면 완벽하게 맞힌 것, 클수록 많이 틀린 것이에요. 학습의 목표는 딱 하나, <b>손실을 최대한 작게 만드는 것</b>이에요.</p></li>
+      <li><b class="t">문제 종류마다 채점 방법이 달라요</b><p>시험에서도 객관식은 "맞았나 틀렸나"로, 수학 서술형은 "답과 얼마나 가까운가"로 채점하죠? 인공지능도 문제 종류에 맞는 손실 함수를 골라요. 아래 카드 3장이 그 짝이에요.</p></li>
+      <li><b class="t">숫자 맞히기 → 평균 제곱 오차</b><p>순서대로 계산해요: <b>① 차이 구하기</b>(예측 − 실제) → <b>② 제곱하기</b>(음수를 없애고, 크게 틀린 것은 더 크게) → <b>③ 평균 내기</b>(여러 개의 벌점을 하나로). 차이가 2면 벌점 4, 차이가 10이면 벌점 100이라서 크게 틀린 것을 확실히 혼내요.</p></li>
+      <li><b class="t">고르기 문제 → 교차 엔트로피 오차</b><p>정답 칸에 <b>몇 %를 줬는지</b>만 봐요. 정답에 100%에 가깝게 줬으면 벌점이 거의 0, 정답에 0%에 가깝게 줬으면 벌점이 아주 커져요. <b>"자신 있게 틀리면 크게 혼난다"</b>가 핵심이에요.</p>
+        <table style="max-width:520px"><tr><th>정답에 준 가능성</th><td>90%</td><td>66%</td><td>50%</td><td>10%</td></tr><tr><th>벌점(손실)</th><td class="ok">0.11</td><td>0.42</td><td>0.69</td><td class="ng">2.30</td></tr></table></li>
+    </ol>
+  </div>
   <div class="grid3" style="margin-bottom:18px">
     <div class="lcard" style="background:linear-gradient(135deg,#2f6fd0,#1d4c99)"><div class="k">이진 분류 (둘 중 하나) · 시그모이드</div><h4>이진 교차 엔트로피 오차</h4><div class="ex">📧 이 메일은 스팸인가, 아닌가?<br>🌸 세토사인가, 아닌가?</div></div>
     <div class="lcard" style="background:linear-gradient(135deg,#9b4fc4,#6b2f92)"><div class="k">다중 분류 (여러 개 중 하나) · 소프트맥스</div><h4>범주형 교차 엔트로피 오차</h4><div class="ex">📷 이 사진은 고양이·강아지·토끼 중 무엇?<br>🌸 세 품종 중 무엇인가?</div></div>
@@ -701,6 +757,36 @@
       <div style="--c:#d64535"><b>걸음 크기 = 학습률</b>너무 크면? 샤워 손잡이를 확 돌리면 뜨거웠다 차가웠다 왔다 갔다 하는 것처럼 지나쳐 버려요.</div>
     </div>
   </div>
+  <div class="cx">
+    <h3>🧩 개념 쉽게 이해하기: 가중치를 "어느 쪽으로, 얼마나" 고칠까?</h3>
+    <p class="lead2">05에서 "틀리면 가중치를 고친다"고 했죠? 경사 하강법은 <b>고치는 방향과 크기를 정하는 방법</b>이에요.</p>
+    <ol class="vsteps">
+      <li><b class="t">모든 값을 다 넣어 볼 수는 없어요</b><p>가중치가 하나라면 0.1, 0.2, 0.3… 다 넣어 보면 되지만, 손글씨 모델은 가중치와 편향이 84,060개예요. 전부 시험해 보려면 몇백 년이 걸려요.</p></li>
+      <li><b class="t">"지금 여기서 어느 쪽이 내리막인지"만 알면 돼요</b><p>가중치를 아주 조금 바꿔 봤을 때 손실이 커지는지 작아지는지를 알려 주는 값이 <b>기울기</b>예요.</p>
+        <div class="tri" style="grid-template-columns:1fr 1fr">
+          <div><h4>기울기가 + (오르막)</h4>가중치를 키우면 손실이 커져요 → <b>가중치를 줄여요</b></div>
+          <div><h4>기울기가 − (내리막)</h4>가중치를 키우면 손실이 작아져요 → <b>가중치를 키워요</b></div>
+        </div>
+        <p style="margin-top:8px">즉, 항상 <b>기울기의 반대 방향</b>으로 움직여요. 그래서 공식에 빼기(−)가 들어가요.</p></li>
+      <li><b class="t">공식을 하나씩 뜯어보면</b>
+        <div class="formula">새 w = 지금 w − 학습률 × 기울기<small>아래 실습의 첫 걸음: 1.0 − 0.01 × 30 = 0.7</small></div>
+        <div class="pieces">
+          <div style="--k:#2f6fd0"><b>지금 w</b><br>지금 서 있는 위치 (1.0)</div>
+          <div style="--k:#d64535"><b>기울기</b><br>땅이 얼마나, 어느 쪽으로 기울었나 (30, 오르막이 가파름)</div>
+          <div style="--k:#c98a00"><b>학습률</b><br>한 걸음에 얼마나 크게 갈지 (0.01 = 조심조심)</div>
+        </div></li>
+      <li><b class="t">학습률은 "적당히"가 중요해요</b>
+        <div class="tri">
+          <div><h4>🐢 너무 작으면</h4>한 걸음이 너무 작아서 바닥까지 한참 걸려요. 학습이 아주 느려요.</div>
+          <div class="good"><h4>👍 적당하면</h4>성큼성큼 가다가 바닥 근처에서는 저절로 걸음이 작아져서 잘 도착해요.</div>
+          <div><h4>🦘 너무 크면</h4>바닥을 훌쩍 건너뛰어 반대편으로 가요. 손실이 오히려 커질 수 있어요.</div>
+        </div></li>
+    </ol>
+    <div class="qa">
+      <div><b class="q">Q. 경사 하강법과 역전파는 뭐가 달라요?</b><b>역전파</b>는 가중치 수만 개의 기울기를 끝에서부터 거꾸로 빠르게 <b>계산하는 방법</b>이고, <b>경사 하강법</b>은 그 기울기로 가중치를 <b>고치는 방법</b>이에요. 둘이 짝꿍처럼 함께 일해요.</div>
+      <div><b class="q">Q. 바닥에 가까워지면 왜 걸음이 작아져요?</b>바닥 근처는 땅이 평평해서 기울기가 작아요. 기울기가 작으면 "학습률 × 기울기"도 작아지니까 걸음이 저절로 줄어요. (0.3 → 0.15 → 0.075)</div>
+    </div>
+  </div>
   <div class="grid2">
     <div class="card">
       <svg id="gdsvg" viewBox="0 0 460 300"></svg>
@@ -732,6 +818,23 @@
       <div><b>배치 사이즈 = 한 번에 외우는 단어 수</b><br>"10개씩 외우고 → 쪽지시험 보고 → 틀린 것 다시 보기". 이때 배치 사이즈는 10이에요. 120개를 다 보려면 쪽지시험을 120 ÷ 10 = <b>12번</b> 봐요.</div>
       <div><b>에포크 = 단어장을 처음부터 끝까지 한 바퀴</b><br>단어장을 한 번 다 보면 1에포크, 시험 전까지 5번 복습하면 <b>5에포크</b>예요. 여러 바퀴 볼수록 더 잘 외워져요.</div>
     </div>
+  </div>
+  <div class="cx">
+    <h3>🧩 개념 쉽게 이해하기: 데이터를 왜 나눠서 보고, 왜 여러 번 볼까?</h3>
+    <p class="lead2">학습 데이터는 보통 수만 장이에요. 이걸 <b>몇 개씩 보고 고칠지(배치 사이즈)</b>, <b>몇 바퀴 볼지(에포크)</b>를 사람이 정해 줘야 해요.</p>
+    <ol class="vsteps">
+      <li><b class="t">배치 사이즈: 몇 개를 보고 한 번 고칠까?</b>
+        <div class="tri">
+          <div><h4>1개씩 보고 고치기</h4>한 문제 틀릴 때마다 공부법을 바꾸는 것과 같아요. 자주 고치지만 <b>이랬다저랬다 흔들려요.</b></div>
+          <div class="good"><h4>몇십 개씩 보고 고치기 👍</h4>적당히 모아서 "대체로 이런 걸 틀리는구나"를 보고 고쳐요. <b>빠르면서도 안정적</b>이라 가장 많이 써요. (예: 32개)</div>
+          <div><h4>전부 다 보고 한 번 고치기</h4>6만 장을 다 볼 때까지 한 번도 안 고쳐요. 정확하지만 <b>너무 느리고</b> 컴퓨터 메모리도 많이 필요해요.</div>
+        </div></li>
+      <li><b class="t">에포크: 전체 데이터를 몇 바퀴 볼까?</b><p>한 바퀴만 보고는 다 배우지 못해요. 단어장을 여러 번 복습하듯이 여러 바퀴 보면서 손실을 줄여요. 손글씨 실습에서는 보통 5~10에포크를 돌려요.</p></li>
+      <li><b class="t">그런데 너무 많이 보면?</b><p>같은 문제집만 수십 번 풀면 문제를 이해하는 게 아니라 <b>답을 외워 버려요.</b> 그러면 처음 보는 새 문제는 못 풀어요. 인공지능도 에포크가 너무 많으면 학습 데이터에만 딱 맞고 새 데이터는 못 맞히는 <b>과대적합</b>이 생겨요. 그래서 "적당한 바퀴 수"를 찾는 게 중요해요.</p></li>
+      <li><b class="t">계산 공식 두 개만 기억해요</b>
+        <div class="formula">1에포크에 고치는 횟수 = 데이터 수 ÷ 배치 사이즈<small>붓꽃 120송이 ÷ 10 = 12번 · 손글씨 60,000장 ÷ 32 = 1,875번</small></div>
+        <div class="formula">전체 고치는 횟수 = 1에포크 횟수 × 에포크 수<small>손글씨: 1,875번 × 10에포크 = 18,750번</small></div></li>
+    </ol>
   </div>
   <div class="card">
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
