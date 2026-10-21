@@ -202,6 +202,17 @@
   .af3>div{background:#fbfaf7;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
   .af3 h4{margin:0 0 4px;font-size:1.02rem}
   .af3 p{font-size:.92rem;margin:4px 0 0}
+  .case{background:#fff8e6;border:2px solid #f6d58a;border-radius:16px;padding:16px 20px;margin-bottom:18px}
+  .case>h3{margin:0 0 8px;font-size:1.05rem;color:#8a5a00}
+  .case p{margin:6px 0}
+  .case .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  @media (max-width:860px){.case .flow{grid-template-columns:1fr}}
+  .case .flow>div{background:#fff;border-radius:12px;padding:10px 12px;font-size:.93rem;border-top:4px solid var(--c,#f2a516)}
+  .case .flow b{display:block;margin-bottom:2px}
+  .case .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  @media (max-width:640px){.case .pair{grid-template-columns:1fr}}
+  .case .pair>div{background:#fff;border-radius:12px;padding:10px 12px;font-size:.93rem}
+  .sum small{display:block;margin-top:6px;font-size:.8rem;color:var(--muted)}
   details.more{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:14px 20px;margin-bottom:18px}
   details.more>summary{cursor:pointer;font-weight:900;color:var(--acc)}
   details.more[open]>summary{margin-bottom:12px}
@@ -282,11 +293,11 @@
       <div class="gcard" role="button" tabindex="0" style="--g:#9b4fc4" onclick="go(3)"><i>03</i><h4>신경망 구조</h4>
         <dl><dt>인공신경망</dt><dd>퍼셉트론을 여러 개 이어 붙인 것</dd><dt>입력층</dt><dd>데이터가 들어오는 층</dd><dt>은닉층</dt><dd>사이에 숨어 있는 층</dd><dt>출력층</dt><dd>답이 나오는 층</dd><dt>다층 퍼셉트론</dt><dd>층을 여러 겹 쌓은 신경망</dd><dt>심층 신경망</dt><dd>은닉층이 2개 이상인 신경망</dd><dt>딥러닝</dt><dd>심층 신경망으로 하는 학습</dd></dl></div>
       <div class="gcard" role="button" tabindex="0" style="--g:#e0702b" onclick="go(4)"><i>04</i><h4>활성화 함수</h4>
-        <dl><dt>렐루</dt><dd>음수는 0, 양수는 그대로 (은닉층)</dd><dt>시그모이드</dt><dd>0~1 사이 확률로 (예/아니오 문제)</dd><dt>소프트맥스</dt><dd>여러 답에 확률을 나눠 줌, 합은 1 (여러 개 중 하나 고르기)</dd></dl></div>
+        <dl><dt>렐루</dt><dd>음수는 0, 양수는 그대로 (은닉층)</dd><dt>시그모이드</dt><dd>0~1 사이 가능성으로 (예: 스팸일 가능성 90%)</dd><dt>소프트맥스</dt><dd>여러 답에 가능성을 나눠 줌, 합은 100% (예: 고양이 80%, 강아지 15%, 토끼 5%)</dd></dl></div>
       <div class="gcard" role="button" tabindex="0" style="--g:#1f9d74" onclick="go(5)"><i>05</i><h4>학습 과정</h4>
         <dl><dt>순전파</dt><dd>앞으로 계산해서 답을 내기</dd><dt>오차 계산</dt><dd>답이 얼마나 틀렸는지 재기</dd><dt>역전파</dt><dd>거꾸로 돌아가며 가중치를 고치기</dd></dl></div>
       <div class="gcard" role="button" tabindex="0" style="--g:#d64535" onclick="go(6)"><i>06</i><h4>손실 함수</h4>
-        <dl><dt>손실 함수</dt><dd>틀린 정도를 숫자 하나로 나타내는 방법</dd><dt>이진 교차 엔트로피 오차</dt><dd>예/아니오 문제에 쓰는 손실 함수</dd><dt>범주형 교차 엔트로피 오차</dt><dd>여러 개 중 하나 고르는 문제에 쓰는 손실 함수</dd><dt>평균 제곱 오차</dt><dd>숫자를 맞히는 문제에 쓰는 손실 함수</dd></dl></div>
+        <dl><dt>손실 함수</dt><dd>틀린 정도를 숫자 하나로 나타내는 방법 (답에 매기는 벌점)</dd><dt>이진 교차 엔트로피 오차</dt><dd>예/아니오 문제에 쓰는 손실 함수</dd><dt>범주형 교차 엔트로피 오차</dt><dd>여러 개 중 하나 고르는 문제에 쓰는 손실 함수</dd><dt>평균 제곱 오차</dt><dd>숫자를 맞히는 문제에 쓰는 손실 함수</dd></dl></div>
       <div class="gcard" role="button" tabindex="0" style="--g:#c98a00" onclick="go(7)"><i>07</i><h4>경사 하강법</h4>
         <dl><dt>경사 하강법</dt><dd>손실이 줄어드는 쪽으로 조금씩 내려가기</dd><dt>학습률</dt><dd>한 번에 내딛는 걸음의 크기</dd></dl></div>
       <div class="gcard" role="button" tabindex="0" style="--g:#2f6fd0" onclick="go(8)"><i>08</i><h4>배치·에포크</h4>
@@ -449,6 +460,16 @@
 <!-- 2 조정 -->
 <section class="page" data-name="조정" data-acc="#1f9d74">
   <div class="head"><div class="num">02</div><div><h2>가중치와 편향 조정</h2><p>값을 바꿔 가며 붓꽃 150송이 중 몇 송이를 틀리는지 봅니다</p></div></div>
+  <div class="case">
+    <h3>🚿 생활 속 사례: 샤워 물 온도 맞추기</h3>
+    <p>처음 물을 틀면 딱 맞는 온도가 나오기 어려워요. 그래서 우리는 이렇게 해요.</p>
+    <div class="flow">
+      <div style="--c:#2f6fd0"><b>① 손을 대 본다</b>"앗, 차가워!" → 결과가 틀렸다는 걸 알아요.</div>
+      <div style="--c:#e0702b"><b>② 손잡이를 조금 돌린다</b>따뜻한 쪽으로 살짝. 너무 뜨거우면 다시 반대로 살짝.</div>
+      <div style="--c:#1f9d74"><b>③ 반복해서 딱 맞춘다</b>몇 번 고치면 알맞은 위치를 찾아요.</div>
+    </div>
+    <p style="margin-top:10px">퍼셉트론도 똑같아요. <b>틀린 결과를 보고 → 가중치와 편향(손잡이)을 조금씩 돌려서 → 맞을 때까지 고쳐요.</b> 아래에서 직접 손잡이를 돌려 보세요.</p>
+  </div>
   <div class="grid2">
     <div class="card">
       <svg id="scatter" viewBox="0 0 440 332"></svg>
@@ -586,6 +607,15 @@
 <!-- 5 학습 과정 -->
 <section class="page" data-name="학습 과정" data-acc="#1f9d74">
   <div class="head"><div class="num">05</div><div><h2>딥러닝의 학습 과정</h2><p>사람이 손으로 하던 "틀린 것 보고 고치기"를 컴퓨터는 세 단계로 반복합니다</p></div></div>
+  <div class="case">
+    <h3>📚 생활 속 사례: 수학 문제집으로 공부하기</h3>
+    <div class="flow">
+      <div style="--c:#2f6fd0"><b>① 순전파 = 문제를 푼다</b>처음부터 끝까지 풀어서 답을 적어요. 아직 맞는지는 몰라요.</div>
+      <div style="--c:#e0702b"><b>② 오차 계산 = 채점한다</b>답지와 비교해서 얼마나 틀렸는지 확인해요.</div>
+      <div style="--c:#d64535"><b>③ 역전파 = 풀이를 거꾸로 따라간다</b>"답이 틀렸네 → 어느 줄에서 실수했지?" 뒤에서부터 거슬러 올라가 고쳐요.</div>
+    </div>
+    <p style="margin-top:10px">이걸 반복하면 실력이 늘죠? 사진 앱도 같은 방식으로 공부해요. 고양이 사진을 보고 <b>"강아지 70%"</b>라고 틀리면, 채점하고 거꾸로 고쳐서 다음엔 <b>"고양이"</b>라고 맞히게 돼요.</p>
+  </div>
   <div class="grid2">
     <div class="card">
       <svg id="cycle" viewBox="0 0 440 400"></svg>
@@ -621,10 +651,19 @@
 <!-- 6 손실 함수 -->
 <section class="page" data-name="손실 함수" data-acc="#d64535">
   <div class="head"><div class="num">06</div><div><h2>손실 함수</h2><p>답이 정답과 얼마나 다른지를 숫자 하나로 나타냅니다. 작을수록 잘 맞힌 것</p></div></div>
+  <div class="case">
+    <h3>☔ 생활 속 사례: 일기예보 채점하기</h3>
+    <p>손실 함수는 인공지능의 답에 매기는 <b>"벌점"</b>이에요. 벌점이 작을수록 잘 맞힌 거예요. 오늘 실제로 비가 왔다고 해 볼게요.</p>
+    <div class="pair">
+      <div>🙂 <b>A 예보:</b> "비 올 확률 90%"<br>→ 거의 맞혔으니 <b class="ok">벌점 작음 (0.11)</b></div>
+      <div>😵 <b>B 예보:</b> "비 올 확률 10%"<br>→ 자신 있게 틀렸으니 <b class="ng">벌점 큼 (2.30)</b></div>
+    </div>
+    <p style="margin-top:10px">숫자를 맞히는 문제라면 "얼마나 차이 나는지"로 벌점을 매겨요. 실제 기온이 20도인데 22도라고 했으면 2도, 30도라고 했으면 10도 차이니까 훨씬 큰 벌점을 받아요.</p>
+  </div>
   <div class="grid3" style="margin-bottom:18px">
-    <div class="lcard" style="background:linear-gradient(135deg,#2f6fd0,#1d4c99)"><div class="k">이진 분류 · 시그모이드</div><h4>이진 교차 엔트로피 오차</h4><div class="ex">세토사인가, 아닌가?</div></div>
-    <div class="lcard" style="background:linear-gradient(135deg,#9b4fc4,#6b2f92)"><div class="k">다중 분류 · 소프트맥스</div><h4>범주형 교차 엔트로피 오차</h4><div class="ex">세 품종 중 무엇인가?</div></div>
-    <div class="lcard" style="background:linear-gradient(135deg,#e0702b,#b04e14)"><div class="k">예측 · 활성화 함수 없음</div><h4>평균 제곱 오차</h4><div class="ex">꽃잎 너비는 몇 mm인가?</div></div>
+    <div class="lcard" style="background:linear-gradient(135deg,#2f6fd0,#1d4c99)"><div class="k">이진 분류 (둘 중 하나) · 시그모이드</div><h4>이진 교차 엔트로피 오차</h4><div class="ex">📧 이 메일은 스팸인가, 아닌가?<br>🌸 세토사인가, 아닌가?</div></div>
+    <div class="lcard" style="background:linear-gradient(135deg,#9b4fc4,#6b2f92)"><div class="k">다중 분류 (여러 개 중 하나) · 소프트맥스</div><h4>범주형 교차 엔트로피 오차</h4><div class="ex">📷 이 사진은 고양이·강아지·토끼 중 무엇?<br>🌸 세 품종 중 무엇인가?</div></div>
+    <div class="lcard" style="background:linear-gradient(135deg,#e0702b,#b04e14)"><div class="k">예측 (숫자 맞히기) · 활성화 함수 없음</div><h4>평균 제곱 오차</h4><div class="ex">🌡️ 내일 기온은 몇 도일까?<br>🌸 꽃잎 너비는 몇 mm인가?</div></div>
   </div>
   <div class="grid2">
     <div class="card">
@@ -632,7 +671,7 @@
       <div class="ctrl" style="grid-template-columns:120px 1fr 52px"><label for="pp">정답에 준 확률</label><input id="pp" type="range" min="0.05" max="0.95" step="0.01" value="0.66"><output id="ppo"></output></div>
       <svg id="ceSvg" viewBox="0 0 420 225"></svg>
       <p>손실 <span class="big" id="ce"></span> <span class="muted" id="cemsg"></span></p>
-      <p style="font-size:.92rem">꽃 "가"는 세토사에 0.66을 받아 손실이 약 0.42입니다. 정답이 버지니카였다면 정답에 0.10만 준 셈이라 2.30으로 커집니다. 이진이든 범주형이든 원리는 같습니다.</p>
+      <p style="font-size:.92rem">위의 일기예보와 같은 원리예요. 꽃 "가"는 세토사에 0.66을 받아 손실이 약 0.42입니다. 정답이 버지니카였다면 정답에 0.10만 준 셈이라 2.30으로 커집니다. 이진이든 범주형이든 원리는 같습니다.</p>
     </div>
     <div class="card">
       <h3>평균 제곱 오차 — 차이를 제곱해서 평균</h3>
@@ -653,6 +692,15 @@
 <!-- 7 경사 하강법 -->
 <section class="page" data-name="경사 하강법" data-acc="#c98a00">
   <div class="head"><div class="num">07</div><div><h2>경사 하강법과 역전파</h2><p>안개 낀 산에서 골짜기로 내려가려면, 발밑이 기운 쪽으로 한 걸음씩</p></div></div>
+  <div class="case">
+    <h3>⛰️ 생활 속 사례: 눈을 가리고 언덕 아래로 내려가기</h3>
+    <p>앞이 안 보이면 어디가 제일 낮은지 알 수 없어요. 하지만 <b>발바닥으로 땅이 기운 쪽</b>은 느낄 수 있죠. 그쪽으로 한 걸음, 또 한 걸음 가면 결국 가장 낮은 곳에 도착해요.</p>
+    <div class="flow">
+      <div style="--c:#c98a00"><b>언덕의 높이 = 손실</b>낮을수록 덜 틀린 것. 목표는 가장 낮은 곳!</div>
+      <div style="--c:#2f6fd0"><b>땅이 기운 방향 = 기울기</b>어느 쪽으로 가야 손실이 줄어드는지 알려 줘요.</div>
+      <div style="--c:#d64535"><b>걸음 크기 = 학습률</b>너무 크면? 샤워 손잡이를 확 돌리면 뜨거웠다 차가웠다 왔다 갔다 하는 것처럼 지나쳐 버려요.</div>
+    </div>
+  </div>
   <div class="grid2">
     <div class="card">
       <svg id="gdsvg" viewBox="0 0 460 300"></svg>
@@ -678,6 +726,13 @@
 <!-- 8 배치 -->
 <section class="page" data-name="배치·에포크" data-acc="#2f6fd0">
   <div class="head"><div class="num">08</div><div><h2>배치 사이즈와 에포크</h2><p>한 송이 볼 때마다 고칠까, 여러 송이를 보고 한 번에 고칠까</p></div></div>
+  <div class="case">
+    <h3>📒 생활 속 사례: 영어 단어 120개 외우기</h3>
+    <div class="pair">
+      <div><b>배치 사이즈 = 한 번에 외우는 단어 수</b><br>"10개씩 외우고 → 쪽지시험 보고 → 틀린 것 다시 보기". 이때 배치 사이즈는 10이에요. 120개를 다 보려면 쪽지시험을 120 ÷ 10 = <b>12번</b> 봐요.</div>
+      <div><b>에포크 = 단어장을 처음부터 끝까지 한 바퀴</b><br>단어장을 한 번 다 보면 1에포크, 시험 전까지 5번 복습하면 <b>5에포크</b>예요. 여러 바퀴 볼수록 더 잘 외워져요.</div>
+    </div>
+  </div>
   <div class="card">
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
       <span>학습 데이터 120송이 · 배치 사이즈</span>
@@ -711,14 +766,14 @@
 <section class="page" data-name="정리" data-acc="#0f2742">
   <div class="head"><div class="num">09</div><div><h2>한눈에 정리</h2><p>오늘 배운 말을 한 번에</p></div></div>
   <div class="sum">
-    <div style="border-color:#2f6fd0"><b>퍼셉트론</b><span>입력 × 가중치를 모두 더하고 + 편향 → 활성화 함수 → 출력</span></div>
-    <div style="border-color:#1f9d74"><b>조정</b><span>틀리면 가중치와 편향을 고친다. 컴퓨터가 스스로 하면 학습</span></div>
-    <div style="border-color:#9b4fc4"><b>구조</b><span>입력층 → 은닉층 → 출력층. 은닉층 2개 이상 = 심층 신경망 = 딥러닝</span></div>
-    <div style="border-color:#e0702b"><b>활성화 함수</b><span>은닉층 렐루 · 이진 출력 시그모이드 · 다중 출력 소프트맥스 · 예측 출력 없음</span></div>
-    <div style="border-color:#1f9d74"><b>학습 과정</b><span>순전파 → 오차 계산 → 역전파, 반복</span></div>
-    <div style="border-color:#d64535"><b>손실 함수</b><span>이진 교차 엔트로피 · 범주형 교차 엔트로피 · 평균 제곱 오차</span></div>
-    <div style="border-color:#c98a00"><b>경사 하강법</b><span>손실이 줄어드는 쪽으로 가중치를 조금씩. 역전파에서 쓴다</span></div>
-    <div style="border-color:#2f6fd0"><b>배치·에포크</b><span>배치 = 한 번 고치기 전에 넣는 수 · 에포크 = 전체 한 바퀴</span></div>
+    <div style="border-color:#2f6fd0"><b>퍼셉트론</b><span>입력 × 가중치를 모두 더하고 + 편향 → 활성화 함수 → 출력</span><small>🍢 떡볶이 먹으러 갈까?</small></div>
+    <div style="border-color:#1f9d74"><b>조정</b><span>틀리면 가중치와 편향을 고친다. 컴퓨터가 스스로 하면 학습</span><small>🚿 샤워 물 온도 맞추기</small></div>
+    <div style="border-color:#9b4fc4"><b>구조</b><span>입력층 → 은닉층 → 출력층. 은닉층 2개 이상 = 심층 신경망 = 딥러닝</span><small>👭 모둠 활동으로 의견 모으기</small></div>
+    <div style="border-color:#e0702b"><b>활성화 함수</b><span>은닉층 렐루 · 이진 출력 시그모이드 · 다중 출력 소프트맥스 · 예측 출력 없음</span><small>📧 스팸일 가능성 90%</small></div>
+    <div style="border-color:#1f9d74"><b>학습 과정</b><span>순전파 → 오차 계산 → 역전파, 반복</span><small>📚 문제 풀기 → 채점 → 풀이 거꾸로 고치기</small></div>
+    <div style="border-color:#d64535"><b>손실 함수</b><span>이진 교차 엔트로피 · 범주형 교차 엔트로피 · 평균 제곱 오차</span><small>☔ 일기예보에 매기는 벌점</small></div>
+    <div style="border-color:#c98a00"><b>경사 하강법</b><span>손실이 줄어드는 쪽으로 가중치를 조금씩. 역전파에서 쓴다</span><small>⛰️ 눈 가리고 언덕 내려가기</small></div>
+    <div style="border-color:#2f6fd0"><b>배치·에포크</b><span>배치 = 한 번 고치기 전에 넣는 수 · 에포크 = 전체 한 바퀴</span><small>📒 단어 10개씩 외우기 · 단어장 한 바퀴</small></div>
   </div>
   <div class="card" style="margin-top:18px">
     <h3>개념 퀴즈 결과</h3>
