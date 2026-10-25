@@ -237,6 +237,18 @@
   .lossdetail th,.lossdetail td{padding:4px 6px}
   .lossdetail .step{font-size:.9rem;margin:6px 0}
   .lossdetail .one{background:#f6f7f9;border-radius:10px;padding:8px 10px;font-size:.88rem;margin-top:8px}
+  /* 09 원-핫 인코딩 */
+  .ohrow{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+  .ohrow .oh{border:2px solid var(--line);border-radius:8px;text-align:center;padding:4px 0;background:#fff}
+  .ohrow .oh i{display:block;font-style:normal;font-size:.72rem;color:var(--muted)}
+  .ohrow .oh b{font-size:1.15rem;color:#9aa5b4}
+  .ohrow .oh.on{border-color:var(--mint);background:#e3f4ec}
+  .ohrow .oh.on b{color:var(--mint)}
+  .ohcode{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;background:#0f2742;color:#fff;border-radius:12px;padding:12px 14px;margin:14px 0 6px;font-size:.9rem}
+  .ohcode>span{width:100%;font-weight:700;color:#f2a516}
+  .ohcode code{background:rgba(255,255,255,.12);padding:3px 8px;border-radius:6px;font-family:ui-monospace,Menlo,monospace}
+  .ohcode>b{color:#9fb3cc}
+  .ohcode small{width:100%;color:#c9d6e6}
   .qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
   @media (max-width:860px){.qa{grid-template-columns:1fr}}
   .qa>div{background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.93rem}
@@ -954,6 +966,33 @@
     <div style="border-color:#c98a00"><b>경사 하강법</b><span>손실이 줄어드는 쪽으로 가중치를 조금씩. 역전파에서 쓴다</span><small>⛰️ 눈 가리고 언덕 내려가기</small></div>
     <div style="border-color:#2f6fd0"><b>배치·에포크</b><span>배치 = 한 번 고치기 전에 넣는 수 · 에포크 = 전체 한 바퀴</span><small>📒 단어 10개씩 외우기 · 단어장 한 바퀴</small></div>
   </div>
+  <div class="cx" style="margin-top:18px">
+    <h3>🔗 실습 전에 하나 더: 원-핫 인코딩</h3>
+    <p class="lead2">원-핫 인코딩은 "여러 개 중 하나"인 정답을 <b>해당하는 칸만 1, 나머지는 모두 0</b>인 칸들로 바꾸는 방법이에요. 칸 하나만 켜져(hot) 있어서 <b>원-핫(one-hot)</b>이라고 불러요.</p>
+    <div class="grid2" style="grid-template-columns:1fr 1fr;align-items:start">
+      <div>
+        <h4 style="margin:4px 0 4px">🌸 붓꽃 품종 3개 → 3칸</h4>
+        <table>
+          <tr><th class="l">품종</th><th>세토사 칸</th><th>버시컬러 칸</th><th>버지니카 칸</th></tr>
+          <tr><td class="l">세토사</td><td class="ok">1</td><td>0</td><td>0</td></tr>
+          <tr><td class="l">버시컬러</td><td>0</td><td class="ok">1</td><td>0</td></tr>
+          <tr><td class="l">버지니카</td><td>0</td><td>0</td><td class="ok">1</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin:4px 0 4px">✍️ 손글씨 숫자 0~9 → 10칸 (정답이 5일 때)</h4>
+        <div class="ohrow"><div class="oh"><i>0</i><b>0</b></div><div class="oh"><i>1</i><b>0</b></div><div class="oh"><i>2</i><b>0</b></div><div class="oh"><i>3</i><b>0</b></div><div class="oh"><i>4</i><b>0</b></div><div class="oh on"><i>5</i><b>1</b></div><div class="oh"><i>6</i><b>0</b></div><div class="oh"><i>7</i><b>0</b></div><div class="oh"><i>8</i><b>0</b></div><div class="oh"><i>9</i><b>0</b></div></div>
+        <p style="font-size:.9rem;margin:6px 0 0">0부터 세서 <b>여섯 번째 칸(5번 칸)</b>만 1이에요.</p>
+      </div>
+    </div>
+    <div class="qa">
+      <div><b class="q">Q. 그냥 0, 1, 2 번호로 쓰면 안 돼요?</b>번호로 쓰면 컴퓨터는 "버지니카(2)가 세토사(0)보다 2만큼 크다", "버시컬러(1)는 그 중간"처럼 <b>크기와 순서</b>가 있다고 받아들일 수 있어요. 품종에는 그런 순서가 없죠. 원-핫으로 바꾸면 모든 품종이 <b>서로 대등</b>해져요.</div>
+      <div><b class="q">Q. 왜 이런 모양이어야 해요? (06 손실 함수와 연결)</b>모델의 답은 소프트맥스 확률 <b>(0.12, 0.04, 0.84)</b>처럼 칸으로 나와요. 정답도 <b>(0, 0, 1)</b>처럼 같은 모양이어야 칸끼리 비교해 손실을 계산할 수 있어요. 범주형 교차 엔트로피가 보는 "정답 칸"이 바로 원-핫에서 1인 칸이에요.</div>
+    </div>
+    <div class="ohcode"><span>🐍 다음 실습 노트북에서 만날 코드</span><code>to_categorical(y_train)</code><b>→</b><code>Dense(10, 'softmax')</code><b>→</b><code>loss='categorical_crossentropy'</code><small>정답을 원-핫 10칸으로 → 출력층도 10칸 소프트맥스 → 두 칸을 비교하는 손실 함수. 세 줄이 한 세트예요.</small></div>
+    <span class="book">교과서 자연어 처리 표 Ⅱ-11에도 나와요 · 원-핫 = 대부분이 0인 <b>희소 표현</b></span>
+  </div>
+  <div class="quiz" data-quiz="9"></div>
   <div class="card" style="margin-top:18px">
     <h3>개념 퀴즈 결과</h3>
     <table id="result"></table>
@@ -1007,7 +1046,9 @@ const QUIZ={
  7:[{q:'지금 w = 2, 학습률 0.1, 기울기 5이면 새 w는?',o:['1.5','2.5','1.9','7'],a:0,w:'2 − 0.1 × 5 = 1.5'},
     {q:'학습률이 너무 크면 어떤 일이 생길 수 있나?',o:['학습이 멈춘다','골짜기를 건너뛰어 손실이 커진다','가중치가 사라진다'],a:1,w:'보폭이 너무 크면 가장 낮은 곳을 지나쳐 반대편으로 넘어갑니다.'}],
  8:[{q:'학습 데이터 1,000개, 배치 사이즈 50이면 1에포크에 가중치를 몇 번 고치나?',o:['20번','50번','1,000번','50,000번'],a:0,w:'1,000 ÷ 50 = 20'},
-    {q:'학습 데이터 전체를 처음부터 끝까지 한 바퀴 본 것은?',o:['배치','에포크','층','편향'],a:1,w:'에포크 10 = 전체 데이터를 10바퀴 본 것'}]
+    {q:'학습 데이터 전체를 처음부터 끝까지 한 바퀴 본 것은?',o:['배치','에포크','층','편향'],a:1,w:'에포크 10 = 전체 데이터를 10바퀴 본 것'}],
+ 9:[{q:'숫자 0~9 중 정답 3을 원-핫 인코딩하면?',o:['(0,0,1,0,0,0,0,0,0,0)','(0,0,0,1,0,0,0,0,0,0)','(3)','(0,0,0,0,1,0,0,0,0,0)'],a:1,w:'0부터 세서 네 번째 칸(3번 칸)만 1이에요.'},
+    {q:'품종을 0, 1, 2 번호 대신 원-핫으로 바꾸는 가장 알맞은 이유는?',o:['계산이 빨라져서','품종 사이에 크기·순서가 생기지 않게 하려고','데이터 수를 늘리려고'],a:1,w:'번호로 쓰면 버지니카(2)가 세토사(0)보다 크다고 오해할 수 있어요. 또 모델의 확률 답과 같은 모양이어야 손실을 계산할 수 있어요.'}]
 };
 const QK='dl-quiz-v1';
 let QS={}; try{QS=JSON.parse(localStorage.getItem(QK)||'{}')||{};}catch(e){QS={};}
