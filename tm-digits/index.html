@@ -174,7 +174,7 @@
           <div class="tmtrain"><b>③ 만들기</b><div style="color:var(--muted);font-size:.8rem;margin-top:6px">스크래치로<br>프로그램 만들기 (오늘은 안 해요)</div></div>
         </div>
       </div>
-      <div class="warn"><b>⚠️ 로그인 없이 하는 방법이라 꼭 지켜요</b>만든 프로젝트는 <b>지금 쓰는 컴퓨터의 브라우저</b>에만 남아요. 탭이나 브라우저를 닫거나 다른 컴퓨터로 옮기면 처음부터 다시 해야 할 수 있어요. <b>오늘 수업 안에 실험까지</b> 끝내고, 실험 기록표는 이 페이지에 바로 적어 두세요.</div>
+      <div class="warn"><b>⚠️ 로그인 없이 하는 방법이라 꼭 지켜요</b>만든 프로젝트는 <b>지금 쓰는 컴퓨터의 브라우저</b>에만 남아요. 탭이나 브라우저를 닫거나 다른 컴퓨터로 옮기면 처음부터 다시 해야 할 수 있어요. <b>오늘 수업 안에 실험까지</b> 끝내요.</div>
       <div class="link"><b>🧠 딥러닝 개념과 연결</b>훈련 → 학습 &amp; 평가 → 만들기 순서가 바로 <b>데이터 모으기 → 학습·평가 → 활용</b>이에요. 모든 인공지능은 이 순서로 만들어져요.</div>
       <div class="done-row"><button class="done" data-s="1">✔ 다 했어요</button></div>
     </div>
@@ -249,7 +249,7 @@
         <li>학습이 끝나면 같은 화면 아래에 시험하는 버튼들이 나와요. <span class="btnlabel">그림 그리기로 테스트하기</span>를 눌러요.</li>
         <li>훈련 때 넣지 않은 <b>새 0</b>을 그려서 시험해요. <b>"○(으)로 인식되었습니다"</b>라는 답과 <b>확신도(%)</b>가 나와요.</li>
         <li><b>1</b>과 <b>2</b>도 새로 그려서 시험해요.</li>
-        <li>맞힌 개수와 확신도를 아래 <b>실험 기록표</b>의 "기본 모델" 줄에 적어요.</li>
+        <li>몇 개를 맞혔는지, 확신도는 얼마였는지 확인해요.</li>
       </ol>
       <div class="grid2">
         <div class="tm">
@@ -271,9 +271,9 @@
     <header><span class="n">6</span><div><h2>실험 ①: 데이터가 적으면?</h2><p>공부 자료가 5장뿐이면 어떻게 될까요?</p></div></header>
     <div class="body">
       <ol class="todo">
-        <li><b>예상하기</b>: 레이블마다 그림이 <b>5장</b>뿐이면 결과가 어떻게 될지 먼저 기록표에 적어요.</li>
+        <li><b>예상하기</b>: 레이블마다 그림이 <b>5장</b>뿐이면 결과가 어떻게 될지 먼저 생각해 봐요.</li>
         <li>위쪽 메뉴 <span class="btnlabel">프로젝트</span>로 가서 새 프로젝트 <b>숫자5장</b>(인식 이미지)을 만들고, 레이블 0 · 1 · 2에 <b>5장씩만</b> 그려요.</li>
-        <li>학습시키고, 5단계와 <b>같은 모양의</b> 숫자를 그려 시험해요. 확신도가 어떻게 달라졌는지 기록해요.</li>
+        <li>학습시키고, 5단계와 <b>같은 모양의</b> 숫자를 그려 시험해요. 확신도가 어떻게 달라졌는지 살펴봐요.</li>
         <li>15장으로 학습한 첫 프로젝트와 비교해요.</li>
       </ol>
       <div class="tm">
@@ -297,7 +297,7 @@
         <li>첫 프로젝트(<b>손글씨숫자</b>)의 <span class="btnlabel">훈련</span>에서 <b>7</b> 레이블을 만들어요.</li>
         <li><b>7을 15장</b> 그려요. 몇 장은 <b>1과 비슷하게</b>(윗부분을 짧게, 길쭉하게) 그려 봐요.</li>
         <li><span class="btnlabel">학습 &amp; 평가</span>에서 다시 학습시키고, 새로 그린 <b>1</b>과 <b>7</b>로 시험해요.</li>
-        <li>확신도가 낮게 나오거나 틀린 경우를 기록하고, <b>왜 헷갈렸을지</b> 생각해 적어요.</li>
+        <li>확신도가 낮게 나오거나 틀린 경우를 찾고, <b>왜 헷갈렸을지</b> 생각해 봐요.</li>
       </ol>
       <div class="cards" style="grid-template-columns:repeat(4,1fr);max-width:360px">
         <div>1</div><div>7</div><div style="transform:scaleX(.7)">1</div><div style="transform:scaleX(.7)">7</div>
@@ -313,32 +313,12 @@
     <div class="body">
       <ol class="todo">
         <li><span class="btnlabel">그림 그리기로 테스트하기</span>에서 평소와 다르게 그려 시험해요. ① 칸의 <b>구석에 아주 작게</b> ② <b>아주 가늘고 길게</b> ③ <b>옆 친구</b>가 내 컴퓨터에서 자기 스타일대로</li>
-        <li>결과를 기록해요. 어떤 그림을 잘 못 맞혔나요?</li>
+        <li>어떤 그림을 잘 못 맞혔나요?</li>
         <li>잘 못 맞힌 종류의 그림을 <span class="btnlabel">훈련</span>에서 <b>몇 장 더 그려 넣고</b> 다시 학습시켜 봐요. 좋아졌나요?</li>
       </ol>
       <div class="link"><b>🧠 딥러닝 개념과 연결</b>공부한 문제는 잘 푸는데 처음 보는 문제를 못 풀면 <b>과대적합</b>이에요. 해결 방법은 <b>다양한 데이터</b>를 더 모으는 것! MNIST는 학생과 직원 <b>수백 명</b>의 글씨를 모았고, 모든 숫자를 <b>크기를 맞춰 가운데</b>에 놓아 두었어요. 구석에 작게 그린 숫자를 잘 못 맞혔다면 그 이유를 알 수 있겠죠?</div>
       <div class="done-row"><button class="done" data-s="8">✔ 다 했어요</button></div>
     </div>
-  </section>
-
-  <!-- 기록표 -->
-  <section class="box" id="record">
-    <h3 style="margin:0 0 6px">📝 실험 기록표</h3>
-    <p style="margin:0 0 6px;color:var(--muted);font-size:.92rem">적은 내용은 이 컴퓨터의 브라우저에 자동으로 저장돼요. 선생님이 안내하면 그대로 인쇄하거나 캡처해서 제출해요.</p>
-    <div class="scroll">
-    <table>
-      <tr><th style="width:24%">실험</th><th style="width:20%">결과를 예상해요</th><th style="width:14%">맞힌 개수</th><th>관찰한 것 · 이유</th></tr>
-      <tr><td><b>기본 모델</b><br><small>레이블 0, 1, 2 · 15장씩</small></td><td><input data-k="r0p" placeholder="예: 다 맞힐 것 같다"></td><td><input class="n" data-k="r0n" placeholder="/3"></td><td><textarea data-k="r0o" placeholder="확신도(%), 헷갈린 숫자 등"></textarea></td></tr>
-      <tr><td><b>실험 ① 5장씩만</b></td><td><input data-k="r1p"></td><td><input class="n" data-k="r1n" placeholder="/3"></td><td><textarea data-k="r1o" placeholder="15장일 때와 비교해 확신도가 어떻게 달라졌나요?"></textarea></td></tr>
-      <tr><td><b>실험 ② 7 추가</b><br><small>1과 7 테스트</small></td><td><input data-k="r2p"></td><td><input class="n" data-k="r2n" placeholder="/4"></td><td><textarea data-k="r2o" placeholder="1과 7을 헷갈렸나요? 왜 그랬을까요?"></textarea></td></tr>
-      <tr><td><b>실험 ③ 낯선 그림</b><br><small>구석에 작게, 가늘게, 친구 그림</small></td><td><input data-k="r3p"></td><td><input class="n" data-k="r3n" placeholder="/3"></td><td><textarea data-k="r3o" placeholder="어떤 그림을 못 맞혔나요? 데이터를 추가하고 나서 좋아졌나요?"></textarea></td></tr>
-    </table>
-    </div>
-    <h4 style="margin:16px 0 6px">🤔 생각 정리</h4>
-    <table>
-      <tr><td style="width:44%">인공지능이 숫자를 더 잘 맞히게 하려면 어떻게 해야 할까요?</td><td><textarea data-k="q1"></textarea></td></tr>
-      <tr><td>오늘 활동 중 가장 신기했던 점은?</td><td><textarea data-k="q2"></textarea></td></tr>
-    </table>
   </section>
 
   <!-- 정리 -->
@@ -356,7 +336,7 @@
       <tr><td>낯선 그림을 잘 못 맞혔다</td><td><b>과대적합</b>, 데이터 다양성의 중요성</td></tr>
     </table>
     </div>
-    <div class="tip" style="margin-top:14px"><b>🐍 다음 시간 예고: 같은 일을 파이썬 코드로!</b>오늘 버튼으로 한 일을 다음 시간에는 파이썬 코드로 실행해 봐요. 코드를 직접 짜지 않고 <b>실행 버튼만</b> 누르면 돼요. 오늘의 "숫자 그림 15장"이 <b>MNIST 손글씨 6만 장</b>으로, "레이블 3개"가 <b>0~9 10개</b>로 커져요. 오늘 쓴 기록표를 꼭 가지고 와요!</div>
+    <div class="tip" style="margin-top:14px"><b>🐍 다음 시간 예고: 같은 일을 파이썬 코드로!</b>오늘 버튼으로 한 일을 다음 시간에는 파이썬 코드로 실행해 봐요. 코드를 직접 짜지 않고 <b>실행 버튼만</b> 누르면 돼요. 오늘의 "숫자 그림 15장"이 <b>MNIST 손글씨 6만 장</b>으로, "레이블 3개"가 <b>0~9 10개</b>로 커져요.</div>
     <div class="link"><b>📌 2차 수행평가와 연결</b>2차 수행평가도 ML4Kids로 이미지·텍스트·소리 분류 모델을 만들어요. 오늘 해 본 <b>레이블 만들기 → 데이터 모으기 → 학습 → 테스트 → 데이터 더 넣어 개선</b>이 그대로 수행평가 과정이에요.</div>
   </section>
 
@@ -382,10 +362,6 @@
     document.getElementById('bar').style.width=(n/steps.length*100)+'%';
   }
   document.querySelectorAll('.done').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.s; st.done[k]=!st.done[k]; save(); paint();}));
-  document.querySelectorAll('[data-k]').forEach(el=>{
-    if(st.rec[el.dataset.k]!=null) el.value=st.rec[el.dataset.k];
-    el.addEventListener('input',()=>{st.rec[el.dataset.k]=el.value; save();});
-  });
   paint();
 })();
 </script>
