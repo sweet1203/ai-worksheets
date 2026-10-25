@@ -222,6 +222,21 @@
   .vsteps>li::before{counter-increment:v;content:counter(v);position:absolute;left:0;top:10px;width:32px;height:32px;border-radius:50%;background:var(--acc);color:#fff;font-weight:900;display:grid;place-items:center}
   .vsteps b.t{display:block;font-size:1.02rem}
   .vsteps p{margin:3px 0 0;font-size:.95rem}
+  /* 06 손실 함수: 학습 속 역할 · 세 손실 함수 자세히 */
+  .lossflow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 6px;counter-reset:lf}
+  @media (max-width:860px){.lossflow{grid-template-columns:1fr 1fr}}
+  .lossflow>div{position:relative;background:var(--acc-soft);border-radius:12px;padding:12px 12px 10px;font-size:.92rem;border-top:4px solid var(--c,var(--acc))}
+  .lossflow>div>b:first-child{display:block;margin-bottom:3px}
+  .lossflow>div.hl{background:#fdecea;box-shadow:inset 0 0 0 2px #d64535}
+  .lossdetail{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+  @media (max-width:980px){.lossdetail{grid-template-columns:1fr}}
+  .lossdetail>div{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:16px 16px 12px;border-top:6px solid var(--c)}
+  .lossdetail h4{margin:0 0 2px;font-size:1.05rem;color:var(--c)}
+  .lossdetail .k{font-size:.8rem;color:var(--muted);margin-bottom:6px}
+  .lossdetail table{font-size:.86rem;margin:6px 0}
+  .lossdetail th,.lossdetail td{padding:4px 6px}
+  .lossdetail .step{font-size:.9rem;margin:6px 0}
+  .lossdetail .one{background:#f6f7f9;border-radius:10px;padding:8px 10px;font-size:.88rem;margin-top:8px}
   .qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
   @media (max-width:860px){.qa{grid-template-columns:1fr}}
   .qa>div{background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.93rem}
@@ -720,6 +735,67 @@
     <div class="lcard" style="background:linear-gradient(135deg,#2f6fd0,#1d4c99)"><div class="k">이진 분류 (둘 중 하나) · 시그모이드</div><h4>이진 교차 엔트로피 오차</h4><div class="ex">📧 이 메일은 스팸인가, 아닌가?<br>🌸 세토사인가, 아닌가?</div></div>
     <div class="lcard" style="background:linear-gradient(135deg,#9b4fc4,#6b2f92)"><div class="k">다중 분류 (여러 개 중 하나) · 소프트맥스</div><h4>범주형 교차 엔트로피 오차</h4><div class="ex">📷 이 사진은 고양이·강아지·토끼 중 무엇?<br>🌸 세 품종 중 무엇인가?</div></div>
     <div class="lcard" style="background:linear-gradient(135deg,#e0702b,#b04e14)"><div class="k">예측 (숫자 맞히기) · 활성화 함수 없음</div><h4>평균 제곱 오차</h4><div class="ex">🌡️ 내일 기온은 몇 도일까?<br>🌸 꽃잎 너비는 몇 mm인가?</div></div>
+  </div>
+  <div class="cx">
+    <h3>🔁 학습 과정에서 손실 함수는 이렇게 쓰여요</h3>
+    <p class="lead2">손실 함수는 학습 한 바퀴 속 <b>"채점표"</b>예요. 채점(손실 계산)을 해야 무엇을 얼마나 고칠지 알 수 있어요.</p>
+    <div class="lossflow">
+      <div style="--c:#2f6fd0"><b>① 순전파</b>꽃을 넣어 답을 내요<br>→ "세토사 66%"</div>
+      <div class="hl" style="--c:#d64535"><b>② 손실 계산</b>정답과 비교해 벌점을 매겨요<br>→ 벌점 0.42 <b>← 손실 함수가 하는 일</b></div>
+      <div style="--c:#9b4fc4"><b>③ 역전파</b>벌점을 거꾸로 전하며, 가중치마다 벌점에 얼마나 영향을 줬는지(기울기) <b>계산</b>해요</div>
+      <div style="--c:#c98a00"><b>④ 경사 하강법</b>벌점이 줄어드는 쪽으로 가중치를 조금 <b>고쳐요</b> → 다시 ①로</div>
+    </div>
+    <table style="max-width:560px">
+      <tr><th>정답 세토사인 꽃 "가"를 반복 학습</th><th>세토사일 확률(답)</th><th>손실(벌점)</th></tr>
+      <tr><td class="l">처음</td><td>66%</td><td>0.42</td></tr>
+      <tr><td class="l">몇 번 고친 뒤</td><td>80%</td><td>0.22</td></tr>
+      <tr><td class="l">더 고친 뒤</td><td>95%</td><td class="ok">0.05</td></tr>
+    </table>
+    <div class="qa">
+      <div><b class="q">Q. 정확도만 보면 안 돼요?</b>정확도는 <b>맞았다/틀렸다</b>만 세요. 66%로 맞혀도 95%로 맞혀도 똑같이 "맞음"이에요. 손실은 <b>얼마나 확신하고 맞혔는지</b>까지 숫자로 보여 줘서, 조금씩 나아지는 것을 알 수 있고 고칠 방향도 찾을 수 있어요.</div>
+      <div><b class="q">Q. 한 번에 여러 개를 보면요?</b>배치 사이즈가 10이면 10개의 벌점을 <b>평균 내어</b> 손실 하나로 만들고, 그 숫자로 가중치를 한 번 고쳐요. 학습 화면의 <span class="mono">loss: 0.32</span>가 이 평균 벌점이에요. 에포크마다 줄어들면 학습이 잘되고 있는 거예요.</div>
+    </div>
+  </div>
+
+  <h3 style="margin:4px 0 10px">🔎 세 가지 손실 함수, 예시로 하나씩 계산해 보기</h3>
+  <div class="lossdetail">
+    <div style="--c:#2f6fd0">
+      <h4>이진 교차 엔트로피 오차</h4>
+      <div class="k">둘 중 하나 고르기 · 출력층 시그모이드</div>
+      <p class="step">"세토사인가?"에 모델이 <b>"세토사일 확률 0.8"</b>이라고 답했어요. <b>정답 쪽에 준 확률</b>로 벌점을 매겨요.</p>
+      <table>
+        <tr><th>실제 정답</th><th>정답 쪽 확률</th><th>벌점</th></tr>
+        <tr><td>세토사 맞음</td><td>0.8</td><td class="ok">0.22</td></tr>
+        <tr><td>세토사 아님</td><td>1 − 0.8 = 0.2</td><td class="ng">1.61</td></tr>
+      </table>
+      <div class="one">정답이 "아니오"면 1에서 뺀 값(아니오일 확률)을 봐요. 정답 쪽 확률이 낮을수록 벌점이 커요.</div>
+    </div>
+    <div style="--c:#9b4fc4">
+      <h4>범주형 교차 엔트로피 오차</h4>
+      <div class="k">여러 개 중 하나 고르기 · 출력층 소프트맥스</div>
+      <p class="step"><b>① 정답을 같은 모양으로</b>(원-핫 인코딩)<br>정답 버지니카 → (0, 0, <b>1</b>)<br>모델의 답 → (0.12, 0.04, <b>0.84</b>)</p>
+      <p class="step"><b>② 정답 칸(1인 칸)만 봐요</b> → 0.84<br>나머지 칸(0.12, 0.04)은 계산에 안 써요.</p>
+      <p class="step"><b>③ 벌점</b> → 0.84면 <b>0.17</b><br>맞혔지만 100%가 아니라서 0은 아니에요.</p>
+      <table>
+        <tr><th>정답 칸 확률</th><td>1.00</td><td>0.84</td><td>0.50</td><td>0.12</td><td>0.04</td></tr>
+        <tr><th>벌점</th><td class="ok">0</td><td>0.17</td><td>0.69</td><td>2.12</td><td class="ng">3.22</td></tr>
+      </table>
+      <div class="one">확신하고 맞히면 벌점 거의 0, 확신하고 틀리면 벌점 폭탄! 손글씨 실습의 <span class="mono">loss='categorical_crossentropy'</span>가 바로 이것이에요.</div>
+    </div>
+    <div style="--c:#e0702b">
+      <h4>평균 제곱 오차</h4>
+      <div class="k">숫자 맞히기(예측) · 출력층 활성화 함수 없음</div>
+      <p class="step">확률이 아니라 숫자가 나오니, 정답과 <b>얼마나 차이 나는지</b>로 벌점을 매겨요. (교과서 94쪽 예제)</p>
+      <table>
+        <tr><th></th><td>1</td><td>2</td><td>3</td></tr>
+        <tr><th>실제값</th><td>80</td><td>70</td><td>90</td></tr>
+        <tr><th>예측값</th><td>85</td><td>80</td><td>90</td></tr>
+        <tr><th>① 차이</th><td>5</td><td>10</td><td>0</td></tr>
+        <tr><th>② 제곱</th><td>25</td><td>100</td><td>0</td></tr>
+      </table>
+      <p class="step">③ 평균 = (25 + 100 + 0) ÷ 3 ≈ <b>41.67</b></p>
+      <div class="one">왜 제곱할까? <b>부호 없애기</b>(+5와 −5가 서로 지워지지 않게) · <b>크게 틀린 것 더 혼내기</b>(차이 5 → 25, 차이 10 → 100)</div>
+    </div>
   </div>
   <div class="grid2">
     <div class="card">
