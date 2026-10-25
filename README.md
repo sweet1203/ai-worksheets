@@ -15,7 +15,7 @@
 | `deep-learning/lesson.html` | 수업 본 페이지. 붓꽃 데이터로 퍼셉트론부터 배치·에포크까지 9단계, 단계마다 생활 속 사례·애니메이션·개념 퀴즈(21문제) | 딥러닝 1~3차시 |
 | `deep-learning/worksheet.html` | 개념 정리 학습지 (A4 한 장, 빈칸 47개) | 수업 중·복습 |
 | `tm-digits/index.html` | ML4Kids에서 마우스로 숫자 0·1·2를 그려 학습시키기. 단계별 안내, 실험 3개(데이터 5장, 7 추가, 낯선 그림), 실험 기록표 | 실습 ① |
-| `tm-digits/mnist-classification-tm.ipynb` | 같은 일을 파이썬(케라스)으로 하는 MNIST 노트북. 티처블 머신 버튼 ↔ 코드 대응표 포함, 실행만 하면 됨 | 실습 ② (코랩) |
+| `tm-digits/mnist-classification-tm.ipynb` | 같은 일을 파이썬(케라스)으로 하는 MNIST 노트북. ML4Kids 활동 ↔ 코드 대응표 포함, 실행만 하면 됨 | 실습 ② (코랩) |
 | `lesson-worksheets.html` | 21~27차시 차시별 학습지 (교과서 쪽수에 맞춘 A4 7장) | 차시별 |
 
 ## 수업 흐름
