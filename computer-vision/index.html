@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>컴퓨터 비전 개념 정리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202c; --muted:#5b6776; --paper:#f3efe7; --card:#fff; --line:#e3ddd2;
+    --navy:#0f2742; --amber:#f2a516; --red:#d64535; --mint:#1f9d74;
+    --acc:#2f6fd0; --acc-soft:#e6eefb;
+    --shadow:0 18px 50px rgba(15,39,66,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:17px;line-height:1.65;
+    background-image:radial-gradient(rgba(15,39,66,.07) 1px,transparent 1px);background-size:22px 22px;display:flex;flex-direction:column}
+  .top{position:sticky;top:0;z-index:10;background:rgba(15,39,66,.97);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+  .brand{font-family:"Black Han Sans",sans-serif;font-size:1.15rem;letter-spacing:.01em;white-space:nowrap;color:inherit;text-decoration:none}
+  .steps{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  .steps::-webkit-scrollbar{display:none}
+  .steps button{flex:0 0 auto;border:0;background:transparent;color:#9fb3cc;font:inherit;font-size:.82rem;padding:5px 9px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .steps button.on{background:var(--amber);color:var(--navy);font-weight:900}
+  .steps button.done::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#5fd3a5;margin-left:5px;vertical-align:middle}
+  .score{font-size:.85rem;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .progress{height:4px;background:rgba(15,39,66,.12)}
+  .progress i{display:block;height:100%;background:var(--amber);width:0;transition:width .4s}
+  main{flex:1;width:100%;max-width:1120px;margin:0 auto;padding:26px 20px 30px}
+  .page{display:none}
+  .page.on{display:block;animation:enter .45s cubic-bezier(.2,.7,.2,1) both}
+  .page.on.back{animation-name:enterBack}
+  @keyframes enter{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+  @keyframes enterBack{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+  .head{display:flex;align-items:flex-end;gap:16px;margin-bottom:16px}
+  .num{font-family:"Black Han Sans",sans-serif;font-size:4.2rem;line-height:.85;color:var(--acc);opacity:.9}
+  .head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:2.1rem;margin:0;line-height:1.1;letter-spacing:-.01em}
+  .head p{margin:4px 0 0;color:var(--muted)}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px 24px;margin-bottom:18px;border:1px solid rgba(0,0,0,.04)}
+  .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  .grid2.even{grid-template-columns:1fr 1fr}
+  @media (max-width:860px){.grid2,.grid2.even{grid-template-columns:1fr}.num{font-size:3rem}.head h2{font-size:1.6rem}}
+  h3{margin:0 0 8px;font-size:1.1rem}
+  h4{margin:0 0 4px}
+  p{margin:6px 0}
+  a{color:var(--acc)}
+  .muted{color:var(--muted)}
+  .book{display:inline-block;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin-top:6px}
+  table{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+  th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:center}
+  th{color:var(--muted);font-weight:700;font-size:.85rem}
+  td.l,th.l{text-align:left}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+  .chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;font:inherit;font-size:.92rem;cursor:pointer;transition:.15s;color:var(--ink)}
+  .chip.on{border-color:var(--acc);background:var(--acc);color:#fff;font-weight:700}
+  .btn{border:0;border-radius:10px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer;background:var(--acc);color:#fff;transition:transform .1s, box-shadow .2s;box-shadow:0 6px 16px rgba(15,39,66,.18)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:#fff;color:var(--acc);border:2px solid var(--acc);box-shadow:none}
+  .btn.sm{padding:5px 12px;font-size:.88rem}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ctrl{display:grid;grid-template-columns:70px 1fr 48px;align-items:center;gap:4px 10px;margin:4px 0}
+  .ctrl label{font-weight:900;font-size:.95rem}
+  .ctrl output{font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--acc)}
+  input[type=text],input[type=number]{font:inherit;padding:6px 10px;border:1px solid #c5ccd5;border-radius:8px;background:#fff;color:var(--ink)}
+  .big{font-size:1.5rem;font-weight:900;font-variant-numeric:tabular-nums}
+  .ok{color:var(--mint);font-weight:700}.ng{color:var(--red);font-weight:700}
+  .callout{border-radius:12px;padding:12px 16px;background:var(--acc-soft);border-left:5px solid var(--acc);margin:12px 0}
+  svg{display:block;width:100%;height:auto}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:.9em;background:#f1f3f6;padding:1px 6px;border-radius:5px}
+  .cx{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:18px;border-left:6px solid var(--acc)}
+  .cx>h3{margin:0 0 4px;font-size:1.15rem}
+  .cx>.lead2{color:var(--muted);margin:0 0 12px}
+  .qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media (max-width:860px){.qa{grid-template-columns:1fr}}
+  .qa>div{background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .qa b.q{display:block;color:var(--acc);margin-bottom:3px}
+  .vsteps{list-style:none;margin:0;padding:0;counter-reset:v}
+  .vsteps>li{position:relative;padding:9px 0 9px 44px;border-top:1px dashed var(--line)}
+  .vsteps>li:first-child{border-top:0}
+  .vsteps>li::before{counter-increment:v;content:counter(v);position:absolute;left:0;top:9px;width:30px;height:30px;border-radius:50%;background:var(--acc);color:#fff;font-weight:900;display:grid;place-items:center;font-size:.9rem}
+  .vsteps p{margin:2px 0 0;font-size:.93rem}
+  .case{background:#fff8e6;border:2px solid #f6d58a;border-radius:16px;padding:16px 20px;margin-bottom:18px}
+  .case>h3{margin:0 0 8px;font-size:1.05rem;color:#8a5a00}
+  /* 퀴즈 */
+  .quiz{background:linear-gradient(135deg,#0f2742,#1b3d66);color:#fff;border-radius:16px;padding:20px 22px;margin-top:6px;box-shadow:var(--shadow)}
+  .quiz .qh{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .quiz .qh b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.25rem;color:var(--amber)}
+  .quiz .qh span{font-size:.85rem;color:#a9bbd2}
+  .qi{background:rgba(255,255,255,.07);border-radius:12px;padding:12px 14px;margin-top:10px}
+  .qi .qq{font-weight:700;margin-bottom:8px}
+  .qi .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .qi .opts button{font:inherit;font-size:.93rem;border:2px solid rgba(255,255,255,.25);background:transparent;color:#fff;border-radius:10px;padding:6px 14px;cursor:pointer;transition:.15s}
+  .qi .opts button:hover:not(:disabled){border-color:var(--amber)}
+  .qi .opts button.right{background:var(--mint);border-color:var(--mint);font-weight:700}
+  .qi .opts button.wrong{background:var(--red);border-color:var(--red);text-decoration:line-through}
+  .qi .opts button:disabled{cursor:default}
+  .qi .why{margin-top:8px;font-size:.9rem;color:#d7e3f2;display:none}
+  .qi.answered .why{display:block}
+  .qi.answered.correct{box-shadow:inset 4px 0 0 var(--mint)}
+  .qi.answered.incorrect{box-shadow:inset 4px 0 0 var(--red)}
+  .shake{animation:shake .35s}
+  @keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+  .foot{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:rgba(243,239,231,.94);backdrop-filter:blur(6px);border-top:1px solid var(--line)}
+  .foot .btn{min-width:110px}
+  .foot .pg{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  /* 표지 */
+  .cover{position:relative;border-radius:22px;overflow:hidden;background:radial-gradient(ellipse at 20% 0%,#24507f 0%,#0f2742 55%,#0a1a2e 100%);color:#fff;min-height:520px;padding:46px 44px;box-shadow:var(--shadow)}
+  .cover canvas{position:absolute;right:0;top:0;height:100%;width:62%;image-rendering:pixelated;opacity:.95}
+  .cover .fade{position:absolute;inset:0;background:linear-gradient(90deg,#0f2742 34%,rgba(15,39,66,.75) 50%,rgba(15,39,66,0) 70%)}
+  .cover .in{position:relative;max-width:560px}
+  .cover .tag{display:inline-block;background:var(--amber);color:var(--navy);font-weight:900;font-size:.85rem;padding:4px 12px;border-radius:999px}
+  .cover h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:3.1rem;line-height:1.15;margin:16px 0 10px}
+  .cover p{color:#c8d6e8;font-size:1.05rem}
+  .cover ol{margin:18px 0 26px;padding-left:20px;color:#e1e9f4;columns:2;column-gap:28px;font-size:.95rem}
+  @media (max-width:700px){.cover{padding:30px 22px}.cover h1{font-size:2.2rem}.cover ol{columns:1}.cover canvas{width:100%;opacity:.3}.cover .fade{display:none}}
+  .today{margin-top:26px}
+  .kicker{display:inline-block;font-family:"Black Han Sans",sans-serif;font-size:1.15rem;color:var(--navy);margin-bottom:6px;border-bottom:4px solid var(--amber);line-height:1.2}
+  .today-lead{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:22px 26px;margin-bottom:16px}
+  .today-lead p{font-size:1.12rem;margin:6px 0 0}
+  .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+  @media (max-width:900px){.why3{grid-template-columns:1fr}}
+  .why{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 22px}
+  .why ul{margin:6px 0 0;padding-left:18px;font-size:.95rem}
+  .why li{margin:6px 0}
+  .why ul.can{list-style:none;padding:0}
+  .why ul.can li{padding-left:28px;position:relative}
+  .why ul.can li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 7' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+  .why ul.uses{list-style:none;padding:0}
+  .why ul.uses li{border-left:3px solid var(--amber);padding-left:10px}
+  .glossary-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .glossary-head .muted{font-size:.88rem}
+  .glossary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+  @media (max-width:1000px){.glossary{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.glossary{grid-template-columns:1fr}}
+  .gcard{all:unset;box-sizing:border-box;cursor:pointer;display:block;background:#fff;border-radius:14px;padding:16px 16px 12px;box-shadow:var(--shadow);border-top:6px solid var(--g);position:relative;transition:transform .18s, box-shadow .18s}
+  .gcard:hover,.gcard:focus-visible{transform:translateY(-4px);box-shadow:0 22px 50px rgba(15,39,66,.16)}
+  .gcard:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+  .gcard i{position:absolute;right:14px;top:8px;font-style:normal;font-family:"Black Han Sans",sans-serif;font-size:1.9rem;color:var(--g);opacity:.25}
+  .gcard h4{margin:0 0 6px;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.2rem;color:var(--g)}
+  .gcard dl{margin:0;font-size:.88rem;line-height:1.45}
+  .gcard dt{font-weight:900;margin-top:7px}
+  .gcard dd{margin:1px 0 0;color:#3c4654}
+  /* 01 픽셀 · RGB */
+  .pxwrap{max-width:430px}
+  .pxgrid{display:grid;grid-template-columns:repeat(16,1fr);gap:1px;background:#3a4452;border:3px solid #3a4452;border-radius:10px;overflow:hidden;touch-action:none;user-select:none;cursor:crosshair}
+  .pxgrid div{aspect-ratio:1;display:grid;place-items:center;font-size:.56rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .pxgrid.nums div{font-size:clamp(.42rem,1.6vw,.6rem)}
+  .pxinfo{display:flex;gap:10px;align-items:center;margin-top:8px;font-size:.92rem;min-height:30px}
+  .pxinfo .sw{width:26px;height:26px;border-radius:6px;border:1px solid #999}
+  .scale{height:16px;border-radius:8px;background:linear-gradient(90deg,#000,#fff);border:1px solid #999;margin-top:4px}
+  .scale+div{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+  .rgbbox{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:center}
+  @media (max-width:520px){.rgbbox{grid-template-columns:1fr}}
+  .swatch{width:150px;height:150px;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15),0 10px 26px rgba(0,0,0,.15);display:grid;place-items:end center;padding-bottom:10px}
+  .swatch b{background:rgba(255,255,255,.85);color:#111;border-radius:999px;padding:2px 10px;font-size:.85rem;font-variant-numeric:tabular-nums}
+  .ctrl.r input{accent-color:#e23b3b}.ctrl.g input{accent-color:#25a25a}.ctrl.b input{accent-color:#2f6fd0}
+  .ctrl.r label{color:#d22}.ctrl.g label{color:#1a8a4a}.ctrl.b label{color:#2f6fd0}
+  .count3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media (max-width:640px){.count3{grid-template-columns:1fr}}
+  .count3>div{background:#fbfaf7;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.9rem}
+  .count3 b{display:block;font-size:1.25rem;color:var(--acc);font-variant-numeric:tabular-nums}
+  /* 02 4대 분야 */
+  .cvscene{background:#fbfaf7;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .cvscene .ani *{transition:fill .35s, stroke .35s, opacity .35s}
+  .cvscene.seg .bg{opacity:.35}
+  .cvscene.seg .ani *{fill:var(--sc)!important;stroke:var(--sc)!important}
+  .cvscene .box{fill:none;stroke-width:4;stroke-dasharray:10 6;opacity:0;transition:opacity .3s}
+  .cvscene .lab{opacity:0;transition:opacity .3s}
+  .cvscene .show{opacity:1}
+  .cvres{font-size:.95rem;margin-top:10px;min-height:52px}
+  .fields{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  @media (max-width:860px){.fields{grid-template-columns:1fr 1fr}}
+  .fields>div{border-radius:12px;padding:10px 12px;background:#fff;border:2px solid var(--line);font-size:.88rem;cursor:pointer;transition:.15s}
+  .fields>div.on{border-color:var(--acc);background:var(--acc-soft)}
+  .fields b{display:block;font-size:.98rem}
+  .axis{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-top:6px;gap:8px}
+  .axis span{flex:1;text-align:center;border-top:2px solid var(--line);padding-top:2px}
+  .objfind{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .objfind input{flex:1;min-width:160px}
+  .objres{margin-top:6px;font-weight:700;min-height:26px}
+  .objlist{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;max-height:0;overflow:hidden;transition:max-height .4s}
+  .objlist.open{max-height:600px}
+  .objlist span{font-size:.8rem;background:#f1f3f6;border-radius:999px;padding:1px 9px}
+  /* 03 왜 CNN */
+  .params{display:grid;gap:8px;margin-top:8px}
+  .params .pr{display:grid;grid-template-columns:150px 1fr 120px;gap:10px;align-items:center;font-size:.9rem}
+  @media (max-width:640px){.params .pr{grid-template-columns:1fr 90px}.params .pr .bar{grid-column:1/-1;order:3}}
+  .params .bar{height:14px;background:#eef0f3;border-radius:7px;overflow:hidden}
+  .params .bar i{display:block;height:100%;background:var(--acc);border-radius:7px;transition:width .6s}
+  .params .v{text-align:right;font-weight:900;font-variant-numeric:tabular-nums}
+  .flat{position:relative;width:100%;margin:8px 0}
+  .flat i{position:absolute;border-radius:3px;transition:left .9s cubic-bezier(.5,0,.3,1), top .9s cubic-bezier(.5,0,.3,1), background .3s, box-shadow .3s;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+  .flat i.on{background:#1b2a3a}
+  .flat i.off{background:#fff}
+  .flat i.hl{box-shadow:0 0 0 3px var(--amber)}
+  .layerpick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  @media (max-width:640px){.layerpick{grid-template-columns:1fr}}
+  .layerpick>div{background:#fbfaf7;border:2px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center;cursor:pointer;transition:.2s}
+  .layerpick>div.on{border-color:var(--acc);background:var(--acc-soft)}
+  .layerpick svg{max-width:220px;margin:4px auto 0}
+  .layerpick b{display:block}
+  .layerpick small{color:var(--muted)}
+  /* 04 합성곱 */
+  .conv{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin:8px 0}
+  .conv .op{font-family:"Black Han Sans",sans-serif;font-size:1.6rem;color:var(--muted)}
+  .mx{display:grid;gap:3px}
+  .mx>div{width:44px;height:44px;display:grid;place-items:center;font-weight:900;font-size:1.1rem;border-radius:8px;background:#fff;border:2px solid var(--line);transition:background .3s,border-color .3s,transform .3s;font-variant-numeric:tabular-nums}
+  @media (max-width:520px){.mx>div{width:34px;height:34px;font-size:.95rem}}
+  .mx>div.win{background:#fde8d6;border-color:#e0702b}
+  .mx.f>div{background:#fff3dc;border-color:#f2c26b}
+  .mx.o>div.cur{border-color:#e0702b;transform:scale(1.08)}
+  .mx.o input{width:100%;height:100%;border:0;text-align:center;font:inherit;font-weight:900;background:transparent;padding:0}
+  .mx .cap{grid-column:1/-1;width:auto;height:auto;border:0;background:transparent;font-size:.8rem;color:var(--muted);font-weight:700}
+  .expr{background:#fbfaf7;border:2px dashed var(--line);border-radius:12px;padding:10px 14px;font-size:.95rem;min-height:48px;font-variant-numeric:tabular-nums}
+  .expr b{color:#e0702b}
+  .edge{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:12px;align-items:start}
+  @media (max-width:900px){.edge{grid-template-columns:1fr 1fr}}
+  .edge canvas{width:100%;aspect-ratio:1;image-rendering:pixelated;border-radius:10px;background:#000;display:block}
+  .edge #drawC{touch-action:none;cursor:crosshair;box-shadow:0 0 0 3px var(--amber)}
+  .edge figcaption{font-size:.85rem;font-weight:700;margin-top:4px;text-align:center}
+  .edge figure{margin:0}
+  .fm{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:96px;margin:4px auto 0;font-size:.75rem;font-weight:700;text-align:center}
+  .fm span{background:#fff3dc;border-radius:3px;font-variant-numeric:tabular-nums}
+  /* 05 풀링 · 완전 연결 */
+  .pool .mx>div{width:48px;height:48px}
+  .pool .mx>div.cap{width:auto;height:auto}
+  .btn:disabled{opacity:.5;cursor:default}
+  .pool .mx>div.q0{background:#e6eefb}.pool .mx>div.q1{background:#e3f4ec}.pool .mx>div.q2{background:#fdecea}.pool .mx>div.q3{background:#fff3dc}
+  .pool .mx>div.dim{opacity:.35}
+  .pool .mx>div.max{border-color:var(--red);box-shadow:0 0 0 2px var(--red)}
+  .pool2{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;max-width:560px;margin:auto}
+  .pool2 canvas{width:100%;aspect-ratio:1;image-rendering:pixelated;border-radius:10px;background:#000}
+  .pool2 figcaption{font-size:.85rem;text-align:center;font-weight:700}
+  .pool2 figure{margin:0}
+  .fcflow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.92rem}
+  .fcflow .bx{background:#fbfaf7;border:2px solid var(--line);border-radius:12px;padding:8px 12px;text-align:center}
+  .fcflow .ar{color:var(--muted);font-weight:900}
+  .flatrow{display:flex;gap:3px;justify-content:center}
+  .flatrow span{width:30px;height:30px;display:grid;place-items:center;background:#fdecea;border-radius:6px;font-weight:900}
+  .prob{display:grid;grid-template-columns:60px 1fr 46px;gap:6px;align-items:center;font-size:.88rem;min-width:200px}
+  .prob i{display:block;height:12px;border-radius:6px;background:var(--acc)}
+  .pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+  @media (max-width:860px){.pipe{grid-template-columns:1fr 1fr}}
+  .pipe>div{border-radius:12px;padding:10px 12px;font-size:.88rem;background:#fff;border-top:5px solid var(--k);box-shadow:0 6px 16px rgba(15,39,66,.07)}
+  .pipe b{display:block;color:var(--k)}
+  /* 06 생성형 AI */
+  .gan{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:14px;align-items:center}
+  @media (max-width:860px){.gan{grid-template-columns:1fr}}
+  .gan figure{margin:0;text-align:center}
+  .gan canvas{width:150px;height:150px;image-rendering:pixelated;border-radius:12px;background:#fff;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+  .gan figcaption{font-weight:700;font-size:.9rem;margin-top:4px}
+  .ganflow{list-style:none;margin:0;padding:0;font-size:.9rem}
+  .ganflow li{padding:6px 10px;border-radius:10px;margin:4px 0;background:#fbfaf7;border:2px solid transparent;transition:.25s}
+  .ganflow li.on{border-color:var(--acc);background:var(--acc-soft);font-weight:700}
+  .verdict{margin-top:6px;font-weight:900;min-height:26px}
+  .meter{height:12px;background:#eef0f3;border-radius:6px;overflow:hidden;margin-top:4px}
+  .meter i{display:block;height:100%;background:var(--acc);transition:width .5s}
+  .ganend{display:none;margin-top:10px}
+  .ganend.on{display:block;animation:enter .4s both}
+  .pb{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+  @media (max-width:700px){.pb{grid-template-columns:1fr}}
+  .pb label{font-size:.85rem;font-weight:700;display:block}
+  .pb input{width:100%}
+  .ptext{background:#0f2742;color:#fff;border-radius:12px;padding:14px 16px;margin-top:12px;min-height:70px;font-size:.98rem}
+  .ptext.empty{color:#9fb3cc}
+  /* 07 활용 */
+  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media (max-width:860px){.apps{grid-template-columns:1fr 1fr}}
+  .apps button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border-radius:14px;padding:14px;box-shadow:0 6px 16px rgba(15,39,66,.08);border:3px solid transparent;text-align:center;transition:.2s}
+  .apps button.on{border-color:var(--acc);transform:translateY(-3px)}
+  .apps button .e{font-size:2rem;display:block}
+  .apps button b{display:block}
+  .appd{display:none}
+  .appd.on{display:block;animation:enter .35s both}
+  .ex2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  @media (max-width:640px){.ex2{grid-template-columns:1fr}}
+  .ex2>div{background:#fbfaf7;border-radius:12px;padding:12px 14px;font-size:.93rem;border-left:4px solid var(--acc)}
+  .try{margin-top:12px;background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.92rem}
+  .try ol{margin:4px 0 0;padding-left:20px}
+  /* 08 정리 */
+  .sum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:860px){.sum{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.sum{grid-template-columns:1fr}}
+  .sum div{background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);border-top:5px solid var(--acc)}
+  .sum b{display:block;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.1rem;margin-bottom:4px}
+  .sum span{font-size:.88rem;color:#333}
+  .sum small{display:block;margin-top:6px;font-size:.8rem;color:var(--muted)}
+  .key3{display:grid;gap:10px;margin-bottom:18px}
+  .key3 div{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:14px 18px;border-left:6px solid var(--k);font-size:1.02rem}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="../" title="수업 자료실로">← 수업 자료실</a>
+  <nav class="steps" id="steps"></nav>
+  <div class="score" id="score"></div>
+</div>
+<div class="progress"><i id="prog"></i></div>
+
+<main id="main">
+
+<!-- 0 표지 -->
+<section class="page" data-name="시작" data-acc="#f2a516">
+  <div class="cover">
+    <canvas id="coverPx" width="40" height="34" aria-hidden="true"></canvas>
+    <div class="fade"></div>
+    <div class="in">
+      <span class="tag">인공지능 기초 · Ⅱ-2 딥러닝</span>
+      <h1>컴퓨터는<br>무엇을 '보고' 있을까?</h1>
+      <p>사람 눈에는 고양이 사진이지만, 컴퓨터 눈에는 숫자로 가득 찬 표예요. 그 숫자 표에서 고양이를 찾아내는 기술, 컴퓨터 비전을 배워 봅니다.</p>
+      <ol>
+        <li>컴퓨터가 보는 이미지</li><li>컴퓨터 비전의 4대 분야</li><li>왜 합성곱 신경망일까</li><li>합성곱층과 필터</li>
+        <li>풀링층과 완전 연결층</li><li>생성형 인공지능과 GAN</li><li>컴퓨터 비전의 활용</li><li>한눈에 정리</li>
+      </ol>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
+        <button class="btn" style="background:transparent;border:2px solid rgba(255,255,255,.5);box-shadow:none" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">오늘 배울 내용 보기 ↓</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="intro" class="today">
+    <div class="today-lead">
+      <span class="kicker">오늘 우리는</span>
+      <p>컴퓨터가 사진을 <b>어떤 숫자로 저장하는지</b>부터 시작해서, 그 숫자 속에서 <b>선 → 눈·코 → 얼굴</b> 순서로 특징을 찾아내는 <b>합성곱 신경망(CNN)</b>의 원리를 배웁니다. 마지막에는 그림을 새로 만들어 내는 <b>생성형 인공지능</b>과, 우리 주변에서 컴퓨터 비전이 쓰이는 곳을 살펴봅니다.</p>
+    </div>
+
+    <div class="why3">
+      <div class="why">
+        <span class="kicker">왜 배울까</span>
+        <ul>
+          <li>사람은 바깥 정보의 대부분을 <b>눈</b>으로 받아들여요. 그래서 '보는 인공지능'은 자율 주행, 의료 영상, 보안처럼 사람의 눈을 대신하는 곳에 가장 먼저 쓰입니다.</li>
+          <li>사진 앱이 인물을 알아서 묶어 주고, 번호판을 읽어 주차비를 계산하는 일이 <b>어떻게 가능한지</b> 설명할 수 있게 됩니다.</li>
+          <li>지난 시간에 배운 신경망(가중치·활성화 함수·학습)이 <b>이미지에 맞게 어떻게 바뀌는지</b> 알게 되고, 이미지 분류 프로젝트의 바탕이 됩니다.</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">어디에 쓰일까</span>
+        <ul class="uses">
+          <li><b>글자 읽기</b> · 주차장 번호판 인식, 메뉴판을 읽어 소리로 들려주는 시각 보조 앱</li>
+          <li><b>물건 찾기</b> · 도로 CCTV 교통량 분석, 공항 엑스레이 검색대</li>
+          <li><b>얼굴 알아보기</b> · 휴대폰 얼굴 잠금 해제, 거리 사진 속 행인 얼굴 모자이크</li>
+          <li><b>새로 만들기</b> · 글로 설명하면 그림을 그려 주는 생성형 인공지능</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">배우고 나면 할 수 있는 것</span>
+        <ul class="can">
+          <li>픽셀값과 RGB 값을 보고 어떤 색인지 말한다.</li>
+          <li>이미지 분류·객체 위치 식별·객체 탐지·이미지 분할을 구분한다.</li>
+          <li>합성곱 연산을 손으로 계산하고, 최댓값 풀링 결과를 구한다.</li>
+          <li>CNN이 이미지를 분류하는 과정을 합성곱층 → 풀링층 → 완전 연결층으로 설명한다.</li>
+          <li>GAN의 생성자와 감별자가 어떻게 경쟁하며 학습하는지 설명한다.</li>
+          <li>컴퓨터 비전 서비스를 직접 써 보고 어느 분야 기술인지 말한다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="glossary-head"><span class="kicker">미리 보는 용어</span><span class="muted">카드를 누르면 그 개념 화면으로 갑니다</span></div>
+    <div class="glossary">
+      <div class="gcard" role="button" tabindex="0" style="--g:#2f6fd0" onclick="go(1)"><i>01</i><h4>이미지 데이터</h4>
+        <dl><dt>픽셀</dt><dd>이미지를 이루는 아주 작은 점 하나</dd><dt>픽셀값</dt><dd>0(검은색)~255(흰색) 사이의 밝기 숫자</dd><dt>RGB 채널</dt><dd>빨강·초록·파랑 밝기 3개를 묶어 색 하나를 표현</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#1f9d74" onclick="go(2)"><i>02</i><h4>컴퓨터 비전</h4>
+        <dl><dt>컴퓨터 비전</dt><dd>사진·영상에서 의미 있는 정보를 뽑아내는 인공지능 기술</dd><dt>이미지 분류</dt><dd>이 사진이 무엇인지 하나로 답하기</dd><dt>객체 위치 식별</dt><dd>무엇인지 + 어디 있는지</dd><dt>객체 탐지</dt><dd>여러 객체 각각의 위치와 이름</dd><dt>이미지 분할</dt><dd>객체의 범위를 픽셀 단위로 칠하기</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#9b4fc4" onclick="go(3)"><i>03</i><h4>합성곱 신경망</h4>
+        <dl><dt>CNN</dt><dd>이미지 분류를 특히 잘하는 딥러닝 모델</dd><dt>특징 추출</dt><dd>분류에 도움이 되는 모양(선, 눈, 얼굴)을 찾는 일</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#e0702b" onclick="go(4)"><i>04</i><h4>합성곱층</h4>
+        <dl><dt>필터(커널)</dt><dd>이미지 위를 한 칸씩 움직이는 작은 가중치 묶음</dd><dt>합성곱 연산</dt><dd>같은 자리끼리 곱해서 모두 더하기</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#d64535" onclick="go(5)"><i>05</i><h4>풀링 · 완전 연결</h4>
+        <dl><dt>풀링층</dt><dd>구역마다 대표값 하나만 남겨 크기를 줄이는 층</dd><dt>완전 연결층</dt><dd>찾은 특징을 일렬로 펴서 최종 분류하는 층</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#c98a00" onclick="go(6)"><i>06</i><h4>생성형 AI</h4>
+        <dl><dt>생성형 인공지능</dt><dd>배운 것을 바탕으로 비슷한 콘텐츠를 새로 만드는 인공지능</dd><dt>GAN</dt><dd>생성자와 감별자가 경쟁하며 배우는 알고리즘</dd><dt>프롬프트</dt><dd>원하는 결과를 얻기 위해 입력하는 명령 문구</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#2f6fd0" onclick="go(7)"><i>07</i><h4>활용 분야</h4>
+        <dl><dt>OCR</dt><dd>이미지 속 글자를 텍스트로 바꾸기</dd><dt>얼굴 인식</dt><dd>얼굴 위치 찾기, 누구인지 알아보기</dd><dt>얼굴 영상 생성</dt><dd>얼굴을 바꾸거나 새로 만들어 영상으로</dd></dl></div>
+    </div>
+    <div style="text-align:center;margin-top:20px"><button class="btn" style="background:var(--navy)" onclick="go(1)">01 컴퓨터가 보는 이미지부터 시작하기 →</button></div>
+  </div>
+</section>
+
+<!-- 1 픽셀과 RGB -->
+<section class="page" data-name="이미지 데이터" data-acc="#2f6fd0">
+  <div class="head"><div class="num">01</div><div><h2>컴퓨터가 보는 이미지</h2><p>사람 눈에는 그림, 컴퓨터 눈에는 숫자 표</p></div></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>① 픽셀: 이미지는 작은 점들의 묶음</h3>
+      <p class="muted" style="margin-top:0">휴대폰 화면을 확대경으로 보면 아주 작은 네모 점들이 보여요. 이 점 하나가 <b>픽셀</b>이에요. 흑백 이미지에서 픽셀 하나는 <b>0~255</b> 사이의 숫자 하나를 저장해요.</p>
+      <div class="chips" id="pxMode">
+        <button class="chip on" data-m="pic">그림으로 보기</button>
+        <button class="chip" data-m="num">숫자로 보기</button>
+        <button class="chip" data-m="draw">직접 칠하기</button>
+      </div>
+      <div class="pxwrap">
+        <div class="pxgrid" id="pxGrid"></div>
+        <div class="pxinfo" id="pxInfo"><span class="muted">칸에 마우스를 올리거나 손가락을 대 보세요.</span></div>
+        <div id="pxBrush" style="display:none">
+          <div class="ctrl"><label>붓 밝기</label><input type="range" id="brushV" min="0" max="255" step="1" value="255"><output id="brushO">255</output></div>
+          <div class="row"><button class="btn ghost sm" id="pxClear">모두 검게</button><button class="btn ghost sm" id="pxReset">공 그림으로</button></div>
+        </div>
+        <div class="scale"></div><div><span>0 검은색</span><span>128</span><span>255 흰색</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>② RGB 채널: 컬러 픽셀은 숫자 3개</h3>
+      <p class="muted" style="margin-top:0">컬러 이미지는 빛의 삼원색 <b style="color:#d22">빨강(R)</b>, <b style="color:#1a8a4a">초록(G)</b>, <b style="color:#2f6fd0">파랑(B)</b>의 밝기를 묶어서 한 픽셀의 색을 만들어요. 막대를 움직여 색을 섞어 보세요.</p>
+      <div class="rgbbox">
+        <div class="swatch" id="sw"><b id="swT">(255, 255, 0)</b></div>
+        <div>
+          <div class="ctrl r"><label>R 빨강</label><input type="range" id="cR" min="0" max="255" value="255"><output id="oR">255</output></div>
+          <div class="ctrl g"><label>G 초록</label><input type="range" id="cG" min="0" max="255" value="255"><output id="oG">255</output></div>
+          <div class="ctrl b"><label>B 파랑</label><input type="range" id="cB" min="0" max="255" value="0"><output id="oB">0</output></div>
+        </div>
+      </div>
+      <div class="chips" style="margin-top:10px" id="rgbPre">
+        <button class="chip" data-c="255,0,0">빨강</button><button class="chip" data-c="0,255,0">초록</button><button class="chip" data-c="0,0,255">파랑</button>
+        <button class="chip" data-c="255,255,0">노랑</button><button class="chip" data-c="0,0,0">검정</button><button class="chip" data-c="255,255,255">흰색</button>
+      </div>
+      <p style="font-size:.92rem" id="rgbSay"></p>
+    </div>
+  </div>
+
+  <div class="cx">
+    <h3>숫자는 모두 몇 개일까?</h3>
+    <p class="lead2">이미지 한 장 = 가로 × 세로 개의 픽셀. 컬러라면 픽셀마다 숫자가 3개씩이니 ×3을 해요.</p>
+    <div class="count3">
+      <div>✍️ 손글씨 숫자 (흑백 28 × 28)<b>784개</b>지난 시간 실습에서 이미지를 한 줄로 펴니 <span class="mono">784</span>칸이었던 이유예요.</div>
+      <div>🖼️ 같은 크기의 컬러 이미지 (28 × 28 × 3)<b>2,352개</b>R, G, B 세 장의 숫자 표가 겹쳐 있다고 생각하면 돼요.</div>
+      <div>📱 가로 1,000 × 세로 1,000 컬러 사진<b>3,000,000개</b>휴대폰 사진은 이보다 훨씬 커요. 숫자가 정말 많죠?</div>
+    </div>
+    <span class="book">교과서 102쪽 · 이미지 데이터 색 정보, 컬러 이미지 데이터 색 정보</span>
+  </div>
+  <div class="quiz" data-quiz="1"></div>
+</section>
+
+<!-- 2 4대 분야 -->
+<section class="page" data-name="4대 분야" data-acc="#1f9d74">
+  <div class="head"><div class="num">02</div><div><h2>컴퓨터 비전의 4대 분야</h2><p>"무엇이야?"에서 "어디부터 어디까지야?"까지</p></div></div>
+
+  <div class="card">
+    <p style="margin-top:0"><b>컴퓨터 비전</b>은 이미지나 비디오 같은 시각 데이터를 처리해 <b>의미 있는 정보를 뽑아내는</b> 인공지능 기술이에요. 같은 사진이라도 무엇을 알려 주느냐에 따라 네 분야로 나뉘어요. 아래 카드를 눌러 보세요.</p>
+    <div class="fields" id="cvFields">
+      <div data-m="0" class="on"><b>① 이미지 분류</b>이 사진은 무엇?</div>
+      <div data-m="1"><b>② 객체 위치 식별</b>무엇 + 어디?</div>
+      <div data-m="2"><b>③ 객체 탐지</b>여러 개 각각 무엇·어디?</div>
+      <div data-m="3"><b>④ 이미지 분할</b>픽셀 단위로 정확한 범위</div>
+    </div>
+    <div class="axis"><span>단일 객체</span><span>다중 객체</span></div>
+    <div class="cvscene" id="cvScene" style="margin-top:10px">
+      <svg viewBox="0 0 600 320" id="cvSvg">
+        <g class="bg"><rect width="600" height="320" fill="#dff0fb"/><rect y="230" width="600" height="90" fill="#cfe6b8"/><circle cx="540" cy="52" r="28" fill="#ffe08a"/></g>
+        <g id="sc1"></g><g id="sc2"></g><g id="cvMarks"></g>
+      </svg>
+    </div>
+    <div class="cvres" id="cvRes"></div>
+    <span class="book">교과서 102쪽 · 그림 Ⅱ-19 컴퓨터 비전 기술의 주요 분야</span>
+  </div>
+
+  <div class="case">
+    <h3>🔎 함께 해결하기 · 객체 탐지 인공지능 체험 (교과서 103쪽)</h3>
+    <ol style="margin:4px 0 0;padding-left:20px">
+      <li>한국전자통신연구원(ETRI) 인공지능 사이트 객체 탐지 화면에 들어가요. <a href="https://aiopen.etri.re.kr/demo/od" target="_blank" rel="noopener">aiopen.etri.re.kr/demo/od ↗</a></li>
+      <li>예시 이미지 하나를 골라 <b>분석하기</b>를 누르고, 탐지한 객체와 <b>눈으로는 보이는데 탐지하지 못한 객체</b>를 적어요.</li>
+      <li>왜 탐지하지 못했을까요? 어떻게 하면 탐지하게 할 수 있을까요?</li>
+    </ol>
+    <div class="qa">
+      <div><b class="q">생각할 거리 ① 왜 못 찾았을까?</b>이 인공지능이 배운 객체는 <b>80가지</b>뿐이에요. 사람·자동차·고양이·의자처럼 학습 데이터에 있던 것만 찾을 수 있어요. 아무리 또렷하게 보여도 <b>배운 적 없는 물건은 찾지 못해요.</b></div>
+      <div><b class="q">생각할 거리 ② 어떻게 고칠까?</b>찾게 하고 싶은 물건의 사진을 많이 모으고, 사진마다 <b>어디에 있는지(사각형)</b>와 <b>이름</b>을 표시한 학습 데이터를 만들어 다시 학습시켜요.</div>
+    </div>
+    <h4 style="margin-top:14px">이 물건, 탐지할 수 있을까? <span class="muted" style="font-weight:400;font-size:.88rem">(교과서 QR 「인식 가능한 객체 리스트」에서 찾아 줘요)</span></h4>
+    <div class="objfind"><input type="text" id="objQ" placeholder="예: 연필, 휴대폰, 칠판, 우산"><button class="btn sm" id="objBtn">찾기</button><button class="btn ghost sm" id="objAll">80가지 모두 보기</button></div>
+    <div class="objres" id="objRes"></div>
+    <div class="objlist" id="objList"></div>
+  </div>
+  <div class="quiz" data-quiz="2"></div>
+</section>
+
+<!-- 3 왜 CNN -->
+<section class="page" data-name="왜 CNN" data-acc="#9b4fc4">
+  <div class="head"><div class="num">03</div><div><h2>왜 합성곱 신경망일까</h2><p>사진을 그냥 신경망에 넣으면 생기는 두 가지 문제</p></div></div>
+
+  <div class="card">
+    <h3>👶 개와 고양이, 어떻게 구별했어요?</h3>
+    <p style="margin-top:0">그림 카드로 개와 고양이를 배운 아이는 길에서 처음 보는 개와 고양이도 금방 알아봐요. 그런데 "무엇을 보고 알았어?"라고 물으면 제대로 설명하지 못해요. 어른에게도 어려운 질문이죠.</p>
+    <p>이렇게 <b>사람이 특징을 말로 정해 주기 어려운 문제</b>는, 사람이 특징을 뽑아 주는 기존 기계학습보다 <b>스스로 특징을 찾는 딥러닝</b>이 더 잘해요. 그중 이미지 분류를 가장 잘하는 모델이 <b>합성곱 신경망(CNN, Convolutional Neural Network)</b>이에요.</p>
+  </div>
+
+  <div class="grid2 even">
+    <div class="card">
+      <h3>문제 ① 가중치가 너무 많아진다</h3>
+      <p class="muted" style="margin-top:0">지난 시간처럼 이미지를 한 줄로 펴서 완전 연결층(은닉층 뉴런 100개)에 넣으면, 픽셀 하나마다 뉴런 100개와 연결선이 생겨요.</p>
+      <div class="params" id="params"></div>
+      <div class="callout" style="font-size:.92rem">CNN의 필터는 3×3 크기라면 가중치가 <b>9개</b>뿐이에요. 이 9개를 이미지 전체에 <b>돌려 가며 함께 써요(공유)</b>. 이미지가 커져도 필터의 가중치 수는 그대로예요.</div>
+    </div>
+    <div class="card">
+      <h3>문제 ② 위아래 이웃이 멀어진다</h3>
+      <p class="muted" style="margin-top:0">세로선 하나를 그린 6 × 6 그림이에요. 한 줄로 펴면 위아래로 붙어 있던 점들이 어떻게 될까요?</p>
+      <div class="flat" id="flat"></div>
+      <div class="row"><button class="btn sm" id="flatBtn">한 줄로 펴기</button><span class="muted" style="font-size:.88rem" id="flatSay"></span></div>
+      <p style="font-size:.92rem">세로선의 점 6개가 6칸씩 떨어진 곳으로 흩어져요. 한 줄로 펴면 이미지의 <b>2차원(가로·세로) 모양 정보가 무시돼요.</b> CNN은 펴지 않고 <b>2차원 그대로 이웃한 픽셀끼리</b> 살펴봐요.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>CNN은 이렇게 생겼어요</h3>
+    <p class="muted" style="margin-top:0"><b>합성곱층</b>과 <b>풀링층</b>을 여러 번 거치며 특징을 뽑고(특징 추출), 마지막 <b>완전 연결층</b>이 무엇인지 분류해요.</p>
+    <svg viewBox="0 0 900 230" id="cnnSvg" aria-label="합성곱 신경망 구조도"></svg>
+    <p style="margin-bottom:0"><b>층마다 찾는 특징이 달라요.</b> 아래 카드를 눌러 보세요.</p>
+    <div class="layerpick" id="layerPick">
+      <div data-l="1" class="on"><b>층1 · 경계선</b><small>직선, 곡선 같은 가장 작은 모양</small><svg viewBox="0 0 220 90" id="ly1"></svg></div>
+      <div data-l="2"><b>층2 · 작은 부분</b><small>층1의 선을 모아 눈, 코, 귀</small><svg viewBox="0 0 220 90" id="ly2"></svg></div>
+      <div data-l="3"><b>층3 · 큰 부분</b><small>층2를 모아 얼굴, 몸 전체</small><svg viewBox="0 0 220 90" id="ly3"></svg></div>
+    </div>
+    <span class="book">교과서 104쪽 · 그림 Ⅱ-20 얼굴 이미지의 특징을 추출하는 합성곱 신경망의 개념도</span>
+  </div>
+  <div class="quiz" data-quiz="3"></div>
+</section>
+
+<!-- 4 합성곱층 -->
+<section class="page" data-name="합성곱층" data-acc="#e0702b">
+  <div class="head"><div class="num">04</div><div><h2>합성곱층과 필터</h2><p>작은 돋보기가 이미지 위를 한 칸씩 지나가며 특징을 찾는다</p></div></div>
+
+  <div class="card">
+    <h3>① 합성곱 연산: 같은 자리끼리 곱하고, 모두 더하기</h3>
+    <p class="muted" style="margin-top:0"><b>필터(커널)</b>는 작은 가중치 묶음이에요. 이미지의 <b>왼쪽 위</b>에서 시작해 <b>한 칸씩</b> 오른쪽·아래로 움직이며, 겹친 칸끼리 곱해서 모두 더한 값을 출력에 적어요. 오른쪽 아래에 도착할 때까지 반복해요.</p>
+    <div class="chips" id="cvStep">
+      <button class="chip on" data-s="0">1단계</button><button class="chip" data-s="1">2단계</button><button class="chip" data-s="2">3단계 ✏️</button><button class="chip" data-s="3">4단계 ✏️</button>
+    </div>
+    <div class="conv">
+      <div class="mx" id="mxIn" style="grid-template-columns:repeat(4,auto)"></div>
+      <span class="op">⊗</span>
+      <div class="mx f" id="mxF" style="grid-template-columns:repeat(3,auto)"></div>
+      <span class="op">=</span>
+      <div class="mx o" id="mxO" style="grid-template-columns:repeat(2,auto)"></div>
+    </div>
+    <div class="expr" id="expr"></div>
+    <div class="row" id="solveRow" style="margin-top:8px;display:none"><button class="btn sm" id="chk">확인</button><button class="btn ghost sm" id="showSol">식 보기</button><span id="chkSay" style="font-weight:700"></span></div>
+    <span class="book">교과서 105쪽 · 그림 Ⅱ-22 합성곱층의 합성곱 연산 예시 — 3, 4단계를 직접 채워 보세요</span>
+  </div>
+
+  <div class="card">
+    <h3>② 필터를 바꾸면 찾는 특징이 바뀐다</h3>
+    <p class="muted" style="margin-top:0">맨 왼쪽 칸에 마우스나 손가락으로 그림을 그려 보세요. <b>필터 A</b>는 세로 방향 경계선을, <b>필터 B</b>는 가로 방향 경계선을 찾아요. 밝게 빛나는 곳이 필터가 "찾았다!" 하고 반응한 곳이에요.</p>
+    <div class="chips" id="edgePre">
+      <button class="chip" data-p="sq">네모</button><button class="chip" data-p="ci">동그라미</button><button class="chip" data-p="seven">숫자 7</button><button class="chip" data-p="house">집</button><button class="chip" data-p="clear">지우고 직접 그리기</button>
+    </div>
+    <div class="edge">
+      <figure><canvas id="drawC" width="28" height="28"></canvas><figcaption>원본 (여기에 그리기)</figcaption></figure>
+      <figure><canvas id="edA" width="26" height="26"></canvas><figcaption>필터 A를 통과한 결과</figcaption><div class="fm" id="fmA"></div></figure>
+      <figure><canvas id="edB" width="26" height="26"></canvas><figcaption>필터 B를 통과한 결과</figcaption><div class="fm" id="fmB"></div></figure>
+      <figure><canvas id="edAB" width="26" height="26"></canvas><figcaption>두 결괏값을 합친 결과</figcaption></figure>
+    </div>
+    <p style="font-size:.92rem;margin-top:10px">결과가 원본보다 조금 작죠? 3 × 3 필터는 가장자리 밖으로 나갈 수 없어서, 28 × 28 이미지가 26 × 26이 돼요. (위의 4 × 4 → 2 × 2와 같은 이유예요.)</p>
+    <span class="book">교과서 104쪽 · 그림 Ⅱ-21 이미지에 필터를 적용하여 특징을 추출한 예</span>
+  </div>
+
+  <div class="qa">
+    <div><b class="q">Q. 필터 숫자는 누가 정해요?</b>사람이 정하지 않아요. 처음에는 아무 숫자로 시작해서, 훈련 데이터를 넣고 <b>틀린 만큼 고치는 학습</b>을 하며 특징을 잘 찾는 필터로 바뀌어 가요. 지난 시간에 가중치를 고치던 것과 같아요. 필터의 숫자가 바로 <b>가중치</b>니까요.</div>
+    <div><b class="q">Q. 필터는 하나만 써요?</b>아니요. 필터마다 찾는 특징이 달라서 한 층에 <b>여러 개의 필터</b>를 함께 써요. 그래서 한 이미지에서 세로선, 가로선, 곡선 같은 여러 특징 지도가 동시에 나와요.</div>
+  </div>
+  <div class="quiz" data-quiz="4"></div>
+</section>
+
+<!-- 5 풀링 · 완전 연결 -->
+<section class="page" data-name="풀링·완전 연결" data-acc="#d64535">
+  <div class="head"><div class="num">05</div><div><h2>풀링층과 완전 연결층</h2><p>줄여서 핵심만 남기고, 마지막에 이름을 붙인다</p></div></div>
+
+  <div class="grid2">
+    <div class="card pool">
+      <h3>① 풀링층: 구역마다 대표 하나만</h3>
+      <p class="muted" style="margin-top:0">합성곱층을 지난 데이터를 작은 구역(2 × 2)으로 나누고, 구역마다 <b>가장 큰 값 하나</b>만 남겨요(최댓값 풀링). 가장 큰 값은 필터가 가장 강하게 반응한 곳, 즉 <b>가장 중요한 특징</b>이에요.</p>
+      <div class="conv">
+        <div class="mx" id="plIn" style="grid-template-columns:repeat(4,auto)"></div>
+        <span class="op">→</span>
+        <div class="mx o" id="plOut" style="grid-template-columns:repeat(2,auto)"></div>
+      </div>
+      <div class="row" style="justify-content:center"><button class="btn sm" id="plNext">한 구역씩 풀링하기</button><button class="btn ghost sm" id="plReset">처음부터</button></div>
+      <p class="expr" id="plSay" style="margin-top:10px">숫자 16개가 몇 개로 줄어들지 먼저 예상해 보세요.</p>
+      <span class="book">교과서 105쪽 · 그림 Ⅱ-23 풀링 예시</span>
+    </div>
+    <div class="card">
+      <h3>04에서 그린 그림을 풀링하면?</h3>
+      <p class="muted" style="margin-top:0">04 화면의 「두 결괏값을 합친 결과」를 2 × 2 최댓값 풀링한 모습이에요. 크기는 4분의 1로 줄었는데, 경계선 모양은 그대로 남아 있죠?</p>
+      <div class="pool2">
+        <figure><canvas id="poolA" width="26" height="26"></canvas><figcaption>풀링 전 26 × 26<br><span class="muted">숫자 676개</span></figcaption></figure>
+        <span class="op" style="font-family:'Black Han Sans';font-size:1.6rem;color:var(--muted)">→</span>
+        <figure><canvas id="poolB" width="13" height="13"></canvas><figcaption>풀링 후 13 × 13<br><span class="muted">숫자 169개</span></figcaption></figure>
+      </div>
+      <div class="callout" style="font-size:.92rem">데이터가 작아지면 계산할 양이 줄어 <b>학습이 쉬워지고</b>, 특징이 한두 칸 옆으로 움직여도 같은 값이 남아서 <b>조금 비뚤게 쓴 그림도</b> 잘 알아봐요.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>② 완전 연결층: 찾은 특징으로 최종 분류</h3>
+    <p class="muted" style="margin-top:0">합성곱층과 풀링층을 여러 번 지나며 뽑은 특징만 <b>일렬로</b> 세운 뒤, 지난 시간에 배운 일반 신경망인 <b>완전 연결층</b>에 넣어요. 여기서 이미지 전체의 패턴을 보고 무엇인지 분류해요. 출력층은 여러 개 중 하나를 고르니 <b>소프트맥스</b>를 써요.</p>
+    <div class="fcflow">
+      <div class="bx">풀링 결과<div class="mx" style="grid-template-columns:repeat(2,auto);margin-top:4px"><div style="width:30px;height:30px;font-size:.9rem;background:#fdecea">5</div><div style="width:30px;height:30px;font-size:.9rem;background:#fdecea">4</div><div style="width:30px;height:30px;font-size:.9rem;background:#fdecea">7</div><div style="width:30px;height:30px;font-size:.9rem;background:#fdecea">9</div></div></div>
+      <span class="ar">→ 일렬로 →</span>
+      <div class="bx"><div class="flatrow"><span>5</span><span>4</span><span>7</span><span>9</span></div><small class="muted">(실제로는 수천 개)</small></div>
+      <span class="ar">→ 완전 연결층 →</span>
+      <div class="bx"><div class="prob"><span>강아지</span><i style="width:82%"></i><b>82%</b><span>고양이</span><i style="width:15%"></i><b>15%</b><span>토끼</span><i style="width:3%"></i><b>3%</b></div><small class="muted">소프트맥스 확률 (예시)</small></div>
+    </div>
+  </div>
+
+  <div class="cx">
+    <h3>CNN 전체 흐름 한 번에</h3>
+    <div class="pipe">
+      <div style="--k:#2f6fd0"><b>입력</b>픽셀값 숫자 표 (컬러면 3장)</div>
+      <div style="--k:#e0702b"><b>합성곱층</b>필터로 지역적인 특징 찾기</div>
+      <div style="--k:#d64535"><b>풀링층</b>크기 줄이고 중요한 값만 남기기</div>
+      <div style="--k:#9b4fc4"><b>↻ 여러 번 반복</b>선 → 눈·코 → 얼굴로 점점 큰 특징</div>
+      <div style="--k:#1f9d74"><b>완전 연결층</b>일렬로 펴서 최종 분류</div>
+    </div>
+    <p style="margin-top:12px"><b>CNN의 학습</b> = 특징을 잘 찾는 <b>필터</b>를 만들고, 그 특징으로 분류를 잘하도록 <b>완전 연결층의 가중치</b>를 고치는 과정이에요. 고치는 방법은 지난 시간과 같아요. 순전파 → 오차 계산 → 역전파!</p>
+    <span class="book">교과서 105쪽 · 합성곱 신경망의 학습</span>
+  </div>
+
+  <div class="case">
+    <h3>🧪 스스로 해결하기 · CNN 학습 과정 체험 (교과서 104쪽)</h3>
+    <p style="margin:0 0 6px">CNN Explainer에 들어가서 실제 CNN이 사진을 분류하는 모습을 살펴보세요. <a href="https://poloclub.github.io/cnn-explainer/" target="_blank" rel="noopener">poloclub.github.io/cnn-explainer ↗</a> (영어 사이트예요)</p>
+    <ul style="margin:0;padding-left:20px;font-size:.93rem">
+      <li>위쪽에서 사진 하나를 고르면, 왼쪽부터 층별 결과 그림이 나와요. <span class="mono">conv</span> = 합성곱층, <span class="mono">max_pool</span> = 최댓값 풀링층, <span class="mono">relu</span> = 렐루 활성화 함수예요.</li>
+      <li><span class="mono">conv</span> 층의 작은 그림 하나를 눌러, 필터가 한 칸씩 움직이며 곱하고 더하는 장면을 확인해 보세요.</li>
+      <li>맨 오른쪽 <span class="mono">output</span>에서 어떤 이름의 확률이 가장 높은지 보세요. 층을 지날수록 그림이 점점 작아지는 것도 확인해 보세요.</li>
+    </ul>
+  </div>
+  <div class="quiz" data-quiz="5"></div>
+</section>
+
+<!-- 6 생성형 AI -->
+<section class="page" data-name="생성형 AI" data-acc="#c98a00">
+  <div class="head"><div class="num">06</div><div><h2>생성형 인공지능과 GAN</h2><p>알아보는 인공지능에서, 새로 만들어 내는 인공지능으로</p></div></div>
+
+  <div class="card">
+    <p style="margin-top:0"><b>생성형 인공지능</b>은 텍스트, 오디오, 이미지 같은 기존 콘텐츠로 배운 것을 바탕으로 <b>비슷한 콘텐츠를 새롭게 만들어 내는</b> 인공지능이에요. 대표 알고리즘이 <b>생성적 적대 신경망(GAN)</b>이에요. 이름의 '적대'는 두 모델이 <b>서로 경쟁한다</b>는 뜻이에요.</p>
+    <div class="qa">
+      <div><b class="q">🎨 생성자 (generator)</b>가짜 데이터를 만드는 쪽. 위조지폐를 만드는 사람처럼, 진짜와 똑같아 보이는 가짜를 만들려고 애써요.</div>
+      <div><b class="q">🔍 감별자 (discriminator)</b>진짜인지 가짜인지 가려내는 쪽. 위조지폐를 잡아내는 경찰처럼, 가짜를 골라내려고 애써요.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚔️ GAN 경쟁 지켜보기</h3>
+    <p class="muted" style="margin-top:0">생성자의 목표는 오른쪽 '진짜 그림'과 구별되지 않는 그림을 만드는 거예요. 「한 번 겨루기」를 여러 번 눌러 보세요.</p>
+    <div class="gan">
+      <figure><canvas id="ganG" width="12" height="12"></canvas><figcaption>생성자가 만든 가짜 · <span id="ganRound">0</span>번째</figcaption></figure>
+      <div>
+        <ol class="ganflow" id="ganFlow">
+          <li>① 생성자가 가짜 데이터를 만든다</li>
+          <li>② 감별자가 진짜와 가짜 중 진짜를 골라낸다</li>
+          <li>③ 감별자가 분류 결과로 학습해 더 잘 가려낸다</li>
+          <li>④ 생성자가 감별 결과로 학습해 더 그럴듯하게 만든다</li>
+        </ol>
+        <div class="verdict" id="ganVerdict">감별자: 아직 겨루기 전이에요.</div>
+        <div style="font-size:.85rem">감별자가 가짜를 맞힌 비율 <b id="ganAcc">-</b></div>
+        <div class="meter"><i id="ganMeter" style="width:0"></i></div>
+        <div class="row" style="margin-top:10px"><button class="btn" id="ganBtn">한 번 겨루기</button><button class="btn ghost sm" id="ganAuto">끝까지 자동으로</button><button class="btn ghost sm" id="ganReset">처음부터</button></div>
+      </div>
+      <figure><canvas id="ganR" width="12" height="12"></canvas><figcaption>진짜 데이터</figcaption></figure>
+    </div>
+    <svg viewBox="0 0 600 120" id="ganChart" style="margin-top:12px;max-width:640px"></svg>
+    <div class="callout ganend" id="ganEnd"><b>학습 끝!</b> 감별자가 가짜를 맞힌 비율이 50% 가까이 내려갔어요. 동전 던지기로 찍는 것과 같아졌다는 뜻이에요. 감별자가 더 이상 진짜와 가짜를 구분하지 못하면 학습을 멈추고, 이렇게 학습된 <b>생성자</b>를 새로운 데이터를 만드는 데 써요.</div>
+    <p class="muted" style="font-size:.85rem">실제 GAN은 수천 번 넘게 겨루며 학습해요. 여기서는 흐름이 잘 보이도록 줄여서 보여 줘요.</p>
+    <span class="book">교과서 106쪽 · 그림 Ⅱ-24 GAN 알고리즘</span>
+  </div>
+
+  <div class="card">
+    <h3>✍️ 함께 해결하기 · 글로 그림 만들기 (교과서 107쪽)</h3>
+    <p class="muted" style="margin-top:0">글을 입력하면 그림을 만들어 주는 <b>Text to Image</b> 서비스가 많아졌어요 (교과서 소개: 달리2(DALL-E2)가 적용된 Bing 이미지 크리에이터, AskUp, 뤼튼). 가장 가고 싶은 여행지에서 사진을 찍었다고 상상하고, 그 사진을 <b>글로 자세히</b> 설명해 보세요.</p>
+    <div class="pb" id="pb">
+      <div><label>장소·배경</label><input type="text" data-k="place" placeholder="예: 바다가 내려다보이는 제주도 해안 도로"></div>
+      <div><label>사람 수</label><input type="text" data-k="who" placeholder="예: 친구 두 명"></div>
+      <div><label>머리 모양·옷차림</label><input type="text" data-k="look" placeholder="예: 단발머리에 노란 우비"></div>
+      <div><label>자세·하는 일</label><input type="text" data-k="pose" placeholder="예: 자전거를 타면서 손을 흔드는"></div>
+      <div><label>주변 물건·건물</label><input type="text" data-k="thing" placeholder="예: 돌담과 귤나무"></div>
+      <div><label>하늘·날씨</label><input type="text" data-k="sky" placeholder="예: 비가 그친 뒤 무지개가 뜬 하늘"></div>
+    </div>
+    <div class="ptext empty" id="ptext">빈칸을 채우면 여기에 프롬프트가 만들어져요.</div>
+    <div class="row" style="margin-top:8px"><span style="font-size:.88rem">자세함</span><div class="meter" style="flex:1;max-width:240px;margin:0"><i id="pMeter" style="width:0"></i></div><b id="pCount" style="font-size:.88rem">0 / 6</b><button class="btn sm" id="pCopy">복사하기</button><button class="btn ghost sm" id="pEx">예시 채우기</button></div>
+    <div class="callout" style="font-size:.93rem">원하는 결과가 나오도록 입력하는 명령 문구를 <b>프롬프트</b>라고 하고, 이런 일을 하는 사람을 <b>프롬프트 엔지니어</b>라고 해요. "바다 여행 사진"처럼 짧게 쓰면 인공지능이 나머지를 마음대로 정해요. 결과가 마음에 들지 않으면 <b>어느 부분이 다른지 찾아 그 부분의 설명을 고쳐</b> 다시 만들어 보세요.</div>
+  </div>
+  <div class="quiz" data-quiz="6"></div>
+</section>
+
+<!-- 7 활용 -->
+<section class="page" data-name="활용 분야" data-acc="#2f6fd0">
+  <div class="head"><div class="num">07</div><div><h2>컴퓨터 비전은 어디에 쓰일까</h2><p>사람의 눈을 대신하는 곳이라면 어디든</p></div></div>
+
+  <div class="card">
+    <p style="margin-top:0">사람의 감각 수용기 가운데 <b>약 70%가 눈</b>에 있을 만큼, 보는 일은 주변을 알아차리고 판단하는 데 아주 중요해요. 그래서 눈과 같은 일을 하는 컴퓨터 비전이 여러 곳에 쓰여요. 카드를 눌러 보세요.</p>
+    <div class="apps" id="apps">
+      <button data-a="0" class="on"><span class="e">🔤</span><b>광학 문자 인식</b><small>OCR</small></button>
+      <button data-a="1"><span class="e">📦</span><b>객체 탐지</b><small>무엇이 어디에</small></button>
+      <button data-a="2"><span class="e">🙂</span><b>얼굴 인식</b><small>어디에·누구</small></button>
+      <button data-a="3"><span class="e">🎬</span><b>얼굴 영상 생성</b><small>바꾸고 만들기</small></button>
+    </div>
+    <div class="appd on" data-a="0">
+      <h3 style="margin-top:16px">광학 문자 인식 (OCR) · 이미지 속 글자를 텍스트로</h3>
+      <div class="ex2"><div><b>🚗 자동차 번호판 인식</b><br>주차장에서 번호판을 읽어 주차비를 정산하고, 단속 카메라로 과속·신호 위반 차량을 찾아요.</div><div><b>🦯 시각 보조 서비스</b><br>메뉴판, 간판, 상품 이름의 글자를 읽어 소리로 들려줘서 시각 장애인의 눈이 되어 줘요.</div></div>
+      <div class="try"><b>체험해 보기</b> · CLOVA OCR <a href="https://clova.line.me/ocr_demo/kr" target="_blank" rel="noopener">clova.line.me/ocr_demo/kr ↗</a><ol><li>General OCR 선택 → 업로드 클릭</li><li>이미지를 골라 글자가 텍스트로 바뀌는지 확인</li></ol></div>
+    </div>
+    <div class="appd" data-a="1">
+      <h3 style="margin-top:16px">객체 탐지 · 물체의 위치를 찾고 무엇인지 분류</h3>
+      <div class="ex2"><div><b>🚦 CCTV 교통량 분석</b><br>도로 관제 CCTV 영상을 실시간으로 읽어 차가 얼마나 지나가는지 분석해요.</div><div><b>🧳 엑스레이(X-ray) 분석</b><br>공항이나 보안 구역에서 가방 속 소지 금지 물품이 있는지 찾아요.</div></div>
+      <div class="try"><b>체험해 보기</b> · Hugging Face DETR <a href="https://huggingface.co/facebook/detr-resnet-50" target="_blank" rel="noopener">huggingface.co/facebook/detr-resnet-50 ↗</a><ol><li>오른쪽 체험 칸에서 이미지 선택</li><li>사각형과 이름표가 붙는지 확인 (02에서 해 본 ETRI 체험과 비교)</li></ol></div>
+    </div>
+    <div class="appd" data-a="2">
+      <h3 style="margin-top:16px">얼굴 인식 · 얼굴 위치를 찾거나 누구인지 분류</h3>
+      <div class="ex2"><div><b>🌫️ 모자이크 처리</b><br>거리 사진 서비스나 동영상 사이트에서 행인 얼굴을 찾아 흐리게 처리해 초상권을 지켜요.</div><div><b>🔐 보안 시스템</b><br>휴대폰 잠금 해제, 금융 거래에서 비밀번호 대신 얼굴로 본인을 확인해요.</div></div>
+      <div class="try"><b>체험해 보기</b> · ETRI 얼굴 검출 <a href="https://aiopen.etri.re.kr/demo/fd" target="_blank" rel="noopener">aiopen.etri.re.kr/demo/fd ↗</a><ol><li>사이트에 있는 예시 이미지 선택</li><li>얼굴 위치가 표시되는지 확인</li></ol></div>
+    </div>
+    <div class="appd" data-a="3">
+      <h3 style="margin-top:16px">얼굴 영상 생성 · 얼굴을 바꾸거나 새 얼굴을 씌워 영상으로</h3>
+      <div class="ex2"><div><b>🎞️ 영화 촬영</b><br>배우의 얼굴을 인공지능으로 바꿔, 대역 없이 다른 나이대의 모습을 연기할 수 있게 해요.</div><div><b>🏛️ 디지털 복원</b><br>세상을 떠난 작가가 살던 시대와 모습을 실감 나게 되살려요.</div></div>
+      <div class="try"><b>체험해 보기</b> · 얼굴 보정 체험 <a href="https://www.perfectcorp.com/ko/business/showcase/face-reshaping" target="_blank" rel="noopener">perfectcorp.com 얼굴 보정 ↗</a><ol><li>체험하기 → 모델 선택</li><li>메뉴로 얼굴 모양을 바꿔 보기</li></ol></div>
+    </div>
+  </div>
+
+  <div class="callout">🙋 <b>체험할 때 약속</b> · 얼굴 인식·얼굴 영상 생성은 사이트에 있는 <b>예시 사진</b>으로 해 보세요. 내 사진이나 친구 사진을 올리면 얼굴 정보가 다른 곳에 남을 수 있고, 친구의 초상권을 침해할 수도 있어요.</div>
+  <span class="book">교과서 108~109쪽 · 그림 Ⅱ-26~29 컴퓨터 비전 활용 사례</span>
+  <div class="quiz" data-quiz="7" style="margin-top:14px"></div>
+</section>
+
+<!-- 8 정리 -->
+<section class="page" data-name="정리" data-acc="#0f2742">
+  <div class="head"><div class="num">08</div><div><h2>한눈에 정리</h2><p>오늘 배운 말을 한 번에</p></div></div>
+  <div class="key3">
+    <div style="--k:#1f9d74">컴퓨터 비전의 주요 분야는 <b>이미지 분류, 객체 위치 식별, 객체 탐지, 이미지 분할</b>이다.</div>
+    <div style="--k:#e0702b"><b>합성곱 신경망</b>은 이미지 분류를 잘하며 <b>합성곱층, 풀링층, 완전 연결층</b>으로 이루어진다.</div>
+    <div style="--k:#c98a00"><b>생성형 인공지능</b>은 배운 내용을 바탕으로 기존 콘텐츠와 비슷한 콘텐츠를 새롭게 만든다.</div>
+  </div>
+  <div class="sum">
+    <div style="border-color:#2f6fd0"><b>픽셀 · RGB</b><span>흑백 픽셀 = 0(검정)~255(흰색) 숫자 1개, 컬러 픽셀 = (R, G, B) 숫자 3개</span><small>🟨 (255, 255, 0) = 노랑</small></div>
+    <div style="border-color:#1f9d74"><b>4대 분야</b><span>분류 → 위치 식별 → 탐지 → 분할. 단일 → 다중 객체, 사각형 → 픽셀 단위</span><small>🐱 Cat → Cat + 위치 → Dog, Dog, Cat</small></div>
+    <div style="border-color:#9b4fc4"><b>왜 CNN</b><span>완전 연결층만 쓰면 가중치가 너무 많고 2차원 모양 정보가 사라진다</span><small>👶 설명은 못 해도 알아보는 아이처럼, 스스로 특징 찾기</small></div>
+    <div style="border-color:#e0702b"><b>합성곱층</b><span>필터가 한 칸씩 움직이며 같은 자리끼리 곱해 더한다. 층1 선 → 층2 눈·코 → 층3 얼굴</span><small>🔍 작은 돋보기로 훑어보기</small></div>
+    <div style="border-color:#d64535"><b>풀링층</b><span>구역마다 가장 큰 값만 남겨 크기를 줄이고 중요한 정보는 유지</span><small>📝 문단마다 핵심 문장 하나만 밑줄</small></div>
+    <div style="border-color:#1f9d74"><b>완전 연결층</b><span>뽑은 특징을 일렬로 세워 최종 분류. 출력은 소프트맥스</span><small>🧾 단서를 모아 범인 지목</small></div>
+    <div style="border-color:#c98a00"><b>GAN</b><span>생성자가 가짜를 만들고 감별자가 가려낸다. 감별자가 구분 못 하면 학습 끝</span><small>💵 위조지폐범 vs 경찰</small></div>
+    <div style="border-color:#2f6fd0"><b>활용</b><span>OCR · 객체 탐지 · 얼굴 인식 · 얼굴 영상 생성</span><small>🚗 번호판 · 🧳 엑스레이 · 🔐 얼굴 잠금 · 🎬 영화</small></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>개념 퀴즈 결과</h3>
+    <table id="result"></table>
+    <button class="btn ghost" id="quizReset">퀴즈 다시 풀기</button>
+  </div>
+</section>
+
+</main>
+
+<div class="foot">
+  <button class="btn ghost" id="prev">← 이전</button>
+  <span class="pg" id="pg"></span>
+  <button class="btn" id="next">다음 →</button>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=id=>document.getElementById(id);
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fmt=n=>n.toLocaleString('ko-KR');
+
+/* 퀴즈 */
+const QUIZ={
+ 1:[{q:'흑백 이미지에서 픽셀값 0은 어떤 색일까?',o:['흰색','검은색','회색'],a:1,w:'0은 가장 어두운 검은색, 255는 가장 밝은 흰색이에요.'},
+    {q:'RGB 값 (255, 255, 0)은 어떤 색일까?',o:['빨강','노랑','하늘색','흰색'],a:1,w:'빨강과 초록을 가장 밝게 섞으면 노랑이 돼요.'},
+    {q:'가로 28, 세로 28인 컬러(RGB) 이미지 한 장에 저장되는 숫자는 모두 몇 개일까?',o:['28개','784개','2,352개'],a:2,w:'28 × 28 = 784 픽셀, 픽셀마다 숫자 3개이니 784 × 3 = 2,352개예요.'}],
+ 2:[{q:'이미지 안 여러 객체의 위치를 찾고, 각각 무엇인지까지 분류하는 분야는?',o:['이미지 분류','객체 위치 식별','객체 탐지','이미지 분할'],a:2,w:'여러 개 + 위치 + 이름 = 객체 탐지예요.'},
+    {q:'객체의 범위를 사각형이 아니라 픽셀 단위까지 정하는 분야는?',o:['이미지 분류','객체 탐지','이미지 분할'],a:2,w:'이미지 분할은 객체에 속하는 픽셀 하나하나를 칠해요.'},
+    {q:'객체 탐지 체험에서 눈에 잘 보이는 물건을 탐지하지 못한 까닭으로 가장 알맞은 것은?',o:['사진 화질이 낮아서','그 물건을 학습한 적이 없어서','컴퓨터가 느려서'],a:1,w:'인공지능은 학습 데이터에 있던 객체만 찾을 수 있어요. 학습 데이터의 한계예요.'}],
+ 3:[{q:'완전 연결층만으로 이미지를 분류할 때의 문제점으로 알맞은 것은?',o:['흑백 이미지는 넣을 수 없다','학습할 가중치가 많아지고 2차원 특성이 무시된다','학습이 필요 없다'],a:1,w:'픽셀마다 연결선이 생겨 가중치가 많아지고, 한 줄로 펴면서 위아래 이웃 정보가 사라져요.'},
+    {q:'얼굴 사진을 분류하는 CNN에서 첫 번째 층의 필터가 주로 찾는 것은?',o:['직선·곡선 같은 경계선','눈·코·귀','얼굴·몸 전체'],a:0,w:'층1 경계선 → 층2 눈·코·귀 → 층3 얼굴·몸 순서로 점점 큰 특징을 찾아요.'}],
+ 4:[{q:'입력 [[1,0,2],[0,1,0],[2,0,1]]에 필터 [[1,0,0],[0,1,0],[0,0,1]]를 겹쳐 합성곱 연산을 하면?',o:['3','4','5','6'],a:0,w:'같은 자리끼리 곱하면 1 + 1 + 1만 남아요. 나머지는 모두 0이 곱해져요.'},
+    {q:'4 × 4 입력에 3 × 3 필터를 한 칸씩 움직이며 합성곱 연산을 하면 출력의 크기는?',o:['1 × 1','2 × 2','3 × 3','4 × 4'],a:1,w:'필터가 가로로 2번, 세로로 2번 자리를 잡을 수 있어서 2 × 2예요.'},
+    {q:'CNN 필터의 숫자(가중치)는 어떻게 정해질까?',o:['사람이 하나하나 정해 준다','훈련 데이터로 학습하며 만들어진다','처음 정한 값을 바꾸지 않는다'],a:1,w:'CNN은 훈련 데이터를 통과시키며 특징을 잘 찾는 필터를 스스로 만들어 가요.'}],
+ 5:[{q:'2 × 2 구역 [[1,3],[2,8]]을 최댓값 풀링하면?',o:['1','3','8','14'],a:2,w:'네 값 중 가장 큰 8 하나만 남겨요.'},
+    {q:'풀링층이 하는 일로 알맞은 것은?',o:['크기를 줄이면서 중요한 정보는 남긴다','이미지를 더 크게 만든다','최종 분류를 한다'],a:0,w:'최종 분류는 완전 연결층이 해요.'},
+    {q:'CNN에서 추출한 특징을 일렬로 받아 최종 분류를 하는 층은?',o:['합성곱층','풀링층','완전 연결층'],a:2,w:'완전 연결층은 이미지 전체의 패턴을 보고 무엇인지 분류해요.'}],
+ 6:[{q:'GAN을 이루는 두 모델은?',o:['생성자와 감별자','합성곱층과 풀링층','입력층과 출력층'],a:0,w:'생성자는 가짜를 만들고, 감별자는 진짜와 가짜를 가려내요.'},
+    {q:'GAN의 학습이 끝나는 때는?',o:['생성자가 가짜를 한 장 만들었을 때','감별자가 진짜와 가짜를 더 이상 구분하지 못할 때','감별자가 가짜를 모두 맞힐 때'],a:1,w:'감별자가 구분하지 못할 만큼 생성자가 좋아지면 학습을 멈추고 생성자를 사용해요.'},
+    {q:'생성형 인공지능에서 원하는 결과가 나오도록 입력하는 명령 문구는?',o:['필터','프롬프트','픽셀'],a:1,w:'자세하고 구체적인 프롬프트일수록 원하는 결과에 가까워져요.'}],
+ 7:[{q:'주차장 입구 카메라가 번호판을 읽어 주차비를 계산한다. 어떤 기술일까?',o:['광학 문자 인식(OCR)','객체 탐지','얼굴 인식','얼굴 영상 생성'],a:0,w:'이미지 속 글자(번호)를 텍스트로 바꾸는 OCR이에요.'},
+    {q:'공항 검색대 엑스레이 영상에서 소지 금지 물품을 찾는다. 어떤 기술일까?',o:['광학 문자 인식(OCR)','객체 탐지','얼굴 인식','얼굴 영상 생성'],a:1,w:'물건이 어디 있는지 찾고 무엇인지 분류하는 객체 탐지예요.'},
+    {q:'거리 사진 서비스에서 지나가는 사람들의 얼굴을 찾아 모자이크한다. 어떤 기술일까?',o:['광학 문자 인식(OCR)','객체 탐지','얼굴 인식','얼굴 영상 생성'],a:2,w:'이미지에서 얼굴 위치를 찾는 얼굴 인식이에요.'},
+    {q:'영화에서 배우의 얼굴을 젊은 시절 모습으로 바꿔 연기 장면을 만든다. 어떤 기술일까?',o:['광학 문자 인식(OCR)','객체 탐지','얼굴 인식','얼굴 영상 생성'],a:3,w:'얼굴을 수정해 영상으로 만드는 얼굴 영상 생성이에요.'}],
+};
+const QK='cv-quiz-v1';
+let QS={}; try{QS=JSON.parse(localStorage.getItem(QK)||'{}')||{};}catch(e){QS={};}
+function saveQ(){try{localStorage.setItem(QK,JSON.stringify(QS));}catch(e){}}
+const TOTALQ=Object.values(QUIZ).reduce((a,b)=>a+b.length,0);
+function renderQuiz(box){
+  const k=box.dataset.quiz; box.innerHTML=`<div class="qh"><b>개념 퀴즈</b><span>${QUIZ[k].length}문제 · 고르면 바로 채점</span></div>`;
+  QUIZ[k].forEach((it,i)=>{
+    const id=k+'-'+i, d=document.createElement('div'); d.className='qi';
+    d.innerHTML=`<div class="qq">${i+1}. ${it.q}</div><div class="opts">${it.o.map((o,j)=>`<button data-j="${j}">${o}</button>`).join('')}</div><div class="why"></div>`;
+    const mark=(j,anim)=>{
+      const bs=d.querySelectorAll('button'); bs.forEach(b=>b.disabled=true);
+      bs[it.a].classList.add('right'); if(j!==it.a){bs[j].classList.add('wrong'); if(anim) d.classList.add('shake');}
+      d.classList.add('answered', j===it.a?'correct':'incorrect');
+      d.querySelector('.why').textContent=(j===it.a?'정답. ':'정답은 「'+it.o[it.a]+'」. ')+it.w;
+    };
+    d.querySelectorAll('button').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;QS[id]=j;saveQ();mark(j,true);updScore();});
+    if(QS[id]!=null && QS[id]<it.o.length) mark(QS[id],false);
+    box.appendChild(d);
+  });
+}
+
+/* 페이지 이동 */
+const pages=[...document.querySelectorAll('.page')];
+const stepBtns=pages.map((p,i)=>{const b=document.createElement('button');b.textContent=i?`${i}. ${p.dataset.name}`:'시작';b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function updScore(){
+  let ok=0; for(const k in QUIZ) QUIZ[k].forEach((it,i)=>{if(QS[k+'-'+i]===it.a) ok++;});
+  $('score').textContent=`퀴즈 ${ok} / ${TOTALQ}`;
+  pages.forEach((p,i)=>{const q=p.querySelector('[data-quiz]'); if(!q) return; const k=q.dataset.quiz; stepBtns[i].classList.toggle('done',QUIZ[k].every((_,j)=>QS[k+'-'+j]!=null));});
+  let h='<tr><th class="l">개념</th><th>맞힌 문제</th></tr>';
+  for(const k in QUIZ){const n=QUIZ[k].length, c=QUIZ[k].filter((it,i)=>QS[k+'-'+i]===it.a).length, a=QUIZ[k].filter((_,i)=>QS[k+'-'+i]!=null).length;
+    h+=`<tr><td class="l">${k}. ${pages[k].dataset.name}</td><td>${a?`<b class="${c===n?'ok':''}">${c} / ${n}</b>`:'<span class="muted">아직 안 풂</span>'}</td></tr>`;}
+  h+=`<tr><td class="l"><b>합계</b></td><td><b>${ok} / ${TOTALQ}</b></td></tr>`;
+  $('result').innerHTML=h;
+}
+let cur=-1;
+const onShow={};
+function go(i){
+  i=Math.max(0,Math.min(pages.length-1,i)); if(i===cur) return;
+  const back=i<cur; if(cur>=0) pages[cur].classList.remove('on','back');
+  pages[i].classList.add('on'); pages[i].classList.toggle('back',back);
+  document.documentElement.style.setProperty('--acc',pages[i].dataset.acc);
+  document.documentElement.style.setProperty('--acc-soft',pages[i].dataset.acc+'1a');
+  stepBtns.forEach((b,j)=>b.classList.toggle('on',j===i));
+  const sb=$('steps'), btn=stepBtns[i]; sb.scrollLeft=btn.offsetLeft-sb.clientWidth/2+btn.clientWidth/2;
+  $('prog').style.width=(i/(pages.length-1)*100)+'%';
+  $('pg').textContent=`${i} / ${pages.length-1}`;
+  $('prev').style.visibility=i?'visible':'hidden'; $('next').style.visibility=i<pages.length-1?'visible':'hidden';
+  cur=i; try{history.replaceState(null,'','#p'+i);}catch(e){} window.scrollTo(0,0);
+  if(onShow[i]) onShow[i]();
+}
+$('prev').onclick=()=>go(cur-1); $('next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.target.matches&&e.target.matches('input,select,textarea'))return; if(e.key==='ArrowRight')go(cur+1); if(e.key==='ArrowLeft')go(cur-1);});
+document.querySelectorAll('.gcard').forEach(g=>g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();g.click();}}));
+document.querySelectorAll('[data-quiz]').forEach(renderQuiz);
+$('quizReset').onclick=()=>{QS={};saveQ();document.querySelectorAll('[data-quiz]').forEach(renderQuiz);updScore();};
+
+/* 0 표지: 픽셀 위를 지나가는 필터 */
+(function(){
+  const c=$('coverPx'), x=c.getContext('2d'), W=c.width, H=c.height;
+  const base=[]; for(let j=0;j<H;j++) for(let i=0;i<W;i++){
+    const dx=(i-26)/9, dy=(j-17)/10, face=dx*dx+dy*dy<1;
+    const eye=((i-23)**2+(j-14)**2<2.2)||((i-29)**2+(j-14)**2<2.2);
+    const mouth=j===21&&i>22&&i<30;
+    const earL=j<9&&j>3&&Math.abs(i-19.5)<(j-3)*.55, earR=j<9&&j>3&&Math.abs(i-32.5)<(j-3)*.55;
+    let v=(face||earL||earR)?.62:.10+.06*Math.random(); if(eye||mouth) v=.05; base.push(v);}
+  let fx=0, fy=0;
+  function draw(){
+    if(cur!==0||document.hidden) return;
+    for(let j=0;j<H;j++) for(let i=0;i<W;i++){
+      let v=base[j*W+i]; const inF=i>=fx&&i<fx+3&&j>=fy&&j<fy+3;
+      const g=Math.round(30+v*170); x.fillStyle=inF?`rgb(${242},${165},${22})`:`rgb(${g*.55|0},${g*.75|0},${g})`; x.fillRect(i,j,1,1);}
+    fx++; if(fx>W-3){fx=0; fy+=1; if(fy>H-3) fy=0;}
+  }
+  setInterval(draw,70);
+})();
+
+/* 1 픽셀 */
+(function(){
+  const N=16, g=$('pxGrid'); let mode='pic', V=[], down=false;
+  function ball(){V=[];for(let j=0;j<N;j++)for(let i=0;i<N;i++){const dx=i-7.5,dy=j-7.5,r=Math.sqrt(dx*dx+dy*dy);
+    if(r>6.6){V.push(0);continue;} const hl=Math.sqrt((i-5.2)**2+(j-5)**2); V.push(Math.max(40,Math.min(255,Math.round(255-hl*26))));}}
+  ball();
+  const cells=[]; for(let k=0;k<N*N;k++){const d=document.createElement('div'); d.dataset.k=k; g.appendChild(d); cells.push(d);}
+  function paint(k){const v=V[k], d=cells[k]; d.style.background=`rgb(${v},${v},${v})`; d.style.color=v>140?'#111':'#eee'; d.textContent=mode==='num'?v:'';}
+  function all(){for(let k=0;k<N*N;k++) paint(k); g.classList.toggle('nums',mode==='num');}
+  function info(k){const v=V[k]; $('pxInfo').innerHTML=`<span class="sw" style="background:rgb(${v},${v},${v})"></span><span>${Math.floor(k/N)+1}행 ${k%N+1}열 픽셀값 <b class="big" style="font-size:1.15rem">${v}</b> · ${v===0?'완전히 검은색':v===255?'완전히 흰색':v<128?'어두운 쪽':'밝은 쪽'}</span>`;}
+  function hit(e){const t=document.elementFromPoint(e.clientX,e.clientY); return t&&t.parentNode===g?+t.dataset.k:null;}
+  g.addEventListener('pointerdown',e=>{down=true; if(mode==='draw') g.setPointerCapture(e.pointerId); act(e);});
+  g.addEventListener('pointermove',act); window.addEventListener('pointerup',()=>down=false);
+  function act(e){const k=hit(e); if(k==null) return; if(mode==='draw'&&down){V[k]=+$('brushV').value; paint(k);} info(k);}
+  $('pxMode').onclick=e=>{const b=e.target.closest('button'); if(!b) return; mode=b.dataset.m; [...$('pxMode').children].forEach(c=>c.classList.toggle('on',c===b)); $('pxBrush').style.display=mode==='draw'?'block':'none'; all();};
+  $('brushV').oninput=()=>$('brushO').textContent=$('brushV').value;
+  $('pxClear').onclick=()=>{V=V.map(()=>0);all();}; $('pxReset').onclick=()=>{ball();all();};
+  all();
+})();
+
+/* 1 RGB */
+(function(){
+  const r=$('cR'),g=$('cG'),b=$('cB');
+  const NAME={'255,0,0':'빨강','0,255,0':'초록','0,0,255':'파랑','255,255,0':'노랑 (빨강 + 초록)','0,0,0':'검은색 (빛이 하나도 없음)','255,255,255':'흰색 (세 빛을 모두 가장 밝게)','0,255,255':'청록색 (초록 + 파랑)','255,0,255':'자홍색 (빨강 + 파랑)'};
+  function up(){const v=[r.value,g.value,b.value]; $('oR').textContent=v[0];$('oG').textContent=v[1];$('oB').textContent=v[2];
+    $('sw').style.background=`rgb(${v})`; $('swT').textContent=`(${v.join(', ')})`;
+    const n=NAME[v.join(',')]; $('rgbSay').innerHTML=n?`이 픽셀은 숫자 <b>${v.join(', ')}</b> 세 개로 저장된 <b>${n}</b>이에요.`:`이 픽셀은 숫자 <b>${v.join(', ')}</b> 세 개로 저장돼요. 컴퓨터에게 색은 언제나 숫자 3개예요.`;}
+  [r,g,b].forEach(s=>s.oninput=up);
+  $('rgbPre').onclick=e=>{const t=e.target.closest('button'); if(!t) return; const c=t.dataset.c.split(','); r.value=c[0];g.value=c[1];b.value=c[2]; up();};
+  up();
+})();
+
+/* 2 4대 분야 */
+(function(){
+  const s1=$('sc1'), s2=$('sc2'), mk=$('cvMarks');
+  function cat(p,x,y,s,c){const g=el('g',{class:'ani',transform:`translate(${x},${y}) scale(${s})`,style:`--sc:${c}`},p);
+    el('path',{d:'M40 52 Q92 44 80 -4',stroke:'#e08a35','stroke-width':11,fill:'none','stroke-linecap':'round'},g);
+    el('ellipse',{cx:0,cy:40,rx:46,ry:38,fill:'#f0a04b'},g);
+    el('polygon',{points:'-32,-46 -24,-82 -4,-60',fill:'#f0a04b'},g); el('polygon',{points:'32,-46 24,-82 4,-60',fill:'#f0a04b'},g);
+    el('circle',{cx:0,cy:-30,r:34,fill:'#f4ad5d'},g);
+    el('circle',{cx:-12,cy:-34,r:4.5,fill:'#2b2b2b'},g); el('circle',{cx:12,cy:-34,r:4.5,fill:'#2b2b2b'},g);
+    el('path',{d:'M-6 -20 L0 -15 L6 -20',stroke:'#2b2b2b','stroke-width':2.5,fill:'none'},g); return g;}
+  function dog(p,x,y,s,c,col){const g=el('g',{class:'ani',transform:`translate(${x},${y}) scale(${s})`,style:`--sc:${c}`},p);
+    el('ellipse',{cx:0,cy:42,rx:54,ry:40,fill:col},g);
+    el('circle',{cx:0,cy:-28,r:36,fill:col},g);
+    el('ellipse',{cx:-34,cy:-22,rx:12,ry:27,fill:'#6e4a2f',transform:'rotate(18 -34 -22)'},g); el('ellipse',{cx:34,cy:-22,rx:12,ry:27,fill:'#6e4a2f',transform:'rotate(-18 34 -22)'},g);
+    el('ellipse',{cx:0,cy:-12,rx:17,ry:12,fill:'#f2e3cf'},g); el('ellipse',{cx:0,cy:-17,rx:6,ry:4.5,fill:'#2b2b2b'},g);
+    el('circle',{cx:-13,cy:-36,r:4.5,fill:'#2b2b2b'},g); el('circle',{cx:13,cy:-36,r:4.5,fill:'#2b2b2b'},g); return g;}
+  cat(s1,300,170,1.15,'#f2a516');
+  dog(s2,120,175,.95,'#2f6fd0','#b07a4f'); dog(s2,285,182,.85,'#1f9d74','#d9b98f'); cat(s2,465,180,.9,'#d64535');
+  const BOX={1:[[238,66,152,192,'#f2a516','Cat']],2:[[63,107,114,152,'#2f6fd0','Dog'],[234,120,102,136,'#1f9d74','Dog'],[420,103,129,148,'#d64535','Cat']]};
+  const RES=[
+    ['Cat','이미지 전체를 하나의 객체로 보고 <b>어떤 범주에 속하는지</b>만 답해요. "이건 고양이 사진이야."'],
+    ['Cat + Area','이미지 안에 객체가 <b>하나</b>일 때, 무엇인지와 함께 <b>어디에 있는지</b>를 사각형으로 알려 줘요.'],
+    ['Dog, Dog, Cat','실제 사진에는 객체가 여러 개인 경우가 많죠. <b>여러 객체 각각의 위치</b>를 찾고 <b>무엇인지까지</b> 분류해요.'],
+    ['Dog, Dog, Cat (픽셀 단위)','사각형으로 대충 정하지 않고 객체에 속하는 범위를 <b>픽셀 하나하나 단위</b>로 칠해요. 자율 주행 자동차가 도로와 사람의 경계를 정확히 알아야 할 때 써요.']];
+  function show(m){
+    s1.style.display=m<2?'':'none'; s2.style.display=m>=2?'':'none';
+    $('cvScene').classList.toggle('seg',m===3); mk.innerHTML='';
+    if(m===0){el('rect',{x:6,y:6,width:588,height:308,rx:12,fill:'none',stroke:'#f2a516','stroke-width':6},mk);}
+    (BOX[m]||[]).forEach(([x,y,w,h,c,t])=>{el('rect',{x,y,width:w,height:h,rx:4,fill:'none',stroke:c,'stroke-width':4,'stroke-dasharray':'10 6'},mk);});
+    const lab=m===3?BOX[2]:BOX[m]||[[18,18,0,0,'#f2a516','Cat']];
+    lab.forEach(([x,y,w,h,c,t])=>{const tx=m===0?22:x, ty=m===0?24:y-30; const g=el('g',{},mk); el('rect',{x:tx,y:ty,width:t.length*12+22,height:28,rx:6,fill:c},g); el('text',{x:tx+11,y:ty+20,fill:'#fff','font-size':17,'font-weight':900,'font-family':'Noto Sans KR'},g,t);});
+    $('cvRes').innerHTML=`<b style="font-size:1.1rem;color:var(--acc)">결과: ${RES[m][0]}</b><br>${RES[m][1]}`;
+    [...$('cvFields').children].forEach(d=>d.classList.toggle('on',+d.dataset.m===m));
+  }
+  $('cvFields').onclick=e=>{const d=e.target.closest('[data-m]'); if(d) show(+d.dataset.m);};
+  show(0);
+
+  const OBJ='비행기 사과 배낭 바나나 야구방망이 야구글러브 곰 침대 벤치 자전거 새 보트 책 병 사발 브로콜리 버스 케이크 자동차 당근 고양이 휴대폰 의자 시계 침상 소 컵 식탁 개 도넛 코끼리 소화전 포크 프리스비 기린 헤어드라이어 핸드백 말 핫도그 키보드 연 칼 노트북 전자레인지 오토바이 마우스 오렌지 오븐 주차미터기 사람 피자 화분 냉장고 리모컨 샌드위치 가위 양 싱크대 스케이트보드 스키 스노우보드 숟가락 스포츠공 정지신호 여행가방 서핑보드 곰인형 테니스라켓 넥타이 토스터 화장실 칫솔 신호등 기차 트럭 TV 우산 꽃병 와인잔 얼룩말'.split(' ');
+  const ALIAS={'강아지':'개','핸드폰':'휴대폰','스마트폰':'휴대폰','폰':'휴대폰','소파':'침상','변기':'화장실','텔레비전':'TV','티비':'TV','가방':'배낭 / 핸드백 / 여행가방','공':'스포츠공','학생':'사람','차':'자동차','노트북컴퓨터':'노트북','그릇':'사발','테이블':'식탁'};
+  $('objList').innerHTML=OBJ.map(o=>`<span>${o}</span>`).join('');
+  function find(){const q=$('objQ').value.trim().replace(/\s/g,''); if(!q){$('objRes').textContent='';return;}
+    const hit=OBJ.find(o=>o===q)||ALIAS[q];
+    $('objRes').innerHTML=hit?`<span class="ok">✅ 「${q}」 → ${hit===q?'목록에 있어요.':'「'+hit+'」(으)로 들어 있어요.'} 사진에 있으면 탐지할 수 있어요.</span>`:`<span class="ng">❌ 「${q}」은(는) 80가지 목록에 없어요. 사진에 또렷이 보여도 이 인공지능은 찾지 못해요.</span>`;}
+  $('objBtn').onclick=find; $('objQ').addEventListener('keydown',e=>{if(e.key==='Enter') find();});
+  $('objAll').onclick=()=>{const o=$('objList').classList.toggle('open'); $('objAll').textContent=o?'목록 접기':'80가지 모두 보기';};
+})();
+
+/* 3 왜 CNN: 가중치 수 */
+(function(){
+  const R=[['손글씨 28×28 흑백',28*28],['100×100 컬러',100*100*3],['224×224 컬러',224*224*3],['1,000×1,000 컬러',1000*1000*3]];
+  const mx=Math.log10(R[3][1]*100);
+  $('params').innerHTML=R.map(([n,v])=>`<div class="pr"><span>${n}</span><div class="bar"><i data-w="${(Math.log10(v*100)/mx*100).toFixed(1)}"></i></div><span class="v">${fmt(v*100)}개</span></div>`).join('')+
+    '<div class="muted" style="font-size:.8rem">막대는 자릿수 기준(로그)으로 그렸어요. 실제 차이는 훨씬 커요. 손글씨 784 × 100 = 78,400은 지난 시간 모델의 첫 층 가중치 수예요.</div>';
+  onShow[3]=()=>{document.querySelectorAll('#params i').forEach(i=>{i.style.width=0; requestAnimationFrame(()=>requestAnimationFrame(()=>i.style.width=i.dataset.w+'%'));}); layoutFlat();};
+})();
+
+/* 3 왜 CNN: 한 줄로 펴기 */
+let flatOn=false;
+const FL=$('flat'), FN=6, fcells=[];
+for(let k=0;k<FN*FN;k++){const i=document.createElement('i'); const on=k%FN===2; i.className=on?'on':'off'; FL.appendChild(i); fcells.push(i);
+  i.onmouseenter=()=>hlFlat(k); i.onclick=()=>hlFlat(k);}
+function layoutFlat(){
+  const W=FL.clientWidth||600; const fs=Math.min(30,Math.floor((W-2)/FN/1.6)); const ls=Math.max(6,Math.floor((W-2)/(FN*FN)));
+  const gridW=fs*FN; FL.style.height=(flatOn?ls+8:gridW+4)+'px';
+  fcells.forEach((c,k)=>{const r=Math.floor(k/FN), q=k%FN;
+    if(flatOn){c.style.left=(k*ls)+'px'; c.style.top='4px'; c.style.width=c.style.height=(ls-1)+'px'; c.style.transitionDelay=(k*18)+'ms';}
+    else{c.style.left=((W-gridW)/2+q*fs)+'px'; c.style.top=(r*fs)+'px'; c.style.width=c.style.height=(fs-2)+'px'; c.style.transitionDelay=((35-k)*12)+'ms';}});
+}
+function hlFlat(k){fcells.forEach(c=>c.classList.remove('hl')); const up=k-FN, dn=k+FN; [k,up,dn].forEach(j=>{if(j>=0&&j<FN*FN) fcells[j].classList.add('hl');});
+  $('flatSay').textContent=`${k+1}번째 칸의 위아래 이웃은 ${up>=0?(up+1)+'번째':'없음'}, ${dn<FN*FN?(dn+1)+'번째':'없음'} 칸 → 한 줄에서는 ${FN}칸씩 떨어져요.`;}
+$('flatBtn').onclick=()=>{flatOn=!flatOn; $('flatBtn').textContent=flatOn?'원래대로':'한 줄로 펴기'; layoutFlat(); hlFlat(14);};
+window.addEventListener('resize',()=>{if(cur===3) layoutFlat();});
+
+/* 3 CNN 구조도 · 층별 특징 */
+(function(){
+  const s=$('cnnSvg');
+  const fg=el('g',{},s); el('rect',{x:16,y:56,width:110,height:110,rx:8,fill:'#e9edf2',stroke:'#9aa5b4'},fg);
+  el('circle',{cx:71,cy:106,r:34,fill:'#f4d2b4'},fg); el('circle',{cx:59,cy:100,r:4,fill:'#333'},fg); el('circle',{cx:83,cy:100,r:4,fill:'#333'},fg);
+  el('path',{d:'M60 120 Q71 128 82 120',stroke:'#333','stroke-width':3,fill:'none'},fg); el('path',{d:'M38 96 Q40 62 71 64 Q102 62 104 96 Q96 74 71 76 Q46 74 38 96Z',fill:'#5b3a29'},fg);
+  el('text',{x:71,y:186,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'#334'},fg,'입력 이미지');
+  const blocks=[[160,150,'#fde8d6','#e0702b'],[250,120,'#fde8d6','#e0702b'],[330,92,'#fde8d6','#e0702b']];
+  let x0=150; const lay=[];
+  blocks.forEach(([x,h],i)=>{const g=el('g',{class:'blk'},s); const y=111-h/2;
+    for(let d=3;d>=0;d--) el('rect',{x:x+d*7,y:y-d*5,width:26,height:h,rx:3,fill:d?'#fbe1cc':'#fde8d6',stroke:'#e0702b','stroke-width':1.5},g);
+    el('rect',{x:x+50,y:y+h*.2,width:16,height:h*.6,rx:3,fill:'#f6c9c3',stroke:'#d64535','stroke-width':1.5},g);
+    el('text',{x:x+30,y:200,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'#334'},g,'층'+(i+1)); lay.push(g);});
+  for(let i=0;i<6;i++) el('rect',{x:470+i*16,y:60+i*4,width:9,height:110-i*8,rx:3,fill:'#bfe5d4',stroke:'#1f9d74','stroke-width':1.5},s);
+  el('text',{x:610,y:118,'font-size':22,'font-weight':900,fill:'#1f9d74'},s,'→');
+  el('rect',{x:640,y:82,width:130,height:56,rx:12,fill:'#1f9d74'},s); el('text',{x:705,y:117,'text-anchor':'middle','font-size':18,'font-weight':900,fill:'#fff'},s,'얼굴 ✔');
+  el('path',{d:'M150 214 L150 222 L440 222 L440 214',stroke:'#9b4fc4','stroke-width':2,fill:'none'},s);
+  el('path',{d:'M466 214 L466 222 L560 222 L560 214',stroke:'#1f9d74','stroke-width':2,fill:'none'},s);
+  el('text',{x:295,y:16,'text-anchor':'middle','font-size':15,'font-weight':900,fill:'#9b4fc4'},s,'특징 추출 (합성곱층 + 풀링층) × 여러 번');
+  el('text',{x:513,y:40,'text-anchor':'middle','font-size':15,'font-weight':900,fill:'#1f9d74'},s,'분류 (완전 연결층)');
+  [[170,'합성곱층','#e0702b'],[230,'풀링층','#d64535']].forEach(([x,t,c],i)=>{el('rect',{x:800,y:150+i*26,width:14,height:14,rx:3,fill:c,opacity:.6},s);el('text',{x:820,y:162+i*26,'font-size':13,fill:'#334'},s,t);});
+  el('rect',{x:800,y:202,width:14,height:14,rx:3,fill:'#1f9d74',opacity:.6},s); el('text',{x:820,y:214,'font-size':13,fill:'#334'},s,'완전 연결층');
+
+  const L1=$('ly1'); [['M10 20 L40 70'],['M60 20 L60 70'],['M80 45 L120 45'],['M140 70 Q160 10 180 70'],['M195 20 Q215 45 195 70']].forEach(([d])=>{el('path',{d,stroke:'#1b2a3a','stroke-width':5,fill:'none','stroke-linecap':'round'},L1);});
+  const L2=$('ly2'); el('ellipse',{cx:35,cy:45,rx:26,ry:15,fill:'#fff',stroke:'#1b2a3a','stroke-width':4},L2); el('circle',{cx:35,cy:45,r:7,fill:'#1b2a3a'},L2);
+  el('path',{d:'M100 15 L90 60 Q100 70 112 62',stroke:'#1b2a3a','stroke-width':4,fill:'none','stroke-linecap':'round'},L2);
+  el('path',{d:'M165 20 Q195 20 195 48 Q195 74 170 72 M172 36 Q185 40 178 54',stroke:'#1b2a3a','stroke-width':4,fill:'none','stroke-linecap':'round'},L2);
+  const L3=$('ly3'); el('ellipse',{cx:70,cy:45,rx:32,ry:38,fill:'#f4d2b4',stroke:'#1b2a3a','stroke-width':3},L3); el('circle',{cx:58,cy:38,r:4,fill:'#1b2a3a'},L3); el('circle',{cx:82,cy:38,r:4,fill:'#1b2a3a'},L3); el('path',{d:'M60 60 Q70 67 80 60',stroke:'#1b2a3a','stroke-width':3,fill:'none'},L3);
+  el('circle',{cx:160,cy:22,r:16,fill:'#f4d2b4',stroke:'#1b2a3a','stroke-width':3},L3); el('path',{d:'M160 38 L160 70 M140 50 L180 50 M160 70 L146 88 M160 70 L174 88',stroke:'#1b2a3a','stroke-width':4,fill:'none','stroke-linecap':'round'},L3);
+  function pickL(l){[...$('layerPick').children].forEach(d=>d.classList.toggle('on',+d.dataset.l===l)); lay.forEach((g,i)=>g.style.opacity=i+1===l?1:.35);}
+  $('layerPick').onclick=e=>{const d=e.target.closest('[data-l]'); if(d) pickL(+d.dataset.l);};
+  pickL(1);
+})();
+
+/* 4 합성곱 연산 (교과서 그림 Ⅱ-22) */
+(function(){
+  const IN=[[1,2,3,4],[2,1,0,1],[3,0,1,1],[1,4,1,1]], F=[[1,0,1],[1,0,1],[0,1,0]];
+  const POS=[[0,0],[0,1],[1,0],[1,1]];
+  const val=([r,c])=>{let s=0;for(let i=0;i<3;i++)for(let j=0;j<3;j++)s+=IN[r+i][c+j]*F[i][j];return s;};
+  const OUT=POS.map(val);
+  const solved=[true,true,false,false]; let step=0;
+  $('mxIn').innerHTML=IN.flat().map(v=>`<div>${v}</div>`).join('')+'<div class="cap">입력</div>';
+  $('mxF').innerHTML=F.flat().map(v=>`<div>${v}</div>`).join('')+'<div class="cap">필터</div>';
+  function drawOut(){
+    $('mxO').innerHTML=OUT.map((v,k)=>`<div class="${k===step?'cur':''}">${solved[k]?v:(k===step?'<input id="ansIn" inputmode="numeric" aria-label="'+(k+1)+'단계 출력값">':'?')}</div>`).join('')+'<div class="cap">출력</div>';
+    const a=$('ansIn'); if(a){a.addEventListener('keydown',e=>{if(e.key==='Enter') check();}); }
+  }
+  function expr(k){const [r,c]=POS[k]; const t=[];for(let i=0;i<3;i++)for(let j=0;j<3;j++)t.push(`(${IN[r+i][c+j]}×${F[i][j]})`); return t.join(' + ')+` = <b>${OUT[k]}</b>`;}
+  function show(k){step=k; const [r,c]=POS[k];
+    [...$('mxIn').children].forEach((d,idx)=>{if(idx>=16) return; const i=Math.floor(idx/4), j=idx%4; d.classList.toggle('win',i>=r&&i<r+3&&j>=c&&j<c+3);});
+    drawOut(); [...$('cvStep').children].forEach((b,j)=>b.classList.toggle('on',j===k));
+    $('solveRow').style.display=solved[k]?'none':'flex'; $('chkSay').textContent='';
+    $('expr').innerHTML=solved[k]?`<b>${k+1}단계</b> · 주황색 9칸과 필터를 같은 자리끼리 곱해서 모두 더해요.<br>${expr(k)}`:`<b>${k+1}단계</b> · 필터가 ${k===2?'한 줄 아래로 내려와 왼쪽':'오른쪽으로 한 칸'}에 자리 잡았어요. 주황색 9칸과 필터를 같은 자리끼리 곱해서 모두 더한 값을 출력 칸에 적고 「확인」을 누르세요.`;
+    if(!solved[k]) setTimeout(()=>{const a=$('ansIn'); if(a&&window.matchMedia('(pointer:fine)').matches) a.focus();},50);
+  }
+  function check(){const a=$('ansIn'); if(!a) return; const v=parseInt(a.value,10);
+    if(v===OUT[step]){solved[step]=true; const k=step; show(k); $('expr').innerHTML=`<span class="ok">정답!</span> ${k+1}단계 · ${expr(k)}${k===2&&!solved[3]?'<br>이제 4단계로 가 보세요.':''}`;}
+    else{$('chkSay').innerHTML=`<span class="ng">${isNaN(v)?'숫자를 적어 주세요.':'다시 계산해 보세요. 0을 곱한 칸은 0이 돼요.'}</span>`; const box=$('mxO'); box.classList.add('shake'); setTimeout(()=>box.classList.remove('shake'),400);}}
+  $('chk').onclick=check;
+  $('showSol').onclick=()=>{const [r,c]=POS[step]; const t=[];for(let i=0;i<3;i++)for(let j=0;j<3;j++)t.push(`(${IN[r+i][c+j]}×${F[i][j]})`); $('expr').innerHTML=`<b>${step+1}단계</b> · ${t.join(' + ')} = ?<br><span class="muted">곱한 값을 차례로 더해 출력 칸에 적어 보세요.</span>`;};
+  $('cvStep').onclick=e=>{const b=e.target.closest('button'); if(b) show(+b.dataset.s);};
+  show(0);
+})();
+
+/* 4 필터 A·B 체험, 5 풀링 */
+const EN=28; let IMG=new Float32Array(EN*EN), COMB=new Float32Array(26*26);
+const FA=[[-1,0,1],[-2,0,2],[-1,0,1]], FB=[[1,2,1],[0,0,0],[-1,-2,-1]];
+$('fmA').innerHTML=FA.flat().map(v=>`<span>${v>0?'+'+v:v}</span>`).join(''); $('fmB').innerHTML=FB.flat().map(v=>`<span>${v>0?'+'+v:v}</span>`).join('');
+function preset(p){IMG.fill(0); const set=(x,y,v=1)=>{if(x>=0&&x<EN&&y>=0&&y<EN) IMG[y*EN+x]=Math.max(IMG[y*EN+x],v);};
+  const line=(x0,y0,x1,y1,w=1.6)=>{const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0))*3; for(let t=0;t<=n;t++){const x=x0+(x1-x0)*t/n, y=y0+(y1-y0)*t/n; for(let j=-2;j<=2;j++)for(let i=-2;i<=2;i++){const d=Math.hypot(i,j); if(d<w) set(Math.round(x)+i,Math.round(y)+j);}}};
+  if(p==='sq') for(let y=7;y<21;y++) for(let x=7;x<21;x++) set(x,y);
+  if(p==='ci') for(let y=0;y<EN;y++) for(let x=0;x<EN;x++) if(Math.hypot(x-13.5,y-13.5)<8.5) set(x,y);
+  if(p==='seven'){line(7,6,21,6); line(21,6,12,23);}
+  if(p==='house'){for(let y=14;y<24;y++) for(let x=8;x<20;x++) set(x,y); for(let y=5;y<14;y++){const h=y-5; for(let x=14-h;x<=13+h;x++) set(x,y);} for(let y=18;y<24;y++) for(let x=12;x<16;x++) IMG[y*EN+x]=0;}
+  edgeAll();}
+function conv(F){const o=new Float32Array(26*26); for(let y=0;y<26;y++)for(let x=0;x<26;x++){let s=0;for(let i=0;i<3;i++)for(let j=0;j<3;j++)s+=IMG[(y+i)*EN+x+j]*F[i][j]; o[y*26+x]=s;} return o;}
+function put(cv,arr,w){const x=cv.getContext('2d'), im=x.createImageData(w,w); for(let k=0;k<w*w;k++){const v=Math.max(0,Math.min(255,Math.round(arr[k]*255))); im.data[k*4]=im.data[k*4+1]=im.data[k*4+2]=v; im.data[k*4+3]=255;} x.putImageData(im,0,0);}
+function edgeAll(){
+  put($('drawC'),IMG,EN);
+  const A=conv(FA), B=conv(FB);
+  put($('edA'),A.map(v=>Math.abs(v)/4),26); put($('edB'),B.map(v=>Math.abs(v)/4),26);
+  COMB=A.map((v,k)=>Math.min(1,Math.hypot(v,B[k])/4)); put($('edAB'),COMB,26);
+  poolDraw();
+}
+function poolDraw(){put($('poolA'),COMB,26); const P=new Float32Array(13*13); for(let y=0;y<13;y++)for(let x=0;x<13;x++)P[y*13+x]=Math.max(COMB[(2*y)*26+2*x],COMB[(2*y)*26+2*x+1],COMB[(2*y+1)*26+2*x],COMB[(2*y+1)*26+2*x+1]); put($('poolB'),P,13);}
+(function(){
+  const c=$('drawC'); let down=false;
+  function at(e){const r=c.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*EN,(e.clientY-r.top)/r.height*EN];}
+  function dab(e){const [px,py]=at(e); for(let y=Math.floor(py)-2;y<=Math.floor(py)+2;y++)for(let x=Math.floor(px)-2;x<=Math.floor(px)+2;x++){if(x<0||y<0||x>=EN||y>=EN) continue; const d=Math.hypot(x+.5-px,y+.5-py); const v=d<1.1?1:d<1.9?.55:0; IMG[y*EN+x]=Math.max(IMG[y*EN+x],v);} edgeAll();}
+  c.addEventListener('pointerdown',e=>{down=true; c.setPointerCapture(e.pointerId); dab(e); [...$('edgePre').children].forEach(b=>b.classList.remove('on'));});
+  c.addEventListener('pointermove',e=>{if(down) dab(e);}); c.addEventListener('pointerup',()=>down=false); c.addEventListener('pointercancel',()=>down=false);
+  $('edgePre').onclick=e=>{const b=e.target.closest('button'); if(!b) return; [...$('edgePre').children].forEach(x=>x.classList.toggle('on',x===b)); preset(b.dataset.p==='clear'?'':b.dataset.p);};
+  $('edgePre').children[3].classList.add('on'); preset('house');
+})();
+
+/* 5 풀링 예시 (교과서 그림 Ⅱ-23) */
+(function(){
+  const IN=[[5,2,3,4],[2,1,0,1],[3,7,9,5],[1,4,1,8]]; let k=0;
+  const q=(i,j)=>(i<2?0:2)+(j<2?0:1);
+  function draw(){
+    $('plIn').innerHTML=IN.flat().map((v,idx)=>{const i=Math.floor(idx/4), j=idx%4, r=q(i,j); const cur=k>0&&r===k-1; const reg=[0,1,2,3].filter(t=>t<k);
+      const mx=Math.max(...IN.flat().filter((_,m)=>q(Math.floor(m/4),m%4)===r));
+      return `<div class="q${r}${k>0&&r!==k-1&&k<=4?' dim':''}${(cur||(k>4))&&v===mx?' max':''}">${v}</div>`;}).join('')+'<div class="cap">합성곱층을 지난 데이터 4 × 4</div>';
+    const out=[0,1,2,3].map(r=>Math.max(...IN.flat().filter((_,m)=>q(Math.floor(m/4),m%4)===r)));
+    $('plOut').innerHTML=out.map((v,r)=>`<div class="${r<k?'q'+r:''} ${r===k-1?'cur':''}" style="${r<k?'':'color:transparent'}">${v}</div>`).join('')+'<div class="cap">풀링 결과 2 × 2</div>';
+    const nm=['왼쪽 위','오른쪽 위','왼쪽 아래','오른쪽 아래'];
+    if(k===0) $('plSay').textContent='숫자 16개가 몇 개로 줄어들지 먼저 예상해 보세요.';
+    else if(k<=4){const r=k-1, vals=IN.flat().filter((_,m)=>q(Math.floor(m/4),m%4)===r); $('plSay').innerHTML=`<b>${nm[r]} 구역</b> ${vals.join(', ')} 중 가장 큰 값 → <b style="color:var(--red)">${Math.max(...vals)}</b>`+(k===4?'<br>숫자 16개가 <b>4개</b>로 줄었어요. 크기는 4분의 1, 그래도 각 구역에서 가장 강한 값은 남았어요.':'');}
+    $('plNext').textContent=k>=4?'다 했어요':'한 구역씩 풀링하기'; $('plNext').disabled=k>=4;
+  }
+  $('plNext').onclick=()=>{if(k<4){k++;draw();}}; $('plReset').onclick=()=>{k=0;draw();};
+  draw();
+})();
+
+/* 6 GAN */
+(function(){
+  const FACE=['....XXXX....','..XX....XX..','.X........X.','.X..X..X..X.','X...X..X...X','X..........X','X..X....X..X','X...XXXX...X','.X........X.','.X........X.','..XX....XX..','....XXXX....'];
+  const T=FACE.join('').split('').map(c=>c==='X'?1:0);
+  function draw(cv,arr){const x=cv.getContext('2d'), im=x.createImageData(12,12); arr.forEach((v,k)=>{const g=Math.round(255-v*225); im.data[k*4]=g; im.data[k*4+1]=g; im.data[k*4+2]=Math.min(255,g+12); im.data[k*4+3]=255;}); x.putImageData(im,0,0);}
+  draw($('ganR'),T);
+  let round=0, hist=[], busy=false, gen=T.map(()=>Math.random());
+  const qOf=r=>1-Math.pow(.72,r);
+  function chart(){const s=$('ganChart'); s.innerHTML='';
+    el('line',{x1:40,y1:10,x2:40,y2:100,stroke:'#c5ccd5'},s); el('line',{x1:40,y1:100,x2:590,y2:100,stroke:'#c5ccd5'},s);
+    el('text',{x:34,y:16,'text-anchor':'end','font-size':11,fill:'#5b6776'},s,'100%'); el('text',{x:34,y:59,'text-anchor':'end','font-size':11,fill:'#5b6776'},s,'50%');
+    el('line',{x1:40,y1:55,x2:590,y2:55,stroke:'#d64535','stroke-dasharray':'5 5'},s); el('text',{x:586,y:50,'text-anchor':'end','font-size':11,fill:'#d64535'},s,'50% = 찍는 것과 같음');
+    el('text',{x:315,y:117,'text-anchor':'middle','font-size':11,fill:'#5b6776'},s,'겨루기 횟수 →  (선: 감별자가 가짜를 맞힌 비율)');
+    if(!hist.length) return; const X=i=>40+i*(550/12), Y=p=>100-(p*90);
+    el('polyline',{points:hist.map((p,i)=>`${X(i+1)},${Y(p)}`).join(' '),fill:'none',stroke:'#c98a00','stroke-width':3},s);
+    hist.forEach((p,i)=>el('circle',{cx:X(i+1),cy:Y(p),r:4,fill:'#c98a00'},s));}
+  async function one(){
+    if(busy) return; busy=true; const fl=[...$('ganFlow').children];
+    round++; const q=qOf(round); fl.forEach(l=>l.classList.remove('on'));
+    fl[0].classList.add('on'); gen=T.map(t=>Math.max(0,Math.min(1,t*q+Math.random()*(1-q)))); draw($('ganG'),gen); $('ganRound').textContent=round; await sleep(450);
+    fl[0].classList.remove('on'); fl[1].classList.add('on'); const acc=.5+.5*(1-q)+(Math.random()-.5)*.02; const p=Math.max(.5,Math.min(1,acc));
+    $('ganVerdict').innerHTML=p>.8?`감별자: "이건 <span class="ng">가짜</span>야!" (확신 ${Math.round(p*100)}%)`:p>.6?`감별자: "음… 아마 <span class="ng">가짜</span>?" (확신 ${Math.round(p*100)}%)`:`감별자: "진짜인지 가짜인지 모르겠어…" (${Math.round(p*100)}%)`;
+    hist.push(p); $('ganAcc').textContent=Math.round(p*100)+'%'; $('ganMeter').style.width=(p*100)+'%'; chart(); await sleep(450);
+    fl[1].classList.remove('on'); fl[2].classList.add('on'); await sleep(350); fl[2].classList.remove('on'); fl[3].classList.add('on'); await sleep(350); fl[3].classList.remove('on');
+    if(p<=.53||round>=12){$('ganEnd').classList.add('on'); $('ganBtn').disabled=true; $('ganAuto').disabled=true;}
+    busy=false;
+  }
+  $('ganBtn').onclick=one;
+  $('ganAuto').onclick=async()=>{$('ganAuto').disabled=true; while(!$('ganEnd').classList.contains('on')){await one(); await sleep(150);} };
+  $('ganReset').onclick=()=>{if(busy) return; round=0; hist=[]; $('ganRound').textContent=0; gen=T.map(()=>Math.random()); draw($('ganG'),gen); $('ganVerdict').textContent='감별자: 아직 겨루기 전이에요.'; $('ganAcc').textContent='-'; $('ganMeter').style.width=0; $('ganEnd').classList.remove('on'); $('ganBtn').disabled=false; $('ganAuto').disabled=false; chart();};
+  draw($('ganG'),gen); chart();
+})();
+
+/* 6 프롬프트 만들기 */
+(function(){
+  const ins=[...$('pb').querySelectorAll('input')], get=k=>ins.find(i=>i.dataset.k===k).value.trim();
+  const PK='cv-prompt-v1';
+  const J=(w,a,b)=>{const c=w.charCodeAt(w.length-1); return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28?a:b;};
+  try{const s=JSON.parse(localStorage.getItem(PK)||'{}'); ins.forEach(i=>{if(s[i.dataset.k]) i.value=s[i.dataset.k];});}catch(e){}
+  function up(){
+    const p=get('place'),w=get('who'),l=get('look'),po=get('pose'),t=get('thing'),s=get('sky'); const n=[p,w,l,po,t,s].filter(Boolean).length;
+    const parts=[]; if(w||l||po) parts.push(`${w?w+J(w,'이','가')+' ':''}${l?l+' 차림으로 ':''}${po?po+' ':''}모습을 그려 줘.`);
+    if(p) parts.push(`장소는 ${p}${J(p,'이야','야')}.`); if(t) parts.push(`주변에는 ${t}${J(t,'이','가')} 있어.`); if(s) parts.push(`하늘은 ${s}${J(s,'이야','야')}.`);
+    const tx=parts.join(' '); $('ptext').textContent=tx||'빈칸을 채우면 여기에 프롬프트가 만들어져요.'; $('ptext').classList.toggle('empty',!tx);
+    $('pMeter').style.width=(n/6*100)+'%'; $('pCount').textContent=`${n} / 6`;
+    try{const o={}; ins.forEach(i=>o[i.dataset.k]=i.value); localStorage.setItem(PK,JSON.stringify(o));}catch(e){}
+  }
+  ins.forEach(i=>i.oninput=up);
+  $('pEx').onclick=()=>{ins.forEach(i=>i.value=i.placeholder.replace(/^예:\s*/,'')); up();};
+  $('pCopy').onclick=async()=>{const t=$('ptext').classList.contains('empty')?'':$('ptext').textContent; if(!t) return; try{await navigator.clipboard.writeText(t); $('pCopy').textContent='복사했어요!';}catch(e){$('pCopy').textContent='직접 드래그해 복사하세요';} setTimeout(()=>$('pCopy').textContent='복사하기',1500);};
+  up();
+})();
+
+/* 7 활용 */
+$('apps').onclick=e=>{const b=e.target.closest('button'); if(!b) return; const a=b.dataset.a; [...$('apps').children].forEach(x=>x.classList.toggle('on',x===b)); document.querySelectorAll('.appd').forEach(d=>d.classList.toggle('on',d.dataset.a===a));};
+
+/* 시작 */
+updScore();
+const h0=parseInt((location.hash.match(/^#p(\d+)$/)||[])[1],10);
+go(isNaN(h0)?0:h0);
+</script>
+</body>
+</html>
