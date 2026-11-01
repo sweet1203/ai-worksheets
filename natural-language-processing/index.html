@@ -712,8 +712,17 @@
 
   <div class="case">
     <h3>🔎 스스로 해결하기 · 생성형 언어 모델 체험 (교과서 119쪽)</h3>
-    <p style="margin:0">교과서에 실린 주소 <a href="https://keris-eduai.co.kr/news/1" target="_blank" rel="noopener">keris-eduai.co.kr/news/1 ↗</a>에 접속해 생성형 언어 모델을 체험해 보세요. 문장을 바꿔 넣으며 어떤 단어가 이어지는지 살펴보고, 위의 작은 언어 모델과 무엇이 같고 무엇이 다른지 생각해 보세요.</p>
-    <p class="note" style="margin-bottom:0">생성형 언어 모델은 그럴듯한 다음 단어를 고르는 것이지 사실을 확인하는 것이 아니에요. 그래서 자연스럽지만 틀린 문장을 만들 때도 있으니, 중요한 내용은 꼭 다른 자료로 확인해요.</p>
+    <p style="margin:0 0 6px">진짜 생성형 언어 모델(GPT-2)이 다음 단어를 어떻게 고르는지 들여다보는 <a href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener">Transformer Explainer ↗</a>에서 체험해 보세요. 영어로 되어 있어요.</p>
+    <ol style="margin:0;padding-left:20px;font-size:.95rem">
+      <li>위쪽 <b>Examples</b>에서 예시 문장을 하나 고르고 <b>Generate</b>를 눌러요.</li>
+      <li>화면 오른쪽 끝 <b>Probabilities</b>에서 다음 단어 후보와 확률을 확인해요. 예를 들어 "Data visualization empowers users to" 다음에는 visualize 약 55%, create 약 21%, see 약 12%가 나와요.</li>
+      <li><b>Temperature</b> 막대를 낮추거나 높인 뒤 다시 Generate를 눌러요. 낮으면 확률이 가장 높은 단어만 고르고, 높으면 다양한 단어가 뽑혀요. 위 🎲 뽑기와 비교해 보세요.</li>
+    </ol>
+    <div class="qa" style="margin-top:10px">
+      <div><b class="q">우리 작은 언어 모델과 같은 점</b>다음에 올 단어의 확률을 계산하고, 그 확률에 따라 단어를 골라 문장을 이어 가요.</div>
+      <div><b class="q">다른 점</b>GPT-2는 단어 후보가 50,257개이고, 단어마다 숫자 768개로 된 임베딩(→ 02)을 써서 앞의 문장 전체를 살펴요. 우리 모델은 바로 앞 단어 하나만 봐요.</div>
+    </div>
+    <p class="note" style="margin-bottom:0">직접 문장을 입력하려면 모델 파일(약 600MB)을 내려받아야 해서 시간이 걸려요. 교실에서는 Examples의 예시 문장으로 해 보세요. 교과서 QR의 체험 사이트가 열리지 않아 이 사이트로 바꿨어요.<br>생성형 언어 모델은 그럴듯한 다음 단어를 고르는 것이지 사실을 확인하는 것이 아니에요. 그래서 자연스럽지만 틀린 문장을 만들 때도 있으니, 중요한 내용은 꼭 다른 자료로 확인해요.</p>
   </div>
   <div class="quiz" data-quiz="6"></div>
 </section>
