@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>음성 인식 개념 정리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202c; --muted:#5b6776; --paper:#f3efe7; --card:#fff; --line:#e3ddd2;
+    --navy:#0f2742; --amber:#f2a516; --red:#d64535; --mint:#1f9d74;
+    --acc:#2f6fd0; --acc-soft:#e6eefb;
+    --shadow:0 18px 50px rgba(15,39,66,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:17px;line-height:1.65;
+    background-image:radial-gradient(rgba(15,39,66,.07) 1px,transparent 1px);background-size:22px 22px;display:flex;flex-direction:column}
+  .top{position:sticky;top:0;z-index:10;background:rgba(15,39,66,.97);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+  .brand{font-family:"Black Han Sans",sans-serif;font-size:1.15rem;letter-spacing:.01em;white-space:nowrap;color:inherit;text-decoration:none}
+  .steps{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  .steps::-webkit-scrollbar{display:none}
+  .steps button{flex:0 0 auto;border:0;background:transparent;color:#9fb3cc;font:inherit;font-size:.82rem;padding:5px 9px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .steps button.on{background:var(--amber);color:var(--navy);font-weight:900}
+  .steps button.done::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#5fd3a5;margin-left:5px;vertical-align:middle}
+  .score{font-size:.85rem;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .progress{height:4px;background:rgba(15,39,66,.12)}
+  .progress i{display:block;height:100%;background:var(--amber);width:0;transition:width .4s}
+  main{flex:1;width:100%;max-width:1120px;margin:0 auto;padding:26px 20px 30px}
+  .page{display:none}
+  .page.on{display:block;animation:enter .45s cubic-bezier(.2,.7,.2,1) both}
+  .page.on.back{animation-name:enterBack}
+  @keyframes enter{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+  @keyframes enterBack{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+  .head{display:flex;align-items:flex-end;gap:16px;margin-bottom:16px}
+  .num{font-family:"Black Han Sans",sans-serif;font-size:4.2rem;line-height:.85;color:var(--acc);opacity:.9}
+  .head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:2.1rem;margin:0;line-height:1.1;letter-spacing:-.01em}
+  .head p{margin:4px 0 0;color:var(--muted)}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px 24px;margin-bottom:18px;border:1px solid rgba(0,0,0,.04)}
+  .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  .grid2.even{grid-template-columns:1fr 1fr}
+  @media (max-width:860px){.grid2,.grid2.even{grid-template-columns:1fr}.num{font-size:3rem}.head h2{font-size:1.6rem}}
+  h3{margin:0 0 8px;font-size:1.1rem}
+  h4{margin:0 0 4px}
+  p{margin:6px 0}
+  a{color:var(--acc)}
+  .muted{color:var(--muted)}
+  .book{display:inline-block;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin-top:6px}
+  table{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+  th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:center}
+  th{color:var(--muted);font-weight:700;font-size:.85rem}
+  td.l,th.l{text-align:left}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+  .chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;font:inherit;font-size:.92rem;cursor:pointer;transition:.15s;color:var(--ink)}
+  .chip.on{border-color:var(--acc);background:var(--acc);color:#fff;font-weight:700}
+  .btn{border:0;border-radius:10px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer;background:var(--acc);color:#fff;transition:transform .1s, box-shadow .2s;box-shadow:0 6px 16px rgba(15,39,66,.18)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:#fff;color:var(--acc);border:2px solid var(--acc);box-shadow:none}
+  .btn.sm{padding:5px 12px;font-size:.88rem}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ctrl{display:grid;grid-template-columns:70px 1fr 48px;align-items:center;gap:4px 10px;margin:4px 0}
+  .ctrl label{font-weight:900;font-size:.95rem}
+  .ctrl output{font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--acc)}
+  input[type=text],input[type=number]{font:inherit;padding:6px 10px;border:1px solid #c5ccd5;border-radius:8px;background:#fff;color:var(--ink)}
+  .big{font-size:1.5rem;font-weight:900;font-variant-numeric:tabular-nums}
+  .ok{color:var(--mint);font-weight:700}.ng{color:var(--red);font-weight:700}
+  .callout{border-radius:12px;padding:12px 16px;background:var(--acc-soft);border-left:5px solid var(--acc);margin:12px 0}
+  svg{display:block;width:100%;height:auto}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:.9em;background:#f1f3f6;padding:1px 6px;border-radius:5px}
+  .cx{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:18px;border-left:6px solid var(--acc)}
+  .cx>h3{margin:0 0 4px;font-size:1.15rem}
+  .cx>.lead2{color:var(--muted);margin:0 0 12px}
+  .qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media (max-width:860px){.qa{grid-template-columns:1fr}}
+  .qa>div{background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .qa b.q{display:block;color:var(--acc);margin-bottom:3px}
+  .vsteps{list-style:none;margin:0;padding:0;counter-reset:v}
+  .vsteps>li{position:relative;padding:9px 0 9px 44px;border-top:1px dashed var(--line)}
+  .vsteps>li:first-child{border-top:0}
+  .vsteps>li::before{counter-increment:v;content:counter(v);position:absolute;left:0;top:9px;width:30px;height:30px;border-radius:50%;background:var(--acc);color:#fff;font-weight:900;display:grid;place-items:center;font-size:.9rem}
+  .vsteps p{margin:2px 0 0;font-size:.93rem}
+  .case{background:#fff8e6;border:2px solid #f6d58a;border-radius:16px;padding:16px 20px;margin-bottom:18px}
+  .case>h3{margin:0 0 8px;font-size:1.05rem;color:#8a5a00}
+  /* 퀴즈 */
+  .quiz{background:linear-gradient(135deg,#0f2742,#1b3d66);color:#fff;border-radius:16px;padding:20px 22px;margin-top:6px;box-shadow:var(--shadow)}
+  .quiz .qh{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .quiz .qh b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.25rem;color:var(--amber)}
+  .quiz .qh span{font-size:.85rem;color:#a9bbd2}
+  .qi{background:rgba(255,255,255,.07);border-radius:12px;padding:12px 14px;margin-top:10px}
+  .qi .qq{font-weight:700;margin-bottom:8px}
+  .qi .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .qi .opts button{font:inherit;font-size:.93rem;border:2px solid rgba(255,255,255,.25);background:transparent;color:#fff;border-radius:10px;padding:6px 14px;cursor:pointer;transition:.15s}
+  .qi .opts button:hover:not(:disabled){border-color:var(--amber)}
+  .qi .opts button.right{background:var(--mint);border-color:var(--mint);font-weight:700}
+  .qi .opts button.wrong{background:var(--red);border-color:var(--red);text-decoration:line-through}
+  .qi .opts button:disabled{cursor:default}
+  .qi .why{margin-top:8px;font-size:.9rem;color:#d7e3f2;display:none}
+  .qi.answered .why{display:block}
+  .qi.answered.correct{box-shadow:inset 4px 0 0 var(--mint)}
+  .qi.answered.incorrect{box-shadow:inset 4px 0 0 var(--red)}
+  .shake{animation:shake .35s}
+  @keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+  .foot{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:rgba(243,239,231,.94);backdrop-filter:blur(6px);border-top:1px solid var(--line)}
+  .foot .btn{min-width:110px}
+  .foot .pg{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  /* 표지 */
+  .cover{position:relative;border-radius:22px;overflow:hidden;background:radial-gradient(ellipse at 20% 0%,#24507f 0%,#0f2742 55%,#0a1a2e 100%);color:#fff;min-height:520px;padding:46px 44px;box-shadow:var(--shadow)}
+  .cover canvas{position:absolute;right:0;top:0;height:100%;width:62%;image-rendering:pixelated;opacity:.95}
+  .cover .fade{position:absolute;inset:0;background:linear-gradient(90deg,#0f2742 34%,rgba(15,39,66,.75) 50%,rgba(15,39,66,0) 70%)}
+  .cover .in{position:relative;max-width:560px}
+  .cover .tag{display:inline-block;background:var(--amber);color:var(--navy);font-weight:900;font-size:.85rem;padding:4px 12px;border-radius:999px}
+  .cover h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:3.1rem;line-height:1.15;margin:16px 0 10px}
+  .cover p{color:#c8d6e8;font-size:1.05rem}
+  .cover ol{margin:18px 0 26px;padding-left:20px;color:#e1e9f4;columns:2;column-gap:28px;font-size:.95rem}
+  @media (max-width:700px){.cover{padding:30px 22px}.cover h1{font-size:2.2rem}.cover ol{columns:1}.cover canvas{width:100%;opacity:.3}.cover .fade{display:none}}
+  .today{margin-top:26px}
+  .kicker{display:inline-block;font-family:"Black Han Sans",sans-serif;font-size:1.15rem;color:var(--navy);margin-bottom:6px;border-bottom:4px solid var(--amber);line-height:1.2}
+  .today-lead{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:22px 26px;margin-bottom:16px}
+  .today-lead p{font-size:1.12rem;margin:6px 0 0}
+  .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+  @media (max-width:900px){.why3{grid-template-columns:1fr}}
+  .why{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 22px}
+  .why ul{margin:6px 0 0;padding-left:18px;font-size:.95rem}
+  .why li{margin:6px 0}
+  .why ul.can{list-style:none;padding:0}
+  .why ul.can li{padding-left:28px;position:relative}
+  .why ul.can li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 7' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+  .why ul.uses{list-style:none;padding:0}
+  .why ul.uses li{border-left:3px solid var(--amber);padding-left:10px}
+  .glossary-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .glossary-head .muted{font-size:.88rem}
+  .glossary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+  @media (max-width:1000px){.glossary{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.glossary{grid-template-columns:1fr}}
+  .gcard{all:unset;box-sizing:border-box;cursor:pointer;display:block;background:#fff;border-radius:14px;padding:16px 16px 12px;box-shadow:var(--shadow);border-top:6px solid var(--g);position:relative;transition:transform .18s, box-shadow .18s}
+  .gcard:hover,.gcard:focus-visible{transform:translateY(-4px);box-shadow:0 22px 50px rgba(15,39,66,.16)}
+  .gcard:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+  .gcard i{position:absolute;right:14px;top:8px;font-style:normal;font-family:"Black Han Sans",sans-serif;font-size:1.9rem;color:var(--g);opacity:.25}
+  .gcard h4{margin:0 0 6px;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.2rem;color:var(--g)}
+  .gcard dl{margin:0;font-size:.88rem;line-height:1.45}
+  .gcard dt{font-weight:900;margin-top:7px}
+  .gcard dd{margin:1px 0 0;color:#3c4654}
+  .prob{display:grid;grid-template-columns:60px 1fr 46px;gap:6px;align-items:center;font-size:.88rem;min-width:200px}
+  .prob i{display:block;height:12px;border-radius:6px;background:var(--acc)}
+  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media (max-width:860px){.apps{grid-template-columns:1fr 1fr}}
+  .apps button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border-radius:14px;padding:14px;box-shadow:0 6px 16px rgba(15,39,66,.08);border:3px solid transparent;text-align:center;transition:.2s}
+  .apps button.on{border-color:var(--acc);transform:translateY(-3px)}
+  .apps button .e{font-size:2rem;display:block}
+  .apps button b{display:block}
+  .appd{display:none}
+  .appd.on{display:block;animation:enter .35s both}
+  .ex2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  @media (max-width:640px){.ex2{grid-template-columns:1fr}}
+  .ex2>div{background:#fbfaf7;border-radius:12px;padding:12px 14px;font-size:.93rem;border-left:4px solid var(--acc)}
+  .try{margin-top:12px;background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.92rem}
+  .try ol{margin:4px 0 0;padding-left:20px}
+  /* 08 정리 */
+  .sum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:860px){.sum{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.sum{grid-template-columns:1fr}}
+  .sum div{background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);border-top:5px solid var(--acc)}
+  .sum b{display:block;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.1rem;margin-bottom:4px}
+  .sum span{font-size:.88rem;color:#333}
+  .sum small{display:block;margin-top:6px;font-size:.8rem;color:var(--muted)}
+  .key3{display:grid;gap:10px;margin-bottom:18px}
+  .key3 div{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:14px 18px;border-left:6px solid var(--k);font-size:1.02rem}
+  /* 표지: 스펙트로그램 + 자막 */
+  .cover canvas{image-rendering:auto}
+  .capline{position:absolute;right:26px;bottom:24px;background:rgba(0,0,0,.55);color:#fff;border-radius:10px;padding:6px 14px;font-weight:700;font-size:1.1rem;min-width:40px;min-height:40px}
+  .caret{display:inline-block;width:2px;height:1.1em;background:var(--amber);margin-left:2px;vertical-align:-3px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  @media (max-width:700px){.capline{display:none}}
+  /* 음성 공통 */
+  .micbtn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:12px 24px;font:inherit;font-weight:900;font-size:1.02rem;background:var(--acc);color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(15,39,66,.2);position:relative}
+  .micbtn.on{background:var(--red)}
+  .micbtn.on::after{content:"";position:absolute;inset:-6px;border-radius:999px;border:3px solid var(--red);animation:ring 1.2s infinite}
+  @keyframes ring{from{opacity:.8;transform:scale(1)}to{opacity:0;transform:scale(1.12)}}
+  .btn.on{background:var(--red)}
+  .note{font-size:.84rem;color:var(--muted);margin-top:8px}
+  .warnbox{display:none;background:#fdecea;color:#8c1d13;border-radius:10px;padding:10px 14px;font-size:.9rem;margin-top:8px}
+  .warnbox.on{display:block}
+  textarea{font:inherit;width:100%;min-height:70px;padding:8px 10px;border:1px solid #c5ccd5;border-radius:8px;resize:vertical;color:var(--ink)}
+  .meter{height:12px;background:#eef0f3;border-radius:6px;overflow:hidden;margin-top:4px}
+  .meter i{display:block;height:100%;width:0;background:var(--acc);transition:width .5s}
+  .flow2{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .flow2>div{flex:1;min-width:170px;background:#fbfaf7;border-radius:12px;padding:10px 12px;border-top:5px solid var(--k)}
+  .flow2>.ar{flex:0 0 auto;min-width:0;background:none;border:0;align-self:center;font-weight:900;color:var(--muted);padding:0}
+  @media (max-width:640px){.flow2>.ar{flex-basis:100%;text-align:center;transform:rotate(90deg)}}
+  /* 01 주파수 */
+  .wave{width:100%;height:auto;aspect-ratio:3/1;background:#0f2742;border-radius:12px;display:block}
+  .spec{width:100%;height:auto;aspect-ratio:300/128;background:#0a1a2e;border-radius:12px;display:block}
+  .speclab{display:flex;justify-content:space-between;gap:8px;font-size:.76rem;color:var(--muted);margin-top:2px}
+  /* 02 음소 */
+  .syls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;min-height:98px;align-items:flex-start}
+  .syl{background:#fff;border:2px solid var(--line);border-radius:12px;padding:6px 8px;text-align:center;animation:enter .4s both}
+  .syl>b{display:block;font-size:1.7rem;line-height:1.2}
+  .syl .jm{display:flex;gap:3px;justify-content:center;margin-top:4px}
+  .syl .jm span{min-width:30px;padding:3px 5px;font-size:1.05rem;border-radius:6px;font-weight:900;color:#fff;animation:pop .35s both}
+  .jm .c{background:#2f6fd0}.jm .v{background:#1f9d74}.jm .f{background:#e0702b}.jm .z{background:#c9ced6;color:#5b6776!important}
+  .syl.gap{border:0;background:none;width:10px;padding:0}
+  @keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin-top:8px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+  .prons{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:10px}
+  @media (max-width:900px){.prons{grid-template-columns:repeat(3,1fr)}}
+  .pron{border-radius:12px;background:#fbfaf7;border:2px solid var(--line);padding:10px 6px;text-align:center}
+  .pron b{display:block;font-size:1.3rem}
+  .pron span{display:block;color:var(--red);font-weight:900;font-size:1.1rem}
+  .pron button{margin-top:6px}
+  /* 03 두 방식 */
+  .s30{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;align-items:start}
+  @media (max-width:860px){.s30{grid-template-columns:1fr}}
+  .s30 svg{max-width:360px;margin:auto}
+  #dL,#dR{transition:width 1.2s ease-in-out, x 1.2s ease-in-out}
+  #bub,#waveG{transition:opacity .4s}
+  .heard{font-size:1.15rem;font-weight:900;text-align:center;margin:8px 0;min-height:30px}
+  .way{border-radius:14px;padding:12px 14px;margin-bottom:10px;border:2px solid var(--line);background:#fff;opacity:.45;transition:opacity .4s}
+  .way.on{opacity:1}
+  .way h4{font-size:1rem}
+  .way.rule{border-color:#f2c26b}.way.rule h4{color:#b07400}
+  .way.dl{border-color:#c7a3dd}.way.dl h4{color:#9b4fc4}
+  .way .out{font-size:1.2rem;font-weight:900;margin-top:4px;min-height:30px}
+  .cand{display:grid;grid-template-columns:minmax(120px,1fr) 1.4fr 48px;gap:8px;align-items:center;font-size:.95rem;margin:4px 0;padding:3px 6px;border-radius:8px;transition:background .3s}
+  .cand .bar{height:12px;background:#eef0f3;border-radius:6px;overflow:hidden}
+  .cand .bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .7s}
+  .cand.best{background:var(--acc-soft);font-weight:900}
+  .cand b{text-align:right;font-variant-numeric:tabular-nums}
+  .res2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  @media (max-width:560px){.res2{grid-template-columns:1fr}}
+  .res2>div{border-radius:12px;padding:10px 12px;background:#fbfaf7;border:2px solid var(--line)}
+  .res2 .out{font-size:1.15rem;font-weight:900;min-height:28px}
+  mark.miss{background:#fdd8d3;color:#b42318;border-radius:3px;padding:0 1px}
+  mark.extra{background:#ffe2a8;color:#7a4b00;border-radius:3px;padding:0 1px}
+  .guess{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+  .guess button{font:inherit;font-size:1.05rem;font-weight:700;border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px;cursor:pointer;color:var(--ink);transition:.2s}
+  .guess button:hover:not(:disabled){border-color:var(--acc)}
+  .guess button:disabled{cursor:default}
+  .guess button.right{background:var(--mint);border-color:var(--mint);color:#fff}
+  .guess button.wrong{background:#fdecea;border-color:var(--red)}
+  /* 04 직접 말해 보기 */
+  .live{min-height:104px;background:#0f2742;color:#fff;border-radius:14px;padding:16px 18px;font-size:1.35rem;margin-top:12px;line-height:1.5;word-break:keep-all}
+  .live .fin{font-weight:900}
+  .live .int{color:#9fb3cc;font-style:italic}
+  .live .ph{color:#6f86a3;font-size:1rem}
+  .target{font-size:1.2rem;font-weight:900;background:var(--acc-soft);border-radius:12px;padding:10px 14px;margin:10px 0;min-height:48px;word-break:keep-all}
+  .log{list-style:none;padding:0;margin:6px 0 0;font-size:.95rem;max-height:250px;overflow:auto;min-height:40px}
+  .log li{padding:4px 8px;border-left:3px solid var(--line);margin:3px 0;animation:enter .3s both}
+  .log li.fix{border-left-color:var(--amber);background:#fff8e6}
+  .log li small{color:var(--muted);margin-right:6px;font-variant-numeric:tabular-nums}
+  .log .empty{border:0;color:var(--muted);font-size:.88rem}
+  .checks{list-style:none;padding:0;margin:0}
+  .checks li{padding:8px 0;border-top:1px dashed var(--line);font-size:.93rem}
+  .checks label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+  .checks input{margin-top:5px;accent-color:var(--acc)}
+  /* 05 활용 */
+  .room{max-width:420px;margin:10px auto 0}
+  .room .wall{transition:fill .5s}
+  .room .cur{transition:width .8s, x .8s}
+  .room .glow{transition:opacity .5s}
+  .room .notes{opacity:0;transition:opacity .4s}
+  .room .notes.on{opacity:1;animation:float 1.6s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-6px)}}
+  .cmd{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .cmd input{flex:1;min-width:150px}
+  .cmdres{font-weight:700;margin-top:6px;min-height:26px;font-size:.95rem}
+  .fuse{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:640px){.fuse{grid-template-columns:1fr}}
+  .fuse>div{background:#fbfaf7;border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .fuse b.eq{display:block;font-size:1.02rem;margin-bottom:4px}
+  .hint{margin-top:6px}
+  .hint summary{cursor:pointer;color:var(--acc);font-weight:700;font-size:.9rem}
+  .hint p,.hint .codebox{margin-top:6px}
+  /* 06 발음 연습 */
+  .ipo{display:grid;grid-template-columns:1fr;gap:4px}
+  .ipo>div{background:#fbfaf7;border-radius:12px;padding:10px 12px;font-size:.92rem;border-top:5px solid var(--k)}
+  .ipo>.ar{background:none;border:0;padding:0;justify-self:center;font-weight:900;color:var(--muted);line-height:1}
+  .verdict2{font-size:1.45rem;font-weight:900;margin:6px 0}
+  .cmp{font-size:1.05rem;line-height:1.8;background:#fbfaf7;border-radius:12px;padding:10px 14px;margin-top:8px;word-break:keep-all}
+  .cmp small{display:block;color:var(--muted);font-size:.8rem;line-height:1.4}
+  .code{background:#0f2742;color:#e6edf6;border-radius:12px;padding:12px 14px;font-family:ui-monospace,Menlo,monospace;font-size:.82rem;line-height:1.6;overflow-x:auto;white-space:pre;margin:6px 0}
+  .code .c{color:#7fd3a8}
+  .codebox{position:relative}
+  .codebox .cp{position:absolute;right:8px;top:8px;background:#fff}
+  .lines{font-size:.9rem;margin:4px 0 16px;padding-left:18px}
+  .t9 td{padding:5px 4px}
+  .t9 input{width:100%;min-width:0}
+
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="../" title="수업 자료실로">← 수업 자료실</a>
+  <nav class="steps" id="steps"></nav>
+  <div class="score" id="score"></div>
+</div>
+<div class="progress"><i id="prog"></i></div>
+
+<main id="main">
+
+<!-- 0 표지 -->
+<section class="page" data-name="시작" data-acc="#f2a516">
+  <div class="cover">
+    <canvas id="coverSp" width="160" height="90" aria-hidden="true"></canvas>
+    <div class="fade"></div>
+    <div class="capline" aria-hidden="true"><span id="capT"></span><i class="caret"></i></div>
+    <div class="in">
+      <span class="tag">인공지능 기초 · Ⅱ-2 딥러닝</span>
+      <h1>인공지능은 내 말을<br>어떻게 알아들을까?</h1>
+      <p>사람에게는 쉬운 '듣기'가 인공지능에게는 아주 어려운 일이에요. 말소리를 떨림(주파수)으로 나누어 보고, 가장 작은 소리 단위(음소)를 찾아, 가장 그럴듯한 문장으로 바꾸는 음성 인식을 배워 봅니다.</p>
+      <ol>
+        <li>소리와 주파수</li><li>가장 작은 소리, 음소</li><li>규칙 방식과 딥러닝 방식</li><li>직접 말해 보기</li>
+        <li>음성 인식의 활용</li><li>발음 연습 프로그램 만들기</li><li>한눈에 정리</li>
+      </ol>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
+        <button class="btn" style="background:transparent;border:2px solid rgba(255,255,255,.5);box-shadow:none" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">오늘 배울 내용 보기 ↓</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="intro" class="today">
+    <div class="today-lead">
+      <span class="kicker">오늘 우리는</span>
+      <p>사람의 말소리가 어떤 모양의 <b>떨림</b>인지 눈으로 확인하고, 그 떨림에서 <b>음소</b>를 찾아 <b>텍스트</b>로 바꾸는 음성 인식의 원리를 배웁니다. 규칙을 하나하나 정해 주던 옛 방식과 많은 목소리를 학습한 <b>딥러닝 방식</b>을 비교하고, 마지막에는 내 발음을 확인해 주는 프로그램을 직접 만들어 봅니다.</p>
+    </div>
+
+    <div class="why3">
+      <div class="why">
+        <span class="kicker">왜 배울까</span>
+        <ul>
+          <li>AI 스피커도 휴대폰 음성 비서도 먼저 내 말을 <b>글자로 바꿔야</b> 대답할 수 있어요. 음성 인식은 말로 기기를 쓰는 모든 서비스의 첫 단계예요.</li>
+          <li>운전·요리처럼 손을 쓰기 어려울 때, 또 손이나 눈이 불편한 사람도 <b>말만으로</b> 기기를 쓸 수 있게 해 줘요.</li>
+          <li>지난 시간 '보는' 인공지능(컴퓨터 비전)에 쓰인 딥러닝이 '듣는' 인공지능에서는 <b>어떻게 쓰이는지</b> 이어서 알 수 있어요.</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">어디에 쓰일까</span>
+        <ul class="uses">
+          <li><b>기기 제어</b> · "불 꺼 줘" 한마디로 조명과 커튼을 움직이는 스마트 홈</li>
+          <li><b>텍스트 기록</b> · 회의 내용을 받아 적는 자동 회의록, 진료 내용을 기록하는 병원 시스템</li>
+          <li><b>외국어 교육</b> · 내 발음을 듣고 맞았는지 알려 주는 어학 앱</li>
+          <li><b>자막 생성</b> · 영상에 자동으로 붙는 자막, 수업 내용을 실시간 글자로 보여 주는 서비스</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">배우고 나면 할 수 있는 것</span>
+        <ul class="can">
+          <li>주파수가 무엇인지 말하고, 높은 소리와 낮은 소리를 주파수로 구분한다.</li>
+          <li>낱말을 음소로 나누고, 글자와 실제 소리가 다른 예를 찾는다.</li>
+          <li>if-then 방식과 딥러닝 방식의 음성 인식을 비교해 설명한다.</li>
+          <li>음성 인식이 앞뒤 말(맥락)을 보고 텍스트를 고른다는 것을 체험으로 확인한다.</li>
+          <li>음성 인식의 활용 분야를 실생활 예와 짝짓는다.</li>
+          <li>음성 인식 결과와 원래 문장을 비교하는 발음 연습 프로그램을 설계하고 실행한다.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="glossary-head"><span class="kicker">미리 보는 용어</span><span class="muted">카드를 누르면 그 개념 화면으로 갑니다</span></div>
+    <div class="glossary">
+      <div class="gcard" role="button" tabindex="0" style="--g:#2f6fd0" onclick="go(1)"><i>01</i><h4>소리와 주파수</h4>
+        <dl><dt>음성 인식</dt><dd>사람의 말소리를 분석해 텍스트 데이터로 바꾸는 것</dd><dt>주파수</dt><dd>1초 동안 진동하는 수(단위 Hz). 소리의 높낮이를 나타내요</dd><dt>고주파수 · 저주파수</dt><dd>빠르게 반복되면 높은 소리, 느리게 반복되면 낮은 소리</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#1f9d74" onclick="go(2)"><i>02</i><h4>음소</h4>
+        <dl><dt>음소</dt><dd>언어의 가장 작은 소리 단위. 말소리를 이루는 소리의 기본</dd><dt>글자 ≠ 소리</dt><dd>'같이'는 [가치]로 소리 나요. 들리는 대로만 적으면 틀려요</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#9b4fc4" onclick="go(3)"><i>03</i><h4>두 가지 방식</h4>
+        <dl><dt>if-then 방식</dt><dd>미리 저장한 주파수 정보와 규칙대로 텍스트로 바꾸기</dd><dt>딥러닝 방식</dt><dd>많은 음성 데이터로 학습해, 확률이 높은 텍스트로 바꾸기</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#e0702b" onclick="go(4)"><i>04</i><h4>직접 말해 보기</h4>
+        <dl><dt>맥락</dt><dd>앞뒤에 오는 말. 같은 소리를 어떤 글자로 적을지 정하는 단서</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#d64535" onclick="go(5)"><i>05</i><h4>활용</h4>
+        <dl><dt>4가지 활용</dt><dd>기기 제어 · 텍스트 기록 · 외국어 교육 · 자막 생성</dd><dt>융합</dt><dd>사물 인터넷, 자연어 처리와 함께 쓰여요</dd></dl></div>
+      <div class="gcard" role="button" tabindex="0" style="--g:#c98a00" onclick="go(6)"><i>06</i><h4>발음 연습</h4>
+        <dl><dt>잰말놀이</dt><dd>발음하기 어려운 문장을 빠르게 말하는 놀이</dd><dt>recognize_google</dt><dd>오디오의 말소리를 텍스트로 바꿔 주는 파이썬 함수</dd></dl></div>
+    </div>
+    <div style="text-align:center;margin-top:20px"><button class="btn" style="background:var(--navy)" onclick="go(1)">01 소리와 주파수부터 시작하기 →</button></div>
+  </div>
+</section>
+
+<!-- 1 소리와 주파수 -->
+<section class="page" data-name="소리와 주파수" data-acc="#2f6fd0">
+  <div class="head"><div class="num">01</div><div><h2>소리는 떨림이에요</h2><p>말소리를 숫자로 바꾸는 첫걸음, 주파수</p></div></div>
+
+  <div class="grid2 even">
+    <div class="card">
+      <h3>① 높은 소리, 낮은 소리</h3>
+      <p class="muted" style="margin-top:0">소리는 공기의 떨림이에요. <b>1초 동안 몇 번 떨리는지</b>가 <b>주파수</b>이고, 단위는 Hz(헤르츠)예요. 막대를 움직이고 소리를 들어 보세요. 소리가 작게 나요.</p>
+      <canvas class="wave" id="toneC" width="600" height="200"></canvas>
+      <div class="speclab"><span>0초</span><span>0.01초 동안의 떨림</span><span>0.01초</span></div>
+      <div class="ctrl" style="grid-template-columns:62px 1fr 76px;margin-top:8px"><label>주파수</label><input type="range" id="toneF" min="100" max="1000" step="10" value="200"><output id="toneO">200 Hz</output></div>
+      <div class="row">
+        <button class="btn sm" id="tonePlay">▶ 소리 듣기</button>
+        <button class="chip" data-f="150">낮은 소리 150 Hz</button><button class="chip" data-f="400">400 Hz</button><button class="chip" data-f="900">높은 소리 900 Hz</button>
+      </div>
+      <p id="toneSay" style="font-size:.93rem;margin-top:10px"></p>
+    </div>
+
+    <div class="card">
+      <h3>② 내 목소리를 주파수로 보기</h3>
+      <p class="muted" style="margin-top:0">음성 인식은 말소리를 <b>주파수별로 나누어</b> 분석해요. 마이크를 켜고 "아—", "이—", "우—"를 차례로 길게 말해 보세요. 모음마다 밝은 줄무늬의 위치가 달라져요.</p>
+      <canvas class="wave" id="micW" width="600" height="160" style="aspect-ratio:600/160"></canvas>
+      <canvas class="spec" id="micS" width="300" height="128" style="margin-top:8px"></canvas>
+      <div class="speclab"><span>← 조금 전</span><span>아래 낮은 주파수 · 위 높은 주파수 (0~4,000 Hz)</span><span>지금 →</span></div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn sm" id="micBtn">🎤 마이크 켜기</button>
+        <button class="btn ghost sm" id="vowBtn">예시 목소리로 보기 (아·이·우)</button>
+        <span id="micPeak" class="muted" style="font-size:.9rem"></span>
+      </div>
+      <div class="warnbox" id="micErr"></div>
+      <p class="note">🔒 이 그림은 마이크 소리를 화면에 그리기만 해요. 녹음하거나 어디로 보내지 않아요.</p>
+    </div>
+  </div>
+
+  <div class="cx">
+    <h3>음성 인식은 말소리를 어떻게 텍스트로 바꿀까?</h3>
+    <p class="lead2">교과서 110쪽 01의 한 줄 요약: <b>음성 주파수를 분석하여 음소를 추출하고 텍스트로 변환한다.</b></p>
+    <div class="flow2">
+      <div style="--k:#2f6fd0"><b>① 주파수 분석</b><br><span style="font-size:.9rem">마이크로 들어온 떨림을 주파수별로 나누어 봐요. 위 ② 그림이 바로 그 모습이에요.</span></div>
+      <div class="ar">→</div>
+      <div style="--k:#1f9d74"><b>② 음소 추출</b><br><span style="font-size:.9rem">주파수 무늬를 보고 어떤 소리(음소)인지 찾아요. → 02</span></div>
+      <div class="ar">→</div>
+      <div style="--k:#9b4fc4"><b>③ 텍스트 변환</b><br><span style="font-size:.9rem">음소를 이어 가장 알맞은 낱말과 문장으로 바꿔요. → 03</span></div>
+    </div>
+    <span class="book">교과서 110쪽 · 주파수</span>
+  </div>
+  <div class="quiz" data-quiz="1"></div>
+</section>
+
+<!-- 2 음소 -->
+<section class="page" data-name="음소" data-acc="#1f9d74">
+  <div class="head"><div class="num">02</div><div><h2>가장 작은 소리, 음소</h2><p>말소리를 쪼개고 또 쪼개면</p></div></div>
+
+  <div class="card">
+    <h3>① 낱말을 소리 단위로 나누기</h3>
+    <p class="muted" style="margin-top:0"><b>음소</b>는 언어의 가장 작은 소리 단위예요. 한글은 자음·모음 글자가 소리 단위와 거의 하나씩 짝을 이뤄서, 글자를 풀어 보면 소리 단위가 보여요. 낱말이나 문장을 넣어 보세요.</p>
+    <div class="row">
+      <input type="text" id="phIn" value="문이 닫힙니다" maxlength="24" style="flex:1;min-width:180px">
+      <button class="btn sm" id="phGo">나누기</button>
+    </div>
+    <div class="chips" style="margin-top:8px" id="phPre">
+      <button class="chip" data-w="문">문</button><button class="chip" data-w="사과">사과</button><button class="chip" data-w="기린 그림">기린 그림</button><button class="chip" data-w="문이 닫힙니다">문이 닫힙니다</button><button class="chip" data-w="내 이름">내 이름</button>
+    </div>
+    <div class="syls" id="phOut"></div>
+    <div class="legend"><span><i style="background:#2f6fd0"></i>첫소리 자음</span><span><i style="background:#1f9d74"></i>모음</span><span><i style="background:#e0702b"></i>받침 자음</span><span><i style="background:#c9ced6"></i>소리 없는 첫소리 ㅇ</span></div>
+    <p id="phSay" style="margin-top:8px"></p>
+  </div>
+
+  <div class="card">
+    <h3>② 글자대로 소리 나지 않는 말</h3>
+    <p class="muted" style="margin-top:0">음성 인식이 듣는 것은 글자가 아니라 <b>실제 소리</b>예요. 🔊를 눌러 들어 보세요. 글자와 소리가 다르죠?</p>
+    <div class="prons" id="prons"></div>
+    <p class="note" id="ttsNote">🔊은 컴퓨터 목소리로 읽어 줘요. 소리가 나지 않으면 이 브라우저에 한국어 목소리가 없는 거예요.</p>
+    <div class="callout">소리 나는 대로만 받아 적으면 '같이'가 '가치'가 되고, '해돋이'가 '해도지'가 돼요. 게다가 같은 음소도 <b>사람마다 다르게</b> 소리 내요. 그럼 인공지능은 어떻게 바르게 적을까요? <a href="#p3" onclick="go(3);return false">03에서 알아봐요 →</a></div>
+    <span class="book">교과서 110쪽 · 음소</span>
+  </div>
+  <div class="quiz" data-quiz="2"></div>
+</section>
+
+<!-- 3 규칙 vs 딥러닝 -->
+<section class="page" data-name="두 가지 방식" data-acc="#9b4fc4">
+  <div class="head"><div class="num">03</div><div><h2>규칙 방식 vs 딥러닝 방식</h2><p>음성 인식 기술은 이렇게 바뀌었어요</p></div></div>
+
+  <div class="cx">
+    <h3>엘리베이터 안내 방송을 두 방식으로 알아듣기</h3>
+    <p class="lead2">엘리베이터에서 "문이 닫힙니다."라는 안내 방송이 나와요. 버튼을 눌러 두 방식이 어떻게 텍스트로 바꾸는지 비교해 보세요.</p>
+    <div class="s30">
+      <div>
+        <svg viewBox="0 0 320 230" id="elev" aria-label="엘리베이터 안내 방송">
+          <rect x="40" y="20" width="200" height="200" rx="6" fill="#d7dde6" stroke="#9aa6b5" stroke-width="3"/>
+          <rect x="56" y="40" width="168" height="180" fill="#5b6776"/>
+          <rect id="dL" x="56" y="40" width="40" height="180" fill="#b8c2cf" stroke="#8b97a6"/>
+          <rect id="dR" x="184" y="40" width="40" height="180" fill="#b8c2cf" stroke="#8b97a6"/>
+          <rect x="250" y="110" width="22" height="46" rx="4" fill="#e9edf2" stroke="#9aa6b5"/>
+          <circle cx="261" cy="124" r="5" fill="#f2a516"/><circle cx="261" cy="142" r="5" fill="#c3cad4"/>
+          <g id="bub" opacity="0">
+            <path d="M178 8 h132 a10 10 0 0 1 10 10 v26 a10 10 0 0 1 -10 10 h-96 l-14 14 l2 -14 h-24 a10 10 0 0 1 -10 -10 v-26 a10 10 0 0 1 10 -10z" fill="#fff" stroke="#9b4fc4" stroke-width="2"/>
+            <text x="244" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="#16202c">문이 닫힙니다.</text>
+          </g>
+          <g id="waveG" opacity="0"><path id="waveP" d="" stroke="#9b4fc4" stroke-width="2.5" fill="none"/></g>
+        </svg>
+        <div class="heard" id="heard">&nbsp;</div>
+        <div style="text-align:center"><button class="btn" id="elevGo">▶ 안내 방송 알아듣기</button></div>
+      </div>
+      <div>
+        <div class="way rule" id="wRule">
+          <h4>패턴 인식 if-then 방식</h4>
+          <p style="font-size:.9rem;margin:2px 0">이미 저장되어 있는 주파수 정보에 따라 해당 텍스트로 변환</p>
+          <div class="out" id="oRule">…</div>
+          <p style="font-size:.86rem;margin:2px 0" class="muted" id="sRule"></p>
+        </div>
+        <div class="way dl" id="wDl">
+          <h4>딥러닝 방식</h4>
+          <p style="font-size:.9rem;margin:2px 0">추출된 음소를 바탕으로 다양한 경우를 고려하여 확률이 높은 텍스트로 변환</p>
+          <div id="oDl"></div>
+          <p style="font-size:.86rem;margin:2px 0" class="muted" id="sDl"></p>
+        </div>
+      </div>
+    </div>
+    <span class="book">교과서 110쪽 · 그림 Ⅱ-30 if-then 방식과 딥러닝 방식</span>
+  </div>
+
+  <div class="grid2 even">
+    <div class="card sp4">
+      <h3>① 규칙 방식이 약했던 까닭: 사람마다 다른 목소리</h3>
+      <p class="muted" style="margin-top:0">초기 음성 인식은 음소를 낱말로 만드는 규칙을 if-then으로 하나하나 정해 두었어요. 그런데 같은 음소도 사람마다 <b>높낮이·크기·빠르기</b>가 달라요. 말하는 사람을 바꿔 보세요.</p>
+      <div class="chips" id="spk"></div>
+      <div class="row"><button class="btn ghost sm" id="spkSay">🔊 이 목소리로 들어 보기</button><span class="muted" id="spkTxt" style="font-size:.88rem"></span></div>
+      <div style="margin-top:10px;font-size:.9rem">저장된 주파수 정보와 닮은 정도 <b id="simO"></b></div>
+      <div class="meter"><i id="simM"></i></div>
+      <div class="res2">
+        <div><b style="color:#b07400;font-size:.88rem">if-then 방식 결과</b><div class="out" id="spkRule"></div></div>
+        <div><b style="color:#9b4fc4;font-size:.88rem">딥러닝 방식 결과</b><div class="out" id="spkDl"></div></div>
+      </div>
+      <p style="font-size:.92rem;margin-top:10px">딥러닝 모델은 <b>대량의 음성 데이터</b>로 학습해서, 목소리가 달라도 같은 음소를 알아들어요. 그래서 정확도가 크게 높아졌어요.</p>
+      <p class="note">※ 두 방식의 차이를 보여 주려고 만든 예시 결과예요.</p>
+    </div>
+
+    <div class="card">
+      <h3>② 딥러닝은 확률이 높은 문장을 골라요</h3>
+      <p class="muted" style="margin-top:0">딥러닝 방식은 들린 소리로 만들 수 있는 여러 문장 가운데 <b>가장 그럴듯한(확률이 높은)</b> 문장을 골라요. 인공지능이라면 무엇을 고를지 먼저 눌러 보세요.</p>
+      <div class="chips" id="gzTabs"></div>
+      <div class="heard" id="gzSound"></div>
+      <div class="guess" id="gzOpts"></div>
+      <div id="gzBars"></div>
+      <p id="gzWhy" style="font-size:.93rem;min-height:44px"></p>
+      <p class="note">※ 확률은 원리를 보여 주려고 정한 예시 숫자예요.</p>
+    </div>
+  </div>
+
+  <div class="cx">
+    <h3>여기서 잠깐! 듣기와 이해하기는 다른 기술이에요</h3>
+    <p class="lead2">친구의 말을 듣고 대답을 떠올리는 과정을 인공지능 기술로 나누어 보면 이렇게 돼요.</p>
+    <div class="flow2">
+      <div style="--k:#2f6fd0">🗣️ <b>친구의 말소리</b><br><span style="font-size:.9rem">"오늘 점심 뭐야?"</span></div>
+      <div class="ar">→</div>
+      <div style="--k:#9b4fc4">👂 <b>음성 인식</b><br><span style="font-size:.9rem">말소리를 듣고 텍스트로 바꾸기 (오늘 배우는 것)</span></div>
+      <div class="ar">→</div>
+      <div style="--k:#e0702b">🧠 <b>자연어 처리</b><br><span style="font-size:.9rem">텍스트의 뜻을 이해하고 자연스러운 대답 떠올리기 (다음 시간)</span></div>
+    </div>
+    <span class="book">교과서 110쪽 · 여기서 잠깐!</span>
+  </div>
+  <div class="quiz" data-quiz="3"></div>
+</section>
+
+<!-- 4 직접 말해 보기 -->
+<section class="page" data-name="직접 말해 보기" data-acc="#e0702b">
+  <div class="head"><div class="num">04</div><div><h2>직접 말해 보기</h2><p>말하는 동안 글자가 바뀌는 순간을 잡아라</p></div></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>🎤 음성 인식 체험</h3>
+      <p class="muted" style="margin-top:0">읽을 문장을 고르고 버튼을 누른 뒤 또박또박 말해 보세요. 말하는 <b>도중에</b> 화면의 글자가 바뀌는 순간이 있는지 잘 지켜보세요.</p>
+      <div class="chips" id="srPre">
+        <button class="chip" data-t="같이 가자">같이 가자</button>
+        <button class="chip" data-t="이 그림은 가치가 높다">가치가 높다</button>
+        <button class="chip" data-t="내일 해돋이 보러 가자">해돋이</button>
+        <button class="chip" data-t="국물이 너무 뜨거워">국물</button>
+        <button class="chip" data-t="문이 닫힙니다">문이 닫힙니다</button>
+        <button class="chip" data-t="간장 공장 공장장은 강 공장장이다">간장 공장</button>
+      </div>
+      <div class="target" id="srTarget"><span class="muted" style="font-weight:400">위에서 읽을 문장을 고르거나, 자유롭게 말해 보세요.</span></div>
+      <button class="micbtn" id="srBtn">🎤 누르고 말하기</button>
+      <div class="live" id="srLive"><span class="ph">여기에 인식된 글자가 나타나요.</span></div>
+      <p id="srCmp" style="font-weight:700;margin-top:8px;min-height:26px"></p>
+      <div class="warnbox" id="srErr"></div>
+      <p class="note">🔒 말소리는 인식을 위해 브라우저 회사의 서버(크롬은 구글)로 보내져요. 이름·전화번호 같은 개인 정보는 말하지 마세요.</p>
+    </div>
+    <div class="card">
+      <h3>글자가 바뀐 기록</h3>
+      <p class="muted" style="margin-top:0;font-size:.9rem">말하는 동안 인공지능이 적은 글자를 순서대로 모았어요. <span style="background:#fff8e6;padding:0 4px;border-radius:4px">노란 줄</span>은 앞에서 적은 글자를 <b>고친</b> 순간이에요.</p>
+      <ol class="log" id="srLog"><li class="empty">버튼을 누르고 말하면 여기에 차례로 기록돼요.</li></ol>
+      <h3 style="margin-top:14px">실험해 보기</h3>
+      <ul class="checks" id="exps">
+        <li><label><input type="checkbox"> '가치'만 말할 때와 '같이 가자'를 이어 말할 때, 각각 어떤 글자로 적힐까?</label></li>
+        <li><label><input type="checkbox"> 아주 작게, 아주 빠르게, 입을 가리고 말하면 결과가 어떻게 달라질까?</label></li>
+        <li><label><input type="checkbox"> 조용할 때와 주변이 시끄러울 때 결과를 비교해 보자.</label></li>
+        <li><label><input type="checkbox"> 사투리나 줄임말로 말하면 알아들을까?</label></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cx">
+    <h3>왜 말하는 도중에 글자가 바뀔까?</h3>
+    <p class="lead2">처음에는 앞부분 소리만 듣고 가장 그럴듯한 글자를 적어요. 뒷말이 들어오면 문장 전체를 다시 보고 <b>확률이 더 높은 문장</b>으로 고쳐요.</p>
+    <div class="qa">
+      <div><b class="q">[가치]만 들었을 때</b>'가치'일까 '같이'일까? 아직은 알 수 없어요. 뒤에 무슨 말이 올지 기다려야 해요.</div>
+      <div><b class="q">[가치 가자]까지 들었을 때</b>'가자' 앞에는 '같이'가 훨씬 자연스러워요. 앞뒤 말, 곧 <b>맥락</b>이 단서가 되어 '같이 가자'로 고쳐요.</div>
+    </div>
+    <p style="margin-top:12px;font-size:.95rem">03에서 본 <b>"확률이 높은 텍스트로 변환"</b>이 지금 눈앞에서 일어난 거예요.</p>
+  </div>
+  <div class="quiz" data-quiz="4"></div>
+</section>
+
+<!-- 5 활용 -->
+<section class="page" data-name="활용" data-acc="#d64535">
+  <div class="head"><div class="num">05</div><div><h2>음성 인식의 활용</h2><p>손 대신 말로, 소리 대신 글자로</p></div></div>
+
+  <div class="card">
+    <p style="margin-top:0">음성 인식 기술을 활용하면 손을 쓰기 어려운 상황에서 <b>말만으로 기기를 제어</b>하거나, <b>말소리를 텍스트 데이터로 변환</b>할 수 있어요. 카드를 눌러 보세요.</p>
+    <div class="apps" id="apps">
+      <button data-a="0" class="on"><span class="e">🏠</span><b>기기 제어</b><small>말로 움직이기</small></button>
+      <button data-a="1"><span class="e">📝</span><b>텍스트 기록</b><small>말을 글로 남기기</small></button>
+      <button data-a="2"><span class="e">🗣️</span><b>외국어 교육</b><small>발음 확인</small></button>
+      <button data-a="3"><span class="e">🎬</span><b>자막 생성</b><small>소리를 글자로</small></button>
+    </div>
+    <div class="appd on" data-a="0">
+      <h3 style="margin-top:16px">기기 제어 · 손을 쓰지 않고 말로</h3>
+      <div class="grid2">
+        <div>
+          <div class="ex2" style="grid-template-columns:1fr"><div><b>🏠 스마트 홈</b><br>"커튼 닫아 줘" 한마디에 커튼이 닫히고, "불 꺼 줘" 하면 조명이 꺼져요. 음성 인식이 <b>사물 인터넷</b>과 만난 예예요.</div><div><b>🚗 운전 중</b><br>핸들에서 손을 떼지 않고 말로 전화를 걸거나 음악을 바꿔요.</div></div>
+        </div>
+        <div>
+          <svg class="room" viewBox="0 0 360 210" aria-label="말로 움직이는 방">
+            <rect class="wall" id="rmWall" x="0" y="0" width="360" height="210" rx="14" fill="#3a3f4b"/>
+            <rect x="40" y="28" width="150" height="110" fill="#8fc3ea" stroke="#fff" stroke-width="5"/>
+            <line x1="115" y1="28" x2="115" y2="138" stroke="#fff" stroke-width="4"/>
+            <rect class="cur" id="rmCL" x="34" y="22" width="14" height="122" fill="#d64535"/>
+            <rect class="cur" id="rmCR" x="182" y="22" width="14" height="122" fill="#d64535"/>
+            <rect x="30" y="16" width="170" height="8" rx="4" fill="#7a5a3a"/>
+            <circle class="glow" id="rmGlow" cx="270" cy="70" r="46" fill="#ffd65a" opacity="0"/>
+            <line x1="270" y1="0" x2="270" y2="42" stroke="#222" stroke-width="3"/>
+            <path d="M246 42 h48 l-8 18 h-32z" fill="#e6e1d6"/>
+            <circle id="rmBulb" cx="270" cy="66" r="9" fill="#8a8f99"/>
+            <rect x="0" y="168" width="360" height="42" fill="#7a5a3a" opacity=".55"/>
+            <rect x="268" y="128" width="40" height="52" rx="8" fill="#222"/><circle cx="288" cy="148" r="10" fill="#555"/><circle cx="288" cy="170" r="5" fill="#555"/>
+            <text class="notes" id="rmNotes" x="300" y="122" font-size="22" fill="#f2a516">♪ ♫</text>
+          </svg>
+          <div class="cmd">
+            <input type="text" id="cmdIn" placeholder="예: 불 켜 줘, 커튼 닫아, 음악 틀어 줘">
+            <button class="btn sm" id="cmdGo">실행</button>
+            <button class="btn sm" id="cmdMic" style="background:var(--navy)">🎤 말로 하기</button>
+          </div>
+          <div class="cmdres" id="cmdRes"></div>
+        </div>
+      </div>
+    </div>
+    <div class="appd" data-a="1">
+      <h3 style="margin-top:16px">텍스트 기록 · 말소리를 글로 남기기</h3>
+      <div class="ex2"><div><b>🗒️ 자동 회의록</b><br>회의 중에 오간 말을 받아 적어, 누가 무슨 말을 했는지 글로 정리해 줘요.</div><div><b>🏥 진료 기록</b><br>의사가 진료하며 하는 말을 그대로 진료 기록으로 바꿔요. 아래 「스스로 해결하기」의 사례예요.</div></div>
+    </div>
+    <div class="appd" data-a="2">
+      <h3 style="margin-top:16px">외국어 교육 · 내 발음을 확인받기</h3>
+      <div class="ex2"><div><b>🗣️ 발음 연습 앱</b><br>내가 읽은 외국어 문장을 인식해, 원래 문장과 다른 단어를 표시해 줘요.</div><div><b>💬 대화 연습</b><br>인공지능과 외국어로 말을 주고받으며 말하기를 연습해요.</div></div>
+      <div class="try">06 화면에서 이 원리로 <b>우리말 발음 연습 프로그램</b>을 직접 만들어 봐요. <a href="#p6" onclick="go(6);return false">06으로 가기 →</a></div>
+    </div>
+    <div class="appd" data-a="3">
+      <h3 style="margin-top:16px">자막 생성 · 소리를 글자로 보여 주기</h3>
+      <div class="ex2"><div><b>🎬 영상 자동 자막</b><br>동영상 사이트가 영상 속 말소리를 인식해 자막을 붙여 줘요. 외국 영화를 볼 때도 쓰여요.</div><div><b>🧏 실시간 자막</b><br>수업이나 강연의 말소리를 바로 글자로 보여 줘서, 듣기 어려운 사람도 내용을 따라갈 수 있어요.</div></div>
+      <div class="try">04 화면의 체험이 바로 실시간 자막의 원리예요. <a href="#p4" onclick="go(4);return false">04로 가기 →</a></div>
+    </div>
+    <span class="book">교과서 111쪽 · 그림 Ⅱ-31 음성 인식의 활용</span>
+  </div>
+
+  <div class="case">
+    <h3>📰 스스로 해결하기 · 병원에서 쓰이는 음성 인식</h3>
+    <p style="margin-top:0;font-size:.95rem">교과서 111쪽 기사를 읽어 보세요. 한 스타트업이 만든 시스템은 의사가 환자와 이야기하는 동안 그 말소리를 인식해 <b>전자 의무 기록</b>을 바로 작성해 줘요. 어려운 의료 용어도 높은 정확도로 알아듣고, 치아 번호나 처방 계획 같은 내용을 실시간으로 입력해요.</p>
+    <ol style="font-size:.95rem;margin:6px 0 0;padding-left:20px">
+      <li>위 글에서 딥러닝 기술을 사용하여 효과적으로 해결한 문제는 무엇일까?
+        <details class="hint"><summary>힌트</summary>음성 인식이 없을 때 의사는 진료하면서 무엇을 따로 해야 했을지 생각해 보세요. 기록 손실·누락, 의료진의 피로와도 연결해 보세요.</details></li>
+      <li style="margin-top:8px">인터넷 검색으로 음성 인식 기술을 효과적으로 활용한 사례를 한 가지 더 찾아보자.</li>
+    </ol>
+  </div>
+
+  <div class="cx">
+    <h3>음성 인식은 다른 기술과 만나 더 강해져요</h3>
+    <div class="fuse">
+      <div><b class="eq">🎤 음성 인식 + 📡 사물 인터넷</b>말로 집 안의 조명·커튼·가전제품을 움직이는 스마트 홈</div>
+      <div><b class="eq">🎤 음성 인식 + 💬 자연어 처리</b>물어보면 뜻을 이해하고 대답까지 해 주는 AI 스피커와 음성 비서</div>
+    </div>
+    <span class="book">교과서 111쪽</span>
+  </div>
+  <div class="quiz" data-quiz="5"></div>
+</section>
+
+<!-- 6 발음 연습 -->
+<section class="page" data-name="발음 연습" data-acc="#c98a00">
+  <div class="head"><div class="num">06</div><div><h2>발음 연습 프로그램 만들기</h2><p>교과서 112~113쪽 함께 해결하기</p></div></div>
+
+  <div class="grid2 even">
+    <div class="card">
+      <h3>1 · 2 문제 상황 생각하기</h3>
+      <p style="margin-top:0;font-size:.95rem"><b>문제 상황</b> · 발음이 정확하지 않아 발표에 자신감을 잃은 친구를 어떻게 도울 수 있을까?</p>
+      <label style="font-weight:700;font-size:.9rem">1. 도울 방법</label>
+      <textarea id="w1" placeholder="예: 친구와 함께 어려운 문장을 소리 내어 읽는 연습을 한다."></textarea>
+      <label style="font-weight:700;font-size:.9rem;display:block;margin-top:8px">2. 음성 인식 기술을 활용하면 좋은 점</label>
+      <textarea id="w2" placeholder="사람이 함께 있지 않아도, 언제든지, … "></textarea>
+      <p class="note">쓴 내용은 이 컴퓨터에만 저장돼요.</p>
+    </div>
+    <div class="card">
+      <h3>3 프로그램 설계하기</h3>
+      <div class="ipo">
+        <div style="--k:#2f6fd0"><b>입력</b><br>잰말놀이 문장을 녹음한 오디오 파일</div>
+        <div class="ar">↓</div>
+        <div style="--k:#c98a00"><b>처리</b><br>오디오의 음성을 인식해, 읽으려던 문장과 일치하는지 확인</div>
+        <div class="ar">↓</div>
+        <div style="--k:#1f9d74"><b>출력</b><br>일치하면 '완벽한 발음입니다!'<br>아니면 '연습이 필요합니다!'</div>
+      </div>
+      <p style="font-size:.93rem;margin-top:12px">아래 ④에서 이 설계를 바로 실행해 볼 수 있어요. 교과서처럼 코랩에서 파이썬으로 만드는 방법은 ⑤에 있어요.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>④ 바로 해 보기 · 잰말놀이 발음 검사기</h3>
+    <div class="chips" id="twPre"></div>
+    <input type="text" id="twIn" style="width:100%;display:none" placeholder="연습할 문장을 직접 입력하세요">
+    <div class="target" id="twT"></div>
+    <div class="row">
+      <button class="micbtn" id="twMic">🎤 누르고 읽기</button>
+      <span class="muted" style="font-size:.9rem">마이크가 없거나 코랩에서 인식했다면 ↓ 결과를 직접 입력해도 돼요.</span>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <input type="text" id="twRec" style="flex:1;min-width:200px" placeholder="음성 인식 결과 (s_text)">
+      <button class="btn sm" id="twCmp">비교하기</button>
+    </div>
+    <div class="warnbox" id="twErr"></div>
+    <div id="twOut" style="display:none;margin-top:12px">
+      <div class="grid2 even">
+        <div>
+          <b style="font-size:.88rem" class="muted">교과서 코드처럼 비교 · <span class="mono">if text == s_text</span></b>
+          <div class="verdict2" id="twV"></div>
+          <p id="twSpace" style="font-size:.92rem"></p>
+        </div>
+        <div>
+          <b style="font-size:.88rem" class="muted">어디가 달랐을까? · 띄어쓰기 빼고 글자 비교</b>
+          <div class="big" id="twSim"></div>
+          <div class="meter"><i id="twSimM"></i></div>
+        </div>
+      </div>
+      <div class="cmp"><small>원래 문장 (text) · <mark class="miss">빨간 글자</mark>는 인식 결과에 없던 글자</small><span id="twA"></span></div>
+      <div class="cmp"><small>인식 결과 (s_text) · <mark class="extra">노란 글자</mark>는 원래 문장에 없던 글자</small><span id="twB"></span></div>
+    </div>
+    <p class="note">🔒 말소리는 인식을 위해 브라우저 회사의 서버로 보내져요. 교과서 코드의 recognize_google도 구글 서버를 써요.</p>
+  </div>
+
+  <div class="card">
+    <h3>⑤ 코랩에서 파이썬으로 만들기</h3>
+    <p class="muted" style="margin-top:0">잰말놀이 문장을 스마트폰으로 녹음해 컴퓨터로 옮기고(play1), 코랩 왼쪽 <b>📁 파일</b> → <b>업로드</b>로 올린 뒤 아래 코드를 차례로 실행해요. 교과서 112쪽 QR에 소스 코드와 실습 데이터가 있어요.</p>
+
+    <b>6. 파일이 m4a라면 wav로 바꾸기</b>
+    <div class="codebox"><button class="btn ghost sm cp">복사</button><pre class="code">!pip install pydub  <span class="c"># pydub 라이브러리 설치</span>
+m4a_file = 'play1.m4a'; wav_file = 'play1.wav'
+from pydub import AudioSegment
+track = AudioSegment.from_file(m4a_file, format = 'm4a')  <span class="c"># 경로와 파일 형식 지정</span>
+file_handle = track.export(wav_file, format = 'wav')  <span class="c"># 'm4a'를 'wav'로 확장자 변환</span></pre></div>
+    <ul class="lines"><li>음성 인식 라이브러리는 wav 파일을 읽어요. 스마트폰 녹음 파일(m4a)은 먼저 바꿔 줘야 해요.</li></ul>
+
+    <b>7. 오디오 파일의 음성 인식하기</b>
+    <div class="codebox"><button class="btn ghost sm cp">복사</button><pre class="code"><span class="c"># 음성 인식</span>
+!pip install speechrecognition  <span class="c"># 음성 인식 모델을 불러올 수 있는 라이브러리 설치</span>
+import speech_recognition as sr
+
+r = sr.Recognizer()
+sound = sr.AudioFile('play1.wav')
+with sound as source:
+  audio = r.record(source)
+print(r.recognize_google(audio, language = 'ko-KR'))</pre></div>
+    <ul class="lines">
+      <li><span class="mono">r.record(source)</span> · 파일의 소리를 읽어 audio에 담아요. <b>입력</b></li>
+      <li><span class="mono">r.recognize_google(audio, language = 'ko-KR')</span> · 구글의 딥러닝 음성 인식 모델에 보내 한국어 텍스트로 바꿔요. <b>처리</b></li>
+    </ul>
+
+    <b>8. 원래 문장과 비교해 결과 출력하기</b>
+    <div class="codebox"><button class="btn ghost sm cp">복사</button><pre class="code"><span class="c"># 음성 인식 결과 비교</span>
+text = '내가 그린 기린 그림은 잘 그린 기린 그림이고 네가 그린 기린 그림은 잘 못 그린 기린 그림이다'
+s_text = r.recognize_google(audio, language = 'ko-KR')
+if text == s_text:
+  print('완벽한 발음입니다!')
+else:
+  print('연습이 필요합니다!')</pre></div>
+    <ul class="lines"><li><span class="mono">==</span>는 두 문장이 <b>글자 하나, 띄어쓰기 하나까지</b> 똑같아야 참이에요. <b>출력</b></li></ul>
+
+    <details class="hint"><summary>더 해 보기: 띄어쓰기가 달라도 통과하게 고치려면?</summary>
+      <p style="font-size:.92rem">④에서 발음은 맞았는데 '잘 못'과 '잘못'처럼 띄어쓰기만 달라 '연습이 필요합니다!'가 나왔다면, 두 문장에서 띄어쓰기를 지우고 비교해 보세요.</p>
+      <div class="codebox"><button class="btn ghost sm cp">복사</button><pre class="code">if text.replace(' ', '') == s_text.replace(' ', ''):
+  print('완벽한 발음입니다!')
+else:
+  print('연습이 필요합니다!')</pre></div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h3>9 친구의 귀 vs 인공지능의 귀</h3>
+    <p class="muted" style="margin-top:0">다른 잰말놀이 문장을 녹음해 친구에게 들려주고, 코랩이나 ④에서 음성 인식 결과도 확인해 비교해 보세요.</p>
+    <table class="t9">
+      <tr><th class="l" style="width:34%">읽은 문장</th><th class="l">친구가 들은 결과</th><th class="l">음성 인식 인공지능이 인식한 결과</th></tr>
+      <tr><td><input type="text" data-k="s1" placeholder="문장"></td><td><input type="text" data-k="f1"></td><td><input type="text" data-k="a1"></td></tr>
+      <tr><td><input type="text" data-k="s2" placeholder="문장"></td><td><input type="text" data-k="f2"></td><td><input type="text" data-k="a2"></td></tr>
+    </table>
+    <p style="font-size:.93rem">친구는 알아들었는데 인공지능은 틀린 부분, 또는 그 반대인 부분이 있나요? 왜 그럴지 이야기해 보세요.</p>
+  </div>
+  <div class="quiz" data-quiz="6"></div>
+</section>
+
+<!-- 7 정리 -->
+<section class="page" data-name="정리" data-acc="#0f2742">
+  <div class="head"><div class="num">07</div><div><h2>한눈에 정리</h2><p>오늘 배운 말을 한 번에</p></div></div>
+  <div class="key3">
+    <div style="--k:#2f6fd0"><b>음성 인식</b>은 사람의 말소리를 분석하여 <b>텍스트 데이터</b>로 바꾸는 것을 말한다.</div>
+    <div style="--k:#9b4fc4">규칙을 일일이 정한 <b>if-then 방식</b>은 사람마다 다른 발음에 약했지만, 대량의 음성 데이터로 학습한 <b>딥러닝 방식</b>이 정확도를 크게 높였다.</div>
+    <div style="--k:#d64535">음성 인식은 <b>사물 인터넷</b>이나 <b>자연어 처리</b> 등의 기술과 융합하여 다양한 분야에서 활용되고 있다.</div>
+  </div>
+  <div class="sum">
+    <div style="border-color:#2f6fd0"><b>주파수</b><span>1초 동안 진동하는 수. 빠르게 반복 = 고주파수 = 높은 소리</span><small>🎵 200 Hz = 1초에 200번 떨림</small></div>
+    <div style="border-color:#1f9d74"><b>음소</b><span>언어의 가장 작은 소리 단위. 글자와 실제 소리는 다를 수 있다</span><small>🔤 문 = ㅁ + ㅜ + ㄴ, 같이 → [가치]</small></div>
+    <div style="border-color:#2f6fd0"><b>인식 과정</b><span>주파수 분석 → 음소 추출 → 텍스트 변환</span><small>〰️ → ㅁㅜㄴ → 문</small></div>
+    <div style="border-color:#b07400"><b>if-then 방식</b><span>저장된 주파수 정보와 규칙대로 변환. 목소리가 다르면 틀리기 쉽다</span><small>🚪 문이 다칩니다?</small></div>
+    <div style="border-color:#9b4fc4"><b>딥러닝 방식</b><span>많은 음성 데이터로 학습. 맥락을 고려해 확률이 높은 텍스트를 고른다</span><small>🚪 문이 닫힙니다. ✔</small></div>
+    <div style="border-color:#2f6fd0"><b>음성 인식 vs 자연어 처리</b><span>말소리를 듣고 글자로 바꾸기 vs 뜻을 이해하고 대답하기</span><small>👂 듣기 → 🧠 이해하기</small></div>
+    <div style="border-color:#d64535"><b>활용</b><span>기기 제어 · 텍스트 기록 · 외국어 교육 · 자막 생성</span><small>🏠 📝 🗣️ 🎬</small></div>
+    <div style="border-color:#c98a00"><b>발음 연습 코드</b><span>recognize_google로 인식하고 == 로 원래 문장과 비교</span><small>🦒 내가 그린 기린 그림</small></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>개념 퀴즈 결과</h3>
+    <table id="result"></table>
+    <button class="btn ghost" id="quizReset">퀴즈 다시 풀기</button>
+  </div>
+</section>
+
+</main>
+
+<div class="foot">
+  <button class="btn ghost" id="prev">← 이전</button>
+  <span class="pg" id="pg"></span>
+  <button class="btn" id="next">다음 →</button>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=id=>document.getElementById(id);
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fmt=n=>n.toLocaleString('ko-KR');
+
+/* 퀴즈 */
+const QUIZ={
+ 1:[{q:'주파수의 뜻으로 알맞은 것은?',o:['소리의 크기','1초 동안 진동하는 수','말하는 빠르기'],a:1,w:'주파수는 1초 동안 진동하는 수예요. 단위는 Hz(헤르츠)이고, 소리의 높낮이를 나타내요.'},
+    {q:'소리가 빠르게 반복될 때 나타나는 것은?',o:['저주파수','고주파수'],a:1,w:'빠르게 반복되면 고주파수(높은 소리), 느리게 반복되면 저주파수(낮은 소리)예요.'},
+    {q:'음성 인식을 바르게 설명한 것은?',o:['텍스트를 소리로 읽어 주는 것','사람의 말소리를 분석해 텍스트 데이터로 바꾸는 것','사진 속 글자를 읽는 것'],a:1,w:'음성 인식은 말소리 → 텍스트예요. 텍스트를 읽어 주는 것은 반대 방향이에요.'}],
+ 2:[{q:'언어의 가장 작은 소리 단위를 무엇이라고 할까?',o:['음소','문장','주파수'],a:0,w:'음소는 말소리를 이루는 소리의 기본 단위예요. \'문\'은 ㅁ, ㅜ, ㄴ 세 음소로 이루어져요.'},
+    {q:'\'같이\'를 실제로 소리 나는 대로 적으면?',o:['[가티]','[가치]','[같이]'],a:1,w:'\'같이\'는 [가치]로 소리 나요. 들리는 대로만 적으면 \'가치\'라고 잘못 적게 돼요.'},
+    {q:'소리만 듣고 바르게 받아 적기 어려운 까닭으로 알맞은 것은?',o:['글자와 실제 소리가 다를 때가 있어서','한글에는 음소가 없어서','말소리에는 주파수가 없어서'],a:0,w:'해돋이[해도지], 국물[궁물]처럼 글자와 소리가 다른 말이 많아요.'}],
+ 3:[{q:'초기 음성 인식에서 음소가 결합해 단어를 만드는 규칙을 일일이 구현한 방식은?',o:['딥러닝 방식','if-then 방식','생성형 방식'],a:1,w:'규칙을 if-then으로 하나하나 정해 두고 저장된 주파수 정보에 따라 텍스트로 바꿨어요.'},
+    {q:'if-then 방식의 정확도가 떨어졌던 까닭은?',o:['같은 음소라도 사람마다 발음·크기·어조가 달라서','컴퓨터의 저장 공간이 너무 커서','텍스트가 너무 짧아서'],a:0,w:'저장된 주파수 정보와 다르게 말하면 다른 단어로 인식했어요.'},
+    {q:'딥러닝 방식이 \'문이 다칩니다\' 대신 \'문이 닫힙니다\'를 고르는 까닭은?',o:['글자 수가 더 많아서','자주 쓰이는, 확률이 높은 표현이라서','저장된 주파수와 똑같아서'],a:1,w:'다양한 경우를 고려해 확률이 높은 텍스트로 변환해요.'},
+    {q:'친구의 말을 듣고 내용을 이해해 자연스러운 대답을 떠올리는 과정 중 \'이해하고 대답 떠올리기\'에 해당하는 기술은?',o:['음성 인식','자연어 처리','컴퓨터 비전'],a:1,w:'말소리를 듣는 과정은 음성 인식, 내용을 이해하고 대답을 떠올리는 과정은 자연어 처리예요.'}],
+ 4:[{q:'말하는 도중에 화면의 글자가 바뀌는 까닭으로 알맞은 것은?',o:['뒷말까지 듣고 확률이 더 높은 문장으로 고쳐서','인터넷이 느려서 글자가 섞여서','글자를 무작위로 골라서'],a:0,w:'앞부분만 들었을 때의 답을, 뒷말을 듣고 더 그럴듯한 문장으로 고쳐요.'},
+    {q:'같은 [가치] 소리를 \'가치가 높다\'와 \'같이 가자\'로 다르게 적을 수 있게 해 주는 단서는?',o:['소리의 크기','앞뒤에 오는 말(맥락)','말한 시간'],a:1,w:'뒤에 \'높다\'가 오면 \'가치\', \'가자\'가 오면 \'같이\'가 자연스러워요.'}],
+ 5:[{q:'요리하느라 손이 젖었을 때 "타이머 3분 맞춰 줘"라고 말해 타이머를 켠다. 어떤 활용일까?',o:['기기 제어','텍스트 기록','자막 생성'],a:0,w:'손 대신 말로 기기를 조작하는 기기 제어예요.'},
+    {q:'회의에서 오간 말을 자동으로 받아 적어 회의록을 만든다. 어떤 활용일까?',o:['기기 제어','텍스트 기록','외국어 교육'],a:1,w:'말소리를 텍스트 데이터로 바꿔 남기는 텍스트 기록이에요.'},
+    {q:'외국 영화의 대사가 화면 아래에 글자로 나타난다. 어떤 활용일까?',o:['외국어 교육','기기 제어','자막 생성'],a:2,w:'영상 속 말소리를 인식해 글자로 보여 주는 자막 생성이에요.'},
+    {q:'교과서에서 음성 인식과 융합하여 쓰인다고 소개한 기술로 짝지어진 것은?',o:['사물 인터넷, 자연어 처리','합성곱, 풀링','픽셀, RGB'],a:0,w:'음성 인식은 사물 인터넷이나 자연어 처리 등과 융합해 다양한 분야에서 쓰여요.'}],
+ 6:[{q:'교과서 코드에서 오디오의 말소리를 텍스트로 바꾸는 부분은?',o:['track.export(wav_file, format = \'wav\')','r.recognize_google(audio, language = \'ko-KR\')','print(\'완벽한 발음입니다!\')'],a:1,w:'recognize_google이 음성 인식 모델로 오디오를 한국어 텍스트로 바꿔요.'},
+    {q:'스마트폰으로 녹음한 m4a 파일을 wav로 바꿀 때 쓴 라이브러리는?',o:['pydub','speechrecognition','pandas'],a:0,w:'pydub의 AudioSegment로 m4a를 읽어 wav로 내보냈어요.'},
+    {q:'if text == s_text: 로 비교할 때 생길 수 있는 일로 알맞은 것은?',o:['발음이 정확해도 띄어쓰기가 다르면 \'연습이 필요합니다!\'가 나온다','글자가 달라도 소리가 같으면 통과한다','항상 \'완벽한 발음입니다!\'가 나온다'],a:0,w:'== 는 글자 하나, 띄어쓰기 하나까지 같아야 참이에요. 그래서 \'잘 못\'과 \'잘못\'도 다르다고 봐요.'}],
+};
+const QK='sr-quiz-v1';
+
+let QS={}; try{QS=JSON.parse(localStorage.getItem(QK)||'{}')||{};}catch(e){QS={};}
+function saveQ(){try{localStorage.setItem(QK,JSON.stringify(QS));}catch(e){}}
+const TOTALQ=Object.values(QUIZ).reduce((a,b)=>a+b.length,0);
+function renderQuiz(box){
+  const k=box.dataset.quiz; box.innerHTML=`<div class="qh"><b>개념 퀴즈</b><span>${QUIZ[k].length}문제 · 고르면 바로 채점</span></div>`;
+  QUIZ[k].forEach((it,i)=>{
+    const id=k+'-'+i, d=document.createElement('div'); d.className='qi';
+    d.innerHTML=`<div class="qq">${i+1}. ${it.q}</div><div class="opts">${it.o.map((o,j)=>`<button data-j="${j}">${o}</button>`).join('')}</div><div class="why"></div>`;
+    const mark=(j,anim)=>{
+      const bs=d.querySelectorAll('button'); bs.forEach(b=>b.disabled=true);
+      bs[it.a].classList.add('right'); if(j!==it.a){bs[j].classList.add('wrong'); if(anim) d.classList.add('shake');}
+      d.classList.add('answered', j===it.a?'correct':'incorrect');
+      d.querySelector('.why').textContent=(j===it.a?'정답. ':'정답은 「'+it.o[it.a]+'」. ')+it.w;
+    };
+    d.querySelectorAll('button').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;QS[id]=j;saveQ();mark(j,true);updScore();});
+    if(QS[id]!=null && QS[id]<it.o.length) mark(QS[id],false);
+    box.appendChild(d);
+  });
+}
+
+/* 페이지 이동 */
+const pages=[...document.querySelectorAll('.page')];
+const stepBtns=pages.map((p,i)=>{const b=document.createElement('button');b.textContent=i?`${i}. ${p.dataset.name}`:'시작';b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function updScore(){
+  let ok=0; for(const k in QUIZ) QUIZ[k].forEach((it,i)=>{if(QS[k+'-'+i]===it.a) ok++;});
+  $('score').textContent=`퀴즈 ${ok} / ${TOTALQ}`;
+  pages.forEach((p,i)=>{const q=p.querySelector('[data-quiz]'); if(!q) return; const k=q.dataset.quiz; stepBtns[i].classList.toggle('done',QUIZ[k].every((_,j)=>QS[k+'-'+j]!=null));});
+  let h='<tr><th class="l">개념</th><th>맞힌 문제</th></tr>';
+  for(const k in QUIZ){const n=QUIZ[k].length, c=QUIZ[k].filter((it,i)=>QS[k+'-'+i]===it.a).length, a=QUIZ[k].filter((_,i)=>QS[k+'-'+i]!=null).length;
+    h+=`<tr><td class="l">${k}. ${pages[k].dataset.name}</td><td>${a?`<b class="${c===n?'ok':''}">${c} / ${n}</b>`:'<span class="muted">아직 안 풂</span>'}</td></tr>`;}
+  h+=`<tr><td class="l"><b>합계</b></td><td><b>${ok} / ${TOTALQ}</b></td></tr>`;
+  $('result').innerHTML=h;
+}
+let cur=-1;
+const onShow={};
+function go(i){
+  i=Math.max(0,Math.min(pages.length-1,i)); if(i===cur) return;
+  const back=i<cur; if(cur>=0) pages[cur].classList.remove('on','back');
+  pages[i].classList.add('on'); pages[i].classList.toggle('back',back);
+  document.documentElement.style.setProperty('--acc',pages[i].dataset.acc);
+  document.documentElement.style.setProperty('--acc-soft',pages[i].dataset.acc+'1a');
+  stepBtns.forEach((b,j)=>b.classList.toggle('on',j===i));
+  const sb=$('steps'), btn=stepBtns[i]; sb.scrollLeft=btn.offsetLeft-sb.clientWidth/2+btn.clientWidth/2;
+  $('prog').style.width=(i/(pages.length-1)*100)+'%';
+  $('pg').textContent=`${i} / ${pages.length-1}`;
+  $('prev').style.visibility=i?'visible':'hidden'; $('next').style.visibility=i<pages.length-1?'visible':'hidden';
+  cur=i; try{history.replaceState(null,'','#p'+i);}catch(e){} window.scrollTo(0,0);
+  if(onShow[i]) onShow[i]();
+}
+$('prev').onclick=()=>go(cur-1); $('next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.target.matches&&e.target.matches('input,select,textarea'))return; if(e.key==='ArrowRight')go(cur+1); if(e.key==='ArrowLeft')go(cur-1);});
+document.querySelectorAll('.gcard').forEach(g=>g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();g.click();}}));
+document.querySelectorAll('[data-quiz]').forEach(renderQuiz);
+$('quizReset').onclick=()=>{QS={};saveQ();document.querySelectorAll('[data-quiz]').forEach(renderQuiz);updScore();};
+
+/* 공통: 소리 · 음성 인식 · 읽어 주기 */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let AC=null;
+function ac(){ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); return AC; }
+const PAL=(()=>{const p=[];for(let v=0;v<256;v++){const t=v/255;let r,g,b;
+  if(t<.35){const k=t/.35;r=10+k*37;g=26+k*85;b=46+k*164;}
+  else if(t<.72){const k=(t-.35)/.37;r=47+k*195;g=111+k*54;b=210-k*188;}
+  else{const k=(t-.72)/.28;r=242+k*13;g=165+k*90;b=22+k*233;}
+  p.push(`rgb(${r|0},${g|0},${b|0})`);}return p;})();
+
+let KOV=null;
+function pickVoice(){ try{const v=speechSynthesis.getVoices(); KOV=v.find(x=>/^ko/i.test(x.lang))||null;}catch(e){} }
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
+function say(text,o={}){
+  if(!('speechSynthesis' in window)) return false;
+  speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; if(KOV) u.voice=KOV;
+  u.pitch=o.pitch??1; u.rate=o.rate??1; u.volume=o.volume??1; speechSynthesis.speak(u); return !!KOV;
+}
+
+const SRC=window.SpeechRecognition||window.webkitSpeechRecognition;
+let REC=null;
+const SR_ERR={'not-allowed':'마이크 사용을 허락해 주세요. 주소창 왼쪽의 아이콘을 눌러 마이크를 「허용」으로 바꿀 수 있어요.','service-not-allowed':'이 브라우저에서는 음성 인식을 쓸 수 없어요. 크롬이나 엣지로 열어 보세요.','no-speech':'말소리가 들리지 않았어요. 버튼을 다시 누르고 조금 더 크게 말해 보세요.','audio-capture':'마이크를 찾을 수 없어요. 마이크가 연결되어 있는지 확인해 주세요.','network':'인터넷 연결을 확인해 주세요. 음성 인식은 인터넷이 필요해요.','aborted':''};
+const NO_SR='이 브라우저는 음성 인식을 지원하지 않아요. 크롬·엣지·사파리로 열어 보세요. 마이크 없이 해 보려면 글자 입력 칸을 쓰면 돼요.';
+function setMic(b,on){ if(!b.dataset.label) b.dataset.label=b.textContent; b.classList.toggle('on',on); b.textContent=on?'■ 듣는 중… (누르면 멈춤)':b.dataset.label; }
+function listen(btn,o){
+  if(btn.classList.contains('on')){ if(REC){ try{REC.stop();}catch(e){} } else setMic(btn,false); return; }
+  if(REC){ try{REC.abort();}catch(e){} REC=null; }
+  if(!SRC){ o.onErr&&o.onErr(NO_SR); return; }
+  const r=new SRC(); r.lang=o.lang||'ko-KR'; r.interimResults=true; r.continuous=false; r.maxAlternatives=1;
+  let fin='';
+  r.onresult=e=>{ let f='',it=''; for(let i=0;i<e.results.length;i++){const s=e.results[i][0].transcript; if(e.results[i].isFinal) f+=s; else it+=s;} fin=f; o.onText&&o.onText(f,it); };
+  r.onerror=e=>{ const m=SR_ERR[e.error]??('음성 인식 오류: '+e.error); if(m&&o.onErr) o.onErr(m); };
+  r.onend=()=>{ if(REC===r) REC=null; setMic(btn,false); o.onDone&&o.onDone(fin.trim()); };
+  REC=r; setMic(btn,true); o.onStart&&o.onStart();
+  try{ r.start(); }catch(e){ setMic(btn,false); REC=null; o.onErr&&o.onErr('음성 인식을 시작하지 못했어요. 다시 눌러 보세요.'); }
+}
+function warn(id,msg){ const w=$(id); w.textContent=msg||''; w.classList.toggle('on',!!msg); }
+
+/* 두 문장 비교 (띄어쓰기·문장 부호 무시, 최장 공통 부분) */
+const IGN=/[\s.,!?~·'"“”‘’]/;
+function compare(t,r){
+  const ta=[...t], ra=[...r], A=[],Ai=[],B=[],Bi=[];
+  ta.forEach((c,i)=>{if(!IGN.test(c)){A.push(c);Ai.push(i);}}); ra.forEach((c,i)=>{if(!IGN.test(c)){B.push(c);Bi.push(i);}});
+  const n=A.length,m=B.length, dp=Array.from({length:n+1},()=>new Uint16Array(m+1));
+  for(let i=n-1;i>=0;i--) for(let j=m-1;j>=0;j--) dp[i][j]=A[i]===B[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const ma=new Set(),mb=new Set(); let i=0,j=0;
+  while(i<n&&j<m){ if(A[i]===B[j]){ma.add(Ai[i]);mb.add(Bi[j]);i++;j++;} else if(dp[i+1][j]>=dp[i][j+1]) i++; else j++; }
+  const paint=(arr,mt,cls)=>arr.map((c,k)=>IGN.test(c)||mt.has(k)?esc(c):`<mark class="${cls}">${esc(c)}</mark>`).join('');
+  return {ht:paint(ta,ma,'miss'), hr:paint(ra,mb,'extra'), sim:n+m?Math.round(200*dp[0][0]/(n+m)):0, same:A.join('')===B.join('')};
+}
+
+/* 0 표지: 흘러가는 스펙트로그램과 자막 */
+(function(){
+  const c=$('coverSp'), x=c.getContext('2d'), W=c.width, H=c.height;
+  x.fillStyle=PAL[0]; x.fillRect(0,0,W,H);
+  const V=[[800,1250],[300,2300],[330,800],[480,1900],[450,900]];
+  let left=0, gap=6, f0=180, F=V[0], burst=0, col=0;
+  function column(){
+    if(left<=0){ if(gap>0){gap--; return null;} left=6+Math.random()*6|0; F=V[Math.random()*V.length|0]; f0=150+Math.random()*90; burst=Math.random()<.6?2:0; gap=Math.random()<.3?6+Math.random()*4|0:1+Math.random()*2|0; }
+    left--; f0+=(Math.random()-.5)*6; const out=new Uint8Array(H), env=Math.sin(Math.PI*(left+1)/9)*.4+.6;
+    for(let y=0;y<H;y++){ const f=(H-1-y)/H*4000;
+      let v; if(burst>0){ v=f>2200?(.25+Math.random()*.35)*f/4000:Math.random()*.06; }
+      else{ const comb=Math.pow(Math.max(0,Math.cos(2*Math.PI*f/f0)),8), fm=Math.exp(-(((f-F[0])/260)**2))+.8*Math.exp(-(((f-F[1])/320)**2))+.12*Math.exp(-f/900); v=comb*fm*env+Math.random()*.05; }
+      out[y]=Math.min(255,v*255|0); }
+    if(burst>0) burst--; return out;
+  }
+  setInterval(()=>{ if(cur!==0||document.hidden) return;
+    x.drawImage(c,-1,0); const d=column(); col++;
+    for(let y=0;y<H;y++){ x.fillStyle=PAL[d?d[y]:Math.random()*10|0]; x.fillRect(W-1,y,1,1); } },45);
+  const PH=['문이 닫힙니다.','같이 가자!','내가 그린 기린 그림','불 좀 꺼 줄래?'];
+  let p=0,k=0,hold=0;
+  setInterval(()=>{ if(cur!==0||document.hidden) return; const s=PH[p];
+    if(k<=s.length){ $('capT').textContent=s.slice(0,k); k++; }
+    else if(++hold>12){ hold=0;k=0;p=(p+1)%PH.length; $('capT').textContent=''; } },150);
+})();
+
+/* 1 주파수: 소리 만들기 */
+(function(){
+  const c=$('toneC'), x=c.getContext('2d'), W=c.width, H=c.height, s=$('toneF');
+  let osc=null, gain=null, ph=0, raf=0;
+  function draw(){
+    const f=+s.value, cyc=f/100; x.clearRect(0,0,W,H);
+    x.strokeStyle='rgba(255,255,255,.15)'; x.lineWidth=1; x.beginPath(); x.moveTo(0,H/2); x.lineTo(W,H/2); x.stroke();
+    x.strokeStyle='#f2a516'; x.lineWidth=4; x.beginPath();
+    for(let i=0;i<=W;i+=2){ const y=H/2-H*.36*Math.sin(2*Math.PI*cyc*i/W-ph); i?x.lineTo(i,y):x.moveTo(i,y); } x.stroke();
+    if(osc){ ph+=.25; raf=requestAnimationFrame(draw); }
+  }
+  function upd(){
+    const f=+s.value, n=f/100, k=f<300?'천천히 반복되는 <b>저주파수</b>예요. 낮은 소리가 나요.':f>600?'빠르게 반복되는 <b>고주파수</b>예요. 높은 소리가 나요.':'중간 높이의 소리예요.';
+    $('toneO').textContent=f+' Hz';
+    $('toneSay').innerHTML=`화면은 0.01초 동안의 떨림이에요. 0.01초에 <b>${n}번</b> 떨리니 1초에는 <b>${f}번</b>, 곧 <b>${f} Hz</b>예요. ${k}`;
+    if(osc) osc.frequency.setTargetAtTime(f,ac().currentTime,.02);
+    if(!osc) draw();
+  }
+  function stop(){ if(!osc) return; const a=ac(); gain.gain.setTargetAtTime(0,a.currentTime,.03); const o=osc; setTimeout(()=>o.stop(),200); osc=null; cancelAnimationFrame(raf); $('tonePlay').textContent='▶ 소리 듣기'; $('tonePlay').classList.remove('on'); draw(); }
+  $('tonePlay').onclick=()=>{
+    if(osc){ stop(); return; }
+    const a=ac(); osc=a.createOscillator(); gain=a.createGain(); osc.type='sine'; osc.frequency.value=+s.value;
+    gain.gain.value=0; gain.gain.setTargetAtTime(.07,a.currentTime,.03); osc.connect(gain).connect(a.destination); osc.start();
+    $('tonePlay').textContent='■ 멈추기'; $('tonePlay').classList.add('on'); draw();
+  };
+  s.oninput=upd;
+  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{s.value=b.dataset.f; upd();});
+  window.toneStop=stop; upd();
+})();
+
+/* 1 주파수: 내 목소리 · 예시 목소리 */
+(function(){
+  const cw=$('micW'), xw=cw.getContext('2d'), cs=$('micS'), xs=cs.getContext('2d');
+  let an=null, stream=null, src=null, demo=null, raf=0;
+  xs.fillStyle=PAL[0]; xs.fillRect(0,0,cs.width,cs.height);
+  xw.fillStyle='#0f2742'; xw.fillRect(0,0,cw.width,cw.height); xw.strokeStyle='#5fd3a5'; xw.lineWidth=2.5; xw.beginPath(); xw.moveTo(0,cw.height/2); xw.lineTo(cw.width,cw.height/2); xw.stroke();
+  function analyser(){ if(!an){ an=ac().createAnalyser(); an.fftSize=2048; an.smoothingTimeConstant=.55; } return an; }
+  const td=new Uint8Array(2048), fd=new Uint8Array(1024);
+  function loop(){
+    if(!stream&&!demo){ raf=0; return; }
+    raf=requestAnimationFrame(loop);
+    an.getByteTimeDomainData(td); an.getByteFrequencyData(fd);
+    const W=cw.width,H=cw.height; xw.fillStyle='#0f2742'; xw.fillRect(0,0,W,H);
+    xw.strokeStyle='#5fd3a5'; xw.lineWidth=2.5; xw.beginPath();
+    for(let i=0;i<W;i++){ const v=td[Math.floor(i/W*td.length)]; const y=(v/255)*H; i?xw.lineTo(i,y):xw.moveTo(i,y);} xw.stroke();
+    const SW=cs.width, SH=cs.height, hz=ac().sampleRate/2048, K=Math.min(fd.length-1,Math.floor(4000/hz));
+    xs.drawImage(cs,-2,0);
+    for(let y=0;y<SH;y++){ const b=Math.floor((1-y/SH)*K); xs.fillStyle=PAL[fd[b]]; xs.fillRect(SW-2,y,2,1); }
+    let best=0,bi=0; for(let b=Math.ceil(80/hz);b<=Math.floor(1000/hz);b++) if(fd[b]>best){best=fd[b];bi=b;}
+    $('micPeak').innerHTML=best>150?`가장 센 떨림 약 <b>${Math.round(bi*hz/10)*10} Hz</b>`:'소리를 기다리는 중…';
+  }
+  function start(){ if(!raf) loop(); }
+  async function micOn(){
+    warn('micErr','');
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ warn('micErr','이 브라우저에서는 마이크를 쓸 수 없어요. 「예시 목소리로 보기」를 눌러 보세요.'); return; }
+    try{ stream=await navigator.mediaDevices.getUserMedia({audio:true}); }
+    catch(e){ stream=null; warn('micErr',e.name==='NotAllowedError'?'마이크 사용을 허락해야 볼 수 있어요. 주소창 왼쪽의 아이콘에서 마이크를 「허용」으로 바꿔 주세요. 마이크 없이 보려면 「예시 목소리로 보기」를 누르세요.':'마이크를 찾을 수 없어요. 「예시 목소리로 보기」를 눌러 보세요.'); return; }
+    src=ac().createMediaStreamSource(stream); src.connect(analyser());
+    $('micBtn').textContent='■ 마이크 끄기'; $('micBtn').classList.add('on'); start();
+  }
+  function micOff(){ if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; } if(src){ src.disconnect(); src=null; } $('micBtn').textContent='🎤 마이크 켜기'; $('micBtn').classList.remove('on'); }
+  $('micBtn').onclick=()=>stream?micOff():micOn();
+  window.micOff=micOff;
+  $('vowBtn').onclick=()=>{
+    if(demo) return; const a=ac(), t=a.currentTime+.05, o=a.createOscillator(), f1=a.createBiquadFilter(), f2=a.createBiquadFilter(), g=a.createGain(), out=a.createGain();
+    o.type='sawtooth'; [f1,f2].forEach(f=>{f.type='bandpass';f.Q.value=7;}); g.gain.value=0; out.gain.value=.9;
+    o.connect(f1); o.connect(f2); f1.connect(g); f2.connect(g); g.connect(out); out.connect(a.destination); out.connect(analyser());
+    const seq=[['아',800,1250],['이',300,2300],['우',330,800],['아',800,1250],['이',300,2300],['우',330,800]];
+    seq.forEach(([v,a1,a2],k)=>{ const s=t+k*.8; f1.frequency.setValueAtTime(a1,s); f2.frequency.setValueAtTime(a2,s); o.frequency.setValueAtTime(140+k*6,s); o.frequency.linearRampToValueAtTime(165+k*6,s+.6);
+      g.gain.setTargetAtTime(.5,s,.03); g.gain.setTargetAtTime(0,s+.6,.03); setTimeout(()=>{$('vowBtn').textContent=`지금: "${v}—"`;},(s-a.currentTime)*1000); });
+    o.start(t); o.stop(t+seq.length*.8+.2); demo=o; start();
+    o.onended=()=>{ demo=null; out.disconnect(); $('vowBtn').textContent='예시 목소리로 보기 (아·이·우)'; };
+  };
+})();
+
+/* 2 음소 나누기 */
+(function(){
+  const CHO='ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ', JUNG='ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ', JONG=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  function run(){
+    const w=$('phIn').value.trim(), out=$('phOut'); out.innerHTML=''; let syl=0, ph=0, d=0;
+    for(const ch of w){
+      const c=ch.charCodeAt(0);
+      if(ch===' '){ const g=document.createElement('div'); g.className='syl gap'; out.appendChild(g); continue; }
+      const box=document.createElement('div'); box.className='syl'; box.style.animationDelay=(d*.06)+'s';
+      if(c>=0xAC00&&c<=0xD7A3){
+        const i=c-0xAC00, ci=Math.floor(i/588), vi=Math.floor(i%588/28), fi=i%28; syl++;
+        const parts=[[CHO[ci],ci===11?'z':'c'],[JUNG[vi],'v']]; if(fi) parts.push([JONG[fi],'f']);
+        ph+=parts.filter(p=>p[1]!=='z').length;
+        box.innerHTML=`<b>${ch}</b><div class="jm">${parts.map((p,k)=>`<span class="${p[1]}" style="animation-delay:${d*.06+.15+k*.08}s">${p[0]}</span>`).join('')}</div>`;
+      } else box.innerHTML=`<b>${esc(ch)}</b><div class="jm"><span class="z">?</span></div>`;
+      out.appendChild(box); d++;
+    }
+    $('phSay').innerHTML=syl?`글자 <b>${syl}개</b>를 소리 단위로 나누면 <b>${ph}개</b>예요. 음성 인식은 말소리에서 이런 작은 소리 단위를 하나하나 찾아내요.`:'한글 낱말을 넣어 보세요.';
+  }
+  $('phGo').onclick=run; $('phIn').addEventListener('keydown',e=>{if(e.key==='Enter') run();});
+  $('phPre').onclick=e=>{const b=e.target.closest('button'); if(!b) return; $('phIn').value=b.dataset.w; run();};
+  onShow[2]=run;
+
+  const P=[['같이','가치'],['굳이','구지'],['해돋이','해도지'],['국물','궁물'],['신라','실라'],['닫혀요','다처요']];
+  $('prons').innerHTML=P.map(([w,s])=>`<div class="pron"><b>${w}</b><span>[${s}]</span><button class="btn ghost sm" data-w="${w}">🔊 듣기</button></div>`).join('');
+  $('prons').onclick=e=>{const b=e.target.closest('button'); if(!b) return; const ok=say(b.dataset.w,{rate:.85}); if(!ok) $('ttsNote').innerHTML='⚠️ 이 브라우저에서 한국어 읽어 주기 목소리를 찾지 못했어요. 선생님이나 친구가 직접 소리 내어 읽어 보세요.';};
+})();
+
+/* 3 엘리베이터: 두 방식 비교 (그림 Ⅱ-30) */
+(function(){
+  let busy=false;
+  const reset=()=>{ $('dL').setAttribute('width',40); $('dR').setAttribute('x',184); $('dR').setAttribute('width',40); $('bub').setAttribute('opacity',0); $('waveG').setAttribute('opacity',0);
+    $('heard').innerHTML='&nbsp;'; ['wRule','wDl'].forEach(i=>$(i).classList.remove('on')); $('oRule').textContent='…'; $('sRule').textContent=''; $('oDl').innerHTML=''; $('sDl').textContent=''; };
+  function wave(t){ let d='M180 92'; for(let i=0;i<=120;i+=3){ const a=Math.sin(i/9+t)*Math.sin(i/120*Math.PI)*14*(1+.5*Math.sin(i/4+t*2)); d+=` L${180+i} ${92+a}`; } $('waveP').setAttribute('d',d); }
+  $('elevGo').onclick=async()=>{
+    if(busy) return; busy=true; reset(); $('elevGo').disabled=true;
+    await sleep(300); $('bub').setAttribute('opacity',1); $('waveG').setAttribute('opacity',1);
+    say('문이 닫힙니다.',{rate:.95});
+    for(let k=0;k<30;k++){ wave(k*.5); await sleep(50); }
+    $('heard').innerHTML='들린 소리 <span style="color:var(--red)">[무니 다침니다]</span>';
+    await sleep(700); $('wRule').classList.add('on'); $('oRule').textContent='문이 다칩니다.';
+    await sleep(500); $('sRule').innerHTML='✗ 저장된 정보대로 글자를 맞췄더니 엉뚱한 문장! (\'다치다\'는 \'상처를 입다\'라는 뜻)';
+    await sleep(900); $('wDl').classList.add('on');
+    $('oDl').innerHTML=[['문이 다칩니다.',12],['문이 닫힙니다.',88]].map(([t,p])=>`<div class="cand" data-p="${p}"><span>${t}</span><div class="bar"><i></i></div><b>${p}%</b></div>`).join('');
+    await sleep(60); $('oDl').querySelectorAll('.cand').forEach(c=>c.querySelector('i').style.width=c.dataset.p+'%');
+    await sleep(800); $('oDl').children[1].classList.add('best'); $('sDl').innerHTML='✔ 자주 쓰이는 표현인 \'문이 닫힙니다.\'로 변환';
+    $('dL').setAttribute('width',84); $('dR').setAttribute('x',140); $('dR').setAttribute('width',84);
+    $('waveG').setAttribute('opacity',0);
+    $('elevGo').disabled=false; $('elevGo').textContent='↻ 다시 보기'; busy=false;
+  };
+})();
+
+/* 3 말하는 사람마다 다른 목소리 */
+(function(){
+  const GOOD='문이 닫힙니다.';
+  const S=[{n:'저장된 목소리와 비슷한 사람',p:1,r:1,v:1,sim:92,rule:'문이 다칩니다.',t:'규칙에 맞춰 저장해 둔 목소리와 높낮이·빠르기가 거의 같아요.'},
+           {n:'목소리가 높은 어린이',p:1.9,r:1.05,v:1,sim:55,rule:'무니 다치미다.',t:'목소리가 높아서 주파수가 저장된 정보와 달라요.'},
+           {n:'작고 낮은 목소리',p:.5,r:.85,v:.35,sim:44,rule:'누니 타침니다.',t:'소리가 작고 낮아서 일부 음소를 다른 소리로 착각했어요.'},
+           {n:'아주 빠르게 말하는 친구',p:1,r:1.9,v:1,sim:36,rule:'문 다침다.',t:'너무 빨라서 음소 몇 개를 놓쳤어요.'}];
+  let k=0;
+  $('spk').innerHTML=S.map((s,i)=>`<button class="chip${i?'':' on'}" data-i="${i}">${s.n}</button>`).join('');
+  function show(){ const s=S[k]; [...$('spk').children].forEach((b,i)=>b.classList.toggle('on',i===k));
+    $('spkTxt').textContent=s.t; $('simO').textContent=s.sim+'%'; $('simM').style.width=s.sim+'%';
+    $('spkRule').innerHTML=compare(GOOD,s.rule).hr; $('spkDl').innerHTML=`${GOOD} <span class="ok">✔</span>`; }
+  $('spk').onclick=e=>{const b=e.target.closest('button'); if(!b) return; k=+b.dataset.i; show();};
+  $('spkSay').onclick=()=>{const s=S[k]; say(GOOD,{pitch:s.p,rate:s.r,volume:s.v});};
+  show();
+})();
+
+/* 3 확률이 높은 문장 고르기 */
+(function(){
+  const G=[{s:'가치 가자',o:['가치 가자','같이 가자'],p:[6,94],a:1,w:'\'가자\' 앞에는 \'함께\'라는 뜻의 \'같이\'가 훨씬 자주 와요.'},
+           {s:'가치가 놉따',o:['가치가 높다','같이가 높다'],p:[97,3],a:0,w:'같은 [가치]인데 이번에는 \'가치\'예요! 뒤에 \'높다\'가 오면 \'값어치\'라는 뜻이 자연스러워요. 앞뒤 말이 답을 바꿔요.'},
+           {s:'해도지 보러 가자',o:['해돋이 보러 가자','해도지 보러 가자'],p:[91,9],a:0,w:'\'해도지\'라는 말은 거의 쓰이지 않아요. 학습한 문장들 속에서 \'해돋이 보러\'가 훨씬 자주 나와요.'},
+           {s:'궁무리 뜨거워',o:['궁물이 뜨거워','국물이 뜨거워'],p:[4,96],a:1,w:'[궁물]로 소리 나도 글자는 \'국물\'이에요. 많은 문장을 학습한 모델은 \'국물이 뜨거워\'가 자연스럽다는 것을 알아요.'},
+           {s:'무니 다침니다',o:['문이 다칩니다','문이 닫힙니다'],p:[12,88],a:1,w:'엘리베이터나 자동문에서 자주 쓰이는 표현은 \'문이 닫힙니다\'예요.'}];
+  let k=0;
+  $('gzTabs').innerHTML=G.map((g,i)=>`<button class="chip${i?'':' on'}" data-i="${i}">문제 ${i+1}</button>`).join('');
+  function show(){ const g=G[k]; [...$('gzTabs').children].forEach((b,i)=>b.classList.toggle('on',i===k));
+    $('gzSound').innerHTML=`들린 소리 <span style="color:var(--red)">[${g.s}]</span>`;
+    $('gzOpts').innerHTML=g.o.map((o,i)=>`<button data-i="${i}">${o}</button>`).join(''); $('gzBars').innerHTML=''; $('gzWhy').textContent='인공지능은 어느 문장을 고를까요?'; }
+  $('gzTabs').onclick=e=>{const b=e.target.closest('button'); if(!b) return; k=+b.dataset.i; show();};
+  $('gzOpts').onclick=async e=>{const b=e.target.closest('button'); if(!b||b.disabled) return; const g=G[k], j=+b.dataset.i;
+    [...$('gzOpts').children].forEach((x,i)=>{x.disabled=true; if(i===g.a) x.classList.add('right'); else if(i===j) x.classList.add('wrong');});
+    $('gzBars').innerHTML=g.o.map((o,i)=>`<div class="cand${i===g.a?' best':''}"><span>${o}</span><div class="bar"><i></i></div><b>${g.p[i]}%</b></div>`).join('');
+    await sleep(40); [...$('gzBars').children].forEach((c,i)=>c.querySelector('i').style.width=g.p[i]+'%');
+    $('gzWhy').innerHTML=(j===g.a?'<span class="ok">맞았어요!</span> ':'<span class="ng">인공지능은 다른 쪽을 골라요.</span> ')+g.w;};
+  show();
+})();
+
+/* 4 직접 말해 보기 */
+(function(){
+  let target='', last='', t0=0;
+  $('srPre').onclick=e=>{const b=e.target.closest('button'); if(!b) return; target=b.dataset.t; [...$('srPre').children].forEach(c=>c.classList.toggle('on',c===b)); $('srTarget').textContent='읽을 문장 · '+target; $('srCmp').textContent='';};
+  if(!SRC) warn('srErr',NO_SR);
+  $('srBtn').onclick=()=>listen($('srBtn'),{
+    onStart(){ warn('srErr',''); last=''; t0=performance.now(); $('srLog').innerHTML=''; $('srCmp').textContent=''; $('srLive').innerHTML='<span class="ph">듣고 있어요… 말해 보세요.</span>'; },
+    onText(f,it){ $('srLive').innerHTML=`<span class="fin">${esc(f)}</span><span class="int">${esc(it)}</span>`;
+      const all=(f+it).trim(); if(!all||all===last) return;
+      const fix=last&&!all.startsWith(last); const li=document.createElement('li'); if(fix) li.className='fix';
+      li.innerHTML=`<small>${((performance.now()-t0)/1000).toFixed(1)}초</small>${esc(all)}${fix?' <b style="color:#b07400">← 고쳤어요</b>':''}`; $('srLog').appendChild(li); $('srLog').scrollTop=1e5; last=all; },
+    onErr(m){ warn('srErr',m); },
+    onDone(f){ if(!f){ if(!$('srLog').children.length) $('srLive').innerHTML='<span class="ph">인식된 말이 없어요. 다시 눌러 말해 보세요.</span>'; return; }
+      $('srLive').innerHTML=`<span class="fin">${esc(f)}</span>`;
+      if(!$('srLog').querySelector('.fix')&&$('srLog').children.length) { const li=document.createElement('li'); li.className='empty'; li.textContent='이번에는 고친 순간이 없었어요. 문장을 길게 말하거나, 같이·해돋이처럼 헷갈리는 말을 넣어 다시 해 보세요.'; $('srLog').appendChild(li); }
+      if(target){ const c=compare(target,f); $('srCmp').innerHTML=c.same?'<span class="ok">✔ 읽을 문장과 같게 인식했어요.</span>':`<span class="ng">읽을 문장과 달라요</span> · ${c.hr}`; } }
+  });
+})();
+
+/* 5 활용: 탭 · 말로 움직이는 방 */
+$('apps').onclick=e=>{const b=e.target.closest('button'); if(!b) return; const a=b.dataset.a; [...$('apps').children].forEach(x=>x.classList.toggle('on',x===b)); document.querySelectorAll('.appd').forEach(d=>d.classList.toggle('on',d.dataset.a===a));};
+(function(){
+  const st={light:false,cur:false,music:false};
+  function draw(){ $('rmWall').setAttribute('fill',st.light?'#f6efe2':'#3a3f4b'); $('rmGlow').setAttribute('opacity',st.light?.55:0); $('rmBulb').setAttribute('fill',st.light?'#ffd65a':'#8a8f99');
+    $('rmCL').setAttribute('width',st.cur?81:14); $('rmCR').setAttribute('x',st.cur?115:182); $('rmCR').setAttribute('width',st.cur?81:14); $('rmNotes').classList.toggle('on',st.music); }
+  function run(t){
+    const s=t.replace(/\s/g,''), off=/(꺼|끄|끈|멈|정지|그만)/.test(s), on=/(켜|켠|틀|재생|들려)/.test(s);
+    let r=null;
+    if(/(불|조명|전등|라이트)/.test(s)&&(on||off)){ st.light=on&&!off; r=st.light?'💡 불을 켰어요.':'🌙 불을 껐어요.'; }
+    else if(/커튼/.test(s)&&/(닫|치)/.test(s)){ st.cur=true; r='커튼을 닫았어요.'; }
+    else if(/커튼/.test(s)&&/(열|걷)/.test(s)){ st.cur=false; r='커튼을 열었어요.'; }
+    else if(/(음악|노래)/.test(s)&&(on||off)){ st.music=on&&!off; r=st.music?'🎵 음악을 틀었어요.':'음악을 껐어요.'; }
+    draw();
+    $('cmdRes').innerHTML=`인식한 말 「${esc(t)}」 → `+(r?`<span class="ok">${r}</span>`:'<span class="ng">알아듣지 못한 명령이에요.</span> 불·커튼·음악에 대해 말해 보세요.');
+  }
+  $('cmdGo').onclick=()=>{const t=$('cmdIn').value.trim(); if(t) run(t);};
+  $('cmdIn').addEventListener('keydown',e=>{if(e.key==='Enter') $('cmdGo').click();});
+  $('cmdMic').onclick=()=>listen($('cmdMic'),{onStart(){$('cmdRes').textContent='듣고 있어요…';},onText(f,it){$('cmdIn').value=f+it;},onErr(m){$('cmdRes').innerHTML=`<span class="ng">${esc(m)}</span>`;},onDone(f){if(f) run(f);}});
+  draw();
+})();
+
+/* 6 발음 연습 */
+(function(){
+  const TW=['내가 그린 기린 그림은 잘 그린 기린 그림이고 네가 그린 기린 그림은 잘 못 그린 기린 그림이다','간장 공장 공장장은 강 공장장이고 된장 공장 공장장은 공 공장장이다','경찰청 철창살은 외철창살이냐 쌍철창살이냐','들의 콩깍지는 깐 콩깍지인가 안 깐 콩깍지인가'];
+  const NM=['기린 그림 (교과서)','간장 공장','경찰청 철창살','콩깍지','직접 입력'];
+  let k=0, hist=[];
+  $('twPre').innerHTML=NM.map((n,i)=>`<button class="chip${i?'':' on'}" data-i="${i}">${n}</button>`).join('');
+  const text=()=>k<TW.length?TW[k]:$('twIn').value.trim();
+  function showT(){ [...$('twPre').children].forEach((b,i)=>b.classList.toggle('on',i===k)); $('twIn').style.display=k<TW.length?'none':'block';
+    $('twT').innerHTML=text()?`text = <span>${esc(text())}</span>`:'<span class="muted" style="font-weight:400">연습할 문장을 입력하세요.</span>'; }
+  $('twPre').onclick=e=>{const b=e.target.closest('button'); if(!b) return; k=+b.dataset.i; showT(); $('twOut').style.display='none'; if(k===TW.length) $('twIn').focus();};
+  $('twIn').oninput=showT;
+  function check(){
+    const t=text(), r=$('twRec').value.trim(); if(!t||!r) return; const c=compare(t,r), ok=t===r;
+    $('twOut').style.display='block';
+    $('twV').innerHTML=ok?'<span class="ok">완벽한 발음입니다!</span>':'<span class="ng">연습이 필요합니다!</span>';
+    $('twSpace').innerHTML=!ok&&c.same?'💡 글자는 모두 같고 <b>띄어쓰기나 문장 부호만</b> 달라요. 교과서 코드는 이것도 다르다고 판단해요. ⑤의 「더 해 보기」를 보세요.':ok?'두 문장이 띄어쓰기까지 똑같아요.':'';
+    $('twSim').textContent=`글자 일치율 ${c.sim}%`; $('twSimM').style.width=c.sim+'%';
+    $('twA').innerHTML=c.ht; $('twB').innerHTML=c.hr;
+  }
+  $('twCmp').onclick=check; $('twRec').addEventListener('keydown',e=>{if(e.key==='Enter') check();});
+  $('twMic').onclick=()=>{ if(!text()){ $('twIn').focus(); return; } listen($('twMic'),{onStart(){warn('twErr',''); $('twRec').value='';},onText(f,it){$('twRec').value=f+it;},onErr(m){warn('twErr',m);},onDone(f){ if(f){ $('twRec').value=f; check(); } }}); };
+  if(!SRC) warn('twErr',NO_SR);
+  showT();
+
+  document.querySelectorAll('.cp').forEach(b=>b.onclick=async()=>{const t=b.nextElementSibling.textContent; try{await navigator.clipboard.writeText(t); b.textContent='복사했어요!';}catch(e){b.textContent='직접 드래그해 복사하세요';} setTimeout(()=>b.textContent='복사',1500);});
+
+  const WK='sr-work-v1'; let W={}; try{W=JSON.parse(localStorage.getItem(WK)||'{}')||{};}catch(e){}
+  const fields=[$('w1'),$('w2'),...document.querySelectorAll('.t9 input')];
+  fields.forEach(f=>{const key=f.id||f.dataset.k; if(W[key]) f.value=W[key]; f.addEventListener('input',()=>{W[key]=f.value; try{localStorage.setItem(WK,JSON.stringify(W));}catch(e){}});});
+})();
+
+/* 화면을 떠나면 소리 멈추기 */
+const _go=go;
+go=function(i){ if(window.toneStop) toneStop(); if(window.micOff) micOff(); if(REC) try{REC.abort();}catch(e){} if('speechSynthesis' in window) speechSynthesis.cancel(); _go(i); };
+
+
+/* 시작 */
+updScore();
+const h0=parseInt((location.hash.match(/^#p(\d+)$/)||[])[1],10);
+go(isNaN(h0)?0:h0);
+</script>
+</body>
+</html>
