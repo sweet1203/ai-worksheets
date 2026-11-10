@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인공지능과 사회 변화 · 진로</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202c; --muted:#5b6776; --paper:#f3efe7; --card:#fff; --line:#e3ddd2;
+    --navy:#0f2742; --amber:#f2a516; --red:#d64535; --mint:#1f9d74;
+    --acc:#2f6fd0; --acc-soft:#e6eefb;
+    --shadow:0 18px 50px rgba(15,39,66,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:17px;line-height:1.65;
+    background-image:radial-gradient(rgba(15,39,66,.07) 1px,transparent 1px);background-size:22px 22px;display:flex;flex-direction:column}
+  .top{position:sticky;top:0;z-index:10;background:rgba(15,39,66,.97);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+  .brand{font-family:"Black Han Sans",sans-serif;font-size:1.15rem;letter-spacing:.01em;white-space:nowrap;color:inherit;text-decoration:none}
+  .steps{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  .steps::-webkit-scrollbar{display:none}
+  .steps button{flex:0 0 auto;border:0;background:transparent;color:#9fb3cc;font:inherit;font-size:.82rem;padding:5px 9px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .steps button.on{background:var(--amber);color:var(--navy);font-weight:900}
+  .steps button.done::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#5fd3a5;margin-left:5px;vertical-align:middle}
+  .score{font-size:.85rem;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .progress{height:4px;background:rgba(15,39,66,.12)}
+  .progress i{display:block;height:100%;background:var(--amber);width:0;transition:width .4s}
+  main{flex:1;width:100%;max-width:1120px;margin:0 auto;padding:26px 20px 30px}
+  .page{display:none}
+  .page.on{display:block;animation:enter .45s cubic-bezier(.2,.7,.2,1) both}
+  .page.on.back{animation-name:enterBack}
+  @keyframes enter{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+  @keyframes enterBack{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+  .head{display:flex;align-items:flex-end;gap:16px;margin-bottom:16px}
+  .num{font-family:"Black Han Sans",sans-serif;font-size:4.2rem;line-height:.85;color:var(--acc);opacity:.9}
+  .head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:2.1rem;margin:0;line-height:1.1;letter-spacing:-.01em}
+  .head p{margin:4px 0 0;color:var(--muted)}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px 24px;margin-bottom:18px;border:1px solid rgba(0,0,0,.04)}
+  .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  .grid2.even{grid-template-columns:1fr 1fr}
+  @media (max-width:860px){.grid2,.grid2.even{grid-template-columns:1fr}.num{font-size:3rem}.head h2{font-size:1.6rem}}
+  h3{margin:0 0 8px;font-size:1.1rem}
+  h4{margin:0 0 4px}
+  p{margin:6px 0}
+  a{color:var(--acc)}
+  .muted{color:var(--muted)}
+  .book{display:inline-block;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin-top:6px}
+  table{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+  th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:center}
+  th{color:var(--muted);font-weight:700;font-size:.85rem}
+  td.l,th.l{text-align:left}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+  .chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;font:inherit;font-size:.92rem;cursor:pointer;transition:.15s;color:var(--ink)}
+  .chip.on{border-color:var(--acc);background:var(--acc);color:#fff;font-weight:700}
+  .btn{border:0;border-radius:10px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer;background:var(--acc);color:#fff;transition:transform .1s, box-shadow .2s;box-shadow:0 6px 16px rgba(15,39,66,.18)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:#fff;color:var(--acc);border:2px solid var(--acc);box-shadow:none}
+  .btn.sm{padding:5px 12px;font-size:.88rem}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ctrl{display:grid;grid-template-columns:70px 1fr 48px;align-items:center;gap:4px 10px;margin:4px 0}
+  .ctrl label{font-weight:900;font-size:.95rem}
+  .ctrl output{font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--acc)}
+  input[type=text],input[type=number]{font:inherit;padding:6px 10px;border:1px solid #c5ccd5;border-radius:8px;background:#fff;color:var(--ink)}
+  .big{font-size:1.5rem;font-weight:900;font-variant-numeric:tabular-nums}
+  .ok{color:var(--mint);font-weight:700}.ng{color:var(--red);font-weight:700}
+  .callout{border-radius:12px;padding:12px 16px;background:var(--acc-soft);border-left:5px solid var(--acc);margin:12px 0}
+  svg{display:block;width:100%;height:auto}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:.9em;background:#f1f3f6;padding:1px 6px;border-radius:5px}
+  .cx{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:18px;border-left:6px solid var(--acc)}
+  .cx>h3{margin:0 0 4px;font-size:1.15rem}
+  .cx>.lead2{color:var(--muted);margin:0 0 12px}
+  .qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media (max-width:860px){.qa{grid-template-columns:1fr}}
+  .qa>div{background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .qa b.q{display:block;color:var(--acc);margin-bottom:3px}
+  .vsteps{list-style:none;margin:0;padding:0;counter-reset:v}
+  .vsteps>li{position:relative;padding:9px 0 9px 44px;border-top:1px dashed var(--line)}
+  .vsteps>li:first-child{border-top:0}
+  .vsteps>li::before{counter-increment:v;content:counter(v);position:absolute;left:0;top:9px;width:30px;height:30px;border-radius:50%;background:var(--acc);color:#fff;font-weight:900;display:grid;place-items:center;font-size:.9rem}
+  .vsteps p{margin:2px 0 0;font-size:.93rem}
+  .case{background:#fff8e6;border:2px solid #f6d58a;border-radius:16px;padding:16px 20px;margin-bottom:18px}
+  .case>h3{margin:0 0 8px;font-size:1.05rem;color:#8a5a00}
+  /* 퀴즈 */
+  .quiz{background:linear-gradient(135deg,#0f2742,#1b3d66);color:#fff;border-radius:16px;padding:20px 22px;margin-top:6px;box-shadow:var(--shadow)}
+  .quiz .qh{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .quiz .qh b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.25rem;color:var(--amber)}
+  .quiz .qh span{font-size:.85rem;color:#a9bbd2}
+  .qi{background:rgba(255,255,255,.07);border-radius:12px;padding:12px 14px;margin-top:10px}
+  .qi .qq{font-weight:700;margin-bottom:8px}
+  .qi .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .qi .opts button{font:inherit;font-size:.93rem;border:2px solid rgba(255,255,255,.25);background:transparent;color:#fff;border-radius:10px;padding:6px 14px;cursor:pointer;transition:.15s}
+  .qi .opts button:hover:not(:disabled){border-color:var(--amber)}
+  .qi .opts button.right{background:var(--mint);border-color:var(--mint);font-weight:700}
+  .qi .opts button.wrong{background:var(--red);border-color:var(--red);text-decoration:line-through}
+  .qi .opts button:disabled{cursor:default}
+  .qi .why{margin-top:8px;font-size:.9rem;color:#d7e3f2;display:none}
+  .qi.answered .why{display:block}
+  .qi.answered.correct{box-shadow:inset 4px 0 0 var(--mint)}
+  .qi.answered.incorrect{box-shadow:inset 4px 0 0 var(--red)}
+  .shake{animation:shake .35s}
+  @keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+  .foot{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:rgba(243,239,231,.94);backdrop-filter:blur(6px);border-top:1px solid var(--line)}
+  .foot .btn{min-width:110px}
+  .foot .pg{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  /* 표지 */
+  .cover{position:relative;border-radius:22px;overflow:hidden;background:radial-gradient(ellipse at 20% 0%,#24507f 0%,#0f2742 55%,#0a1a2e 100%);color:#fff;min-height:520px;padding:46px 44px;box-shadow:var(--shadow)}
+  .cover canvas{position:absolute;right:0;top:0;height:100%;width:62%;image-rendering:pixelated;opacity:.95}
+  .cover .fade{position:absolute;inset:0;background:linear-gradient(90deg,#0f2742 34%,rgba(15,39,66,.75) 50%,rgba(15,39,66,0) 70%)}
+  .cover .in{position:relative;max-width:560px}
+  .cover .tag{display:inline-block;background:var(--amber);color:var(--navy);font-weight:900;font-size:.85rem;padding:4px 12px;border-radius:999px}
+  .cover h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:3.1rem;line-height:1.15;margin:16px 0 10px}
+  .cover p{color:#c8d6e8;font-size:1.05rem}
+  .cover ol{margin:18px 0 26px;padding-left:20px;color:#e1e9f4;columns:2;column-gap:28px;font-size:.95rem}
+  @media (max-width:700px){.cover{padding:30px 22px}.cover h1{font-size:2.2rem}.cover ol{columns:1}.cover canvas{width:100%;opacity:.3}.cover .fade{display:none}}
+  .today{margin-top:26px}
+  .kicker{display:inline-block;font-family:"Black Han Sans",sans-serif;font-size:1.15rem;color:var(--navy);margin-bottom:6px;border-bottom:4px solid var(--amber);line-height:1.2}
+  .today-lead{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:22px 26px;margin-bottom:16px}
+  .today-lead p{font-size:1.12rem;margin:6px 0 0}
+  .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+  @media (max-width:900px){.why3{grid-template-columns:1fr}}
+  .why{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 22px}
+  .why ul{margin:6px 0 0;padding-left:18px;font-size:.95rem}
+  .why li{margin:6px 0}
+  .why ul.can{list-style:none;padding:0}
+  .why ul.can li{padding-left:28px;position:relative}
+  .why ul.can li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 7' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+  .why ul.uses{list-style:none;padding:0}
+  .why ul.uses li{border-left:3px solid var(--amber);padding-left:10px}
+  .glossary-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .glossary-head .muted{font-size:.88rem}
+  .glossary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+  @media (max-width:1000px){.glossary{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.glossary{grid-template-columns:1fr}}
+  .gcard{all:unset;box-sizing:border-box;cursor:pointer;display:block;background:#fff;border-radius:14px;padding:16px 16px 12px;box-shadow:var(--shadow);border-top:6px solid var(--g);position:relative;transition:transform .18s, box-shadow .18s}
+  .gcard:hover,.gcard:focus-visible{transform:translateY(-4px);box-shadow:0 22px 50px rgba(15,39,66,.16)}
+  .gcard:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+  .gcard i{position:absolute;right:14px;top:8px;font-style:normal;font-family:"Black Han Sans",sans-serif;font-size:1.9rem;color:var(--g);opacity:.25}
+  .gcard h4{margin:0 0 6px;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.2rem;color:var(--g)}
+  .gcard dl{margin:0;font-size:.88rem;line-height:1.45}
+  .gcard dt{font-weight:900;margin-top:7px}
+  .gcard dd{margin:1px 0 0;color:#3c4654}
+  .prob{display:grid;grid-template-columns:60px 1fr 46px;gap:6px;align-items:center;font-size:.88rem;min-width:200px}
+  .prob i{display:block;height:12px;border-radius:6px;background:var(--acc)}
+  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media (max-width:860px){.apps{grid-template-columns:1fr 1fr}}
+  .apps button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border-radius:14px;padding:14px;box-shadow:0 6px 16px rgba(15,39,66,.08);border:3px solid transparent;text-align:center;transition:.2s}
+  .apps button.on{border-color:var(--acc);transform:translateY(-3px)}
+  .apps button .e{font-size:2rem;display:block}
+  .apps button b{display:block}
+  .appd{display:none}
+  .appd.on{display:block;animation:enter .35s both}
+  .ex2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  @media (max-width:640px){.ex2{grid-template-columns:1fr}}
+  .ex2>div{background:#fbfaf7;border-radius:12px;padding:12px 14px;font-size:.93rem;border-left:4px solid var(--acc)}
+  .try{margin-top:12px;background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.92rem}
+  .try ol{margin:4px 0 0;padding-left:20px}
+  /* 3단원 공통 */
+  .easy{display:flex;gap:12px;align-items:flex-start;background:#fffbea;border:2px solid #f6d58a;border-radius:14px;padding:12px 16px;margin:-4px 0 16px;font-size:1rem;line-height:1.6}
+  .easy b.t{flex:0 0 auto;background:#f2a516;color:#0f2742;border-radius:999px;padding:2px 10px;font-size:.82rem;margin-top:2px}
+  .route{position:absolute;right:30px;top:36px;width:min(430px,44%);display:grid;gap:10px}
+  .route .st{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.1);border-radius:14px;padding:10px 14px;color:#fff;opacity:0;transform:translateX(20px);animation:rin .6s forwards}
+  .route .st i{font-style:normal;font-size:1.6rem}
+  .route .st b{display:block;font-size:1.02rem}
+  .route .st small{color:#c8d6e8;font-size:.82rem}
+  .route .ar{color:var(--amber);text-align:center;font-weight:900;opacity:0;animation:rin .5s forwards}
+  @keyframes rin{to{opacity:1;transform:none}}
+  @media (max-width:1080px){.route{position:relative;right:auto;top:auto;width:100%;margin-top:22px}}
+  .story{background:rgba(255,255,255,.08);border-left:4px solid var(--amber);border-radius:10px;padding:10px 14px;margin:14px 0;color:#e1e9f4;font-size:.95rem}
+  .story b{color:#fff}
+  /* 카드 묶음 */
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .cards2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:900px){.cards3,.cards4{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.cards3,.cards2,.cards4{grid-template-columns:1fr}}
+  .kc{background:#fff;border-radius:14px;box-shadow:0 6px 16px rgba(15,39,66,.08);padding:14px 16px;border-top:6px solid var(--k,var(--acc))}
+  .kc h4{color:var(--k,var(--acc));font-size:1.05rem;margin:0 0 4px}
+  .kc p{font-size:.92rem;margin:4px 0 0}
+  .kc .ic{font-size:1.7rem;line-height:1}
+  .kc small{display:block;color:var(--muted);font-size:.8rem;margin-top:6px}
+  .tagt{display:inline-block;font-size:.76rem;font-weight:900;border-radius:999px;padding:1px 9px;background:color-mix(in srgb,var(--k,var(--acc)) 14%,white);color:var(--k,var(--acc));margin:6px 4px 0 0}
+  /* 연표 */
+  .tl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .tl button{flex:1;min-width:92px;border:2px solid var(--line);background:#fff;border-radius:12px;padding:8px 6px;font:inherit;font-weight:900;cursor:pointer;color:var(--ink)}
+  .tl button.on{border-color:var(--acc);background:var(--acc);color:#fff}
+  .tlv{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:640px){.tlv{grid-template-columns:1fr}}
+  .tlv>div{background:#fbfaf7;border-radius:12px;padding:12px 14px;border-left:5px solid var(--k)}
+  .tlv h4{color:var(--k)}
+  .tlv .it{margin:6px 0 0;font-size:.93rem}
+  .tlv .it b{display:block}
+  /* 분류 게임 */
+  .sit{background:#fbfaf7;border:2px dashed var(--line);border-radius:14px;padding:14px 16px;text-align:center;min-height:170px}
+  .sit .cnt{font-size:.82rem;color:var(--muted)}
+  .sit .sq{font-size:1.08rem;font-weight:900;margin:6px 0 12px;min-height:52px}
+  .sit .ic{font-size:2rem}
+  .sit .row{justify-content:center}
+  .sit .fb{min-height:24px;margin-top:8px;font-size:.93rem}
+  .sit .cat{border:2px solid var(--k);color:var(--k);background:#fff;font-weight:900}
+  .sit .cat:hover{background:color-mix(in srgb,var(--k) 12%,white)}
+  .board{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:8px;margin-top:12px}
+  @media (max-width:760px){.board{grid-template-columns:1fr 1fr}}
+  .board>div{background:#fff;border-radius:12px;border-top:5px solid var(--k);padding:8px 10px;font-size:.84rem;min-height:70px}
+  .board>div b{display:block;color:var(--k);font-size:.92rem}
+  .board>div span{display:block;border-top:1px dashed var(--line);padding:3px 0}
+  .board>div span.x{color:var(--red)}
+  /* 뒤집는 카드 */
+  .tcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .tcard{perspective:900px;height:172px;cursor:pointer}
+  .tcard .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .tcard.flip .in{transform:rotateY(180deg)}
+  .tcard .f,.tcard .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:12px 14px;box-shadow:0 6px 16px rgba(15,39,66,.09);overflow:auto}
+  .tcard .f{background:#fff;border-top:6px solid var(--acc);display:flex;flex-direction:column;justify-content:center;text-align:center}
+  .tcard .f i{font-style:normal;font-size:2rem;line-height:1.1}
+  .tcard .f b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.2rem;line-height:1.25;margin-top:4px}
+  .tcard .f small{color:var(--muted);font-size:.78rem;margin-top:6px}
+  .tcard .b{background:var(--acc);color:#fff;transform:rotateY(180deg);font-size:.9rem;line-height:1.5}
+  .tcard .b .x{margin-top:6px;background:rgba(255,255,255,.16);border-radius:8px;padding:5px 8px;font-size:.84rem}
+  /* 사례 탭 */
+  .apps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .apps.a6{grid-template-columns:repeat(6,1fr)}
+  @media (max-width:860px){.apps,.apps.a6{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:480px){.apps,.apps.a6{grid-template-columns:1fr 1fr}}
+  .apps button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border-radius:14px;padding:12px 8px;box-shadow:0 6px 16px rgba(15,39,66,.08);border:3px solid transparent;text-align:center;transition:.2s;font-size:.92rem}
+  .apps button.on{border-color:var(--acc);transform:translateY(-3px)}
+  .apps button .e{font-size:1.8rem;display:block}
+  .apps button b{display:block}
+  .cview{margin-top:14px}
+  .pr{display:grid;grid-template-columns:1fr 1.3fr;gap:12px}
+  @media (max-width:760px){.pr{grid-template-columns:1fr}}
+  .pr>div{border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .pr .p{background:#fdecea;border-left:5px solid var(--red)}
+  .pr .s{background:#e7f6ef;border-left:5px solid var(--mint)}
+  .pr h4{font-size:.95rem}
+  .pr .p h4{color:#9b2c20}.pr .s h4{color:#13684d}
+  .dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.9rem;margin-top:10px;background:#fbfaf7;border-radius:10px;padding:10px 12px}
+  .dl b{color:var(--acc)}
+  /* 메모 */
+  .memo{margin-top:10px}
+  .memo label{display:block;font-weight:700;font-size:.93rem;margin:10px 0 4px}
+  .memo label small{font-weight:400;color:var(--muted)}
+  .memo input[type=text]{width:100%}
+  textarea{font:inherit;width:100%;min-height:64px;padding:8px 10px;border:1px solid #c5ccd5;border-radius:8px;resize:vertical;color:var(--ink);background:#fff}
+  .saved{font-size:.8rem;color:var(--mint);min-height:1em}
+  /* 투표 */
+  .vote{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  @media (max-width:560px){.vote{grid-template-columns:1fr}}
+  .vote button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:3px solid var(--line);border-radius:14px;padding:12px 14px;text-align:center;font-weight:900}
+  .vote button.on{border-color:var(--acc);background:var(--acc-soft)}
+  .vote button small{display:block;font-weight:400;color:var(--muted);font-size:.84rem}
+  .reveal{display:none;margin-top:12px}
+  .reveal.on{display:block;animation:fadein .4s both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .pct{display:grid;grid-template-columns:120px 1fr 50px;gap:8px;align-items:center;margin:6px 0;font-size:.93rem}
+  .pct i{display:block;height:16px;border-radius:8px;background:var(--acc);width:0;transition:width .8s}
+  /* 질문폼 연결 */
+  .formgo{background:linear-gradient(135deg,#0f2742,#1b3d66);color:#fff;border-radius:18px;padding:22px 24px;box-shadow:var(--shadow);margin-top:18px}
+  .formgo .kicker{color:#fff;border-bottom-color:var(--amber)}
+  .formgo h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.5rem;margin:4px 0 8px}
+  .formgo ol{margin:6px 0 12px;padding-left:22px;color:#e1e9f4}
+  .formgo ol li{margin:6px 0}
+  .formgo p{color:#c8d6e8;font-size:.92rem}
+  .formgo .go{display:inline-block;background:var(--amber);color:var(--navy);font-weight:900;font-size:1.1rem;text-decoration:none;border-radius:12px;padding:12px 22px;margin-top:6px}
+  .formgo .go:hover{filter:brightness(1.05)}
+  .msum{background:#fff;border-radius:14px;padding:12px 16px;margin-top:12px;color:var(--ink);font-size:.9rem}
+  .msum h4{color:var(--navy)}
+  .msum dl{margin:6px 0 0}
+  .msum dt{font-weight:700;margin-top:8px;color:var(--muted);font-size:.84rem}
+  .msum dd{margin:2px 0 0;white-space:pre-wrap}
+  .msum dd.e{color:#aab2bd}
+  .key3{display:grid;gap:10px;margin-bottom:18px}
+  .key3 div{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:14px 18px;border-left:6px solid var(--k);font-size:1.02rem}
+  .note{font-size:.84rem;color:var(--muted);margin-top:8px}
+  .flow2{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .flow2>div{flex:1;min-width:140px;background:#fbfaf7;border-radius:12px;padding:10px 12px;border-top:5px solid var(--k)}
+  .flow2>div b{display:block}
+  .flow2>div span{font-size:.88rem}
+  .flow2>.ar{flex:0 0 auto;min-width:0;background:none;border:0;align-self:center;font-weight:900;color:var(--muted);padding:0}
+  @media (max-width:640px){.flow2>.ar{flex-basis:100%;text-align:center;transform:rotate(90deg)}}
+  .chk{display:flex;flex-wrap:wrap;gap:8px}
+  .chk button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:5px 13px;font:inherit;font-size:.9rem;cursor:pointer;color:var(--ink)}
+  .chk button.on{border-color:var(--acc);background:var(--acc);color:#fff;font-weight:700}
+  .tbl td,.tbl th{padding:8px 10px;vertical-align:top}
+  .tbl td{text-align:left;font-size:.92rem}
+  .mx{min-width:560px}
+  .mx th{background:#fbfaf7}
+  .mx td{border:1px solid var(--line);height:74px;width:30%;font-size:.86rem;cursor:pointer;background:#fff;transition:background .2s}
+  .mx td:hover{background:var(--acc-soft)}
+  .mx td.fill{background:#e7f6ef;cursor:default}
+  .mx td.bad{background:#fdecea}
+  .mx th.r{white-space:nowrap}
+  #mxPool button{border-radius:12px;text-align:left;max-width:100%}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="../" title="수업 자료실로">← 수업 자료실</a>
+  <nav class="steps" id="steps"></nav>
+  <div class="score" id="score"></div>
+</div>
+<div class="progress"><i id="prog"></i></div>
+
+<main id="main">
+
+<!-- 0 표지 -->
+<section class="page" data-name="시작" data-acc="#f2a516">
+  <div class="cover">
+    <div class="in">
+      <span class="tag">인공지능 기초 · Ⅲ. 인공지능의 사회적 영향 · 1. 인공지능과 사회</span>
+      <h1>인공지능은 우리 사회와<br>직업을 어떻게 바꿀까?</h1>
+      <div class="story"><b>인공지능이 그린 그림이 미술대회 1등을?</b><br>미국의 한 미술대회 디지털 아트 부문에서 1등을 한 그림 「스페이스 오페라 극장」은 글을 입력하면 그림을 만들어 주는 인공지능으로 그린 작품이었어요. 출품자는 인공지능을 썼다고 밝혔지만, 이 그림을 사람의 예술 작품으로 볼 수 있는지, 저작권은 누구에게 있는지 의견이 갈렸어요.</div>
+      <p>내가 심사위원이라면 이 작품을 어떻게 평가할까요? 오늘은 인공지능이 바꾼 사회와 직업을 살펴보고, 내 진로와 우리 지역의 문제에 연결해 생각을 정리해요.</p>
+      <ol>
+        <li>인공지능의 발전과 사회 변화</li><li>인공지능과 함께하는 사회</li><li>인공지능으로 해결하는 사회 문제</li>
+        <li>직업 세계의 변화</li><li>내 생각 정리하기</li><li>마무리 · 질문폼</li>
+      </ol>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
+        <button class="btn" style="background:transparent;border:2px solid rgba(255,255,255,.5);box-shadow:none" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">오늘 할 일 보기 ↓</button>
+      </div>
+    </div>
+    <div class="route" aria-hidden="true">
+      <div class="st" style="animation-delay:.2s"><i>🌐</i><div><b>초연결 사회</b><small>사람·사물·데이터가 모두 연결</small></div></div>
+      <div class="ar" style="animation-delay:.6s">↓</div>
+      <div class="st" style="animation-delay:.8s"><i>🏙️</i><div><b>사회 변화</b><small>교통·금융·쇼핑·언어·법률·공공</small></div></div>
+      <div class="ar" style="animation-delay:1.2s">↓</div>
+      <div class="st" style="animation-delay:1.4s"><i>🌱</i><div><b>사회 문제 해결</b><small>산불·재활용·돌봄·교통·범죄 예방</small></div></div>
+      <div class="ar" style="animation-delay:1.8s">↓</div>
+      <div class="st" style="animation-delay:2s"><i>🧑‍🍳 🧑‍🚒 🧑‍🎨</i><div><b>직업과 나의 진로</b><small>대체가 아니라 역할이 바뀌어요</small></div></div>
+    </div>
+  </div>
+
+  <div id="intro" class="today">
+    <div class="today-lead">
+      <span class="kicker">오늘 우리는</span>
+      <p>인공지능이 <b>연대별로 어떻게 발전</b>했고 사회가 어떻게 바뀌었는지 보고, 인공지능이 <b>사회 문제를 어떻게 해결</b>하는지 사례로 분석합니다. 그리고 <b>직업 세계의 변화</b>를 살펴본 뒤, <b>내 진로</b>와 <b>우리 학교·지역의 문제</b>에 연결해 생각을 정리합니다.</p>
+    </div>
+    <div class="why3">
+      <div class="why">
+        <span class="kicker">왜 배울까</span>
+        <ul>
+          <li>인공지능은 이미 <b>「제2의 전기」</b>처럼 생활 곳곳에 쓰이고 있어요.</li>
+          <li>앞으로 내가 가질 직업도 인공지능과 함께 일하게 될 가능성이 커요.</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">핵심 질문</span>
+        <ul class="uses">
+          <li><b>인공지능과 사회</b> · 인공지능의 발전은 우리에게 어떤 변화를 가져올까?</li>
+        </ul>
+        <p style="font-size:.88rem;margin-top:8px" class="muted">오늘 마지막에 이 질문에 내 말로 답해 봐요.</p>
+      </div>
+      <div class="why">
+        <span class="kicker">배우고 나면 할 수 있는 것</span>
+        <ul class="can">
+          <li>인공지능의 발전에 따른 사회 변화를 설명한다.</li>
+          <li>인공지능으로 해결할 수 있는 사회 문제를 분석한다.</li>
+          <li>인공지능으로 바뀌는 직업의 모습을 예측하고 내 진로와 연결한다.</li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px"><button class="btn" style="background:var(--navy)" onclick="go(1)">01 인공지능의 발전부터 시작하기 →</button></div>
+  </div>
+</section>
+
+<!-- 1 발전과 사회 변화 -->
+<section class="page" data-name="인공지능의 발전" data-acc="#2f6fd0">
+  <div class="head"><div class="num">01</div><div><h2>인공지능의 발전과 사회 변화</h2><p>교과서 133~134쪽 · 초연결 사회와 연대별 변화</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능은 <b>데이터를 먹고 자라요.</b> 스마트폰·자동차·가로등·세탁기까지 모두 연결된 <b>초연결 사회</b>에서는 데이터가 끊임없이 쌓이니, 인공지능이 더 빨리 똑똑해져요. 대신 잘못 배운 인공지능처럼 <b>예전에 없던 사회 문제</b>도 생겨요.</span></div>
+  <div class="card">
+    <h3>🌐 초연결 사회에서 인공지능이 빠르게 자라는 까닭</h3>
+    <div class="flow2">
+      <div style="--k:#2f6fd0"><b>① 모든 것이 연결</b><span>사물 인터넷, 빅데이터, 클라우드 · 사람, 데이터, 사물이 네트워크로 연결돼요.</span></div>
+      <div class="ar">→</div>
+      <div style="--k:#1f9d74"><b>② 데이터가 계속 쌓임</b><span>사람들의 활동이 디지털 데이터로 만들어지고 저장돼요.</span></div>
+      <div class="ar">→</div>
+      <div style="--k:#e0702b"><b>③ 학습 재료가 풍부</b><span>방대한 데이터로 학습한 인공지능은 더 정확하게 예측해요.</span></div>
+      <div class="ar">→</div>
+      <div style="--k:#d64535"><b>④ 새로운 문제도</b><span>잘못된 학습으로 예상 못 한 결과, 사람이 이해하기 어려운 결과가 나오기도 해요.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🕰️ 연대를 눌러 보세요 <span class="muted" style="font-weight:400;font-size:.88rem">(그림 Ⅲ-2)</span></h3>
+    <div class="tl" id="tlBtns"></div>
+    <div class="tlv" id="tlView"></div>
+    <p class="note">더 자세한 이야기는 1단원 14쪽 「짧은 이야기로 만나는 인공지능」에서 볼 수 있어요. CNN·GAN은 2단원 104쪽·106쪽에서 배웠어요.</p>
+  </div>
+  <div class="card"><h3>🎯 어느 연대일까?</h3><p class="muted" style="margin-top:0">사건을 보고 알맞은 연대를 골라요.</p><div id="decGame"></div></div>
+  <div class="quiz" data-quiz="1"></div>
+</section>
+
+<!-- 2 함께하는 사회 -->
+<section class="page" data-name="함께하는 사회" data-acc="#1f9d74">
+  <div class="head"><div class="num">02</div><div><h2>인공지능과 함께하는 사회</h2><p>교과서 135쪽 · 일상부터 전문 분야까지</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능은 이제 특별한 기계가 아니라 <b>주유소 찾기, 투자 상담, 번역, 쇼핑 추천, 법률 정보, 안내 방송</b>처럼 생활 곳곳에서 쓰여요. 카드를 뒤집어 <b>2단원에서 배운 어떤 기술</b>과 이어지는지도 확인해 봐요.</span></div>
+  <div class="tcards" id="socCards"></div>
+  <div class="card" style="margin-top:18px">
+    <h3>✍️ 스스로 해결하기 (135쪽)</h3>
+    <div class="memo">
+      <label>① 내가 사용해 보고 싶은 인공지능과 그 이유 <small>예: 내 일정을 보고 공부 계획을 짜 주는 인공지능 — 시험 기간마다 계획 세우기가 어려워서</small></label>
+      <textarea data-memo="want" rows="2"></textarea><div class="saved"></div>
+      <label>② 그 인공지능을 많은 사람이 쓰게 되면 사회에 생길 변화 <small>좋아지는 점과 걱정되는 점을 하나씩</small></label>
+      <textarea data-memo="wantChange" rows="2"></textarea><div class="saved"></div>
+    </div>
+  </div>
+  <div class="quiz" data-quiz="2"></div>
+</section>
+
+<!-- 3 사회 문제 해결 -->
+<section class="page" data-name="사회 문제 해결" data-acc="#e0702b">
+  <div class="head"><div class="num">03</div><div><h2>인공지능으로 해결하는 사회 문제</h2><p>교과서 136~138쪽 · 다섯 가지 사례와 분석 활동</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>사회 문제는 사회나 집단에 나쁜 영향을 주는 문제예요. 사람들이 함께 <b>문제를 정하고 → 데이터를 모으고 → 해결 방법을 찾아 → 실천</b>해요. 인공지능은 <b>많은 데이터를 빠르게 분석</b>하고, 실제로 하기 전에 <b>가상 공간에서 여러 번 시뮬레이션</b>해 볼 수 있어 큰 도움이 돼요.</span></div>
+  <div class="apps" id="caseBtns"></div>
+  <div class="cview" id="caseView"></div>
+  <div class="card" style="margin-top:18px">
+    <h3>🔎 스스로 해결하기: 식당 위생 검사 인공지능 (138쪽)</h3>
+    <div class="callout" style="margin-top:4px">미국 라스베이거스의 보건 당국은 식중독을 막으려고 <b>위생 검사를 할 식당을 고르는 인공지능</b>을 도입했어요. 인공지능은 SNS에 올라온 글에서 「메스껍다」처럼 음식과 관련된 질병을 떠올리게 하는 표현을 찾아 식당을 골랐어요. 그 결과 무작위로 고르던 예전보다 <b>문제 식당 발견 비율이 9%에서 15%로</b> 올랐고, 1년에 식중독 사고 약 9,126건, 입원 환자 557명을 줄이는 효과가 있을 것으로 추정했어요.</div>
+    <p class="muted">아래 퀴즈로 문제 상황 → 데이터와 방법 → 효과를 차례로 분석해 봐요.</p>
+  </div>
+  <div class="quiz" data-quiz="3"></div>
+</section>
+
+<!-- 4 직업 세계의 변화 -->
+<section class="page" data-name="직업 세계의 변화" data-acc="#9b4fc4">
+  <div class="head"><div class="num">04</div><div><h2>인공지능과 직업 세계의 변화</h2><p>교과서 140~142쪽 · 대체가 아니라 역할이 바뀌어요</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>미래학자 마틴 포드는 <b>「인공지능은 제2의 전기」</b>라고 했어요. 1887년 경복궁 전등에서 시작한 전기가 이제 없어서는 안 되듯, 인공지능도 그렇게 돼요. 그래서 <b>정해진 대로 반복하는 일</b>은 인공지능이 빠르게 맡고, 사람은 <b>공감·창의·판단</b>이 필요한 일에 더 집중하게 돼요.</span></div>
+  <div class="cards3">
+    <div class="kc" style="--k:#d64535"><div class="ic">🔁</div><h4>빠르게 대체되는 일</h4><p>정형화된(정해진 순서대로 반복하는) 작업은 인공지능, 로봇 등으로 빠르게 대체될 것이다.</p></div>
+    <div class="kc" style="--k:#1f9d74"><div class="ic">🤸</div><h4>영향을 덜 받는 일</h4><p>고도의 신체 활동, 창의성, 공감 능력 등이 필요한 직업은 기술 발전에 영향을 덜 받을 것이다.</p></div>
+    <div class="kc" style="--k:#2f6fd0"><div class="ic">⏩</div><h4>빨라지는 변화</h4><p>새로운 기술로 직업이 생기고 사라지는 주기가 짧아질 것이다.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>🃏 인공지능 때문에 이 직업은 사라질까? <span class="muted" style="font-weight:400;font-size:.88rem">(그림 Ⅲ-4 · 카드를 눌러 보세요)</span></h3>
+    <div class="tcards" id="jobCards"></div>
+  </div>
+  <div class="card">
+    <h3>📊 늘어날 직업, 줄어들 직업 <span class="muted" style="font-weight:400;font-size:.88rem">(142쪽 · 세계경제포럼 2023년 보고서, 2023년부터 5년간 예상)</span></h3>
+    <p class="muted" style="margin-top:0">직업을 보고 늘어날지 줄어들지 골라 보세요. 다 고르고 나면 줄어들 직업들의 공통점을 생각해 봐요.</p>
+    <div id="wefGame"></div>
+  </div>
+  <div class="card">
+    <h3>🧭 인공지능 시대를 준비하는 우리의 자세: 인공지능 소양 (142쪽)</h3>
+    <p class="muted" style="margin-top:0">인공지능 기술을 이해하고 올바르게 활용할 줄 아는 힘을 <b>인공지능 소양</b>이라고 해요.</p>
+    <div class="cards3">
+      <div class="kc" style="--k:#d64535"><div class="ic">🤝</div><h4>인공지능 윤리 의식</h4><p>인간과 인공지능의 공존을 모색하는 사람 중심의 윤리 의식</p><small>「인간과 조화롭게 어우러지는 인공지능은 어떤 모습일까?」</small></div>
+      <div class="kc" style="--k:#2f6fd0"><div class="ic">📈</div><h4>데이터 문해력</h4><p>데이터를 올바르게 이해하고 분석하여 문제를 통찰하는 힘</p><small>「일상생활의 모든 것은 데이터! 문제 해결에 필요한 데이터를 찾아볼까?」</small></div>
+      <div class="kc" style="--k:#1f9d74"><div class="ic">🛠️</div><h4>인공지능 문제 해결력</h4><p>인공지능을 통해 효율적으로 문제를 해결할 줄 아는 힘</p><small>「기계학습, 딥러닝으로 문제를 해결해 보자!」</small></div>
+    </div>
+  </div>
+  <div class="quiz" data-quiz="4"></div>
+</section>
+
+<!-- 5 내 생각 정리 -->
+<section class="page" data-name="내 생각 정리" data-acc="#d64535">
+  <div class="head"><div class="num">05</div><div><h2>내 생각 정리하기</h2><p>교과서 139쪽 · 143쪽 · 145쪽 활동</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>오늘 본 내용을 <b>내 진로</b>와 <b>우리 학교·지역</b>에 연결해 보는 시간이에요. 여기 적은 내용은 마지막 질문폼의 바탕이 되니, 짧더라도 <b>나만의 예</b>로 채워 봐요. 적은 내용은 이 기기에만 저장돼요.</span></div>
+  <div class="grid2 even">
+    <div class="card">
+      <h3>🪪 나의 직업 카드 (143쪽)</h3>
+      <div class="memo">
+        <label>직업명</label><input type="text" data-memo="job" placeholder="예: 물리 치료사">
+        <label>하는 일</label><textarea data-memo="jobDo" rows="2"></textarea>
+        <label>관련 학과</label><input type="text" data-memo="jobDept">
+        <label>인공지능이 대신하거나 도와줄 일 <small>(긍정적 측면)</small></label><textarea data-memo="jobPlus" rows="2"></textarea>
+        <label>걱정되는 점, 그래도 사람이 해야 할 일 <small>(부정적 측면)</small></label><textarea data-memo="jobMinus" rows="2"></textarea>
+        <label>이 직업을 준비하며 기를 인공지능 소양</label><div id="jobLit"></div>
+        <div class="saved"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🏫 우리 학교·지역 문제를 해결하는 인공지능 (139쪽)</h3>
+      <div class="memo">
+        <label>우리가 고른 문제</label><textarea data-memo="local" rows="2" placeholder="예: 등굣길 학교 앞 횡단보도가 위험하다"></textarea>
+        <label>인공지능을 활용한 해결 방법</label><textarea data-memo="localHow" rows="2"></textarea>
+        <label>필요한 기술 <small>(여러 개 골라도 돼요)</small></label><div id="localTech"></div>
+        <label>모델 학습에 필요한 데이터</label><textarea data-memo="localData" rows="2"></textarea>
+        <label>홍보 한 줄 <small>(광고 이미지에 넣을 문구)</small></label><input type="text" data-memo="localAd" placeholder="예: 빨간불도 놓치지 않는 똑똑한 횡단보도">
+        <div class="saved"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>💡 심화: 사회 문제를 해결하는 새로운 직업 상상하기 (145쪽 · 선택)</h3>
+    <p class="muted" style="margin-top:0">사회 문제 하나를 골라, 인공지능으로 그 문제를 해결하는 <b>새로운 직업</b>과 하는 일을 상상해 봐요. 그 직업 때문에 사라질 직업이 있을지도 생각해 봐요.</p>
+    <div id="sdgPick"></div>
+    <div class="memo"><label>새로운 직업과 하는 일</label><textarea data-memo="newJob" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+</section>
+
+<!-- 6 마무리 -->
+<section class="page" data-name="마무리 · 질문폼" data-acc="#0f2742">
+  <div class="head"><div class="num">06</div><div><h2>마무리</h2><p>핵심 문장 · 마무리 퀴즈 · 생각 정리 질문폼</p></div></div>
+  <div class="key3">
+    <div style="--k:#2f6fd0"><b>초연결 사회</b>에서 데이터가 풍부해지며 인공지능은 빠르게 발전했고, 교통·금융·쇼핑·언어·법률·공공 등 사회 전반을 바꾸고 있다.</div>
+    <div style="--k:#e0702b">인공지능은 많은 데이터를 분석하고 시뮬레이션해 <b>기후 변화·환경·노인 복지·교통·범죄 예방</b> 같은 사회 문제 해결에 도움을 준다.</div>
+    <div style="--k:#9b4fc4">정형화된 일은 인공지능이 대체하고 직업의 <b>역할이 바뀌며</b>, 진로를 설계하려면 <b>윤리 의식·데이터 문해력·문제 해결력</b>이라는 인공지능 소양이 필요하다.</div>
+  </div>
+  <div class="card">
+    <h3>내 계획 점검하기 (145쪽)</h3>
+    <p class="muted" style="margin-top:0">핵심 질문에 오늘 배운 낱말을 넣어 내 말로 답해 보세요.</p>
+    <b style="font-size:.93rem">인공지능의 발전은 우리에게 어떤 변화를 가져올까?</b>
+    <textarea data-memo="keyQ" rows="3"></textarea><div class="saved"></div>
+  </div>
+  <div class="card" style="--acc:#0f2742">
+    <h3>마무리 퀴즈</h3>
+    <div class="quiz" data-quiz="6"></div>
+  </div>
+  <div class="card">
+    <h3>개념 퀴즈 결과</h3>
+    <table id="result"></table>
+    <button class="btn ghost" id="quizReset">퀴즈 다시 풀기</button>
+  </div>
+  <div class="formgo">
+    <span class="kicker">생각 정리 과제</span>
+    <h3>질문폼에 내 생각 쓰기</h3>
+    <ol>
+      <li>교과서 사례 다섯 가지 중 하나를 골라 <b>문제 · 데이터 · 해결 방법 · 쓰인 기술</b>을 분석하기</li>
+      <li>우리 학교·지역의 문제를 해결하는 <b>인공지능 고안</b>하기 (기술 · 데이터 · 기대 효과 · 주의할 점)</li>
+      <li><b>내 직업 카드</b>: 인공지능이 대신하거나 도와줄 일, 그래도 사람이 할 일, 기를 인공지능 소양</li>
+    </ol>
+    <p>질문폼에는 붙여넣기가 되지 않아요. 아래 메모를 보면서 직접 다시 써 주세요.</p>
+    <a class="go" href="https://aiquiz26.vercel.app/forms/ai-22-3-1-1.html" target="_blank" rel="noopener">질문폼 열기 →</a>
+    <div class="msum" id="msum"></div>
+  </div>
+</section>
+
+</main>
+
+<div class="foot">
+  <button class="btn ghost" id="prev">← 이전</button>
+  <span class="pg" id="pg"></span>
+  <button class="btn" id="next">다음 →</button>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=id=>document.getElementById(id);
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fmt=n=>n.toLocaleString('ko-KR');
+
+
+
+
+/* 퀴즈 */
+const QUIZ={
+ 1:[{q:'사람, 데이터, 사물 등 모든 것이 네트워크로 연결된 사회를 무엇이라고 할까?',o:['정보화 사회','초연결 사회','산업 사회'],a:1,w:'초연결 사회에서는 정보가 끊임없이 만들어지고 저장되어 인공지능의 학습 재료가 풍부해져요.'},
+    {q:'1970년대에 의학, 법률 등 특정 분야에서 활용할 수 있어 주목받은 인공지능은?',o:['GAN','전문가 시스템','생성형 인공지능'],a:1,w:'모든 분야가 아닌 특정 전문 분야에서 쓰는 인공지능이 전문가 시스템이에요.'},
+    {q:'2010년대에 딥페이크 범죄 등이 나타나면서 사회에 생긴 변화는?',o:['인터넷 상용화','인공지능 윤리의 필요성 대두','컴퓨터의 등장'],a:1,w:'여러 나라가 인공지능 정책을 만들고 윤리의 필요성이 커졌어요. 2017년 아실로마 인공지능 원칙도 이때 나왔어요.'}],
+ 2:[{q:'개인의 자산 정보와 투자 성향에 맞춰 투자 정보를 알려 주는 인공지능 프로그램은?',o:['로보어드바이저','챗봇 번역기','추천 쇼핑몰'],a:0,w:'로봇(robot)과 어드바이저(advisor)를 합친 말로, 투자 결정과 자산 배분을 도와요.'},
+    {q:'사람이 말하는 것처럼 자연스럽게 안내 방송을 하는 공공 분야 인공지능에 쓰인 기술은?',o:['음성 합성','객체 탐지','군집'],a:0,w:'글자를 사람 목소리로 바꾸어 들려주는 기술이 음성 합성이에요.'}],
+ 3:[{q:'라스베이거스의 인공지능이 해결하려던 문제는?',o:['식중독을 막기 위해 위생 검사를 할 식당을 잘 고르는 것','식당 음식의 맛을 평가하는 것','식당 예약을 자동으로 받는 것'],a:0,w:'1년에 약 35,000건의 위생 검사를 하는데, 문제가 있는 식당을 더 잘 찾아내려고 도입했어요.'},
+    {q:'이 인공지능이 식당을 고를 때 분석한 데이터는?',o:['식당 앞 CCTV 영상','SNS에 올라온 글 속 표현','식당의 매출 기록'],a:1,w:'「메스껍다」처럼 음식과 관련된 질병을 떠올리게 하는 표현을 찾았어요. 글을 분석하니 2단원의 자연어 처리와 이어져요.'},
+    {q:'페트병과 캔 이미지를 학습해 재활용 여부를 판단하는 순환 자원 회수기에 쓰인 기술과 가장 가까운 것은?',o:['자연어 처리','컴퓨터 비전','음성 인식'],a:1,w:'카메라로 스캔한 물체를 보고 무엇인지 알아보니 컴퓨터 비전(이미지 분류)이에요.'}],
+ 4:[{q:'2023년부터 5년간 줄어들 것으로 예상되는 직업(은행원, 데이터 입력 사무원 등)의 공통점은?',o:['정해진 순서대로 반복하는 작업이 많다','창의성이 많이 필요하다','다른 사람과 공감하는 일이 많다'],a:0,w:'정형화된 작업은 인공지능과 로봇이 빠르게 대체할 수 있어요.'},
+    {q:'「데이터를 올바르게 이해하고 분석하여 문제를 통찰하는 힘」은 인공지능 소양 중 무엇일까?',o:['인공지능 윤리 의식','데이터 문해력','인공지능 문제 해결력'],a:1,w:'윤리 의식은 사람 중심의 공존, 문제 해결력은 인공지능으로 효율적으로 문제를 해결하는 힘이에요.'},
+    {q:'그림 Ⅲ-4의 직업 이야기가 공통으로 보여 주는 것은?',o:['인공지능이 모든 직업을 없앤다','인공지능 때문에 직업의 역할이 바뀐다','인공지능은 직업과 관계가 없다'],a:1,w:'요리사는 손님 반응을 살필 시간이, 번역가는 문화를 이해하는 능력이 더 중요해졌어요.'}],
+ 6:[{q:'인공지능이 초연결 사회에서 빠르게 성장한 가장 큰 까닭은?',o:['사람들의 활동이 데이터로 쌓여 학습 재료가 풍부해져서','컴퓨터의 크기가 작아져서','사람이 규칙을 모두 입력해 주어서'],a:0,w:'방대하게 수집된 데이터로 학습해 더 정확한 예측이 가능해졌어요.'},
+    {q:'국도를 500m 단위로 나누어 교통사고 위험도를 0~4단계로 예측한 인공지능이 학습한 것은?',o:['운전자 운행 특성, 지리 정보, 교통사고, 속도 등 교통안전 빅데이터','운전자의 목소리','도로 주변 식당의 SNS 글'],a:0,w:'여기에 CCTV 영상의 객체 탐지를 더해 위험하면 전광판으로 알려 줘요.'},
+    {q:'외로운 어르신과 일상 대화를 나누는 인공지능 전화 돌봄 서비스에 쓰인 기술은?',o:['자연어 처리와 음성 합성','객체 탐지와 합성곱','군집과 회귀'],a:0,w:'대화의 흐름을 학습해 알맞은 답을 고르고(자연어 처리), 그 답을 목소리로 들려줘요(음성 합성).'},
+    {q:'인공지능 기술이 발전해도 영향을 덜 받을 것으로 보는 직업의 특징은?',o:['정해진 서류를 입력하는 일','고도의 신체 활동, 창의성, 공감 능력이 필요한 일','같은 물건을 반복해서 계산하는 일'],a:1,w:'사람만의 공감, 창의, 섬세한 신체 활동이 필요한 일은 대체하기 어려워요.'},
+    {q:'2020년대 생성형 인공지능의 발달로 활발해진 사회적 논의는?',o:['인공지능 기반 창작물의 저작권','컴퓨터를 다룰 줄 아는 사람의 필요','인터넷 상용화'],a:0,w:'표지의 「스페이스 오페라 극장」처럼, 인공지능이 만든 작품의 저작권과 예술성에 대한 논의가 이어지고 있어요.'}],
+};
+const QK='u3a-quiz-v1';
+const MK='u3a-memo-v1';
+
+let QS={}; try{QS=JSON.parse(localStorage.getItem(QK)||'{}')||{};}catch(e){QS={};}
+function saveQ(){try{localStorage.setItem(QK,JSON.stringify(QS));}catch(e){}}
+const TOTALQ=Object.values(QUIZ).reduce((a,b)=>a+b.length,0);
+function renderQuiz(box){
+  const k=box.dataset.quiz; box.innerHTML=`<div class="qh"><b>개념 퀴즈</b><span>${QUIZ[k].length}문제 · 고르면 바로 채점</span></div>`;
+  QUIZ[k].forEach((it,i)=>{
+    const id=k+'-'+i, d=document.createElement('div'); d.className='qi';
+    d.innerHTML=`<div class="qq">${i+1}. ${it.q}</div><div class="opts">${it.o.map((o,j)=>`<button data-j="${j}">${o}</button>`).join('')}</div><div class="why"></div>`;
+    const mark=(j,anim)=>{
+      const bs=d.querySelectorAll('button'); bs.forEach(b=>b.disabled=true);
+      bs[it.a].classList.add('right'); if(j!==it.a){bs[j].classList.add('wrong'); if(anim) d.classList.add('shake');}
+      d.classList.add('answered', j===it.a?'correct':'incorrect');
+      d.querySelector('.why').textContent=(j===it.a?'정답. ':'정답은 「'+it.o[it.a]+'」. ')+it.w;
+    };
+    d.querySelectorAll('button').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;QS[id]=j;saveQ();mark(j,true);updScore();});
+    if(QS[id]!=null && QS[id]<it.o.length) mark(QS[id],false);
+    box.appendChild(d);
+  });
+}
+
+/* 페이지 이동 */
+const pages=[...document.querySelectorAll('.page')];
+const stepBtns=pages.map((p,i)=>{const b=document.createElement('button');b.textContent=i?`${i}. ${p.dataset.name}`:'시작';b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function updScore(){
+  let ok=0; for(const k in QUIZ) QUIZ[k].forEach((it,i)=>{if(QS[k+'-'+i]===it.a) ok++;});
+  $('score').textContent=`퀴즈 ${ok} / ${TOTALQ}`;
+  pages.forEach((p,i)=>{const q=p.querySelector('[data-quiz]'); if(!q) return; const k=q.dataset.quiz; stepBtns[i].classList.toggle('done',QUIZ[k].every((_,j)=>QS[k+'-'+j]!=null));});
+  let h='<tr><th class="l">개념</th><th>맞힌 문제</th></tr>';
+  for(const k in QUIZ){const n=QUIZ[k].length, c=QUIZ[k].filter((it,i)=>QS[k+'-'+i]===it.a).length, a=QUIZ[k].filter((_,i)=>QS[k+'-'+i]!=null).length;
+    h+=`<tr><td class="l">${k}. ${pages[k].dataset.name}</td><td>${a?`<b class="${c===n?'ok':''}">${c} / ${n}</b>`:'<span class="muted">아직 안 풂</span>'}</td></tr>`;}
+  h+=`<tr><td class="l"><b>합계</b></td><td><b>${ok} / ${TOTALQ}</b></td></tr>`;
+  $('result').innerHTML=h;
+}
+let cur=-1;
+const onShow={};
+function go(i){
+  i=Math.max(0,Math.min(pages.length-1,i)); if(i===cur) return;
+  const back=i<cur; if(cur>=0) pages[cur].classList.remove('on','back');
+  pages[i].classList.add('on'); pages[i].classList.toggle('back',back);
+  document.documentElement.style.setProperty('--acc',pages[i].dataset.acc);
+  document.documentElement.style.setProperty('--acc-soft',pages[i].dataset.acc+'1a');
+  stepBtns.forEach((b,j)=>b.classList.toggle('on',j===i));
+  const sb=$('steps'), btn=stepBtns[i]; sb.scrollLeft=btn.offsetLeft-sb.clientWidth/2+btn.clientWidth/2;
+  $('prog').style.width=(i/(pages.length-1)*100)+'%';
+  $('pg').textContent=`${i} / ${pages.length-1}`;
+  $('prev').style.visibility=i?'visible':'hidden'; $('next').style.visibility=i<pages.length-1?'visible':'hidden';
+  cur=i; try{history.replaceState(null,'','#p'+i);}catch(e){} window.scrollTo(0,0);
+  if(onShow[i]) onShow[i]();
+}
+$('prev').onclick=()=>go(cur-1); $('next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.target.matches&&e.target.matches('input,select,textarea'))return; if(e.key==='ArrowRight')go(cur+1); if(e.key==='ArrowLeft')go(cur-1);});
+document.querySelectorAll('.gcard').forEach(g=>g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();g.click();}}));
+document.querySelectorAll('[data-quiz]').forEach(renderQuiz);
+$('quizReset').onclick=()=>{QS={};saveQ();document.querySelectorAll('[data-quiz]').forEach(renderQuiz);updScore();};
+
+
+/* 3단원 공통 */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+
+/* 메모: data-memo가 있는 입력칸은 이 기기에 저장 */
+let MEMO=store.get(MK,{});
+function bindMemos(){
+  document.querySelectorAll('[data-memo]').forEach(t=>{
+    const k=t.dataset.memo; if(MEMO[k]!=null) t.value=MEMO[k];
+    let tm; t.addEventListener('input',()=>{MEMO[k]=t.value; clearTimeout(tm); tm=setTimeout(()=>{store.set(MK,MEMO); const s=t.parentElement.querySelector('.saved'); if(s){s.textContent='이 기기에 저장됨'; setTimeout(()=>s.textContent='',1400);} t.dispatchEvent(new Event('memo'));},300);});
+  });
+}
+function memoSummary(box,list){
+  const h=list.map(([k,label])=>{const v=(MEMO[k]||'').trim(); return `<dt>${esc(label)}</dt><dd class="${v?'':'e'}">${v?esc(v):'(아직 안 씀)'}</dd>`;}).join('');
+  $(box).innerHTML=`<h4>오늘 화면에 적어 둔 내 메모</h4><dl>${h}</dl>`;
+}
+
+/* 뒤집는 카드 */
+function flipCards(box,items){
+  $(box).innerHTML=items.map(c=>`<div class="tcard" tabindex="0"><div class="in"><div class="f"><i>${c.ic||''}</i><b>${c.f}</b>${c.s?`<small>${c.s}</small>`:''}</div><div class="b">${c.b}${c.x?`<div class="x">${c.x}</div>`:''}</div></div></div>`).join('');
+  $(box).querySelectorAll('.tcard').forEach(t=>{const f=()=>t.classList.toggle('flip'); t.onclick=f; t.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}};});
+}
+
+/* 분류 게임: 문장을 보고 알맞은 묶음 고르기 */
+function sorter(box,cfg){
+  const B=$(box);
+  function start(){
+    const order=shuffle(cfg.items.map((_,i)=>i)); let pos=0, ok=0; const placed=cfg.cats.map(()=>[]);
+    B.innerHTML=`<div class="sit"><div class="cnt"></div><div class="ic"></div><div class="sq"></div><div class="row btns">${cfg.cats.map((c,j)=>`<button class="btn sm cat" style="--k:${c.k}" data-j="${j}">${c.n}</button>`).join('')}</div><div class="fb"></div><div class="row nx" style="margin-top:8px"></div></div><div class="board" style="--n:${cfg.cats.length}">${cfg.cats.map(c=>`<div style="--k:${c.k}"><b>${c.n}</b></div>`).join('')}</div>`;
+    const sq=B.querySelector('.sq'), ic=B.querySelector('.ic'), cnt=B.querySelector('.cnt'), fb=B.querySelector('.fb'), nx=B.querySelector('.nx'), btns=[...B.querySelectorAll('.cat')], cols=[...B.querySelectorAll('.board>div')];
+    function show(){
+      if(pos>=order.length){cnt.textContent=''; ic.textContent='🎉'; sq.innerHTML=`${order.length}개 중 <b>${ok}개</b>를 바로 맞혔어요.`; fb.innerHTML=cfg.end||''; btns.forEach(b=>b.style.display='none'); nx.innerHTML='<button class="btn ghost sm">처음부터 다시</button>'; nx.firstChild.onclick=start; return;}
+      const it=cfg.items[order[pos]]; cnt.textContent=`${pos+1} / ${order.length}`; ic.textContent=it.ic||''; sq.innerHTML=it.t; fb.textContent=''; nx.innerHTML=''; btns.forEach(b=>{b.disabled=false;b.style.display='';});
+    }
+    btns.forEach(b=>b.onclick=()=>{
+      const it=cfg.items[order[pos]], j=+b.dataset.j, right=j===it.c; if(right) ok++;
+      btns.forEach(x=>x.disabled=true);
+      fb.innerHTML=(right?'<span class="ok">맞아요!</span> ':`<span class="ng">아쉬워요.</span> 정답은 <b>${cfg.cats[it.c].n}</b>. `)+(it.w||'');
+      const s=document.createElement('span'); s.innerHTML=it.short||it.t; if(!right) s.className='x'; cols[it.c].appendChild(s);
+      nx.innerHTML='<button class="btn sm">다음 →</button>'; nx.firstChild.onclick=()=>{pos++;show();}; nx.firstChild.focus();
+    });
+    show();
+  }
+  start();
+}
+
+/* 탭 보기: 버튼을 누르면 내용 바꾸기 */
+function tabs(btnBox,viewBox,items,render){
+  $(btnBox).innerHTML=items.map((it,i)=>`<button data-i="${i}"><span class="e">${it.ic||''}</span><b>${it.n}</b></button>`).join('');
+  const bs=[...$(btnBox).querySelectorAll('button')];
+  const pick=i=>{bs.forEach((b,j)=>b.classList.toggle('on',i===j)); $(viewBox).innerHTML=render(items[i],i);};
+  bs.forEach(b=>b.onclick=()=>pick(+b.dataset.i)); pick(0);
+}
+
+/* 투표: 고르면 결과 보이기 (이 기기에만 저장) */
+function vote(box,key,opts,onPick){
+  const B=$(box); B.innerHTML=opts.map((o,i)=>`<button data-i="${i}">${o[0]}${o[1]?`<small>${o[1]}</small>`:''}</button>`).join('');
+  const bs=[...B.querySelectorAll('button')];
+  const pick=(i,save)=>{bs.forEach((b,j)=>b.classList.toggle('on',i===j)); if(save){MEMO[key]=opts[i][0]; store.set(MK,MEMO);} onPick&&onPick(i);};
+  bs.forEach(b=>b.onclick=()=>pick(+b.dataset.i,true));
+  const prev=opts.findIndex(o=>o[0]===MEMO[key]); if(prev>=0) pick(prev,false);
+}
+function chips(box,key,opts,multi){
+  const B=$(box); B.classList.add('chk'); B.innerHTML=opts.map(o=>`<button>${o}</button>`).join('');
+  const bs=[...B.querySelectorAll('button')]; let sel=(MEMO[key]||'').split(' · ').filter(Boolean);
+  const draw=()=>bs.forEach(b=>b.classList.toggle('on',sel.includes(b.textContent)));
+  bs.forEach(b=>b.onclick=()=>{const t=b.textContent; if(multi) sel=sel.includes(t)?sel.filter(x=>x!==t):[...sel,t]; else sel=sel.includes(t)?[]:[t]; MEMO[key]=sel.join(' · '); store.set(MK,MEMO); draw(); B.dispatchEvent(new Event('memo'));});
+  draw();
+}
+
+/* 01 연표 */
+const DEC=[
+ {n:'1950년대',ai:[['다트머스 회의','지능을 가진 기계에 관심 있는 학자들이 모여 「인공지능」이라는 용어를 정의하고 연구를 시작했다.']],so:[['컴퓨터의 등장','공공 기관에서 컴퓨터를 쓰고, 계산이 필요한 분야에 컴퓨터를 다룰 사람이 필요해졌다.']]},
+ {n:'1970년대',ai:[['전문가 시스템','모든 분야가 아닌 특정 분야에서 활용하는 인공지능이 주목받았다.']],so:[['전문 지식 분야의 인공지능 연구','의학, 법률 등 전문 지식이 필요한 분야의 인공지능 연구가 활발해졌다.']]},
+ {n:'1990년대',ai:[['딥블루','세계 체스 챔피언을 이긴 최초의 컴퓨터로, 기계가 인간을 이길 수도 있음을 보여 주었다.']],so:[['인터넷 상용화','문서 작성, 이미지 편집 등 손으로 하던 일에 컴퓨터를 쓰는 경우가 많아졌다.']]},
+ {n:'2000년대',ai:[['자율주행 자동차 경주 대회','미국 국방부의 경주 대회를 계기로 많은 기업이 자율주행 자동차에 관심을 갖게 되었다.']],so:[['콘텐츠 공유와 온라인 기반 산업','초고속 인터넷과 개인용 컴퓨터로 개인이 만든 콘텐츠를 쉽게 공유하고 온라인 산업이 생겨났다.']]},
+ {n:'2010년대',ai:[['CNN, GAN','이미지 관련 인공지능 기술이 혁신적으로 발달하였다.'],['알파고','인공지능 바둑 프로그램이 세계 최고 수준의 바둑 기사를 이겼다.'],['아실로마 인공지능 원칙','인공지능 개발 과정에서 윤리적 태도가 필요함을 강조하였다.']],so:[['인공지능 대중화','시각 지능 기술의 발전으로 인공지능이 여러 산업에 영향을 미치기 시작하였다.'],['인공지능 윤리의 필요성 대두','딥페이크 얼굴 합성 범죄 등이 나타나 여러 나라가 인공지능 정책을 세웠다.']]},
+ {n:'2020년~',ai:[['인공지능 반도체','학습을 위한 컴퓨팅 하드웨어의 중요성이 높아졌다.'],['생성형 인공지능','문장으로 이미지를 만들거나 사람이 쓴 것 같은 글을 만드는 인공지능이 등장하였다.']],so:[['난제에 인공지능 적용','여러 기업이 큰 자본을 들여 초거대 인공지능을 개발하였다.'],['생성형 인공지능 활용과 윤리 강조','인공지능 창작물의 저작권 논의가 이루어지고, 인공지능 윤리에 대한 관심이 더 높아졌다.']]},
+];
+(function(){
+  $('tlBtns').innerHTML=DEC.map((d,i)=>`<button data-i="${i}">${d.n}</button>`).join('');
+  const bs=[...$('tlBtns').querySelectorAll('button')];
+  const pick=i=>{bs.forEach((b,j)=>b.classList.toggle('on',i===j)); const d=DEC[i];
+    $('tlView').innerHTML=`<div style="--k:#2f6fd0"><h4>🤖 인공지능의 발전</h4>${d.ai.map(x=>`<p class="it"><b>${x[0]}</b>${x[1]}</p>`).join('')}</div><div style="--k:#e0702b"><h4>🏙️ 사회 변화</h4>${d.so.map(x=>`<p class="it"><b>${x[0]}</b>${x[1]}</p>`).join('')}</div>`;};
+  bs.forEach(b=>b.onclick=()=>pick(+b.dataset.i)); pick(0);
+})();
+sorter('decGame',{
+  cats:[{n:'1950년대',k:'#5b6776'},{n:'1970년대',k:'#2f6fd0'},{n:'1990년대',k:'#1f9d74'},{n:'2000년대',k:'#9b4fc4'},{n:'2010년대',k:'#e0702b'},{n:'2020년~',k:'#d64535'}],
+  items:[
+    {t:'학자들이 모여 「인공지능」이라는 용어를 처음 정의했다.',short:'다트머스 회의',c:0,ic:'🏫'},
+    {t:'의학, 법률처럼 특정 전문 분야에서 쓰는 인공지능이 주목받았다.',short:'전문가 시스템',c:1,ic:'🩺'},
+    {t:'컴퓨터가 세계 체스 챔피언을 이겼다.',short:'딥블루',c:2,ic:'♟️'},
+    {t:'인터넷이 상용화되어 많은 일에 컴퓨터를 쓰게 되었다.',short:'인터넷 상용화',c:2,ic:'💻'},
+    {t:'미국 국방부의 자율주행 자동차 경주 대회가 열렸다.',short:'자율주행 경주 대회',c:3,ic:'🏎️'},
+    {t:'인공지능 바둑 프로그램이 세계 최고 수준의 바둑 기사를 이겼다.',short:'알파고',c:4,ic:'⚫'},
+    {t:'딥페이크 범죄가 나타나 인공지능 윤리의 필요성이 커졌다.',short:'윤리의 필요성 대두',c:4,ic:'⚖️'},
+    {t:'글을 입력하면 그림을 그려 주는 생성형 인공지능이 등장했다.',short:'생성형 인공지능',c:5,ic:'🎨'},
+  ],
+  end:'2010년대에 이미지 인공지능(CNN, GAN)이 크게 발전하면서 인공지능이 대중화되고, 동시에 윤리 문제도 함께 커졌다는 점을 기억해요.'
+});
+
+/* 02 함께하는 사회 */
+flipCards('socCards',[
+ {ic:'🚗',f:'교통',s:'가장 저렴한 주유소 안내',b:'실시간 위치에 따른 교통량과 사회 변화를 반영해 가장 저렴한 주유소 위치를 예측하고 안내해요.',x:'2단원과 연결: 데이터로 앞으로의 값을 맞히는 <b>예측(회귀)</b>'},
+ {ic:'💰',f:'금융',s:'로보어드바이저',b:'개인의 자산 정보와 투자 성향에 맞춰 맞춤형 투자 서비스 정보를 알려 줘요.',x:'2단원과 연결: 비슷한 사람끼리 묶고(<b>군집</b>) 알맞은 정보를 <b>추천</b>'},
+ {ic:'🌏',f:'언어',s:'문맥에 맞는 번역',b:'학습이나 여행에서 외국어를 문맥에 맞는 표현으로 번역해요.',x:'2단원과 연결: 단어의 순서와 의미를 다루는 <b>자연어 처리</b>'},
+ {ic:'🛒',f:'쇼핑',s:'필요할 제품 추천',b:'소비 패턴을 파악해 소비자가 필요로 할 만한 제품을 알맞은 때에 추천해요.',x:'2단원과 연결: 구매 기록의 패턴을 찾는 <b>기계학습</b>'},
+ {ic:'⚖️',f:'법률',s:'판례와 법령 찾기',b:'문제와 관련된 판례와 법령을 찾아 분석하고, 가장 알맞은 법률 정보를 알려 줘요.',x:'2단원과 연결: 많은 문서를 읽고 찾는 <b>자연어 처리</b>'},
+ {ic:'📢',f:'공공',s:'자연스러운 안내 방송',b:'음성 합성 기능으로 사람이 말하는 것처럼 자연스럽게 안내 방송을 해요.',x:'2단원과 연결: 글자를 목소리로 바꾸는 <b>음성 합성</b>'},
+]);
+
+/* 03 사회 문제 사례 */
+const CASES=[
+ {ic:'🔥',n:'기후 변화',h:'대형 산불 가능성이 높은 기상 조건을 1주일 전에 예측하여 알리다!',p:'지구 온난화로 기온이 오르며 대형 산불이 잦아졌어요. 2022년 유엔환경총회의 산불 보고서는 2100년까지 산불 발생 건수가 50% 늘어날 것이라고 경고했어요.',s:'2011~2017년의 기상 예측 모델 결과와 고해상도 관측 기상 데이터를 학습한 인공지능을 2018년 미국 캘리포니아주 초대형 산불 데이터에 적용했더니, 실제 산불 발생 <b>최대 7일 전</b>부터 위험도가 급격히 올라가는 패턴을 예측할 수 있었어요. 동 단위까지 예측해 더 빠르게 대비할 수 있어요.',d:'기상 예측 모델 결과, 관측 기상 데이터',t:'데이터로 앞날을 맞히는 예측'},
+ {ic:'♻️',n:'환경',h:'재활용을 놀이처럼! 순환 자원을 회수하다!',p:'2020년 한 해 동안 우리나라가 수입한 폐플라스틱은 17만 톤이 넘어요. 재활용률을 높이려는 정책이 있지만, 분리배출이 제대로 이루어지지 않아 문제가 되고 있어요.',s:'페트병과 캔의 이미지를 학습한 인공지능이 카메라로 스캔한 물체를 알아보고 재활용 여부를 판단해 분류해요. 재활용할 수 있는 물건을 넣은 사람에게 <b>적립금</b>이 쌓이게 해 분리배출에 관심을 갖도록 동기를 줘요.',d:'페트병과 캔 이미지',t:'컴퓨터 비전(이미지 분류)'},
+ {ic:'👵',n:'노인 복지',h:'말동무가 되어 사람을 돕다!',p:'다른 사람과 어울리지 못하거나 도움을 받지 못하는 청년·노인층의 사회적 고립이 심해지고 있어요. 고독사 같은 문제로 이어질 수 있지만, 외부와 교류가 적어 주변의 지원을 받기 어려워요.',s:'인공지능 전화 돌봄 서비스는 딥러닝으로 자연스러운 일상 대화의 흐름을 학습해, 지금 대화와 가장 비슷한 흐름을 찾아 알맞은 대답을 해요. 사용자가 했던 말의 <b>중요한 키워드를 기억</b>해 맞장구를 치고, 어르신의 건강 상태를 살펴 필요한 지원을 할 수 있어요.',d:'일상 대화의 흐름(대화 데이터)',t:'자연어 처리 + 음성 합성'},
+ {ic:'🚦',n:'교통',h:'교통안전 데이터로 교통사고 위험도를 예측하다!',p:'2021년 도로교통공단 보고서에 따르면 우리나라 인구 10만 명당 교통사고 사망자는 6.5명으로, 경제협력개발기구(OECD) 39개국 중 27위, OECD 평균의 2배예요.',s:'운전자 운행 특성, 지리 정보, 교통사고, 속도, 차량 운행 정보 같은 교통안전 빅데이터를 딥러닝으로 학습해 전국 국도를 <b>500m 단위</b>로 나누어 위험도를 <b>0~4단계</b>로 예측하고 안전 위험 지도에 표시해요. CCTV 영상에 객체 탐지를 적용해 위험이 예측되면 전광판으로 바로 알려 줘요.',d:'운행 특성, 지리 정보, 사고·속도 정보, CCTV 영상',t:'딥러닝 예측 + 컴퓨터 비전(객체 탐지)'},
+ {ic:'🏧',n:'범죄 예방',h:'현금 인출기 앞 수상한 사람을 찾아내다!',p:'보이스 피싱 범죄가 정교해지면서 최근 5년간 약 17만 명이 1조 7천억 원의 피해를 입었어요. 해외에서 걸려 오는 경우가 많아 추적과 검거가 쉽지 않아요.',s:'인공지능이 연령대별 거래 유형을 학습해, 현금 인출기 앞에서 <b>통화를 하거나 선글라스·모자를 쓰는</b> 등 이상 행동을 감지하면 거래 전에 주의 문구를 띄워요. 이상 행동과 이상 금융 거래가 함께 탐지되면 추가 본인 인증을 하거나 거래를 막아요.',d:'연령대별 거래 유형, 현금 인출기 카메라 영상',t:'컴퓨터 비전 + 이상 거래 탐지'},
+];
+tabs('caseBtns','caseView',CASES,c=>`<div class="card" style="margin:0"><h3>${c.ic} ${c.h}</h3><div class="pr"><div class="p"><h4>사회 문제 · ${c.n}</h4>${c.p}</div><div class="s"><h4>인공지능으로 문제 해결</h4>${c.s}</div></div><div class="dl"><b>학습한 데이터</b><span>${c.d}</span><b>쓰인 기술</b><span>${c.t}</span></div></div>`);
+
+/* 04 직업 */
+flipCards('jobCards',[
+ {ic:'🧑‍🍳',f:'요리사',b:'「완성한 음식을 로봇이 알아서 서빙해 주니 식당을 찾는 손님들의 반응을 살펴볼 시간이 늘었어!」',x:'바뀐 역할: 손님의 반응 살피기'},
+ {ic:'📖',f:'책 번역가',b:'「단순 번역은 인공지능이 잘하네. 나라의 문화를 이해해서 자연스럽고 정확하게 번역하는 능력을 길러야겠어!」',x:'바뀐 역할: 문화를 이해한 번역'},
+ {ic:'🏃',f:'운동선수',b:'「인공지능이 감지한 정보로 나에게 필요한 운동 정보를 알려 주니 전신의 근육을 균형 있게 기를 수 있네!」',x:'바뀐 역할: 데이터로 훈련하기'},
+ {ic:'🚆',f:'철도 종사자',b:'「인공지능이 대신 운전해 주니 승객의 안전을 살펴보는 일에 더욱 집중할 수 있게 됐어!」',x:'바뀐 역할: 승객 안전 살피기'},
+ {ic:'💬',f:'상담 전문가',b:'「인공지능으로 방대한 양의 영상을 분석할 수 있으니 상담받는 사람의 마음을 더 정확하게 공감할 수 있게 됐어!」',x:'바뀐 역할: 더 깊은 공감'},
+ {ic:'🎨',f:'예술가',b:'「그림을 그리는 인공지능이 내가 생각하지 못했던 이미지를 그려 냈네. 덕분에 좋은 영감을 얻었어!」',x:'바뀐 역할: 인공지능에서 영감 얻기'},
+ {ic:'🧑‍🚒',f:'소방관',b:'「인공지능 소방 드론으로 사람이 직접 접근하기 어려운 곳에서도 화재를 진압할 수 있어!」',x:'바뀐 역할: 더 안전한 화재 진압'},
+ {ic:'🌿',f:'환경 공학자',b:'「환경 오염의 원인을 인공지능으로 조사하니 더 안전하고 정확해!」',x:'바뀐 역할: 정확한 원인 조사'},
+ {ic:'👩‍💻',f:'인공지능 엔지니어',s:'새로 나타난 직업',b:'다양한 인공지능 소프트웨어를 개발해요. 「인공지능을 유용하게 사용할 수 있도록 프로그래밍해야지!」'},
+ {ic:'📊',f:'데이터 과학자',s:'새로 나타난 직업',b:'데이터를 분석해 그 데이터가 뜻하는 바를 찾아 문제 해결에 활용해요. 「좋은 데이터로 성능 좋은 인공지능을 만들 수 있지!」'},
+]);
+sorter('wefGame',{
+  cats:[{n:'📈 늘어날 직업',k:'#1f9d74'},{n:'📉 줄어들 직업',k:'#d64535'}],
+  items:[
+    {t:'인공지능 및 머신러닝 전문가',c:0,ic:'🤖',w:'증가 1위'},{t:'지속가능발전 전문가',c:0,ic:'🌱',w:'증가 2위'},{t:'비즈니스 인텔리전스 분석가',c:0,ic:'📊',w:'증가 3위'},{t:'정보 보안 분석가',c:0,ic:'🔐',w:'증가 4위'},{t:'핀테크 공학자',c:0,ic:'💳',w:'증가 5위'},{t:'데이터 분석 및 과학자',c:0,ic:'📈',w:'증가 6위'},{t:'로봇 공학자',c:0,ic:'🦾',w:'증가 7위'},
+    {t:'은행원',c:1,ic:'🏦',w:'감소 1위'},{t:'우체국 관련 사무원',c:1,ic:'📮',w:'감소 2위'},{t:'계산원 및 매표소 직원',c:1,ic:'🎫',w:'감소 3위'},{t:'데이터 입력 사무원',c:1,ic:'⌨️',w:'감소 4위'},{t:'비서',c:1,ic:'🗂️',w:'감소 5위'},{t:'재고 관리 사무원',c:1,ic:'📦',w:'감소 6위'},{t:'회계 관리 사무원',c:1,ic:'🧾',w:'감소 7위'},
+  ],
+  end:'<b>생각해 보기</b> 줄어들 직업들은 어떤 점이 비슷한가요? 늘어날 직업에는 어떤 능력이 필요할까요? (142쪽 ①·②)'
+});
+
+/* 05 내 생각 정리 */
+chips('jobLit','jobLitPick',['인공지능 윤리 의식','데이터 문해력','인공지능 문제 해결력']);
+chips('localTech','localTechPick',['컴퓨터 비전','음성 인식','자연어 처리','예측(회귀)','분류','추천','음성 합성'],true);
+chips('sdgPick','sdgIssue',['빈곤','기후 변화','에너지 자원 고갈','물 부족','불평등','멸종 위기 동물','사이버 범죄','지속 가능한 농업','지속 가능한 생산과 소비']);
+
+/* 06 마무리 */
+const MEMOLIST=[['want','내가 사용해 보고 싶은 인공지능'],['wantChange','많은 사람이 쓰면 생길 변화'],['job','직업 카드 · 직업명'],['jobDo','하는 일'],['jobPlus','인공지능이 대신하거나 도와줄 일'],['jobMinus','걱정되는 점, 사람이 해야 할 일'],['jobLitPick','기를 인공지능 소양'],['local','우리 학교·지역 문제'],['localHow','인공지능을 활용한 해결 방법'],['localTechPick','필요한 기술'],['localData','필요한 데이터'],['localAd','홍보 한 줄'],['keyQ','핵심 질문에 대한 내 답']];
+onShow[6]=()=>memoSummary('msum',MEMOLIST);
+
+/* 시작 */
+bindMemos();
+updScore();
+const h0=parseInt((location.hash.match(/^#p(\d+)$/)||[])[1],10);
+go(isNaN(h0)?0:h0);
+</script>
+</body>
+</html>

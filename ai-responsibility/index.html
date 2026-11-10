@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사회적 책임 · 3단원 정리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202c; --muted:#5b6776; --paper:#f3efe7; --card:#fff; --line:#e3ddd2;
+    --navy:#0f2742; --amber:#f2a516; --red:#d64535; --mint:#1f9d74;
+    --acc:#2f6fd0; --acc-soft:#e6eefb;
+    --shadow:0 18px 50px rgba(15,39,66,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:17px;line-height:1.65;
+    background-image:radial-gradient(rgba(15,39,66,.07) 1px,transparent 1px);background-size:22px 22px;display:flex;flex-direction:column}
+  .top{position:sticky;top:0;z-index:10;background:rgba(15,39,66,.97);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+  .brand{font-family:"Black Han Sans",sans-serif;font-size:1.15rem;letter-spacing:.01em;white-space:nowrap;color:inherit;text-decoration:none}
+  .steps{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  .steps::-webkit-scrollbar{display:none}
+  .steps button{flex:0 0 auto;border:0;background:transparent;color:#9fb3cc;font:inherit;font-size:.82rem;padding:5px 9px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .steps button.on{background:var(--amber);color:var(--navy);font-weight:900}
+  .steps button.done::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#5fd3a5;margin-left:5px;vertical-align:middle}
+  .score{font-size:.85rem;background:rgba(255,255,255,.1);padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .progress{height:4px;background:rgba(15,39,66,.12)}
+  .progress i{display:block;height:100%;background:var(--amber);width:0;transition:width .4s}
+  main{flex:1;width:100%;max-width:1120px;margin:0 auto;padding:26px 20px 30px}
+  .page{display:none}
+  .page.on{display:block;animation:enter .45s cubic-bezier(.2,.7,.2,1) both}
+  .page.on.back{animation-name:enterBack}
+  @keyframes enter{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+  @keyframes enterBack{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+  .head{display:flex;align-items:flex-end;gap:16px;margin-bottom:16px}
+  .num{font-family:"Black Han Sans",sans-serif;font-size:4.2rem;line-height:.85;color:var(--acc);opacity:.9}
+  .head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:2.1rem;margin:0;line-height:1.1;letter-spacing:-.01em}
+  .head p{margin:4px 0 0;color:var(--muted)}
+  .card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px 24px;margin-bottom:18px;border:1px solid rgba(0,0,0,.04)}
+  .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  .grid2.even{grid-template-columns:1fr 1fr}
+  @media (max-width:860px){.grid2,.grid2.even{grid-template-columns:1fr}.num{font-size:3rem}.head h2{font-size:1.6rem}}
+  h3{margin:0 0 8px;font-size:1.1rem}
+  h4{margin:0 0 4px}
+  p{margin:6px 0}
+  a{color:var(--acc)}
+  .muted{color:var(--muted)}
+  .book{display:inline-block;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin-top:6px}
+  table{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+  th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:center}
+  th{color:var(--muted);font-weight:700;font-size:.85rem}
+  td.l,th.l{text-align:left}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+  .chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px;font:inherit;font-size:.92rem;cursor:pointer;transition:.15s;color:var(--ink)}
+  .chip.on{border-color:var(--acc);background:var(--acc);color:#fff;font-weight:700}
+  .btn{border:0;border-radius:10px;padding:9px 18px;font:inherit;font-weight:700;cursor:pointer;background:var(--acc);color:#fff;transition:transform .1s, box-shadow .2s;box-shadow:0 6px 16px rgba(15,39,66,.18)}
+  .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:#fff;color:var(--acc);border:2px solid var(--acc);box-shadow:none}
+  .btn.sm{padding:5px 12px;font-size:.88rem}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .ctrl{display:grid;grid-template-columns:70px 1fr 48px;align-items:center;gap:4px 10px;margin:4px 0}
+  .ctrl label{font-weight:900;font-size:.95rem}
+  .ctrl output{font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--acc)}
+  input[type=text],input[type=number]{font:inherit;padding:6px 10px;border:1px solid #c5ccd5;border-radius:8px;background:#fff;color:var(--ink)}
+  .big{font-size:1.5rem;font-weight:900;font-variant-numeric:tabular-nums}
+  .ok{color:var(--mint);font-weight:700}.ng{color:var(--red);font-weight:700}
+  .callout{border-radius:12px;padding:12px 16px;background:var(--acc-soft);border-left:5px solid var(--acc);margin:12px 0}
+  svg{display:block;width:100%;height:auto}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:.9em;background:#f1f3f6;padding:1px 6px;border-radius:5px}
+  .cx{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 24px;margin-bottom:18px;border-left:6px solid var(--acc)}
+  .cx>h3{margin:0 0 4px;font-size:1.15rem}
+  .cx>.lead2{color:var(--muted);margin:0 0 12px}
+  .qa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  @media (max-width:860px){.qa{grid-template-columns:1fr}}
+  .qa>div{background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .qa b.q{display:block;color:var(--acc);margin-bottom:3px}
+  .vsteps{list-style:none;margin:0;padding:0;counter-reset:v}
+  .vsteps>li{position:relative;padding:9px 0 9px 44px;border-top:1px dashed var(--line)}
+  .vsteps>li:first-child{border-top:0}
+  .vsteps>li::before{counter-increment:v;content:counter(v);position:absolute;left:0;top:9px;width:30px;height:30px;border-radius:50%;background:var(--acc);color:#fff;font-weight:900;display:grid;place-items:center;font-size:.9rem}
+  .vsteps p{margin:2px 0 0;font-size:.93rem}
+  .case{background:#fff8e6;border:2px solid #f6d58a;border-radius:16px;padding:16px 20px;margin-bottom:18px}
+  .case>h3{margin:0 0 8px;font-size:1.05rem;color:#8a5a00}
+  /* 퀴즈 */
+  .quiz{background:linear-gradient(135deg,#0f2742,#1b3d66);color:#fff;border-radius:16px;padding:20px 22px;margin-top:6px;box-shadow:var(--shadow)}
+  .quiz .qh{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .quiz .qh b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.25rem;color:var(--amber)}
+  .quiz .qh span{font-size:.85rem;color:#a9bbd2}
+  .qi{background:rgba(255,255,255,.07);border-radius:12px;padding:12px 14px;margin-top:10px}
+  .qi .qq{font-weight:700;margin-bottom:8px}
+  .qi .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .qi .opts button{font:inherit;font-size:.93rem;border:2px solid rgba(255,255,255,.25);background:transparent;color:#fff;border-radius:10px;padding:6px 14px;cursor:pointer;transition:.15s}
+  .qi .opts button:hover:not(:disabled){border-color:var(--amber)}
+  .qi .opts button.right{background:var(--mint);border-color:var(--mint);font-weight:700}
+  .qi .opts button.wrong{background:var(--red);border-color:var(--red);text-decoration:line-through}
+  .qi .opts button:disabled{cursor:default}
+  .qi .why{margin-top:8px;font-size:.9rem;color:#d7e3f2;display:none}
+  .qi.answered .why{display:block}
+  .qi.answered.correct{box-shadow:inset 4px 0 0 var(--mint)}
+  .qi.answered.incorrect{box-shadow:inset 4px 0 0 var(--red)}
+  .shake{animation:shake .35s}
+  @keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+  .foot{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:rgba(243,239,231,.94);backdrop-filter:blur(6px);border-top:1px solid var(--line)}
+  .foot .btn{min-width:110px}
+  .foot .pg{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  /* 표지 */
+  .cover{position:relative;border-radius:22px;overflow:hidden;background:radial-gradient(ellipse at 20% 0%,#24507f 0%,#0f2742 55%,#0a1a2e 100%);color:#fff;min-height:520px;padding:46px 44px;box-shadow:var(--shadow)}
+  .cover canvas{position:absolute;right:0;top:0;height:100%;width:62%;image-rendering:pixelated;opacity:.95}
+  .cover .fade{position:absolute;inset:0;background:linear-gradient(90deg,#0f2742 34%,rgba(15,39,66,.75) 50%,rgba(15,39,66,0) 70%)}
+  .cover .in{position:relative;max-width:560px}
+  .cover .tag{display:inline-block;background:var(--amber);color:var(--navy);font-weight:900;font-size:.85rem;padding:4px 12px;border-radius:999px}
+  .cover h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:3.1rem;line-height:1.15;margin:16px 0 10px}
+  .cover p{color:#c8d6e8;font-size:1.05rem}
+  .cover ol{margin:18px 0 26px;padding-left:20px;color:#e1e9f4;columns:2;column-gap:28px;font-size:.95rem}
+  @media (max-width:700px){.cover{padding:30px 22px}.cover h1{font-size:2.2rem}.cover ol{columns:1}.cover canvas{width:100%;opacity:.3}.cover .fade{display:none}}
+  .today{margin-top:26px}
+  .kicker{display:inline-block;font-family:"Black Han Sans",sans-serif;font-size:1.15rem;color:var(--navy);margin-bottom:6px;border-bottom:4px solid var(--amber);line-height:1.2}
+  .today-lead{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:22px 26px;margin-bottom:16px}
+  .today-lead p{font-size:1.12rem;margin:6px 0 0}
+  .why3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+  @media (max-width:900px){.why3{grid-template-columns:1fr}}
+  .why{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 22px}
+  .why ul{margin:6px 0 0;padding-left:18px;font-size:.95rem}
+  .why li{margin:6px 0}
+  .why ul.can{list-style:none;padding:0}
+  .why ul.can li{padding-left:28px;position:relative}
+  .why ul.can li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3L15 7' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+  .why ul.uses{list-style:none;padding:0}
+  .why ul.uses li{border-left:3px solid var(--amber);padding-left:10px}
+  .glossary-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .glossary-head .muted{font-size:.88rem}
+  .glossary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+  @media (max-width:1000px){.glossary{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.glossary{grid-template-columns:1fr}}
+  .gcard{all:unset;box-sizing:border-box;cursor:pointer;display:block;background:#fff;border-radius:14px;padding:16px 16px 12px;box-shadow:var(--shadow);border-top:6px solid var(--g);position:relative;transition:transform .18s, box-shadow .18s}
+  .gcard:hover,.gcard:focus-visible{transform:translateY(-4px);box-shadow:0 22px 50px rgba(15,39,66,.16)}
+  .gcard:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+  .gcard i{position:absolute;right:14px;top:8px;font-style:normal;font-family:"Black Han Sans",sans-serif;font-size:1.9rem;color:var(--g);opacity:.25}
+  .gcard h4{margin:0 0 6px;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.2rem;color:var(--g)}
+  .gcard dl{margin:0;font-size:.88rem;line-height:1.45}
+  .gcard dt{font-weight:900;margin-top:7px}
+  .gcard dd{margin:1px 0 0;color:#3c4654}
+  .prob{display:grid;grid-template-columns:60px 1fr 46px;gap:6px;align-items:center;font-size:.88rem;min-width:200px}
+  .prob i{display:block;height:12px;border-radius:6px;background:var(--acc)}
+  .apps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media (max-width:860px){.apps{grid-template-columns:1fr 1fr}}
+  .apps button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border-radius:14px;padding:14px;box-shadow:0 6px 16px rgba(15,39,66,.08);border:3px solid transparent;text-align:center;transition:.2s}
+  .apps button.on{border-color:var(--acc);transform:translateY(-3px)}
+  .apps button .e{font-size:2rem;display:block}
+  .apps button b{display:block}
+  .appd{display:none}
+  .appd.on{display:block;animation:enter .35s both}
+  .ex2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  @media (max-width:640px){.ex2{grid-template-columns:1fr}}
+  .ex2>div{background:#fbfaf7;border-radius:12px;padding:12px 14px;font-size:.93rem;border-left:4px solid var(--acc)}
+  .try{margin-top:12px;background:var(--acc-soft);border-radius:12px;padding:12px 14px;font-size:.92rem}
+  .try ol{margin:4px 0 0;padding-left:20px}
+  /* 3단원 공통 */
+  .easy{display:flex;gap:12px;align-items:flex-start;background:#fffbea;border:2px solid #f6d58a;border-radius:14px;padding:12px 16px;margin:-4px 0 16px;font-size:1rem;line-height:1.6}
+  .easy b.t{flex:0 0 auto;background:#f2a516;color:#0f2742;border-radius:999px;padding:2px 10px;font-size:.82rem;margin-top:2px}
+  .route{position:absolute;right:30px;top:36px;width:min(430px,44%);display:grid;gap:10px}
+  .route .st{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.1);border-radius:14px;padding:10px 14px;color:#fff;opacity:0;transform:translateX(20px);animation:rin .6s forwards}
+  .route .st i{font-style:normal;font-size:1.6rem}
+  .route .st b{display:block;font-size:1.02rem}
+  .route .st small{color:#c8d6e8;font-size:.82rem}
+  .route .ar{color:var(--amber);text-align:center;font-weight:900;opacity:0;animation:rin .5s forwards}
+  @keyframes rin{to{opacity:1;transform:none}}
+  @media (max-width:1080px){.route{position:relative;right:auto;top:auto;width:100%;margin-top:22px}}
+  .story{background:rgba(255,255,255,.08);border-left:4px solid var(--amber);border-radius:10px;padding:10px 14px;margin:14px 0;color:#e1e9f4;font-size:.95rem}
+  .story b{color:#fff}
+  /* 카드 묶음 */
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .cards2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:900px){.cards3,.cards4{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.cards3,.cards2,.cards4{grid-template-columns:1fr}}
+  .kc{background:#fff;border-radius:14px;box-shadow:0 6px 16px rgba(15,39,66,.08);padding:14px 16px;border-top:6px solid var(--k,var(--acc))}
+  .kc h4{color:var(--k,var(--acc));font-size:1.05rem;margin:0 0 4px}
+  .kc p{font-size:.92rem;margin:4px 0 0}
+  .kc .ic{font-size:1.7rem;line-height:1}
+  .kc small{display:block;color:var(--muted);font-size:.8rem;margin-top:6px}
+  .tagt{display:inline-block;font-size:.76rem;font-weight:900;border-radius:999px;padding:1px 9px;background:color-mix(in srgb,var(--k,var(--acc)) 14%,white);color:var(--k,var(--acc));margin:6px 4px 0 0}
+  /* 연표 */
+  .tl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .tl button{flex:1;min-width:92px;border:2px solid var(--line);background:#fff;border-radius:12px;padding:8px 6px;font:inherit;font-weight:900;cursor:pointer;color:var(--ink)}
+  .tl button.on{border-color:var(--acc);background:var(--acc);color:#fff}
+  .tlv{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:640px){.tlv{grid-template-columns:1fr}}
+  .tlv>div{background:#fbfaf7;border-radius:12px;padding:12px 14px;border-left:5px solid var(--k)}
+  .tlv h4{color:var(--k)}
+  .tlv .it{margin:6px 0 0;font-size:.93rem}
+  .tlv .it b{display:block}
+  /* 분류 게임 */
+  .sit{background:#fbfaf7;border:2px dashed var(--line);border-radius:14px;padding:14px 16px;text-align:center;min-height:170px}
+  .sit .cnt{font-size:.82rem;color:var(--muted)}
+  .sit .sq{font-size:1.08rem;font-weight:900;margin:6px 0 12px;min-height:52px}
+  .sit .ic{font-size:2rem}
+  .sit .row{justify-content:center}
+  .sit .fb{min-height:24px;margin-top:8px;font-size:.93rem}
+  .sit .cat{border:2px solid var(--k);color:var(--k);background:#fff;font-weight:900}
+  .sit .cat:hover{background:color-mix(in srgb,var(--k) 12%,white)}
+  .board{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:8px;margin-top:12px}
+  @media (max-width:760px){.board{grid-template-columns:1fr 1fr}}
+  .board>div{background:#fff;border-radius:12px;border-top:5px solid var(--k);padding:8px 10px;font-size:.84rem;min-height:70px}
+  .board>div b{display:block;color:var(--k);font-size:.92rem}
+  .board>div span{display:block;border-top:1px dashed var(--line);padding:3px 0}
+  .board>div span.x{color:var(--red)}
+  /* 뒤집는 카드 */
+  .tcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .tcard{perspective:900px;height:172px;cursor:pointer}
+  .tcard .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .tcard.flip .in{transform:rotateY(180deg)}
+  .tcard .f,.tcard .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:12px 14px;box-shadow:0 6px 16px rgba(15,39,66,.09);overflow:auto}
+  .tcard .f{background:#fff;border-top:6px solid var(--acc);display:flex;flex-direction:column;justify-content:center;text-align:center}
+  .tcard .f i{font-style:normal;font-size:2rem;line-height:1.1}
+  .tcard .f b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.2rem;line-height:1.25;margin-top:4px}
+  .tcard .f small{color:var(--muted);font-size:.78rem;margin-top:6px}
+  .tcard .b{background:var(--acc);color:#fff;transform:rotateY(180deg);font-size:.9rem;line-height:1.5}
+  .tcard .b .x{margin-top:6px;background:rgba(255,255,255,.16);border-radius:8px;padding:5px 8px;font-size:.84rem}
+  /* 사례 탭 */
+  .apps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .apps.a6{grid-template-columns:repeat(6,1fr)}
+  @media (max-width:860px){.apps,.apps.a6{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:480px){.apps,.apps.a6{grid-template-columns:1fr 1fr}}
+  .apps button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border-radius:14px;padding:12px 8px;box-shadow:0 6px 16px rgba(15,39,66,.08);border:3px solid transparent;text-align:center;transition:.2s;font-size:.92rem}
+  .apps button.on{border-color:var(--acc);transform:translateY(-3px)}
+  .apps button .e{font-size:1.8rem;display:block}
+  .apps button b{display:block}
+  .cview{margin-top:14px}
+  .pr{display:grid;grid-template-columns:1fr 1.3fr;gap:12px}
+  @media (max-width:760px){.pr{grid-template-columns:1fr}}
+  .pr>div{border-radius:12px;padding:12px 14px;font-size:.93rem}
+  .pr .p{background:#fdecea;border-left:5px solid var(--red)}
+  .pr .s{background:#e7f6ef;border-left:5px solid var(--mint)}
+  .pr h4{font-size:.95rem}
+  .pr .p h4{color:#9b2c20}.pr .s h4{color:#13684d}
+  .dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.9rem;margin-top:10px;background:#fbfaf7;border-radius:10px;padding:10px 12px}
+  .dl b{color:var(--acc)}
+  /* 메모 */
+  .memo{margin-top:10px}
+  .memo label{display:block;font-weight:700;font-size:.93rem;margin:10px 0 4px}
+  .memo label small{font-weight:400;color:var(--muted)}
+  .memo input[type=text]{width:100%}
+  textarea{font:inherit;width:100%;min-height:64px;padding:8px 10px;border:1px solid #c5ccd5;border-radius:8px;resize:vertical;color:var(--ink);background:#fff}
+  .saved{font-size:.8rem;color:var(--mint);min-height:1em}
+  /* 투표 */
+  .vote{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  @media (max-width:560px){.vote{grid-template-columns:1fr}}
+  .vote button{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:3px solid var(--line);border-radius:14px;padding:12px 14px;text-align:center;font-weight:900}
+  .vote button.on{border-color:var(--acc);background:var(--acc-soft)}
+  .vote button small{display:block;font-weight:400;color:var(--muted);font-size:.84rem}
+  .reveal{display:none;margin-top:12px}
+  .reveal.on{display:block;animation:fadein .4s both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .pct{display:grid;grid-template-columns:120px 1fr 50px;gap:8px;align-items:center;margin:6px 0;font-size:.93rem}
+  .pct i{display:block;height:16px;border-radius:8px;background:var(--acc);width:0;transition:width .8s}
+  /* 질문폼 연결 */
+  .formgo{background:linear-gradient(135deg,#0f2742,#1b3d66);color:#fff;border-radius:18px;padding:22px 24px;box-shadow:var(--shadow);margin-top:18px}
+  .formgo .kicker{color:#fff;border-bottom-color:var(--amber)}
+  .formgo h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.5rem;margin:4px 0 8px}
+  .formgo ol{margin:6px 0 12px;padding-left:22px;color:#e1e9f4}
+  .formgo ol li{margin:6px 0}
+  .formgo p{color:#c8d6e8;font-size:.92rem}
+  .formgo .go{display:inline-block;background:var(--amber);color:var(--navy);font-weight:900;font-size:1.1rem;text-decoration:none;border-radius:12px;padding:12px 22px;margin-top:6px}
+  .formgo .go:hover{filter:brightness(1.05)}
+  .msum{background:#fff;border-radius:14px;padding:12px 16px;margin-top:12px;color:var(--ink);font-size:.9rem}
+  .msum h4{color:var(--navy)}
+  .msum dl{margin:6px 0 0}
+  .msum dt{font-weight:700;margin-top:8px;color:var(--muted);font-size:.84rem}
+  .msum dd{margin:2px 0 0;white-space:pre-wrap}
+  .msum dd.e{color:#aab2bd}
+  .key3{display:grid;gap:10px;margin-bottom:18px}
+  .key3 div{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:14px 18px;border-left:6px solid var(--k);font-size:1.02rem}
+  .note{font-size:.84rem;color:var(--muted);margin-top:8px}
+  .flow2{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .flow2>div{flex:1;min-width:140px;background:#fbfaf7;border-radius:12px;padding:10px 12px;border-top:5px solid var(--k)}
+  .flow2>div b{display:block}
+  .flow2>div span{font-size:.88rem}
+  .flow2>.ar{flex:0 0 auto;min-width:0;background:none;border:0;align-self:center;font-weight:900;color:var(--muted);padding:0}
+  @media (max-width:640px){.flow2>.ar{flex-basis:100%;text-align:center;transform:rotate(90deg)}}
+  .chk{display:flex;flex-wrap:wrap;gap:8px}
+  .chk button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:5px 13px;font:inherit;font-size:.9rem;cursor:pointer;color:var(--ink)}
+  .chk button.on{border-color:var(--acc);background:var(--acc);color:#fff;font-weight:700}
+  .tbl td,.tbl th{padding:8px 10px;vertical-align:top}
+  .tbl td{text-align:left;font-size:.92rem}
+  .mx{min-width:560px}
+  .mx th{background:#fbfaf7}
+  .mx td{border:1px solid var(--line);height:74px;width:30%;font-size:.86rem;cursor:pointer;background:#fff;transition:background .2s}
+  .mx td:hover{background:var(--acc-soft)}
+  .mx td.fill{background:#e7f6ef;cursor:default}
+  .mx td.bad{background:#fdecea}
+  .mx th.r{white-space:nowrap}
+  #mxPool button{border-radius:12px;text-align:left;max-width:100%}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="../" title="수업 자료실로">← 수업 자료실</a>
+  <nav class="steps" id="steps"></nav>
+  <div class="score" id="score"></div>
+</div>
+<div class="progress"><i id="prog"></i></div>
+
+<main id="main">
+
+<!-- 0 표지 -->
+<section class="page" data-name="시작" data-acc="#f2a516">
+  <div class="cover">
+    <div class="in">
+      <span class="tag">인공지능 기초 · Ⅲ. 인공지능의 사회적 영향 · 2. 인공지능과 윤리 · 단원 정리</span>
+      <h1>인공지능이 낸 결과,<br>책임은 누구에게 있을까?</h1>
+      <div class="story">자율주행 자동차가 나오자 사람들은 편리해졌지만, 운전을 직업으로 하는 사람들은 일자리를 잃을까 두려워했어요. 그리고 <b>자율주행 자동차로 사고가 나면 누구에게 책임을 물어야 하는지</b> 사람마다 의견이 달라 사회가 혼란스러워졌어요. 그래서 나라 안팎에서 인공지능을 올바르게 쓰기 위한 <b>윤리 원칙</b>을 만들어 왔어요.</div>
+      <p>오늘은 인공지능 윤리의 사회적 책임과 책임성·공정성·투명성을 배우고, 개발자·사용자·운영·관리자의 눈으로 사례를 분석해요. 마지막에 3단원 전체를 정리해요.</p>
+      <ol>
+        <li>사회적 책임과 윤리 원칙</li><li>책임성 · 공정성 · 투명성</li><li>세 사람의 눈으로 보기</li><li>설명 가능한 인공지능</li>
+        <li>사례로 토론하기</li><li>3단원 단원 정리</li><li>마무리 · 질문폼</li>
+      </ol>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
+        <button class="btn" style="background:transparent;border:2px solid rgba(255,255,255,.5);box-shadow:none" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'})">오늘 할 일 보기 ↓</button>
+      </div>
+    </div>
+    <div class="route" aria-hidden="true">
+      <div class="st" style="animation-delay:.2s"><i>🌍</i><div><b>사회적 책임</b><small>개인·기업이 아니라 국가·세계가 함께</small></div></div>
+      <div class="ar" style="animation-delay:.6s">↓</div>
+      <div class="st" style="animation-delay:.8s"><i>⚖️</i><div><b>세 가지 윤리적 가치</b><small>책임성 · 공정성 · 투명성</small></div></div>
+      <div class="ar" style="animation-delay:1.2s">↓</div>
+      <div class="st" style="animation-delay:1.4s"><i>👩‍💻 🙋 🛠️</i><div><b>세 사람의 관점</b><small>개발자 · 사용자 · 운영·관리자</small></div></div>
+      <div class="ar" style="animation-delay:1.8s">↓</div>
+      <div class="st" style="animation-delay:2s"><i>🔍</i><div><b>설명 가능한 인공지능</b><small>블랙박스의 이유를 보여 주기</small></div></div>
+    </div>
+  </div>
+
+  <div id="intro" class="today">
+    <div class="today-lead">
+      <span class="kicker">오늘 우리는</span>
+      <p>인공지능 윤리에 왜 <b>사회적 책임</b>이 필요한지 알아보고, 인공지능 윤리의 세 가지 가치 <b>책임성·공정성·투명성</b>을 <b>개발자·사용자·운영·관리자</b>의 눈으로 적용해 봅니다. 그리고 범죄 예측 CCTV 사례로 토론한 뒤 <b>3단원 전체를 정리</b>합니다.</p>
+    </div>
+    <div class="why3">
+      <div class="why">
+        <span class="kicker">왜 배울까</span>
+        <ul>
+          <li>인공지능은 결과가 나온 이유를 알기 어렵고, 잘못되었을 때 <b>책임이 누구에게 있는지</b> 가리기도 어려워요.</li>
+          <li>4단원에서 내가 직접 인공지능 모델을 만들 때 지켜야 할 기준이 돼요.</li>
+        </ul>
+      </div>
+      <div class="why">
+        <span class="kicker">핵심 질문</span>
+        <ul class="uses">
+          <li><b>인공지능과 사회</b> · 인공지능의 발전은 우리에게 어떤 변화를 가져올까?</li>
+          <li><b>인공지능과 윤리</b> · 인공지능 사회의 구성원으로서 갖추어야 할 윤리 의식은 무엇일까?</li>
+        </ul>
+        <p style="font-size:.88rem;margin-top:8px" class="muted">오늘 마지막에 3단원의 두 핵심 질문에 답해요.</p>
+      </div>
+      <div class="why">
+        <span class="kicker">배우고 나면 할 수 있는 것</span>
+        <ul class="can">
+          <li>인공지능 윤리의 사회적 책임이 필요한 까닭을 말한다.</li>
+          <li>윤리적 쟁점을 책임성·공정성·투명성으로 판단한다.</li>
+          <li>3단원에서 배운 내용을 핵심 낱말로 정리한다.</li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px"><button class="btn" style="background:var(--navy)" onclick="go(1)">01 사회적 책임부터 시작하기 →</button></div>
+  </div>
+</section>
+
+<!-- 1 사회적 책임 -->
+<section class="page" data-name="사회적 책임" data-acc="#2f6fd0">
+  <div class="head"><div class="num">01</div><div><h2>인공지능 윤리의 사회적 책임</h2><p>교과서 156쪽 · 필요성과 국내외 윤리 원칙</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능은 영향력이 너무 크고 문제도 복잡해서, <b>한 사람이나 한 회사의 양심에만 맡기기 어려워요.</b> 그래서 나라와 세계가 함께 기준을 정하고 관리해야 해요. 이것이 <b>사회적 책임</b>이에요.</span></div>
+  <div class="card">
+    <h3>왜 사회적 책임이 필요할까? 네 가지 까닭</h3>
+    <div class="cards4">
+      <div class="kc" style="--k:#2f6fd0"><div class="ic">⏩</div><h4>기술의 빠른 변화</h4><p>법과 제도가 따라가기 전에 기술이 먼저 퍼져요.</p></div>
+      <div class="kc" style="--k:#9b4fc4"><div class="ic">⚖️</div><h4>편향과 알고리즘에 의한 문제</h4><p>지난 시간에 본 데이터·알고리즘 편향이 차별로 이어져요.</p></div>
+      <div class="kc" style="--k:#d64535"><div class="ic">🎭</div><h4>인공지능의 악용</h4><p>딥페이크 가짜 뉴스처럼 나쁜 목적으로 쓰일 수 있어요.</p></div>
+      <div class="kc" style="--k:#e0702b"><div class="ic">⚠️</div><h4>인공지능의 위험성</h4><p>킬러 로봇처럼 사람을 위협할 수 있어요.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🌍 윤리 원칙은 이렇게 만들어졌어요 <span class="muted" style="font-weight:400;font-size:.88rem">(연도를 눌러 보세요)</span></h3>
+    <div class="tl" id="tlBtns"></div>
+    <div id="tlView"></div>
+    <div class="callout"><b>공통점</b> 인공지능 윤리를 <b>개인이나 기업의 윤리에만 맡기지 말고, 국가와 세계의 범위에서 논의</b>해야 한다.</div>
+  </div>
+  <div class="quiz" data-quiz="1"></div>
+</section>
+
+<!-- 2 세 가지 가치 -->
+<section class="page" data-name="책임성·공정성·투명성" data-acc="#9b4fc4">
+  <div class="head"><div class="num">02</div><div><h2>책임성 · 공정성 · 투명성</h2><p>교과서 157쪽 · 전통적인 프로그램과 인공지능의 비교</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>사람이 규칙을 직접 넣은 프로그램은 왜 그런 결과가 나왔는지 따라가 볼 수 있어요. 그런데 인공지능은 <b>데이터로 규칙을 스스로 찾아서</b> 이유를 알기 어려워요. 그래서 <b>누가 책임질지(책임성)</b>, <b>모두에게 같은 기준인지(공정성)</b>, <b>어떻게 결정했는지 알려 주는지(투명성)</b>가 중요해져요.</span></div>
+  <div class="card">
+    <h3>표 Ⅲ-2 전통적인 프로그램과 인공지능</h3>
+    <table class="tbl">
+      <tr><th class="l">구분</th><th class="l">전통적인 프로그램</th><th class="l">인공지능</th></tr>
+      <tr><td><b>방법</b></td><td>개발자가 직접 프로그래밍해 데이터와 규칙을 넣어 준다.</td><td>기계가 데이터를 바탕으로 학습해 스스로 규칙을 찾는다.</td></tr>
+      <tr><td><b>과정·결과의 이해</b></td><td>결과를 확인하고 통제하기 쉽고, 왜 그런 결과가 나왔는지 분석하기 쉽다.</td><td>결과를 믿을 수 있는지 확인하기 힘들고, 특히 딥러닝은 왜 그런 결과가 나왔는지 알기 어렵다.</td></tr>
+      <tr><td><b>주된 윤리 문제</b></td><td>명확성, 보안, 저작권</td><td><b>책임성, 공정성, 투명성</b></td></tr>
+    </table>
+  </div>
+  <div class="cards3">
+    <div class="kc" style="--k:#d64535"><div class="ic">🙋</div><h4>책임성</h4><p>인공지능의 오류로 생긴 원인과 결과에 대한 책임이 <b>누구에게 있는지 명확하게</b> 정하는 것</p><small>「원인과 결과에 대한 책임을 누가 져야 하는지 명확히 해야 해.」</small></div>
+    <div class="kc" style="--k:#2f6fd0"><div class="ic">⚖️</div><h4>공정성</h4><p>모든 사용자에게 <b>같은 기준과 절차</b>를 적용하는 것. 데이터 편향을 없애고, 차별 없이 똑같은 수준의 서비스를 받게 하는 것</p><small>「모든 사용자에게 편향 없이 같은 기준과 절차를 적용해야 해.」</small></div>
+    <div class="kc" style="--k:#1f9d74"><div class="ic">🔍</div><h4>투명성</h4><p>사용자가 <b>이해할 수 있는 형태로</b> 어떤 데이터와 알고리즘을 썼는지, 어떤 검증을 했는지, 어떤 기준과 근거로 처리했는지 알려 주는 것</p><small>「어떤 기준이나 근거로 결정을 내리는지 과정을 투명하게 공개해야 해.」</small></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>🎯 이 말은 어떤 가치를 지키려는 걸까?</h3>
+    <div id="valGame"></div>
+  </div>
+  <div class="card">
+    <h3>💡 여기서 잠깐! 인공지능에게 책임을 물을 수 있을까? (157쪽)</h3>
+    <p>인공지능은 과거의 데이터로 만들어졌기 때문에 모든 입력에 올바른 결과를 낸다는 보장이 없어요. 오류의 원인이 <b>데이터 문제인지, 알고리즘 문제인지, 누군가의 의도인지</b> 밝히기 어렵고, 그 결과가 <b>개발자, 사용자, 운영·관리자</b> 중 누구의 책임인지 나누기도 어려워요. 그래서 다음 화면처럼 사람마다 할 일을 미리 정해 두는 것이 중요해요.</p>
+  </div>
+  <div class="quiz" data-quiz="2"></div>
+</section>
+
+<!-- 3 세 사람의 관점 -->
+<section class="page" data-name="세 사람의 관점" data-acc="#e0702b">
+  <div class="head"><div class="num">03</div><div><h2>개발자 · 사용자 · 운영·관리자의 눈으로</h2><p>교과서 158쪽 · 임금 예측 시스템 사례</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능 하나에도 <b>만드는 사람(개발자)</b>, <b>쓰는 사람(사용자)</b>, <b>서비스를 운영하고 관리하는 사람</b>이 있어요. 문제가 생겼을 때 세 사람이 각자 무엇을 해야 하는지 책임성·공정성·투명성으로 나누어 보면 책임이 분명해져요.</span></div>
+  <div class="case">
+    <h3>📄 문제 상황</h3>
+    <p>한 기업이 인공지능으로 직원들의 능력, 경력, 성과를 바탕으로 앞으로의 <b>임금을 예측</b>하는 시스템을 만들었어요. 그런데 써 보니 <b>남성 직원보다 여성 직원의 임금이 낮게 예측</b>되는 경향이 있었어요.</p>
+  </div>
+  <div class="cards3" style="margin-bottom:14px">
+    <div class="kc" style="--k:#2f6fd0"><div class="ic">👩‍💻</div><h4>개발자</h4><p>효율적이고 오류 없이 작동하는 시스템을 만들고, 편향 없는 데이터와 알고리즘을 써야 한다.</p></div>
+    <div class="kc" style="--k:#1f9d74"><div class="ic">🙋</div><h4>사용자</h4><p>인공지능을 비판적으로 쓰되 작동 방식을 이해하고, 기대한 결과와 실제의 차이를 따져 봐야 한다.</p></div>
+    <div class="kc" style="--k:#e0702b"><div class="ic">🛠️</div><h4>운영·관리자</h4><p>시스템을 계속 살피고 고치며 사용자 의견을 관리하고, 예상 못 한 문제에 빠르게 대응해야 한다.</p></div>
+  </div>
+  <div class="card">
+    <h3>🧩 말풍선을 알맞은 칸에 넣어 보세요</h3>
+    <p class="muted" style="margin-top:0">말풍선을 하나 고른 뒤, 누가(개발자·사용자·운영·관리자) 어떤 가치(책임성·공정성·투명성)를 지키려고 하는 말인지 표의 칸을 눌러요.</p>
+    <div id="mxPool" class="chk" style="margin-bottom:12px"></div>
+    <div style="overflow-x:auto"><table class="mx" id="mxT"></table></div>
+    <div class="row" style="margin-top:8px"><span id="mxMsg" class="muted"></span><button class="btn ghost sm" id="mxReset">다시 하기</button><button class="btn ghost sm" id="mxShow">정답 모두 보기</button></div>
+  </div>
+  <div class="quiz" data-quiz="3"></div>
+</section>
+
+<!-- 4 설명 가능한 인공지능 -->
+<section class="page" data-name="설명 가능한 인공지능" data-acc="#1f9d74">
+  <div class="head"><div class="num">04</div><div><h2>설명 가능한 인공지능 (XAI)</h2><p>교과서 157쪽 · 159쪽 · 161쪽 · 블랙박스의 이유를 보여 주기</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>딥러닝은 예측은 잘하지만 <b>왜 그렇게 답했는지 알기 어려운 「블랙박스」</b>예요. 어떤 이미지 분류 모델은 가중치(파라미터)가 2,400만 개, GPT-3는 1,750억 개나 되거든요. <b>설명 가능한 인공지능(XAI: explainable AI)</b>은 결정의 이유와 근거를 사람이 이해할 수 있게 보여 줘요.</span></div>
+  <div class="grid2 even">
+    <div class="card">
+      <h3>🐶 이 인공지능은 왜 「강아지」라고 했을까?</h3>
+      <p class="muted" style="margin-top:0">버튼을 눌러 인공지능이 근거로 삼은 부분을 보세요. (161쪽 LIME처럼 이미지를 조각으로 나누고, 결과에 영향이 큰 조각을 표시한 설명 그림)</p>
+      <svg id="xaiSvg" viewBox="0 0 300 300" style="max-width:300px;margin:0 auto"></svg>
+      <div class="row" style="justify-content:center;margin-top:8px"><button class="btn sm ghost" id="xaiA">블랙박스로 보기</button><button class="btn sm" id="xaiB">근거 보기 (XAI)</button></div>
+      <p id="xaiMsg" class="note" style="text-align:center"></p>
+    </div>
+    <div class="card">
+      <h3>AI와 XAI 비교 (159쪽)</h3>
+      <table class="tbl">
+        <tr><th class="l">인공지능(AI)을 쓸 때 생기는 물음</th><th class="l">설명 가능한 인공지능(XAI)</th></tr>
+        <tr><td>이를 신뢰해도 되나?</td><td>신뢰할 수 있다.</td></tr>
+        <tr><td>어떻게 성공한 거지?</td><td>성공한 이유를 알 수 있다.</td></tr>
+        <tr><td>어떻게 실패한 거지?</td><td>실패한 이유를 알 수 있다.</td></tr>
+        <tr><td>왜 이런 결론을 냈지?</td><td>결론 과정을 알 수 있다.</td></tr>
+        <tr><td>다른 것은 왜 안 되지?</td><td>왜 아닌지 알 수 있다.</td></tr>
+        <tr><td>오류를 어떻게 수정하지?</td><td>오류가 발생한 이유를 알 수 있다.</td></tr>
+      </table>
+      <p class="note">책임성·공정성·투명성을 지키려면 어떤 데이터로 학습했는지 알아야 하고, 사람이 알고리즘을 쉽게 이해할 수 있어야 하며, 예측 결과의 이유와 근거를 알아야 해요. 설명 가능한 인공지능이 이것을 도와 인간과 인공지능의 공존에 필요해졌어요.</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3>✍️ 스스로 해결하기: 병원 인공지능의 잘못된 진단 (159쪽)</h3>
+    <div class="callout" style="margin-top:4px">병원이 환자의 증상과 검사 데이터로 진단하는 최신 인공지능을 쓰고 있어요. 그런데 이 인공지능이 <b>특정 유전적 특성을 가진 환자들에게 계속 잘못된 진단</b>을 내렸고, 그 환자들 중 일부가 알맞지 않은 치료를 받았어요. 하지만 병원은 <b>학습 데이터와 알고리즘 공개를 거부</b>하고 환자와 제대로 소통하지 않고 있어요.</div>
+    <p class="muted">내가 <b>환자(사용자)</b>라면 병원에 무엇을 요구할까요?</p>
+    <div class="cards3 memo">
+      <div><label>🙋 책임성</label><textarea data-memo="hosR" rows="3" placeholder="누가 어떤 책임을…"></textarea></div>
+      <div><label>⚖️ 공정성</label><textarea data-memo="hosF" rows="3" placeholder="특정 환자 그룹만…"></textarea></div>
+      <div><label>🔍 투명성</label><textarea data-memo="hosT" rows="3" placeholder="데이터와 알고리즘을…"></textarea></div>
+    </div>
+    <div class="saved"></div>
+  </div>
+  <div class="quiz" data-quiz="4"></div>
+</section>
+
+<!-- 5 사례 토론 -->
+<section class="page" data-name="사례로 토론하기" data-acc="#d64535">
+  <div class="head"><div class="num">05</div><div><h2>사례를 통한 인공지능 윤리 토론</h2><p>교과서 160~161쪽 · 「인공지능과 윤리」 정리</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>지금까지 배운 <b>편향 → 딜레마 → 사회적 책임</b>을 한 사례에 모두 적용해 보는 시간이에요. 정답은 하나가 아니니, <b>근거</b>를 들어 내 생각을 말하는 것이 중요해요.</span></div>
+  <div class="case">
+    <h3>📹 사례: 범죄를 미리 예측하는 CCTV</h3>
+    <p>한 도시가 악성 범죄를 막고 범죄자를 빨리 잡으려고 <b>인공지능 CCTV 분석 시스템</b>을 도입했어요. 이 시스템은 CCTV 영상에서 <b>의심스러운 복장이나 행동</b>을 감지해 범죄가 일어나기 전에 미리 예측하고 검거를 도와요. 한 해 동안 범죄 발생률이 <b>70%나 줄었어요.</b></p>
+  </div>
+  <div class="card">
+    <h3>① 지식·이해 · 「의심스러운 복장이나 행동」의 기준에 편향이 있다면?</h3>
+    <div class="memo"><textarea data-memo="cc1" rows="2" placeholder="어떤 문제나 논란이 생길지 써 보세요."></textarea><div class="saved"></div></div>
+  </div>
+  <div class="card">
+    <h3>② 과정·기능 · 대중의 안전과 개인의 자유, 더 중요한 것은?</h3>
+    <div class="vote" id="cc2v"></div>
+    <div class="memo"><label>그렇게 생각한 까닭</label><textarea data-memo="cc2" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+  <div class="card">
+    <h3>③ 가치·태도 · 이 시스템이 세 가지 가치를 지키려면?</h3>
+    <div class="cards3 memo">
+      <div><label>🙋 책임성</label><textarea data-memo="cc3r" rows="3"></textarea></div>
+      <div><label>⚖️ 공정성</label><textarea data-memo="cc3f" rows="3"></textarea></div>
+      <div><label>🔍 투명성</label><textarea data-memo="cc3t" rows="3"></textarea></div>
+    </div>
+    <div class="saved"></div>
+  </div>
+  <div class="card">
+    <h3>🌱 보충 (161쪽 · 선택) · 「미래의 나」를 알려 주는 인공지능</h3>
+    <p>나의 과거 데이터와 지금의 행동 패턴, 좋아하는 것을 분석해 <b>10년 뒤 내 모습과 직업</b>을 예측해 주는 서비스가 나왔어요. 어떤 윤리적 문제가 있을지 관련 있는 낱말을 고르고 이유를 써 봐요.</p>
+    <div id="futPick"></div>
+    <div class="memo"><textarea data-memo="fut" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+</section>
+
+<!-- 6 단원 정리 -->
+<section class="page" data-name="3단원 단원 정리" data-acc="#0f8a8a">
+  <div class="head"><div class="num">06</div><div><h2>3단원 단원 정리</h2><p>교과서 164~165쪽 · 인공지능의 사회적 영향</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>3단원은 <b>「인공지능이 사회를 어떻게 바꾸는가」</b>와 <b>「그 속에서 우리는 어떤 윤리 의식을 가져야 하는가」</b> 두 가지 이야기예요. 아래 지도로 다시 보고, 교과서 165쪽 단원 정리 문제를 풀어 봐요.</span></div>
+  <div class="cards2">
+    <div class="kc" style="--k:#2f6fd0"><h4>1. 인공지능과 사회</h4>
+      <span class="tagt">초연결 사회</span><span class="tagt">연대별 발전</span><span class="tagt">사회 문제 해결 사례</span><span class="tagt">직업 세계의 변화</span><span class="tagt">인공지능 소양</span>
+      <p style="margin-top:8px">인공지능의 발전은 사회와 직업을 바꾸고 있으며, 인공지능으로 사회 문제를 해결할 수 있다. 진로를 설계하려면 인공지능 윤리 의식·데이터 문해력·인공지능 문제 해결력이 필요하다.</p></div>
+    <div class="kc" style="--k:#d64535"><h4>2. 인공지능과 윤리</h4>
+      <span class="tagt">공존 4가지 방식</span><span class="tagt">학습 데이터 편향</span><span class="tagt">알고리즘 편향</span><span class="tagt">윤리적 딜레마</span><span class="tagt">사회적 책임</span><span class="tagt">책임성·공정성·투명성</span><span class="tagt">XAI</span>
+      <p style="margin-top:8px">인공지능은 데이터와 알고리즘 때문에 편향될 수 있고, 윤리적 딜레마를 낳는다. 개발자·사용자·운영·관리자가 책임성·공정성·투명성을 지키고, 사회가 함께 기준을 정해야 한다.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px;--acc:#0f8a8a">
+    <h3>단원 정리 문제 (165쪽)</h3>
+    <div class="quiz" data-quiz="6"></div>
+  </div>
+  <div class="card">
+    <h3>역량 Check! 3단원에서 길러진 역량을 골라 보세요 (165쪽)</h3>
+    <div id="capPick"></div>
+  </div>
+  <div class="card">
+    <h3>🎤 인공지능에 도전하는 사람들 · 인공지능 투닝 전문가 (164쪽)</h3>
+    <p>글을 웹툰 그림으로 바꿔 주는 인공지능을 연구·개발해, 그림 실력이 뛰어나지 않아도 <b>나만의 이야기만 있으면 누구나 웹툰을 만들 수 있게</b> 돕는 직업이에요. 웹툰 작가로 일하며 이야기를 그림으로 옮기는 어려움을 겪은 경험이 이 일을 시작한 계기였대요. 인공지능 분야를 꿈꾸는 학생에게는 <b>인공지능 기술 활용 소양</b>과 함께, 여러 사람을 만나 배우고 협력하는 태도가 중요하다고 조언해요.</p>
+  </div>
+</section>
+
+<!-- 7 마무리 -->
+<section class="page" data-name="마무리 · 질문폼" data-acc="#0f2742">
+  <div class="head"><div class="num">07</div><div><h2>마무리</h2><p>핵심 문장 · 핵심 질문 · 마무리 퀴즈 · 생각 정리 질문폼</p></div></div>
+  <div class="key3">
+    <div style="--k:#2f6fd0">인공지능 윤리의 <b>사회적 책임</b>은 기술의 빠른 변화, 편향, 악용, 위험성에 대응하는 것으로, 개인·기업이 아니라 국가와 세계가 함께 논의해야 한다.</div>
+    <div style="--k:#9b4fc4">인공지능 윤리의 세 가지 가치는 <b>책임성 · 공정성 · 투명성</b>이며, <b>개발자 · 사용자 · 운영·관리자</b>의 관점에서 각자 할 일을 살펴야 한다.</div>
+    <div style="--k:#1f9d74"><b>설명 가능한 인공지능(XAI)</b>은 블랙박스인 인공지능이 결정한 이유와 근거를 보여 주어 신뢰를 높인다.</div>
+  </div>
+  <div class="card">
+    <h3>내 계획 점검하기 · 3단원 핵심 질문에 답하기</h3>
+    <p class="muted" style="margin-top:0">3단원에서 배운 낱말을 세 개 이상 넣어 내 말로 답해 보세요.</p>
+    <div class="grid2 even memo">
+      <div><b style="font-size:.93rem">인공지능의 발전은 우리에게 어떤 변화를 가져올까?</b><textarea data-memo="kq1" rows="4"></textarea></div>
+      <div><b style="font-size:.93rem">인공지능 사회의 구성원으로서 갖추어야 할 윤리 의식은 무엇일까?</b><textarea data-memo="kq2" rows="4"></textarea></div>
+    </div>
+    <div class="memo"><label>🧭 4단원에서 내가 인공지능 모델을 만들 때 지킬 나의 원칙 한 가지 <small>예: 학습 데이터가 한쪽으로 치우치지 않았는지 먼저 확인한다</small></label><textarea data-memo="myRule" rows="2"></textarea></div>
+    <div class="saved"></div>
+  </div>
+  <div class="card" style="--acc:#0f2742">
+    <h3>마무리 퀴즈</h3>
+    <div class="quiz" data-quiz="7"></div>
+  </div>
+  <div class="card">
+    <h3>개념 퀴즈 결과</h3>
+    <table id="result"></table>
+    <button class="btn ghost" id="quizReset">퀴즈 다시 풀기</button>
+  </div>
+  <div class="formgo">
+    <span class="kicker">생각 정리 과제</span>
+    <h3>질문폼에 내 생각 쓰기</h3>
+    <ol>
+      <li>병원 오진단 사례를 <b>환자(사용자)</b> 입장에서 책임성·공정성·투명성으로 분석하고, 병원이나 개발자가 할 일 쓰기</li>
+      <li>범죄 예측 CCTV 사례: 기준이 편향되면 생길 문제, <b>대중의 안전 vs 개인의 자유</b>에 대한 내 입장과 까닭, 세 가지 가치를 지키는 방안 쓰기</li>
+      <li><b>3단원 총정리</b>: 핵심 질문 하나에 3단원 낱말 세 개 이상으로 답하고, 4단원에서 모델을 만들 때 지킬 나의 원칙 쓰기</li>
+    </ol>
+    <p>질문폼에는 붙여넣기가 되지 않아요. 아래 메모를 보면서 직접 다시 써 주세요.</p>
+    <a class="go" href="https://aiquiz26.vercel.app/forms/ai-24-3-1-3.html" target="_blank" rel="noopener">질문폼 열기 →</a>
+    <div class="msum" id="msum"></div>
+  </div>
+</section>
+
+</main>
+
+<div class="foot">
+  <button class="btn ghost" id="prev">← 이전</button>
+  <span class="pg" id="pg"></span>
+  <button class="btn" id="next">다음 →</button>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=id=>document.getElementById(id);
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fmt=n=>n.toLocaleString('ko-KR');
+
+
+
+
+/* 퀴즈 */
+const QUIZ={
+ 1:[{q:'최초로 국제 수준의 합의가 이루어진 인공지능 권고안은?',o:['미국 아실로마 23원칙(2017)','경제협력개발기구(OECD) 인공지능 권고안(2019)','유럽연합 신뢰할 수 있는 AI 윤리 가이드라인(2018)'],a:1,w:'아실로마 23원칙은 이로운 인공지능 개발, 유럽연합 가이드라인은 인간의 기본권을 강조했어요.'},
+    {q:'2020년 우리나라가 마련한 인공지능 윤리 기준의 이름은?',o:['신뢰할 수 있는 AI 윤리 가이드라인','사람이 중심이 되는 인공지능 윤리 기준','아실로마 인공지능 원칙'],a:1,w:'사람이 중심이 되는 인공지능을 강조해요.'}],
+ 2:[{q:'「모든 사용자에게 같은 기준과 절차를 적용해 차별 없이 동등한 서비스를 받게 하는 것」은 어떤 가치일까?',o:['책임성','공정성','투명성'],a:1,w:'특정 데이터로 인한 편향을 없애고 의도적으로 다른 결과를 내지 않는 것이 공정성이에요.'},
+    {q:'전통적인 프로그램에서 주로 다루던 윤리 문제는?',o:['책임성, 공정성, 투명성','명확성, 보안, 저작권','편향, 딜레마, 악용'],a:1,w:'인공지능은 스스로 규칙을 찾아 이유를 알기 어려워 책임성·공정성·투명성 문제가 따라요.'}],
+ 3:[{q:'임금 예측 사례에서 「임금을 예측한 기준은 무엇이고 설득력이 있나?」는 누가 어떤 가치를 따지는 말일까?',o:['개발자의 책임성','사용자의 투명성','운영·관리자의 공정성'],a:1,w:'사용자가 결정의 기준과 근거를 알고 싶어 하는 것이니 투명성이에요.'},
+    {q:'시스템을 계속 살피고 고치며 사용자 의견을 관리하고, 예상치 못한 문제에 빠르게 대응해야 하는 사람은?',o:['개발자','사용자','운영·관리자'],a:2,w:'운영·관리자는 오류를 해결하고 책임질 수 있는 매뉴얼도 만들어야 해요.'}],
+ 4:[{q:'딥러닝 모델이 왜 그런 결과를 냈는지 설명하기 어려운 까닭은?',o:['엄청난 양의 파라미터값을 조절하며 학습해서','데이터를 쓰지 않고 학습해서','사람이 규칙을 직접 넣어서'],a:0,w:'이미지 분류 모델은 2,400만 개, GPT-3는 1,750억 개의 파라미터값을 조절해요.'},
+    {q:'병원이 인공지능의 학습 데이터와 알고리즘 공개를 거부한 것은 어떤 가치를 지키지 않은 것일까?',o:['효율성','명확성','투명성'],a:2,w:'사용자가 이해할 수 있게 데이터, 알고리즘, 검증, 근거를 알려 주는 것이 투명성이에요.'}],
+ 6:[{q:'○, ×: 인공지능은 다양한 분야와 융합하여 사회 전반에 영향을 미치고 있다.',o:['○','×'],a:0,w:'인공지능은 교통, 금융, 쇼핑, 언어, 법률, 공공 등 여러 분야를 바꾸고 있어요.'},
+    {q:'○, ×: 인간과 인공지능이 공존하는 삶은 부정적 측면이 많아 인간이 직업을 뺏기고 존엄성 문제가 생기므로 인공지능을 도입하지 말아야 한다.',o:['○','×'],a:1,w:'긍정적 측면과 부정적 측면을 모두 고려해 올바르게 활용하는 역량을 기르는 것이 중요해요.'},
+    {q:'1970년대에 의학, 법률 등 전문 지식이 필요한 분야에서 활용할 수 있는 인공지능인 (GAN, 전문가 시스템)이 주목을 받았다.',o:['GAN','전문가 시스템'],a:1,w:'GAN은 2010년대에 발달한 이미지 생성 기술이에요.'},
+    {q:'인간은 경험, 문화, 교육으로, 인공지능은 학습 데이터와 알고리즘으로 인해 (편향, 악용)될 수 있다.',o:['악용','편향'],a:1,w:'표 Ⅲ-1에서 비교한 편향의 근본적 이유예요.'},
+    {q:'(　　　)는 인터넷, 통신 기술의 발달로 사람, 데이터, 사물 등 모든 것이 네트워크로 연결된 사회를 말한다.',o:['정보화 사회','초연결 사회','산업 사회'],a:1,w:'초연결 사회에서 데이터가 풍부해져 인공지능이 빠르게 발전했어요.'},
+    {q:'인공지능 기술을 이해하고 올바르게 활용할 줄 아는 (　　　)에는 인공지능 윤리 의식, 데이터 문해력, 인공지능 문제 해결력이 있다.',o:['컴퓨팅 사고력','디지털 기술 활용 능력','인공지능 소양'],a:2,w:'142쪽의 인공지능 소양 세 가지예요.'},
+    {q:'인공지능 윤리의 주요 내용은 책임성, (　　), (　　)을 중점적으로 강조하고 있다.',o:['명확성, 보안','공정성, 투명성','효율성, 편리성'],a:1,w:'명확성·보안은 전통적인 프로그램의 윤리 문제예요.'},
+    {q:'(　　　)란 어떠한 상황에서 한 가지 결정을 내려야 하는데, 그 결정이 도덕적으로 복잡하거나 모순적인 결과를 초래할 수 있는 상황을 말한다.',o:['알고리즘 편향','사회적 책임','윤리적 딜레마'],a:2,w:'트롤리 딜레마, 자율주행 자동차의 딜레마가 예예요.'},
+    {q:'「인공지능을 통해 효율적으로 문제를 해결할 줄 안다」와 관련 있는 것은?',o:['책임성','데이터 문해력','인공지능 문제 해결력','사회적 책임'],a:2,w:'인공지능 소양 중 하나예요.'},
+    {q:'「데이터를 올바르게 이해하고 분석하여 문제를 통찰한다」와 관련 있는 것은?',o:['책임성','데이터 문해력','인공지능 문제 해결력','사회적 책임'],a:1,w:'인공지능 소양 중 하나예요.'},
+    {q:'「인공지능의 오류로 인한 책임이 누구에게 있어야 하는지 명확히 정하는 것」과 관련 있는 것은?',o:['책임성','데이터 문해력','인공지능 문제 해결력','사회적 책임'],a:0,w:'인공지능 윤리의 세 가지 가치 중 하나예요.'},
+    {q:'「기술의 빠른 변화, 편향과 알고리즘에 의한 문제, 기술의 악용 및 위험성의 문제에 적절히 대응한다」와 관련 있는 것은?',o:['책임성','데이터 문해력','인공지능 문제 해결력','사회적 책임'],a:3,w:'인공지능 윤리의 사회적 책임이 필요한 네 가지 까닭이에요.'}],
+ 7:[{q:'인공지능 윤리의 사회적 책임이 필요한 까닭으로 교과서가 든 것은?',o:['기술의 빠른 변화와 인공지능의 악용 가능성','인공지능 반도체의 가격','프로그램의 저작권'],a:0,w:'기술의 빠른 변화, 편향과 알고리즘에 의한 문제, 인공지능의 악용, 인공지능의 위험성 네 가지예요.'},
+    {q:'국내외 인공지능 윤리 원칙들의 공통점은?',o:['기업이 스스로 정하면 충분하다','개인이나 기업에 맡기지 말고 국가와 세계 범위에서 논의해야 한다','개발자만 지키면 된다'],a:1,w:'인공지능은 영향력이 넓고 문제가 복잡해 한 개인이나 기업이 다루기 어려워요.'},
+    {q:'설명 가능한 인공지능(XAI)의 X가 뜻하는 말은?',o:['expert(전문가)','explainable(설명 가능한)','extended(확장된)'],a:1,w:'XAI는 explainable AI로, 블랙박스인 인공지능의 결정 이유와 근거를 보여 줘요.'},
+    {q:'임금 예측 사례에서 개발자가 공정성을 지키려고 따져 볼 질문은?',o:['시스템 때문에 손해가 생기면 해결하는 절차는 무엇이지?','서비스를 제공할 때 유의 사항을 미리 알렸나?','어떤 속성이 성별 편향을 일으키는 원인이지?'],a:2,w:'첫째는 사용자의 책임성, 둘째는 운영·관리자의 투명성에 해당해요.'},
+    {q:'범죄 예측 CCTV에서 「대중의 안전」과 「개인의 자유」가 서로 부딪치는 상황은?',o:['윤리적 딜레마','과적합','데이터 전처리'],a:0,w:'어느 쪽을 골라도 지켜야 할 가치 하나를 포기해야 하는 상황이에요.'}],
+};
+const QK='u3c-quiz-v1';
+const MK='u3c-memo-v1';
+
+let QS={}; try{QS=JSON.parse(localStorage.getItem(QK)||'{}')||{};}catch(e){QS={};}
+function saveQ(){try{localStorage.setItem(QK,JSON.stringify(QS));}catch(e){}}
+const TOTALQ=Object.values(QUIZ).reduce((a,b)=>a+b.length,0);
+function renderQuiz(box){
+  const k=box.dataset.quiz; box.innerHTML=`<div class="qh"><b>개념 퀴즈</b><span>${QUIZ[k].length}문제 · 고르면 바로 채점</span></div>`;
+  QUIZ[k].forEach((it,i)=>{
+    const id=k+'-'+i, d=document.createElement('div'); d.className='qi';
+    d.innerHTML=`<div class="qq">${i+1}. ${it.q}</div><div class="opts">${it.o.map((o,j)=>`<button data-j="${j}">${o}</button>`).join('')}</div><div class="why"></div>`;
+    const mark=(j,anim)=>{
+      const bs=d.querySelectorAll('button'); bs.forEach(b=>b.disabled=true);
+      bs[it.a].classList.add('right'); if(j!==it.a){bs[j].classList.add('wrong'); if(anim) d.classList.add('shake');}
+      d.classList.add('answered', j===it.a?'correct':'incorrect');
+      d.querySelector('.why').textContent=(j===it.a?'정답. ':'정답은 「'+it.o[it.a]+'」. ')+it.w;
+    };
+    d.querySelectorAll('button').forEach(b=>b.onclick=()=>{const j=+b.dataset.j;QS[id]=j;saveQ();mark(j,true);updScore();});
+    if(QS[id]!=null && QS[id]<it.o.length) mark(QS[id],false);
+    box.appendChild(d);
+  });
+}
+
+/* 페이지 이동 */
+const pages=[...document.querySelectorAll('.page')];
+const stepBtns=pages.map((p,i)=>{const b=document.createElement('button');b.textContent=i?`${i}. ${p.dataset.name}`:'시작';b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function updScore(){
+  let ok=0; for(const k in QUIZ) QUIZ[k].forEach((it,i)=>{if(QS[k+'-'+i]===it.a) ok++;});
+  $('score').textContent=`퀴즈 ${ok} / ${TOTALQ}`;
+  pages.forEach((p,i)=>{const q=p.querySelector('[data-quiz]'); if(!q) return; const k=q.dataset.quiz; stepBtns[i].classList.toggle('done',QUIZ[k].every((_,j)=>QS[k+'-'+j]!=null));});
+  let h='<tr><th class="l">개념</th><th>맞힌 문제</th></tr>';
+  for(const k in QUIZ){const n=QUIZ[k].length, c=QUIZ[k].filter((it,i)=>QS[k+'-'+i]===it.a).length, a=QUIZ[k].filter((_,i)=>QS[k+'-'+i]!=null).length;
+    h+=`<tr><td class="l">${k}. ${pages[k].dataset.name}</td><td>${a?`<b class="${c===n?'ok':''}">${c} / ${n}</b>`:'<span class="muted">아직 안 풂</span>'}</td></tr>`;}
+  h+=`<tr><td class="l"><b>합계</b></td><td><b>${ok} / ${TOTALQ}</b></td></tr>`;
+  $('result').innerHTML=h;
+}
+let cur=-1;
+const onShow={};
+function go(i){
+  i=Math.max(0,Math.min(pages.length-1,i)); if(i===cur) return;
+  const back=i<cur; if(cur>=0) pages[cur].classList.remove('on','back');
+  pages[i].classList.add('on'); pages[i].classList.toggle('back',back);
+  document.documentElement.style.setProperty('--acc',pages[i].dataset.acc);
+  document.documentElement.style.setProperty('--acc-soft',pages[i].dataset.acc+'1a');
+  stepBtns.forEach((b,j)=>b.classList.toggle('on',j===i));
+  const sb=$('steps'), btn=stepBtns[i]; sb.scrollLeft=btn.offsetLeft-sb.clientWidth/2+btn.clientWidth/2;
+  $('prog').style.width=(i/(pages.length-1)*100)+'%';
+  $('pg').textContent=`${i} / ${pages.length-1}`;
+  $('prev').style.visibility=i?'visible':'hidden'; $('next').style.visibility=i<pages.length-1?'visible':'hidden';
+  cur=i; try{history.replaceState(null,'','#p'+i);}catch(e){} window.scrollTo(0,0);
+  if(onShow[i]) onShow[i]();
+}
+$('prev').onclick=()=>go(cur-1); $('next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.target.matches&&e.target.matches('input,select,textarea'))return; if(e.key==='ArrowRight')go(cur+1); if(e.key==='ArrowLeft')go(cur-1);});
+document.querySelectorAll('.gcard').forEach(g=>g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();g.click();}}));
+document.querySelectorAll('[data-quiz]').forEach(renderQuiz);
+$('quizReset').onclick=()=>{QS={};saveQ();document.querySelectorAll('[data-quiz]').forEach(renderQuiz);updScore();};
+
+
+/* 3단원 공통 */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+
+/* 메모: data-memo가 있는 입력칸은 이 기기에 저장 */
+let MEMO=store.get(MK,{});
+function bindMemos(){
+  document.querySelectorAll('[data-memo]').forEach(t=>{
+    const k=t.dataset.memo; if(MEMO[k]!=null) t.value=MEMO[k];
+    let tm; t.addEventListener('input',()=>{MEMO[k]=t.value; clearTimeout(tm); tm=setTimeout(()=>{store.set(MK,MEMO); const s=t.parentElement.querySelector('.saved'); if(s){s.textContent='이 기기에 저장됨'; setTimeout(()=>s.textContent='',1400);} t.dispatchEvent(new Event('memo'));},300);});
+  });
+}
+function memoSummary(box,list){
+  const h=list.map(([k,label])=>{const v=(MEMO[k]||'').trim(); return `<dt>${esc(label)}</dt><dd class="${v?'':'e'}">${v?esc(v):'(아직 안 씀)'}</dd>`;}).join('');
+  $(box).innerHTML=`<h4>오늘 화면에 적어 둔 내 메모</h4><dl>${h}</dl>`;
+}
+
+/* 뒤집는 카드 */
+function flipCards(box,items){
+  $(box).innerHTML=items.map(c=>`<div class="tcard" tabindex="0"><div class="in"><div class="f"><i>${c.ic||''}</i><b>${c.f}</b>${c.s?`<small>${c.s}</small>`:''}</div><div class="b">${c.b}${c.x?`<div class="x">${c.x}</div>`:''}</div></div></div>`).join('');
+  $(box).querySelectorAll('.tcard').forEach(t=>{const f=()=>t.classList.toggle('flip'); t.onclick=f; t.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}};});
+}
+
+/* 분류 게임: 문장을 보고 알맞은 묶음 고르기 */
+function sorter(box,cfg){
+  const B=$(box);
+  function start(){
+    const order=shuffle(cfg.items.map((_,i)=>i)); let pos=0, ok=0; const placed=cfg.cats.map(()=>[]);
+    B.innerHTML=`<div class="sit"><div class="cnt"></div><div class="ic"></div><div class="sq"></div><div class="row btns">${cfg.cats.map((c,j)=>`<button class="btn sm cat" style="--k:${c.k}" data-j="${j}">${c.n}</button>`).join('')}</div><div class="fb"></div><div class="row nx" style="margin-top:8px"></div></div><div class="board" style="--n:${cfg.cats.length}">${cfg.cats.map(c=>`<div style="--k:${c.k}"><b>${c.n}</b></div>`).join('')}</div>`;
+    const sq=B.querySelector('.sq'), ic=B.querySelector('.ic'), cnt=B.querySelector('.cnt'), fb=B.querySelector('.fb'), nx=B.querySelector('.nx'), btns=[...B.querySelectorAll('.cat')], cols=[...B.querySelectorAll('.board>div')];
+    function show(){
+      if(pos>=order.length){cnt.textContent=''; ic.textContent='🎉'; sq.innerHTML=`${order.length}개 중 <b>${ok}개</b>를 바로 맞혔어요.`; fb.innerHTML=cfg.end||''; btns.forEach(b=>b.style.display='none'); nx.innerHTML='<button class="btn ghost sm">처음부터 다시</button>'; nx.firstChild.onclick=start; return;}
+      const it=cfg.items[order[pos]]; cnt.textContent=`${pos+1} / ${order.length}`; ic.textContent=it.ic||''; sq.innerHTML=it.t; fb.textContent=''; nx.innerHTML=''; btns.forEach(b=>{b.disabled=false;b.style.display='';});
+    }
+    btns.forEach(b=>b.onclick=()=>{
+      const it=cfg.items[order[pos]], j=+b.dataset.j, right=j===it.c; if(right) ok++;
+      btns.forEach(x=>x.disabled=true);
+      fb.innerHTML=(right?'<span class="ok">맞아요!</span> ':`<span class="ng">아쉬워요.</span> 정답은 <b>${cfg.cats[it.c].n}</b>. `)+(it.w||'');
+      const s=document.createElement('span'); s.innerHTML=it.short||it.t; if(!right) s.className='x'; cols[it.c].appendChild(s);
+      nx.innerHTML='<button class="btn sm">다음 →</button>'; nx.firstChild.onclick=()=>{pos++;show();}; nx.firstChild.focus();
+    });
+    show();
+  }
+  start();
+}
+
+/* 탭 보기: 버튼을 누르면 내용 바꾸기 */
+function tabs(btnBox,viewBox,items,render){
+  $(btnBox).innerHTML=items.map((it,i)=>`<button data-i="${i}"><span class="e">${it.ic||''}</span><b>${it.n}</b></button>`).join('');
+  const bs=[...$(btnBox).querySelectorAll('button')];
+  const pick=i=>{bs.forEach((b,j)=>b.classList.toggle('on',i===j)); $(viewBox).innerHTML=render(items[i],i);};
+  bs.forEach(b=>b.onclick=()=>pick(+b.dataset.i)); pick(0);
+}
+
+/* 투표: 고르면 결과 보이기 (이 기기에만 저장) */
+function vote(box,key,opts,onPick){
+  const B=$(box); B.innerHTML=opts.map((o,i)=>`<button data-i="${i}">${o[0]}${o[1]?`<small>${o[1]}</small>`:''}</button>`).join('');
+  const bs=[...B.querySelectorAll('button')];
+  const pick=(i,save)=>{bs.forEach((b,j)=>b.classList.toggle('on',i===j)); if(save){MEMO[key]=opts[i][0]; store.set(MK,MEMO);} onPick&&onPick(i);};
+  bs.forEach(b=>b.onclick=()=>pick(+b.dataset.i,true));
+  const prev=opts.findIndex(o=>o[0]===MEMO[key]); if(prev>=0) pick(prev,false);
+}
+function chips(box,key,opts,multi){
+  const B=$(box); B.classList.add('chk'); B.innerHTML=opts.map(o=>`<button>${o}</button>`).join('');
+  const bs=[...B.querySelectorAll('button')]; let sel=(MEMO[key]||'').split(' · ').filter(Boolean);
+  const draw=()=>bs.forEach(b=>b.classList.toggle('on',sel.includes(b.textContent)));
+  bs.forEach(b=>b.onclick=()=>{const t=b.textContent; if(multi) sel=sel.includes(t)?sel.filter(x=>x!==t):[...sel,t]; else sel=sel.includes(t)?[]:[t]; MEMO[key]=sel.join(' · '); store.set(MK,MEMO); draw(); B.dispatchEvent(new Event('memo'));});
+  draw();
+}
+
+/* 01 윤리 원칙 연표 */
+const PRIN=[
+ {y:'1956',n:'인공지능 연구의 시작',k:'#5b6776',d:'다트머스 회의로 인공지능 연구가 시작되었어요. 초기에는 <b>기술 개발</b>에 초점이 맞춰져 있었어요.'},
+ {y:'2017',n:'미국 · 아실로마 23원칙',k:'#2f6fd0',d:'인간에게 유용하고 <b>이로운 혜택을 주는</b> 인공지능을 개발하자는 원칙이에요. 인공지능 윤리 문제가 떠오르며 사회적 책임의 필요성이 강조되기 시작했어요.'},
+ {y:'2018',n:'유럽연합 · 신뢰할 수 있는 AI 윤리 가이드라인',k:'#9b4fc4',d:'인간의 <b>기본권(존엄, 자유, 평등, 정의 등)</b>에 바탕을 둔 윤리 원칙이에요.'},
+ {y:'2019',n:'경제협력개발기구(OECD) · 인공지능 권고안',k:'#e0702b',d:'<b>최초로 국제 수준의 합의</b>가 이루어진 인공지능 권고안이에요.'},
+ {y:'2020',n:'우리나라 · 인공지능 윤리 기준',k:'#d64535',d:'<b>사람이 중심이 되는</b> 인공지능 윤리 기준이에요. 이후 자율주행 자동차 윤리 가이드라인, 교육 분야 인공지능 윤리 원칙 등도 만들어졌어요.'},
+];
+(function(){
+  $('tlBtns').innerHTML=PRIN.map((d,i)=>`<button data-i="${i}">${d.y}</button>`).join('');
+  const bs=[...$('tlBtns').querySelectorAll('button')];
+  const pick=i=>{bs.forEach((b,j)=>b.classList.toggle('on',i===j)); const d=PRIN[i]; $('tlView').innerHTML=`<div class="kc" style="--k:${d.k}"><h4>${d.y} · ${d.n}</h4><p>${d.d}</p></div>`;};
+  bs.forEach(b=>b.onclick=()=>pick(+b.dataset.i)); pick(1);
+})();
+
+/* 02 가치 분류 */
+sorter('valGame',{
+  cats:[{n:'🙋 책임성',k:'#d64535'},{n:'⚖️ 공정성',k:'#2f6fd0'},{n:'🔍 투명성',k:'#1f9d74'}],
+  items:[
+    {t:'자율주행 자동차 사고가 나면 제조사, 운전자 중 누가 책임질지 미리 정해 두자.',short:'사고 책임자 미리 정하기',c:0,ic:'🚗'},
+    {t:'오류로 피해를 본 사람이 어디에 알리고 어떻게 보상받는지 절차를 만들자.',short:'피해 보상 절차',c:0,ic:'📝'},
+    {t:'대출 심사 인공지능이 사는 지역 때문에 누군가를 불리하게 평가하지 않는지 확인하자.',short:'지역에 따른 차별 확인',c:1,ic:'🏦'},
+    {t:'얼굴 인식 인공지능이 피부색이나 나이와 상관없이 똑같이 잘 맞히도록 데이터를 고르게 모으자.',short:'고르게 데이터 모으기',c:1,ic:'🧑‍🤝‍🧑'},
+    {t:'추천 인공지능이 어떤 기준으로 이 영상을 추천했는지 사용자에게 알려 주자.',short:'추천 이유 알려 주기',c:2,ic:'📺'},
+    {t:'어떤 데이터와 알고리즘을 썼고 어떤 검증을 거쳤는지 공개하자.',short:'데이터·알고리즘·검증 공개',c:2,ic:'📂'},
+  ],
+  end:'하나의 사례에도 세 가지 가치가 함께 필요할 때가 많아요. 다음 화면에서 사람마다 나누어 살펴봐요.'
+});
+
+/* 03 3 × 3 표 */
+(function(){
+  const R=['👩‍💻 개발자','🙋 사용자','🛠️ 운영·관리자'], C=['책임성','공정성','투명성'];
+  const S=[
+    [0,0,'내가 만든 시스템의 오류로 생기는 문제에 어떤 책임감을 가져야 하는지 알아 둬야 해!'],
+    [0,1,'어떤 속성이 성별 편향을 일으키는 원인이지?'],
+    [0,2,'모델에 쓴 데이터와 알고리즘을 정리하고 문서로 남겨야 해!'],
+    [1,0,'시스템 때문에 손해가 생기면 해결하는 절차는 무엇이지?'],
+    [1,1,'나는 다른 동료들과 비교해 불공정한 대우를 받고 있나?'],
+    [1,2,'임금을 예측한 기준은 무엇이고 설득력이 있나?'],
+    [2,0,'임금이 잘못 예측되어 피해가 있었다면 책임을 져야 해!'],
+    [2,1,'시스템이 올바른 결과를 내는지 계속 모니터링해야 해!'],
+    [2,2,'서비스를 제공할 때 유의 사항을 미리 알려야 해!'],
+  ];
+  let sel=null, filled={}, tries=0;
+  function draw(){
+    const left=shuffle(S.map((_,i)=>i).filter(i=>!filled[i]));
+    $('mxPool').innerHTML=left.map(i=>`<button data-i="${i}" class="${sel===i?'on':''}">💬 ${S[i][2]}</button>`).join('')||'<span class="ok">🎉 아홉 칸을 모두 채웠어요!</span>';
+    $('mxPool').querySelectorAll('button').forEach(b=>b.onclick=()=>{sel=+b.dataset.i; $('mxPool').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); $('mxMsg').textContent='이제 표에서 알맞은 칸을 눌러요.';});
+    let h='<tr><th></th>'+C.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+    R.forEach((r,ri)=>{h+=`<tr><th class="r">${r}</th>`+C.map((c,ci)=>{const i=S.findIndex(s=>s[0]===ri&&s[1]===ci); return filled[i]?`<td class="fill">${S[i][2]}</td>`:`<td data-r="${ri}" data-c="${ci}"></td>`;}).join('')+'</tr>';});
+    $('mxT').innerHTML=h;
+    $('mxT').querySelectorAll('td[data-r]').forEach(td=>td.onclick=()=>{
+      if(sel==null){$('mxMsg').textContent='먼저 위에서 말풍선을 하나 골라요.';return;}
+      const r=+td.dataset.r,c=+td.dataset.c,s=S[sel]; tries++;
+      if(s[0]===r&&s[1]===c){filled[sel]=1; sel=null; const n=Object.keys(filled).length; $('mxMsg').innerHTML=n===9?`<span class="ok">완성! ${tries}번 만에 아홉 칸을 채웠어요.</span>`:`<span class="ok">맞아요!</span> ${n} / 9`; draw();}
+      else{td.classList.add('bad'); setTimeout(()=>td.classList.remove('bad'),600);
+        $('mxMsg').innerHTML=s[0]===r?'<span class="ng">사람은 맞았어요.</span> 어떤 가치를 지키려는 말인지 다시 생각해 봐요.':s[1]===c?'<span class="ng">가치는 맞았어요.</span> 누가 하는 말인지 다시 생각해 봐요.':'<span class="ng">아쉬워요.</span> 누가, 어떤 가치를 위해 하는 말인지 다시 생각해 봐요.';}
+    });
+  }
+  $('mxReset').onclick=()=>{filled={};sel=null;tries=0;$('mxMsg').textContent='';draw();};
+  $('mxShow').onclick=()=>{S.forEach((_,i)=>filled[i]=1);sel=null;$('mxMsg').textContent='교과서 158쪽의 내용이에요.';draw();};
+  draw();
+})();
+
+/* 04 XAI 그림 */
+(function(){
+  const svg=$('xaiSvg');
+  const IMP=new Set(['1,1','1,2','4,1','4,2','2,2','3,2','2,3','3,3']);
+  function draw(explain){
+    svg.innerHTML='';
+    el('rect',{x:0,y:0,width:300,height:300,fill:'#cfe8f7'},svg);
+    el('rect',{x:0,y:220,width:300,height:80,fill:'#9ccf7f'},svg);
+    el('ellipse',{cx:150,cy:262,rx:80,ry:40,fill:'#c98a4b'},svg);
+    el('ellipse',{cx:82,cy:110,rx:26,ry:52,fill:'#7a4a22',transform:'rotate(18 82 110)'},svg);
+    el('ellipse',{cx:218,cy:110,rx:26,ry:52,fill:'#7a4a22',transform:'rotate(-18 218 110)'},svg);
+    el('circle',{cx:150,cy:155,r:78,fill:'#d9a066'},svg);
+    el('ellipse',{cx:150,cy:192,rx:40,ry:30,fill:'#f2d3ac'},svg);
+    el('circle',{cx:122,cy:140,r:9,fill:'#1d1d1d'},svg); el('circle',{cx:178,cy:140,r:9,fill:'#1d1d1d'},svg);
+    el('circle',{cx:125,cy:137,r:3,fill:'#fff'},svg); el('circle',{cx:181,cy:137,r:3,fill:'#fff'},svg);
+    el('ellipse',{cx:150,cy:178,rx:15,ry:11,fill:'#1d1d1d'},svg);
+    el('path',{d:'M150 189 Q150 205 136 207 M150 189 Q150 205 164 207',stroke:'#1d1d1d','stroke-width':3,fill:'none'},svg);
+    if(explain){
+      for(let c=0;c<6;c++)for(let r=0;r<6;r++){ if(!IMP.has(c+','+r)) el('rect',{x:c*50,y:r*50,width:50,height:50,fill:'#0f2742',opacity:.82},svg); }
+      for(let i=1;i<6;i++){el('line',{x1:i*50,y1:0,x2:i*50,y2:300,stroke:'#fff','stroke-opacity':.35},svg);el('line',{x1:0,y1:i*50,x2:300,y2:i*50,stroke:'#fff','stroke-opacity':.35},svg);}
+      $('xaiMsg').innerHTML='밝게 남은 조각(<b>귀, 눈, 코</b>)이 「강아지」라는 결과에 영향을 크게 준 부분이에요. 이렇게 근거를 보면 믿어도 될지, 틀렸다면 왜 틀렸는지 알 수 있어요.';
+    } else {
+      el('rect',{x:0,y:0,width:300,height:300,fill:'none'},svg);
+      $('xaiMsg').innerHTML='결과: <b>강아지</b> · 그런데 왜 강아지라고 했는지는 알 수 없어요. 코 때문일까, 귀 때문일까, 아니면 배경의 풀밭 때문일까?';
+    }
+  }
+  $('xaiA').onclick=()=>draw(false); $('xaiB').onclick=()=>draw(true); draw(false);
+})();
+
+/* 05 토론 */
+vote('cc2v','cc2pick',[['대중의 안전','범죄를 미리 막아 많은 사람을 지킨다'],['개인의 자유','잘못 의심받지 않고 감시받지 않을 권리']]);
+chips('futPick','futPick',['편향','윤리적 딜레마','사회적 책임'],true);
+
+/* 06 역량 Check */
+chips('capPick','capPick',['추상화 능력','자동화 능력','창의·융합 능력','디지털 의사소통·협업 능력','디지털 윤리 의식','디지털 기술 활용 능력','인공지능 문제 해결력','데이터 문해력','인공지능 윤리 의식'],true);
+
+/* 07 마무리 */
+const MEMOLIST=[['hosR','병원 사례 · 책임성'],['hosF','병원 사례 · 공정성'],['hosT','병원 사례 · 투명성'],['cc1','CCTV 기준이 편향되면'],['cc2pick','대중의 안전 vs 개인의 자유'],['cc2','그렇게 생각한 까닭'],['cc3r','CCTV · 책임성 방안'],['cc3f','CCTV · 공정성 방안'],['cc3t','CCTV · 투명성 방안'],['kq1','핵심 질문 1'],['kq2','핵심 질문 2'],['myRule','4단원에서 지킬 나의 원칙']];
+onShow[7]=()=>memoSummary('msum',MEMOLIST);
+
+/* 시작 */
+bindMemos();
+updScore();
+const h0=parseInt((location.hash.match(/^#p(\d+)$/)||[])[1],10);
+go(isNaN(h0)?0:h0);
+</script>
+</body>
+</html>
