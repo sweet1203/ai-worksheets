@@ -43,9 +43,9 @@ const UNITS = [
       { no: '13', title: '기계학습의 3가지 유형', pages: '74쪽', links: [['extra', '2-1-6 추가자료', E + '2-1-6.html'], ['extra', '알고리즘 지도(5개 비교)', A + 'ml-algorithms.html'], ['form', 'ai-12-2-1-4', F('ai-12-2-1-4')]] },
       { no: '(20)', skip: '코들 차시로 운영 안 함 · 노션 보관', title: 'k-최근접 이웃 알고리즘', pages: '75쪽', links: [['extra', '분류 모델 4가지 쉬운 가이드', A + 'classification-models-easy-guide.html'], ['form', 'ai-12-2-1-4-1', F('ai-12-2-1-4-1')]] },
       { no: '14', title: '모델 학습과 성능 평가', pages: '76~81쪽', links: [['extra', '2-1-7 추가자료', E + '2-1-7.html'], ['form', 'ai-13-2-1-5', F('ai-13-2-1-5')]] },
+      { no: '14-2', title: '모델 학습과 성능 평가(2) · AI 역량기르기', pages: '88~89쪽', links: [['extra', '2-1-7 추가자료', E + '2-1-7.html'], ['form', 'ai-14-2-1-6', F('ai-14-2-1-6')]] },
       { no: '15', title: '기계학습 알고리즘', pages: '82~85쪽', links: [['extra', '알고리즘 지도', A + 'ml-algorithms.html'], ['lab', '실습: 대출 승인 여부 분류', E + 'practice/loan-approval.html'], ['lab', '실습: 음악 취향 군집화', E + 'practice/music-cluster.html'], ['lab', '실습: 이상거래 탐지', E + 'practice/fraud-detection.html'], ['form', 'ai-13-2-1-5-1 (과제1 야구부)', F('ai-13-2-1-5-1')]] },
       { no: '15', title: '선형 회귀 알고리즘 실습', pages: '86~87쪽', links: [['lab', '실습: 운동 시간과 소모 칼로리 예측', E + 'practice/exercise-calories.html'], ['lab', '실습: 최고기온과 전력 소비량 예측', E + 'practice/temp-electricity.html'], ['form', 'ai-13-2-1-5-2 (과제2 붓꽃 선형회귀)', F('ai-13-2-1-5-2')]] },
-      { no: '(24)', title: 'AI 역량기르기', pages: '88~89쪽', skip: '수행평가① 실시 차시로 전환 · 노션 보관', links: [['form', 'ai-14-2-1-6', F('ai-14-2-1-6')]] },
       { no: '15-1·2', title: '수행평가 연습 · 1차 수행평가', pages: '', links: [['eval', '1차 수행평가 · 데이터 전처리와 모델 분석', A + 'assessment-lab.html'], ['eval', '수행평가 연습 · 붓꽃', A + 'iris_test.html'], ['eval', '수행평가 연습 · 타이타닉', A + 'titanic_test.html'], ['eval', '파이썬 실습 데모(붙여넣기 차단)', A + 'pylab-demo.html']] },
     ]
   },
