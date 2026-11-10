@@ -20,9 +20,10 @@ const UNITS = [
   {
     id: 'u1', n: 'Ⅰ', title: '인공지능의 이해', color: '#2f6fd0',
     lessons: [
-      { no: '01', title: '인공지능의 개념과 특성', pages: '16~19쪽', links: [['extra', '1-1-1 추가자료', E + '1-1-1.html'], ['form', 'ai-01-1-1-1', F('ai-01-1-1-1')]] },
-      { no: '02', title: '인공지능의 원리', pages: '20~23쪽', links: [['extra', '1-1-2 추가자료', E + '1-1-2.html'], ['form', 'ai-02-1-1-2', F('ai-02-1-1-2')]] },
-      { no: '03', title: '인공지능의 문제 해결', pages: '24~25쪽', links: [['extra', '1-1-2 추가자료', E + '1-1-2.html'], ['form', 'ai-02-1-1-2-1', F('ai-02-1-1-2-1')]] },
+      { no: '01', title: 'Ⅰ. 인공지능의 이해 도입', pages: '', links: [] },
+      { no: '02', title: '인공지능의 개념과 특성', pages: '16~19쪽', links: [['extra', '1-1-1 추가자료', E + '1-1-1.html'], ['form', 'ai-01-1-1-1', F('ai-01-1-1-1')]] },
+      { no: '03-1', title: '인공지능의 원리', pages: '20~23쪽', links: [['extra', '1-1-2 추가자료', E + '1-1-2.html'], ['form', 'ai-02-1-1-2', F('ai-02-1-1-2')]] },
+      { no: '03-2', title: '인공지능의 문제 해결', pages: '24~25쪽', links: [['extra', '1-1-2 추가자료', E + '1-1-2.html'], ['form', 'ai-02-1-1-2-1', F('ai-02-1-1-2-1')]] },
       { no: '04', title: 'AI 역량기르기', pages: '26~27쪽', links: [['form', 'ai-03-1-1-3', F('ai-03-1-1-3')]] },
       { no: '05', title: '탐색을 활용한 문제 해결 ① 맹목적 탐색', pages: '28~35쪽', links: [['extra', '1-2-1 추가자료', E + '1-2-1.html'], ['form', 'ai-04-1-2-1', F('ai-04-1-2-1')]] },
       { no: '06', title: '탐색을 활용한 문제 해결 ② 정보 이용 탐색', pages: '36~41쪽', links: [['course', '정보이용 탐색 알고리즘 슬라이드', E + 'info-search-lesson.html'], ['extra', '정리본: 언덕 등반·최상 우선·A*', Q + 'forms/ai-04-1-2-1-info-search-slides.html'], ['extra', '1-2-2 추가자료', E + '1-2-2.html'], ['form', 'ai-04-1-2-1-1', F('ai-04-1-2-1-1')]] },
@@ -43,10 +44,10 @@ const UNITS = [
       { no: '13', title: '기계학습의 3가지 유형', pages: '74쪽', links: [['extra', '2-1-6 추가자료', E + '2-1-6.html'], ['extra', '알고리즘 지도(5개 비교)', A + 'ml-algorithms.html'], ['form', 'ai-12-2-1-4', F('ai-12-2-1-4')]] },
       { no: '(20)', skip: '코들 차시로 운영 안 함 · 노션 보관', title: 'k-최근접 이웃 알고리즘', pages: '75쪽', links: [['extra', '분류 모델 4가지 쉬운 가이드', A + 'classification-models-easy-guide.html'], ['form', 'ai-12-2-1-4-1', F('ai-12-2-1-4-1')]] },
       { no: '14', title: '모델 학습과 성능 평가', pages: '76~81쪽', links: [['extra', '2-1-7 추가자료', E + '2-1-7.html'], ['form', 'ai-13-2-1-5', F('ai-13-2-1-5')]] },
-      { no: '14-2', title: '모델 학습과 성능 평가(2) · AI 역량기르기', pages: '88~89쪽', links: [['extra', '2-1-7 추가자료', E + '2-1-7.html'], ['form', 'ai-14-2-1-6', F('ai-14-2-1-6')]] },
+      { no: '(14-2)', skip: '코들에 만들었지만 배부 안 함 · 노션 보관', title: '모델 학습과 성능 평가(2) · AI 역량기르기', pages: '88~89쪽', links: [['old', 'ai-14-2-1-6', F('ai-14-2-1-6')]] },
       { no: '15', title: '기계학습 알고리즘', pages: '82~85쪽', links: [['extra', '알고리즘 지도', A + 'ml-algorithms.html'], ['lab', '실습: 대출 승인 여부 분류', E + 'practice/loan-approval.html'], ['lab', '실습: 음악 취향 군집화', E + 'practice/music-cluster.html'], ['lab', '실습: 이상거래 탐지', E + 'practice/fraud-detection.html'], ['form', 'ai-13-2-1-5-1 (과제1 야구부)', F('ai-13-2-1-5-1')]] },
       { no: '15', title: '선형 회귀 알고리즘 실습', pages: '86~87쪽', links: [['lab', '실습: 운동 시간과 소모 칼로리 예측', E + 'practice/exercise-calories.html'], ['lab', '실습: 최고기온과 전력 소비량 예측', E + 'practice/temp-electricity.html'], ['form', 'ai-13-2-1-5-2 (과제2 붓꽃 선형회귀)', F('ai-13-2-1-5-2')]] },
-      { no: '15-1·2', title: '수행평가 연습 · 1차 수행평가', pages: '', links: [['eval', '1차 수행평가 · 데이터 전처리와 모델 분석', A + 'assessment-lab.html'], ['eval', '수행평가 연습 · 붓꽃', A + 'iris_test.html'], ['eval', '수행평가 연습 · 타이타닉', A + 'titanic_test.html'], ['eval', '파이썬 실습 데모(붙여넣기 차단)', A + 'pylab-demo.html']] },
+      { no: '15-1~3', title: '수행평가 연습 1~3 (1차 수행)', pages: '', links: [['eval', '1차 수행평가 · 데이터 전처리와 모델 분석', A + 'assessment-lab.html'], ['eval', '수행평가 연습 · 붓꽃', A + 'iris_test.html'], ['eval', '수행평가 연습 · 타이타닉', A + 'titanic_test.html'], ['eval', '파이썬 실습 데모(붙여넣기 차단)', A + 'pylab-demo.html']] },
     ]
   },
   {
