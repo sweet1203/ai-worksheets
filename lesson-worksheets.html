@@ -47,6 +47,11 @@
   .small { font-size: 8.2pt; color: var(--muted); }
   .home { display: block; width: 210mm; margin: 8mm auto 0; color: var(--brand); font-weight: 700; text-decoration: none; }
   @media print { .home { display: none; } }
+  /* page-guard: 글자 선택·복사 막기 (입력 칸은 편집 가능) */
+  body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
+  .pg-toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:#0f2742;color:#fff;padding:9px 16px;border-radius:999px;font-size:.9rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transition:opacity .2s;pointer-events:none}
+  .pg-toast.on{opacity:1}
 </style>
 </head>
 <body>
@@ -373,5 +378,18 @@
   </div>
 </section>
 
+<script>
+/* page-guard: 복사·잘라내기·드래그·오른쪽 클릭 막기 (복사 버튼은 그대로 동작) */
+(function(){
+  var t=null, tm=null, MSG='수업 자료는 복사할 수 없어요. 내 말로 정리해 보세요.';
+  function say(){ if(!t){t=document.createElement('div');t.className='pg-toast';document.body.appendChild(t);} t.textContent=MSG; t.classList.add('on'); clearTimeout(tm); tm=setTimeout(function(){t.classList.remove('on');},1800); }
+  function inField(e){ return e.target && e.target.closest && e.target.closest('input,textarea,select,[contenteditable]'); }
+  ['copy','cut'].forEach(function(type){ document.addEventListener(type,function(e){ e.preventDefault(); say(); },true); });
+  document.addEventListener('contextmenu',function(e){ if(!inField(e)) e.preventDefault(); },true);
+  document.addEventListener('selectstart',function(e){ if(!inField(e)) e.preventDefault(); },true);
+  document.addEventListener('dragstart',function(e){ if(!inField(e)) e.preventDefault(); },true);
+  document.addEventListener('keydown',function(e){ var k=(e.key||'').toLowerCase(); if((e.ctrlKey||e.metaKey)&&(k==='c'||k==='x')){ e.preventDefault(); say(); } if((e.ctrlKey||e.metaKey)&&k==='a'&&!inField(e)) e.preventDefault(); },true);
+})();
+</script>
 </body>
 </html>
