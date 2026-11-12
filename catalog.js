@@ -80,8 +80,8 @@ const UNITS = [
     id: 'u4', n: 'Ⅳ', title: '인공지능 프로젝트', color: '#d64535',
     note: '수행평가② 전에 사전 수업 2차시(25 안내·문제 정의, 26 ML4Kids 과정 연습) → 수행평가 27·28 → 29 공통 마무리·현장 서술. 수업 시간에만 수행(활동지 걷기, 화면 캡처).',
     lessons: [
-      { no: '25', title: '수행평가 안내 · 문제 정의(SDGs)', pages: '170~177쪽', updated: '2026-11-12', links: [['eval', '2차 수행평가 안내(성취기준·채점표·진행 과정)', W + 'ml4kids-project/'], ['extra', '4-1-1 프로젝트 주제 선정', E + '4-1-1.html'], ['extra', '4-1-2 인공지능으로 해결할 수 있는 문제', E + '4-1-2.html'], ['form', 'ai-31-4-1-1 (질문 교체 예정)', F('ai-31-4-1-1')]] },
-      { no: '26', title: 'ML4Kids 프로젝트 과정 연습', pages: '178~189쪽', updated: '2026-11-10', links: [['extra', '4-1-3 프로젝트 계획 세우기', E + '4-1-3.html'], ['form', 'ai-32-4-1-2 (질문 교체 예정)', F('ai-32-4-1-2')]] },
+      { no: '25', title: '수행평가 안내 · 문제 정의(SDGs)', pages: '170~177쪽', updated: '2026-11-12', links: [['course', '수업 페이지', W + 'ai-project-start/'], ['eval', '2차 수행평가 안내', W + 'ml4kids-project/'], ['extra', '4-1-1 프로젝트 주제 선정', E + '4-1-1.html'], ['extra', '4-1-2 인공지능으로 해결할 수 있는 문제', E + '4-1-2.html'], ['form', 'ai-31-4-1-1', F('ai-31-4-1-1')]] },
+      { no: '26', title: 'ML4Kids 프로젝트 과정 연습', pages: '178~189쪽', updated: '2026-11-12', links: [['course', '수업 페이지', W + 'ml4kids-rehearsal/'], ['eval', '2차 수행평가 안내', W + 'ml4kids-project/'], ['extra', '4-1-3 프로젝트 계획 세우기', E + '4-1-3.html'], ['form', 'ai-32-4-1-2', F('ai-32-4-1-2')]] },
       { no: '27', title: '[수행②] ① 계획 · 데이터 · 학습 · 테스트', pages: '', updated: '2026-11-12', links: [['eval', '2차 수행평가 안내(성취기준·채점표·진행 과정)', W + 'ml4kids-project/']] },
       { no: '28', title: '[수행②] ② 개선 · 전후 비교 · 피드백 · Scratch', pages: '', updated: '2026-11-12', links: [['eval', '2차 수행평가 안내(성취기준·채점표·진행 과정)', W + 'ml4kids-project/']] },
       { no: '29', title: '[수행②] 마무리 · 제출 · 현장 서술', pages: '', updated: '2026-11-12', links: [['eval', '2차 수행평가 안내(성취기준·채점표·진행 과정)', W + 'ml4kids-project/']] },
