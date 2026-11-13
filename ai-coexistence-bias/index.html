@@ -294,6 +294,27 @@
   .mx td.bad{background:#fdecea}
   .mx th.r{white-space:nowrap}
   #mxPool button{border-radius:12px;text-align:left;max-width:100%}
+  /* 진도 보내기 */
+  .tr-gate{position:fixed;inset:0;z-index:200;background:rgba(15,39,66,.72);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px)}
+  .tr-card{background:#fff;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.3);padding:22px 22px 16px;width:100%;max-width:380px;display:flex;flex-direction:column;gap:10px}
+  .tr-card h2{margin:0;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.5rem;color:var(--navy)}
+  .tr-sub{margin:-4px 0 4px;color:var(--muted);font-size:.92rem}
+  .tr-cls{display:flex;gap:8px}
+  .tr-cls label{flex:1;cursor:pointer}
+  .tr-cls input{position:absolute;opacity:0;pointer-events:none}
+  .tr-cls span{display:block;text-align:center;padding:10px 0;border:2px solid var(--line);border-radius:12px;font-weight:900;font-size:1.05rem}
+  .tr-cls input:checked+span{border-color:var(--navy);background:var(--navy);color:#fff}
+  .tr-cls input:focus-visible+span{outline:3px solid var(--amber)}
+  .tr-f{display:flex;align-items:center;gap:10px}
+  .tr-f span{width:40px;font-weight:700}
+  .tr-f input{flex:1;min-width:0;font:inherit;font-size:1.05rem;padding:9px 12px;border:1px solid #c5ccd5;border-radius:10px}
+  .tr-err{color:var(--red);font-weight:700;font-size:.9rem;min-height:1.2em}
+  .tr-card .btn{padding:12px;font-size:1.05rem;background:var(--navy)}
+  .tr-note{margin:2px 0 0;color:var(--muted);font-size:.8rem;line-height:1.5;text-align:center}
+  .tr-who,.tr-badge{display:flex;align-items:center;gap:6px;font-size:.82rem;background:rgba(255,255,255,.12);border-radius:999px;padding:3px 4px 3px 12px;white-space:nowrap}
+  .tr-badge{padding:3px 12px;background:var(--amber);color:#111;font-weight:700}
+  .tr-who button{all:unset;cursor:pointer;font-size:.74rem;background:rgba(255,255,255,.18);border-radius:999px;padding:2px 9px}
+  .tr-who button:hover{background:rgba(255,255,255,.3)}
   /* page-guard: 글자 선택·복사 막기 (입력 칸은 편집 가능) */
   body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
@@ -581,6 +602,16 @@ const fmt=n=>n.toLocaleString('ko-KR');
 
 
 
+const LESSON='23', PEP='https://script.google.com/macros/s/AKfycbzxTRMQLvqJWHnVSZdl624HbQhcDPQDOMcK0calY9RpjQBvxp8CwcDeDypKctm5Gzotcw/exec';
+
+/* 진도 보내기 ①: 누가 쓰는지 확인 (반·학번마다 퀴즈·메모를 따로 저장) */
+const WHO=(function(){
+  if(!PEP) return {off:true,sfx:''};
+  if(/[?&]preview(=|&|$)/.test(location.search)) return {preview:true,sfx:'@preview'};
+  let w=null; try{w=JSON.parse(sessionStorage.getItem('aiw-who')||'null');}catch(e){}
+  if(!w||!/^\d{5}$/.test(w.no||'')) return {need:true,sfx:'@none'};
+  return {cls:w.cls,no:w.no,name:w.name,sfx:'@'+w.no};
+})();
 
 /* 퀴즈 */
 const QUIZ={
@@ -602,8 +633,8 @@ const QUIZ={
     {q:'챗봇이 혐오 발언을 하지 않게 하려고 교과서가 강조한 방법은?',o:['챗봇을 사람과 더 비슷하게 만든다','학습 데이터를 신중하게 검토하고 정제한다','대화 횟수를 늘린다'],a:1,w:'편향된 데이터를 학습하면 결과도 편향되므로, 학습 전에 데이터를 살피고 다듬어야 해요.'},
     {q:'킬러 로봇이 타깃으로 삼을 대상을 잘못 학습했을 때 생길 수 있는 문제는?',o:['특정 집단에 대한 무차별적 공격','배터리 소모','속도 저하'],a:0,w:'잘못된 목표를 공격하거나 오히려 위험에 빠질 수 있어 오용을 걱정하는 목소리가 커요.'}],
 };
-const QK='u3b-quiz-v1';
-const MK='u3b-memo-v1';
+const QK='u3b-quiz-v1'+WHO.sfx;
+const MK='u3b-memo-v1'+WHO.sfx;
 
 let QS={}; try{QS=JSON.parse(localStorage.getItem(QK)||'{}')||{};}catch(e){QS={};}
 function saveQ(){try{localStorage.setItem(QK,JSON.stringify(QS));}catch(e){}}
@@ -844,6 +875,91 @@ vote('av2','av2',[['운전자의 안전이 중요하다','차는 타고 있는 �
 /* 07 마무리 */
 const MEMOLIST=[['coRole','공존 속에서 내가 맡고 싶은 역할'],['chat1','편향이 사회 문제가 되는 이유'],['chat2','챗봇 편향의 이유와 줄이는 방법'],['tr1','사례 1 내 선택'],['tr2','사례 2 내 선택'],['trWhy','두 사례에서 내 선택의 까닭'],['av1','사례 3 내 선택'],['avQPick','가장 중요하다고 본 질문'],['av2','보행자 딜레마 내 입장'],['avWhy','내 근거 두 가지'],['avRebut','반대 의견과 내 대답'],['avWho','기준은 누가 정해야 할까']];
 onShow[7]=()=>memoSummary('msum',MEMOLIST);
+
+/* 진도 보내기 ②: 화면 이동·퀴즈·메모·창 이탈을 선생님 시트로 */
+(function(){
+  if(WHO.off) return;
+  const box=document.createElement('div');
+  if(WHO.preview){ box.className='tr-badge'; box.textContent='미리보기 · 진도 전송 안 함'; (document.querySelector('.top')||document.body).appendChild(box); return; }
+
+  if(WHO.need){
+    let last={}; try{last=JSON.parse(localStorage.getItem('aiw-last')||'{}')||{};}catch(e){}
+    box.className='tr-gate';
+    box.innerHTML=`<form class="tr-card" autocomplete="off">
+      <h2>수업 시작 전에</h2>
+      <p class="tr-sub">반 · 학번 · 이름을 확인해 주세요.</p>
+      <div class="tr-cls">${['인C','인F','인G'].map(c=>`<label><input type="radio" name="cls" value="${c}" ${last.cls===c?'checked':''}><span>${c}</span></label>`).join('')}</div>
+      <label class="tr-f"><span>학번</span><input name="no" inputmode="numeric" maxlength="5" placeholder="예: 20101" value="${esc(last.no||'')}"></label>
+      <label class="tr-f"><span>이름</span><input name="name" maxlength="10" placeholder="이름" value="${esc(last.name||'')}"></label>
+      <div class="tr-err"></div>
+      <button class="btn" type="submit">시작하기 →</button>
+      <p class="tr-note">어느 화면까지 왔는지, 퀴즈와 메모가 선생님께 전달돼요.<br>다른 친구 이름으로 들어가지 마세요.</p>
+    </form>`;
+    document.body.appendChild(box);
+    const f=box.querySelector('form'), err=box.querySelector('.tr-err');
+    f.no.addEventListener('input',()=>{f.no.value=f.no.value.replace(/\D/g,'').slice(0,5);});
+    f.onsubmit=e=>{
+      e.preventDefault();
+      const cls=(f.querySelector('input[name=cls]:checked')||{}).value, no=f.no.value.trim(), name=f.name.value.replace(/\s+/g,'').trim();
+      if(!cls){err.textContent='반을 골라 주세요.';return;}
+      if(!/^\d{5}$/.test(no)){err.textContent='학번 다섯 자리를 숫자로 써 주세요.';f.no.focus();return;}
+      if(name.length<2){err.textContent='이름을 써 주세요.';f.name.focus();return;}
+      const w={cls,no,name};
+      try{sessionStorage.setItem('aiw-who',JSON.stringify(w)); localStorage.setItem('aiw-last',JSON.stringify(w));}catch(e){}
+      location.reload();
+    };
+    setTimeout(()=>{ (f.querySelector('input[name=cls]:checked')?(f.no.value?f.querySelector('button'):f.no):f.querySelector('input[name=cls]')).focus(); },50);
+    return;
+  }
+
+  /* 이름 표시 + 바꾸기 */
+  box.className='tr-who';
+  box.innerHTML=`<span>${esc(WHO.cls)} ${esc(WHO.no)} <b>${esc(WHO.name)}</b></span><button type="button" title="다른 학생으로 바꾸기">바꾸기</button>`;
+  (document.querySelector('.top')||document.body).appendChild(box);
+  box.querySelector('button').onclick=()=>{ if(confirm('다른 학생으로 바꿀까요? (지금까지 한 것은 이 학번으로 저장돼 있어요)')){ try{sessionStorage.removeItem('aiw-who');}catch(e){} location.reload(); } };
+
+  const SK=QK+'-seen', AK=QK+'-away';
+  const seen=new Set(store.get(SK,[]));
+  const A=store.get(AK,{n:0,s:0});
+  let awayAt=null, lastAct=Date.now(), sent=0, lastSent=0, tmr=null, dirty=false;
+
+  function snap(){
+    let ok=0, done=0;
+    for(const k in QUIZ) QUIZ[k].forEach((it,i)=>{const v=QS[k+'-'+i]; if(v!=null){done++; if(v===it.a) ok++;}});
+    const ML=(typeof MEMOLIST!=='undefined')?MEMOLIST:[];
+    return {op:'put',lesson:LESSON,title:document.title,cls:WHO.cls,no:WHO.no,name:WHO.name,
+      scr:cur,names:pages.map((p,i)=>i?p.dataset.name:'시작'),seen:[...seen].sort((a,b)=>a-b),
+      qOk:ok,qDone:done,qTot:TOTALQ,
+      memo:ML.map(([k,l])=>[l,String(MEMO[k]==null?'':MEMO[k]).slice(0,1500)]),
+      away:awayAt?1:0,leaves:A.n,awaySec:Math.round(A.s+(awayAt?(Date.now()-awayAt)/1000:0)),idle:Math.round((Date.now()-lastAct)/1000),n:++sent};
+  }
+  function flush(){
+    if(!dirty) return; dirty=false; lastSent=Date.now();
+    const body=JSON.stringify(snap());
+    try{ if(navigator.sendBeacon && navigator.sendBeacon(PEP,new Blob([body],{type:'text/plain'}))) return; }catch(e){}
+    try{ fetch(PEP,{method:'POST',mode:'no-cors',body,keepalive:true}).catch(()=>{}); }catch(e){}
+  }
+  /* 너무 자주 보내지 않기: 보통 15초, 창 이탈·복귀는 3초 간격 */
+  function send(urgent){
+    dirty=true; clearTimeout(tmr);
+    const gap=urgent?3000:15000, wait=Math.max(0,gap-(Date.now()-lastSent));
+    tmr=setTimeout(flush,wait);
+  }
+
+  const _go=go; go=function(i){ _go(i); if(!seen.has(cur)){seen.add(cur); store.set(SK,[...seen]);} send(true); };
+  const _upd=updScore; updScore=function(){ _upd(); send(); };
+  const _set=store.set; store.set=function(k,v){ _set(k,v); if(k===MK) send(); };
+
+  function leave(){ if(awayAt) return; awayAt=Date.now(); A.n++; _set(AK,A); send(true); }
+  function back(){ if(!awayAt) return; A.s+=(Date.now()-awayAt)/1000; awayAt=null; _set(AK,A); send(true); }
+  document.addEventListener('visibilitychange',()=>{ document.hidden?leave():(document.hasFocus()&&back()); });
+  window.addEventListener('blur',()=>setTimeout(()=>{ if(!document.hasFocus()) leave(); },300));
+  window.addEventListener('focus',back);
+  window.addEventListener('pagehide',()=>{ dirty=true; flush(); });
+  ['pointerdown','keydown','input','wheel','touchstart'].forEach(t=>document.addEventListener(t,()=>{lastAct=Date.now();},{capture:true,passive:true}));
+  /* 화면에 머물러 있으면 2분마다 한 번 신호 */
+  setInterval(()=>{ if(!document.hidden) send(); },120000);
+})();
 
 /* 시작 */
 bindMemos();

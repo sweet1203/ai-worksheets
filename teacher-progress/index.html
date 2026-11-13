@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>수업 진도 현황</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#16202c;--muted:#5b6776;--paper:#f3efe7;--line:#e3ddd2;--navy:#0f2742;--amber:#f2a516;--red:#d64535;--mint:#1f9d74;--blue:#2f6fd0;--grey:#a3abb6}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.5}
+  header{background:var(--navy);color:#fff;padding:14px 20px}
+  .wrap{max-width:1280px;margin:0 auto}
+  header .wrap{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  header h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.6rem;margin:0;line-height:1.2}
+  header a{color:#c8d6e8;font-size:.86rem;text-decoration:none}
+  header .sp{flex:1}
+  header .upd{font-size:.82rem;color:#c8d6e8}
+  .tools{position:sticky;top:0;z-index:5;background:rgba(243,239,231,.97);border-bottom:1px solid var(--line);padding:10px 20px}
+  .tools .wrap{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  select,button,input{font:inherit}
+  select{padding:6px 10px;border:1px solid #c5ccd5;border-radius:10px;background:#fff}
+  .seg{display:flex;gap:4px;flex-wrap:wrap}
+  .seg button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:3px 12px;cursor:pointer;color:var(--ink);font-size:.9rem}
+  .seg button.on{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700}
+  .btn{border:0;border-radius:10px;padding:7px 14px;font-weight:700;cursor:pointer;background:var(--navy);color:#fff}
+  .btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+  .tg{font-size:.86rem;color:var(--muted);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none}
+  main{padding:14px 20px 60px}
+  .msg{background:#fff4d6;border-radius:12px;padding:10px 14px;margin-bottom:12px;color:#7a4d00}
+  .msg.err{background:#fde8e6;color:#9b2a1e}
+  .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
+  @media (max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
+  .card{background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(15,39,66,.07);padding:10px 14px}
+  .card small{display:block;color:var(--muted);font-size:.8rem}
+  .card b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.7rem;line-height:1.2}
+  .card b.warn{color:var(--red)}
+  .card span{color:var(--muted);font-size:.82rem;margin-left:4px}
+  .dist{background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(15,39,66,.07);padding:10px 14px;margin-bottom:12px}
+  .dist h2{font-size:.92rem;margin:0 0 6px}
+  .bars{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;padding-bottom:2px}
+  .bar{flex:1;min-width:58px;text-align:center;font-size:.76rem;color:var(--muted)}
+  .bar i{display:block;background:var(--blue);border-radius:6px 6px 0 0;margin:0 auto 3px;width:70%;min-height:2px;transition:height .3s}
+  .bar b{display:block;color:var(--ink);font-size:.9rem}
+  .bar em{font-style:normal;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tw{background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(15,39,66,.07);overflow-x:auto}
+  table{border-collapse:collapse;width:100%;min-width:900px}
+  td.tg2{max-width:190px}
+  th,td{padding:7px 9px;border-bottom:1px solid #eee9df;text-align:left;font-size:.88rem;vertical-align:middle}
+  th{background:#fbfaf7;font-size:.8rem;color:var(--muted);font-weight:700;position:sticky;top:0}
+  tr.row{cursor:pointer}
+  tr.row:hover td{background:#f8f6f1}
+  tr.off td{color:var(--grey)}
+  tr.none td{color:var(--grey);background:#fbfaf7;cursor:default}
+  td.nm b{font-size:.95rem}
+  td.nm small{color:var(--muted);margin-left:4px}
+  .sq{display:flex;gap:2px}
+  .sq i{width:16px;height:16px;border-radius:4px;background:#eceae4;font-style:normal;font-size:.62rem;display:flex;align-items:center;justify-content:center;color:transparent}
+  .sq i.s{background:#b9d0f3}
+  .sq i.c{background:var(--blue);color:#fff;font-weight:900}
+  .q b{font-variant-numeric:tabular-nums}
+  .q small{color:var(--muted)}
+  .meter{height:5px;background:#eceae4;border-radius:3px;margin-top:3px;width:80px;overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--mint)}
+  .tag{display:inline-block;border-radius:999px;padding:0 8px;font-size:.76rem;font-weight:700;margin:1px 2px 1px 0;white-space:nowrap}
+  .t-away{background:#fde8e6;color:#b3261e}
+  .t-idle{background:#fff1cc;color:#8a5a00}
+  .t-off{background:#eef0f3;color:#5b6776}
+  .t-short{background:#efe6fb;color:#6b3fa0}
+  .t-dup{background:#fde8e6;color:#b3261e}
+  .t-ok{background:#e3f4ec;color:#17694f}
+  .ago{font-variant-numeric:tabular-nums;white-space:nowrap}
+  dialog{border:0;border-radius:16px;padding:0;width:min(720px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  dialog::backdrop{background:rgba(15,39,66,.5)}
+  .dh{background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:8px}
+  .dh h3{margin:0;font-size:1.1rem;flex:1}
+  .dh button{all:unset;cursor:pointer;font-size:1.3rem;padding:0 4px}
+  .db{padding:14px 16px;max-height:70vh;overflow:auto}
+  .db dl{margin:0}
+  .db dt{font-weight:700;font-size:.86rem;color:var(--muted);margin-top:10px}
+  .db dd{margin:3px 0 0;background:#fbfaf7;border-radius:10px;padding:8px 10px;white-space:pre-wrap;word-break:break-word}
+  .db dd.e{color:var(--grey);font-style:italic}
+  .db .info{display:flex;gap:6px;flex-wrap:wrap;font-size:.84rem;color:var(--muted)}
+  .gate{max-width:420px;margin:40px auto;background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(15,39,66,.1);padding:20px}
+  .gate h2{margin:0 0 6px;font-size:1.1rem}
+  .gate p{margin:0 0 10px;color:var(--muted);font-size:.9rem}
+  .gate form{display:flex;gap:8px}
+  .gate input{flex:1;min-width:0;padding:8px 12px;border:1px solid #c5ccd5;border-radius:10px}
+  .help{color:var(--muted);font-size:.82rem;margin-top:14px;line-height:1.7}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>📈 수업 진도 현황</h1>
+  <a href="../">← 수업 자료 목록</a>
+  <span class="sp"></span>
+  <span class="upd" id="upd"></span>
+</div></header>
+
+<div class="tools" id="tools" hidden><div class="wrap">
+  <select id="lesson"></select>
+  <div class="seg" id="cls"></div>
+  <select id="sort">
+    <option value="no">학번순</option>
+    <option value="slow">진도 느린 순</option>
+    <option value="idle">오래 멈춘 순</option>
+    <option value="quiz">퀴즈 낮은 순</option>
+  </select>
+  <label class="tg"><input type="checkbox" id="onlyFlag"> 확인 필요만</label>
+  <span style="flex:1"></span>
+  <label class="tg"><input type="checkbox" id="auto" checked> 15초마다 새로고침</label>
+  <button class="btn" id="reload">새로고침</button>
+  <button class="btn ghost" id="logout" title="이 컴퓨터에 저장한 교사 코드 지우기">코드 지우기</button>
+</div></div>
+
+<main><div class="wrap">
+  <div id="gate" class="gate" hidden>
+    <h2>교사 코드</h2>
+    <p>진도 수집 시트의 「📈 진도 현황 → 교사 코드 정하기」에서 정한 코드를 넣으세요. 이 컴퓨터에만 기억합니다.</p>
+    <form id="gf"><input id="gc" type="password" autocomplete="off" placeholder="교사 코드"><button class="btn">열기</button></form>
+    <div id="gerr" class="msg err" style="margin-top:10px" hidden></div>
+  </div>
+  <div id="view" hidden>
+    <div id="note"></div>
+    <div class="cards" id="cards"></div>
+    <div class="dist"><h2>지금 보고 있는 화면</h2><div class="bars" id="bars"></div></div>
+    <div class="tw"><table><thead><tr>
+      <th>반</th><th>학생</th><th>확인할 점</th><th>화면 진행</th><th>퀴즈</th><th>메모</th><th>창 이탈</th><th>마지막 조작</th>
+    </tr></thead><tbody id="tb"></tbody></table></div>
+    <p class="help">
+      · <b>화면 진행</b>: 연한 칸은 본 화면, 진한 칸은 지금 보는 화면 · <b>메모</b>: 쓴 칸 / 전체 칸, 글자 수<br>
+      · <b>다른 창</b>: 지금 수업 페이지를 떠나 다른 탭·창에 있음 · <b>멈춤</b>: 3분 넘게 아무 조작이 없음 · <b>닫음</b>: 4분 넘게 신호가 없음(페이지를 닫았거나 절전)<br>
+      · 학생 줄을 누르면 쓴 메모 전체를 볼 수 있습니다. 학생 이름은 학생이 직접 입력한 것이라 명단과 다르면 <b>명단과 다름</b>으로 표시합니다.
+    </p>
+  </div>
+</div></main>
+
+<dialog id="dlg"><div class="dh"><h3 id="dt"></h3><button id="dx" aria-label="닫기">✕</button></div><div class="db" id="dbody"></div></dialog>
+
+<script>
+const PEP='https://script.google.com/macros/s/AKfycbzxTRMQLvqJWHnVSZdl624HbQhcDPQDOMcK0calY9RpjQBvxp8CwcDeDypKctm5Gzotcw/exec';
+const LESSONS=[['22','인공지능과 사회 변화 · 진로'],['23','인간과 인공지능의 공존 · 편향과 딜레마'],['24','사회적 책임 · 3단원 정리'],['25','수행평가 안내 · 문제 정의'],['26','ML4Kids 프로젝트 과정 연습']];
+const CLS=['전체','인C','인F','인G'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:v;}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,v);}catch(e){}},del(k){try{localStorage.removeItem(k);}catch(e){}}};
+let code=ls.get('tp-code',''), lesson=ls.get('tp-lesson','22'), cls=ls.get('tp-cls','전체'), DATA=null, timer=null, busy=false;
+
+$('lesson').innerHTML=LESSONS.map(([n,t])=>`<option value="${n}">${n}차시 · ${t}</option>`).join('');
+$('lesson').value=lesson;
+$('cls').innerHTML=CLS.map(c=>`<button data-c="${c}">${c}</button>`).join('');
+const drawCls=()=>$('cls').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.c===cls));
+drawCls();
+$('cls').onclick=e=>{const b=e.target.closest('button'); if(!b) return; cls=b.dataset.c; ls.set('tp-cls',cls); drawCls(); load();};
+$('lesson').onchange=()=>{lesson=$('lesson').value; ls.set('tp-lesson',lesson); load();};
+$('sort').value=ls.get('tp-sort','no');
+$('sort').onchange=()=>{ls.set('tp-sort',$('sort').value); render();};
+$('onlyFlag').onchange=render;
+$('reload').onclick=()=>load();
+$('auto').onchange=sched;
+$('logout').onclick=()=>{ls.del('tp-code'); code=''; showGate();};
+$('gf').onsubmit=e=>{e.preventDefault(); code=$('gc').value.trim(); if(!code) return; load(true);};
+$('dx').onclick=()=>$('dlg').close();
+$('dlg').addEventListener('click',e=>{if(e.target===$('dlg')) $('dlg').close();});
+
+function showGate(msg){ $('tools').hidden=true; $('view').hidden=true; $('gate').hidden=false; $('gerr').hidden=!msg; $('gerr').textContent=msg||''; $('gc').value=''; $('gc').focus(); clearTimeout(timer); }
+function sched(){ clearTimeout(timer); if($('auto').checked && code) timer=setTimeout(()=>load(),15000); }
+
+async function load(fromGate){
+  if(!PEP||PEP.startsWith('__')){ $('gate').hidden=false; $('gerr').hidden=false; $('gerr').textContent='진도 수집 주소가 아직 연결되지 않았습니다.'; return; }
+  if(!code){ showGate(); return; }
+  if(busy) return; busy=true; $('upd').textContent='불러오는 중…';
+  try{
+    const r=await fetch(PEP,{method:'POST',body:JSON.stringify({op:'read',code,lesson,cls:cls==='전체'?'':cls})});
+    const d=await r.json();
+    if(!d.ok){
+      if(d.err==='code'||d.err==='nocode'){ ls.del('tp-code'); code=''; showGate(d.err==='code'?'교사 코드가 맞지 않습니다.':'시트에서 교사 코드를 먼저 정해 주세요.'); return; }
+      throw new Error(d.err);
+    }
+    if(fromGate) ls.set('tp-code',code);
+    DATA=d; $('gate').hidden=true; $('tools').hidden=false; $('view').hidden=false;
+    $('upd').textContent=new Date().toLocaleTimeString('ko-KR')+' 기준';
+    render();
+  }catch(e){
+    $('upd').textContent='불러오지 못함 · 잠시 뒤 다시 시도';
+    if(fromGate) showGate('불러오지 못했습니다. 인터넷 연결을 확인해 주세요.');
+  }finally{ busy=false; sched(); }
+}
+
+const fmtAgo=s=>s<60?`${Math.round(s)}초`:s<3600?`${Math.floor(s/60)}분`:`${Math.floor(s/3600)}시간`;
+function status(r,now){
+  const since=(now-r.last)/1000, off=since>240, inactive=(Number(r.idle)||0)+since;
+  const memo=r.memo||[], filled=memo.filter(m=>String(m[1]).trim()), short=filled.filter(m=>String(m[1]).trim().length<10);
+  const chars=filled.reduce((a,m)=>a+String(m[1]).trim().length,0);
+  const tags=[];
+  if(off) tags.push(['off','닫음']);
+  else{ if(r.away) tags.push(['away','다른 창']); else if(inactive>180) tags.push(['idle','멈춤 '+fmtAgo(inactive)]); }
+  if(short.length) tags.push(['short',`짧은 메모 ${short.length}`]);
+  return {since,off,inactive,filled:filled.length,total:memo.length,chars,short:short.length,tags};
+}
+
+function render(){
+  if(!DATA) return;
+  const now=DATA.now, rows=DATA.rows.map(r=>({...r,st:status(r,now)}));
+  const names=(rows.find(r=>r.names&&r.names.length>1)||{}).names||[];
+  const N=names.length;
+  /* 명단과 대조 */
+  const dupNo={}; rows.forEach(r=>dupNo[r.no]=(dupNo[r.no]||0)+1);
+  const rosterKey=new Map((DATA.roster||[]).map(s=>[s.no,s]));
+  rows.forEach(r=>{
+    if(dupNo[r.no]>1) r.st.tags.push(['dup','학번 중복']);
+    const s=rosterKey.get(r.no);
+    if(rosterKey.size && (!s||s.name!==r.name||s.cls!==r.cls)) r.st.tags.push(['dup','명단과 다름'+(s?` (${s.cls} ${s.name})`:'')]);
+  });
+  const seenNo=new Set(rows.map(r=>r.no));
+  const missing=(DATA.roster||[]).filter(s=>!seenNo.has(s.no));
+  /* 요약 */
+  const on=rows.filter(r=>!r.st.off), away=on.filter(r=>r.away).length, idle=on.filter(r=>!r.away&&r.st.inactive>180).length;
+  const qAvg=rows.length?Math.round(rows.reduce((a,r)=>a+(r.qTot?r.qOk/r.qTot:0),0)/rows.length*100):0;
+  const qDoneAvg=rows.length?Math.round(rows.reduce((a,r)=>a+(r.qTot?r.qDone/r.qTot:0),0)/rows.length*100):0;
+  const mAvg=rows.length?(rows.reduce((a,r)=>a+r.st.filled,0)/rows.length).toFixed(1):'0';
+  const mTot=rows.length?Math.max(...rows.map(r=>r.st.total)):0;
+  $('cards').innerHTML=[
+    ['접속',`${on.length}`,DATA.roster&&DATA.roster.length?`/ 명단 ${DATA.roster.length}명`:'명'],
+    ['지금 다른 창',away,'명',away?'warn':''],
+    ['3분 넘게 멈춤',idle,'명',idle?'warn':''],
+    ['퀴즈 정답률(전체 문항 기준)',qAvg+'%',`푼 비율 ${qDoneAvg}%`],
+    ['메모 평균',mAvg,`/ ${mTot}칸`]
+  ].map(([t,v,s,c])=>`<div class="card"><small>${t}</small><b class="${c||''}">${v}</b><span>${s}</span></div>`).join('');
+  /* 화면별 인원 */
+  const cnt=Array(N).fill(0); on.forEach(r=>{if(r.scr<N) cnt[r.scr]++;});
+  const mx=Math.max(1,...cnt);
+  $('bars').innerHTML=N?names.map((n,i)=>`<div class="bar" title="${esc(n)}"><b>${cnt[i]}</b><i style="height:${Math.round(cnt[i]/mx*54)}px"></i><em>${i}. ${esc(n)}</em></div>`).join(''):'<span class="muted">아직 접속한 학생이 없습니다.</span>';
+  $('note').innerHTML=rows.length||missing.length?'':`<div class="msg">이 차시에 들어온 기록이 아직 없습니다. 학생이 수업 페이지에서 반·학번·이름을 넣고 시작하면 여기에 나타납니다.</div>`;
+  /* 정렬 */
+  const sort=$('sort').value;
+  const by={no:(a,b)=>a.cls.localeCompare(b.cls)||a.no.localeCompare(b.no),
+    slow:(a,b)=>(a.seen.length-b.seen.length)||(a.scr-b.scr),
+    idle:(a,b)=>(b.st.off?-1:b.st.inactive)-(a.st.off?-1:a.st.inactive),
+    quiz:(a,b)=>(a.qTot?a.qOk/a.qTot:0)-(b.qTot?b.qOk/b.qTot:0)}[sort];
+  let list=rows.slice().sort(by);
+  if($('onlyFlag').checked) list=list.filter(r=>r.st.tags.length);
+  const sq=r=>`<div class="sq">${names.map((n,i)=>i?`<i class="${i===r.scr?'c':r.seen.includes(i)?'s':''}" title="${i}. ${esc(n)}">${i}</i>`:'').join('')}</div>`;
+  $('tb').innerHTML=list.map((r,ix)=>`<tr class="row ${r.st.off?'off':''}" data-i="${DATA.rows.indexOf(DATA.rows.find(x=>x.no===r.no&&x.name===r.name))}">
+    <td>${esc(r.cls)}</td>
+    <td class="nm"><b>${esc(r.name)}</b><small>${esc(r.no)}</small></td>
+    <td class="tg2">${r.st.tags.map(([k,t])=>`<span class="tag t-${k}">${esc(t)}</span>`).join('')||'<span class="tag t-ok">좋음</span>'}</td>
+    <td>${sq(r)}</td>
+    <td class="q"><b>${r.qOk}</b><small> / 푼 ${r.qDone} · 전체 ${r.qTot}</small><div class="meter"><i style="width:${r.qTot?Math.round(r.qDone/r.qTot*100):0}%"></i></div></td>
+    <td>${r.st.filled} / ${r.st.total}칸 <small style="color:var(--muted)">${r.st.chars}자</small></td>
+    <td>${r.leaves?`${r.leaves}회 · ${fmtAgo(r.awaySec)}`:'<span style="color:var(--grey)">없음</span>'}</td>
+    <td class="ago">${r.st.off?fmtAgo(r.st.since)+' 전 신호':fmtAgo(r.st.inactive)+' 전'}</td>
+  </tr>`).join('')+($('onlyFlag').checked?'':missing.map(s=>`<tr class="none"><td>${esc(s.cls)}</td><td class="nm"><b>${esc(s.name)}</b><small>${esc(s.no)}</small></td><td colspan="6">아직 들어오지 않음</td></tr>`).join(''));
+  $('tb').querySelectorAll('tr.row').forEach(tr=>tr.onclick=()=>detail(DATA.rows[+tr.dataset.i]));
+}
+
+function detail(r){
+  if(!r) return;
+  const st=status(r,DATA.now);
+  $('dt').textContent=`${r.cls} ${r.no} ${r.name}`;
+  const names=r.names||[];
+  $('dbody').innerHTML=`<div class="info">
+      <span class="tag t-ok">지금 ${r.scr}. ${esc(names[r.scr]||'')}</span>
+      <span class="tag t-ok">퀴즈 ${r.qOk} / ${r.qTot} (푼 ${r.qDone})</span>
+      <span class="tag t-ok">메모 ${st.filled}/${st.total}칸 · ${st.chars}자</span>
+      ${r.leaves?`<span class="tag t-away">창 이탈 ${r.leaves}회 · ${fmtAgo(r.awaySec)}</span>`:''}
+      <span class="tag t-off">처음 접속 ${r.first?new Date(r.first).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'-'}</span>
+    </div>
+    <dl>${(r.memo||[]).map(([l,v])=>`<dt>${esc(l)}</dt><dd class="${String(v).trim()?'':'e'}">${String(v).trim()?esc(v):'(아직 안 씀)'}</dd>`).join('')||'<dd class="e">이 차시에는 메모 칸이 없습니다.</dd>'}</dl>`;
+  $('dlg').showModal();
+}
+
+if(code) load(); else showGate();
+</script>
+</body>
+</html>

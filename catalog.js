@@ -101,6 +101,7 @@ const COMMON = [
   ['extra', '차시별 추가 정리자료 허브', A + 'index.html'],
   ['extra', '추가자료 HTML 모음', E + 'index.html'],
   ['extra', '쉬운 설명 정리본 목록', Q + 'summary-index.html'],
+  ['eval', '📈 수업 진도 현황(교사용)', W + 'teacher-progress/'],
   ['eval', '2차 수행평가 안내', W + 'ml4kids-project/'],
   ['eval', '수행평가 연습(타이타닉·붓꽃) 사이트', 'https://sweet1203.github.io/ai-practice-lab/'],
   ['extra', '질문폼 사이트 첫 화면', Q],
