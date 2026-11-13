@@ -315,6 +315,8 @@
   .tr-badge{padding:3px 12px;background:var(--amber);color:#111;font-weight:700}
   .tr-who button{all:unset;cursor:pointer;font-size:.74rem;background:rgba(255,255,255,.18);border-radius:999px;padding:2px 9px}
   .tr-who button:hover{background:rgba(255,255,255,.3)}
+  .tr-cls[hidden]{display:none}
+  .tr-badge button{all:unset;cursor:pointer;font-size:.74rem;background:rgba(0,0,0,.14);border-radius:999px;padding:2px 9px;margin-left:6px}
   /* page-guard: 글자 선택·복사 막기 (입력 칸은 편집 가능) */
   body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
@@ -578,6 +580,7 @@ const WHO=(function(){
   if(!PEP) return {off:true,sfx:''};
   if(/[?&]preview(=|&|$)/.test(location.search)) return {preview:true,sfx:'@preview'};
   let w=null; try{w=JSON.parse(sessionStorage.getItem('aiw-who')||'null');}catch(e){}
+  if(w&&w.teacher) return {preview:true,teacher:true,sfx:'@preview'};
   if(!w||!/^\d{5}$/.test(w.no||'')) return {need:true,sfx:'@none'};
   return {cls:w.cls,no:w.no,name:w.name,sfx:'@'+w.no};
 })();
@@ -817,35 +820,58 @@ onShow[6]=()=>memoSummary('msum',MEMOLIST);
 (function(){
   if(WHO.off) return;
   const box=document.createElement('div');
-  if(WHO.preview){ box.className='tr-badge'; box.textContent='미리보기 · 진도 전송 안 함'; (document.querySelector('.top')||document.body).appendChild(box); return; }
+  if(WHO.preview){
+    box.className='tr-badge';
+    box.innerHTML=WHO.teacher?'교사 모드 · 전송 안 함 <button type="button">끝내기</button>':'미리보기 · 진도 전송 안 함';
+    (document.querySelector('.top')||document.body).appendChild(box);
+    const b=box.querySelector('button'); if(b) b.onclick=()=>{ try{sessionStorage.removeItem('aiw-who');}catch(e){} location.reload(); };
+    return;
+  }
 
   if(WHO.need){
     let last={}; try{last=JSON.parse(localStorage.getItem('aiw-last')||'{}')||{};}catch(e){}
     box.className='tr-gate';
     box.innerHTML=`<form class="tr-card" autocomplete="off">
       <h2>수업 시작 전에</h2>
-      <p class="tr-sub">반 · 학번 · 이름을 확인해 주세요.</p>
-      <div class="tr-cls">${['인C','인F','인G'].map(c=>`<label><input type="radio" name="cls" value="${c}" ${last.cls===c?'checked':''}><span>${c}</span></label>`).join('')}</div>
+      <p class="tr-sub">학번과 이름을 써 주세요.</p>
       <label class="tr-f"><span>학번</span><input name="no" inputmode="numeric" maxlength="5" placeholder="예: 20101" value="${esc(last.no||'')}"></label>
       <label class="tr-f"><span>이름</span><input name="name" maxlength="10" placeholder="이름" value="${esc(last.name||'')}"></label>
+      <div class="tr-cls" hidden>${['인C','인F','인G'].map(c=>`<label><input type="radio" name="cls" value="${c}"><span>${c}</span></label>`).join('')}</div>
       <div class="tr-err"></div>
       <button class="btn" type="submit">시작하기 →</button>
       <p class="tr-note">어느 화면까지 왔는지, 퀴즈와 메모가 선생님께 전달돼요.<br>다른 친구 이름으로 들어가지 마세요.</p>
     </form>`;
     document.body.appendChild(box);
-    const f=box.querySelector('form'), err=box.querySelector('.tr-err');
+    const f=box.querySelector('form'), err=box.querySelector('.tr-err'), go2=f.querySelector('button[type=submit]'), clsBox=box.querySelector('.tr-cls');
     f.no.addEventListener('input',()=>{f.no.value=f.no.value.replace(/\D/g,'').slice(0,5);});
-    f.onsubmit=e=>{
-      e.preventDefault();
-      const cls=(f.querySelector('input[name=cls]:checked')||{}).value, no=f.no.value.trim(), name=f.name.value.replace(/\s+/g,'').trim();
-      if(!cls){err.textContent='반을 골라 주세요.';return;}
+    const enter=w=>{ try{sessionStorage.setItem('aiw-who',JSON.stringify(w)); if(!w.teacher) localStorage.setItem('aiw-last',JSON.stringify({no:w.no,name:w.name}));}catch(e){} location.reload(); };
+    const busy=on=>{ go2.disabled=on; go2.textContent=on?'명단에서 확인하는 중…':'시작하기 →'; };
+    f.onsubmit=async e=>{
+      e.preventDefault(); err.textContent='';
+      const no=f.no.value.trim(), name=f.name.value.replace(/\s+/g,'').trim();
+      if(no==='99999'&&name==='구정화') return enter({teacher:true});
       if(!/^\d{5}$/.test(no)){err.textContent='학번 다섯 자리를 숫자로 써 주세요.';f.no.focus();return;}
       if(name.length<2){err.textContent='이름을 써 주세요.';f.name.focus();return;}
-      const w={cls,no,name};
-      try{sessionStorage.setItem('aiw-who',JSON.stringify(w)); localStorage.setItem('aiw-last',JSON.stringify(w));}catch(e){}
-      location.reload();
+      /* 명단에서 확인이 안 될 때만 반을 직접 고른다 */
+      if(!clsBox.hidden){
+        const cls=(f.querySelector('input[name=cls]:checked')||{}).value;
+        if(!cls){err.textContent='반을 골라 주세요.';return;}
+        return enter({cls,no,name});
+      }
+      busy(true);
+      try{
+        const r=await fetch(PEP,{method:'POST',body:JSON.stringify({op:'who',no,name})});
+        const d=await r.json();
+        if(d.ok) return enter({cls:d.cls,no,name});
+        busy(false);
+        if(d.err==='notfound'){ err.textContent='명단에서 찾지 못했어요. 학번과 이름을 다시 확인해 주세요. 계속 안 되면 선생님께 말해 주세요.'; return; }
+        throw new Error(d.err);
+      }catch(x){
+        busy(false);
+        if(clsBox.hidden){ clsBox.hidden=false; err.textContent='명단을 확인하지 못했어요. 내 반을 골라 주세요.'; }
+      }
     };
-    setTimeout(()=>{ (f.querySelector('input[name=cls]:checked')?(f.no.value?f.querySelector('button'):f.no):f.querySelector('input[name=cls]')).focus(); },50);
+    setTimeout(()=>{ (f.no.value?(f.name.value?go2:f.name):f.no).focus(); },50);
     return;
   }
 
