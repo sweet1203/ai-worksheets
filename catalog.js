@@ -68,11 +68,12 @@ const UNITS = [
   },
   {
     id: 'u3', n: 'Ⅲ', title: '인공지능의 사회적 영향', color: '#e0702b',
-    note: '3차시로 압축 운영(22~24차시). 이론은 짧게, 생각 정리 과제 중심.',
+    note: '3차시로 압축 운영(22~24차시). 이론은 짧게, 생각 정리 과제 중심. 24-2: 3단원 생각 정리 → 수행평가 준비(점수 말고 할 일: 주제·데이터·만들 것).',
     lessons: [
       { no: '22', title: '인공지능과 사회 변화 · 진로', pages: '132~145쪽', updated: '2026-11-10', links: [['course', '수업 페이지', W + 'ai-and-society/'], ['extra', '3-1-1 추가자료', E + '3-1-1.html'], ['extra', '3-1-2 사회적 문제 해결', E + '3-1-2.html'], ['extra', '3-1-3 인공지능과 진로', E + '3-1-3.html'], ['form', 'ai-22-3-1-1', F('ai-22-3-1-1')]] },
       { no: '23', title: '공존 · 편향 · 딜레마', pages: '146~155쪽', updated: '2026-11-10', links: [['course', '수업 페이지', W + 'ai-coexistence-bias/'], ['extra', '3-2-1 공존', E + '3-2-1.html'], ['extra', '3-2-2 데이터 편향성', E + '3-2-2.html'], ['extra', '3-2-3 윤리적 딜레마', E + '3-2-3.html'], ['form', 'ai-23-3-1-2', F('ai-23-3-1-2')]] },
       { no: '24', title: '사회적 책임 · 3단원 정리', pages: '156~165쪽', updated: '2026-11-10', links: [['course', '수업 페이지', W + 'ai-responsibility/'], ['extra', '3-2-4 사회적 책임과 공정성', E + '3-2-4.html'], ['form', 'ai-24-3-1-3', F('ai-24-3-1-3')]] },
+      { no: '24-2', title: '3단원 정리 → 수행평가 준비 (주제 · 데이터 · 만들 것)', pages: '', updated: '2026-11-17', links: [['course', '수업 페이지', W + 'project-ready/'], ['eval', '2차 수행평가 안내', W + 'ml4kids-project/'], ['form', 'ai-242-project-ready', F('ai-242-project-ready')]] },
       { no: '—', title: '하지 않는 원래 차시 질문폼 (배포만 유지)', pages: '146~165쪽', skip: '22~24차시에 통합 · 노션 보관', links: [['old', 'ai-25 인간과 인공지능의 공존', F('ai-25-3-2-1')], ['old', 'ai-26 편향과 딜레마', F('ai-26-3-2-2')], ['old', 'ai-27 사회적 책임', F('ai-27-3-2-3')], ['old', 'ai-28 AI 역량기르기', F('ai-28-3-2-5')], ['old', 'ai-29 창의융합', F('ai-29-u3-project')], ['old', 'ai-30 마무리', F('ai-30-u3-summary')]] },
     ]
   },
