@@ -336,6 +336,20 @@
   .score2{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
   .score2 div{flex:1;min-width:140px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(15,39,66,.08);padding:10px 12px;text-align:center}
   .score2 b{display:block;font-family:"Black Han Sans",sans-serif;font-size:1.8rem;color:var(--acc)}
+  /* 사진 카드 */
+  .phs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .ph{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:84px;min-height:74px;padding:6px 4px;border-radius:10px;font-size:.72rem;line-height:1.25;text-align:center;border:1px solid rgba(0,0,0,.1)}
+  .ph i{font-style:normal;font-size:1.7rem;line-height:1.1}
+  .ph.w{background:#f4f6f8;color:#333}
+  .ph.d{background:#d6a467;color:#3b2408}
+  .ph.new{outline:3px solid var(--k,#1f9d74)}
+  .cand button{display:inline-flex;align-items:center;gap:6px}
+  .cand button .ph{width:auto;min-height:0;flex-direction:row;padding:2px 8px;font-size:.8rem}
+  .cand button .ph i{font-size:1.1rem}
+  .acc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:end}
+  @media (max-width:640px){.acc{grid-template-columns:1fr 1fr}}
+  .acc label{font-size:.85rem;font-weight:700}
+  .acc input{width:100%}
   /* 스크래치 블록 */
   .blocks{font-family:ui-sans-serif,system-ui;font-size:.86rem;display:inline-block}
   .blk{display:block;border-radius:6px;padding:5px 10px;margin:3px 0;color:#fff;width:max-content;max-width:100%}
@@ -406,10 +420,10 @@
       <span class="tag">인공지능 기초 · Ⅳ. 인공지능 프로젝트 · 1. 지속 가능 발전 문제 해결</span>
       <h1>수행평가 전에<br>한 바퀴 미리 돌아 보기</h1>
       <div class="story"><b>남극 연구소의 부상당한 펭귄</b><br>남극 연구소에서 다친 펭귄을 발견했는데 어떤 종인지 알 수 없어요. 종마다 먹이와 치료 방법이 달라 꼭 알아야 하는데, 카메라도 고장 났어요. <b>부리와 날개 같은 생김새만으로</b> 펭귄의 종을 구별하는 인공지능을 만들 수 있을까요?</div>
-      <p>교과서 펭귄 프로젝트로 프로젝트 수행 과정을 익히고, 예시 프로젝트 하나로 <b style="color:#fff">ML4Kids 수행평가의 전 과정</b>을 미리 연습해요. 오늘 연습은 성적에 들어가지 않아요.</p>
+      <p>교과서 펭귄 프로젝트로 프로젝트 수행 과정을 익히고, <b style="color:#fff">분리배출 사진 분류</b>라는 이미지 예시 프로젝트로 수행평가의 전 과정을 미리 연습해요. 오늘 연습은 성적에 들어가지 않아요.</p>
       <ol>
         <li>프로젝트 수행 과정 (펭귄)</li><li>ML4Kids 따라 하기</li><li>테스트 · 틀린 사례 · 개선</li>
-        <li>Scratch 연결</li><li>성찰 써 보기</li><li>마무리 · 질문폼</li>
+        <li>결과 기록 · 평가 지표</li><li>성찰 써 보기</li><li>마무리 · 질문폼</li>
       </ol>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
@@ -419,18 +433,18 @@
     <div class="route" aria-hidden="true">
       <div class="st" style="animation-delay:.2s"><i>🐧</i><div><b>교과서 펭귄 프로젝트</b><small>역할 5가지 · 수행 과정 6단계</small></div></div>
       <div class="ar" style="animation-delay:.6s">↓</div>
-      <div class="st" style="animation-delay:.8s"><i>🧠</i><div><b>ML4Kids 예시 프로젝트</b><small>쇼핑 리뷰 긍정 / 부정</small></div></div>
+      <div class="st" style="animation-delay:.8s"><i>🧠</i><div><b>ML4Kids 이미지 프로젝트</b><small>분리배출 사진 플라스틱 / 종이</small></div></div>
       <div class="ar" style="animation-delay:1.2s">↓</div>
       <div class="st" style="animation-delay:1.4s"><i>🔧</i><div><b>틀린 사례 고치기</b><small>같은 테스트로 개선 전·후 비교</small></div></div>
       <div class="ar" style="animation-delay:1.8s">↓</div>
-      <div class="st" style="animation-delay:2s"><i>🐱</i><div><b>Scratch 연결 · 성찰</b><small>결과로 움직이는 프로그램 · 숫자로 근거 쓰기</small></div></div>
+      <div class="st" style="animation-delay:2s"><i>📊</i><div><b>결과 기록 · 성찰</b><small>정확도 계산 · 숫자로 근거 쓰기</small></div></div>
     </div>
   </div>
 
   <div id="intro" class="today">
     <div class="today-lead">
       <span class="kicker">오늘 우리는</span>
-      <p>교과서 <b>남극 펭귄 프로젝트</b>로 인공지능 프로젝트 수행 과정을 정리하고, <b>쇼핑 리뷰 긍정·부정 분류</b>라는 예시 프로젝트로 수행평가에서 할 일을 순서대로 한 번 해 봅니다. 특히 <b>틀린 사례 찾기 → 개선 → 같은 테스트로 비교</b>와 <b>Scratch 연결</b>을 꼭 해 봐요.</p>
+      <p>교과서 <b>남극 펭귄 프로젝트</b>로 인공지능 프로젝트 수행 과정을 정리하고, <b>분리배출 사진 분류(플라스틱 / 종이)</b>라는 이미지 예시 프로젝트로 수행평가에서 할 일을 순서대로 한 번 해 봅니다. 특히 <b>사진 정리 → 새 사진으로 테스트 → 정확도 계산 → 틀린 원인 찾기 → 개선 방향</b>을 꼭 해 봐요.</p>
     </div>
     <div class="why3">
       <div class="why">
@@ -452,7 +466,7 @@
         <ul class="can">
           <li>프로젝트 수행 과정과 역할을 설명한다.</li>
           <li>테스트 결과를 숫자로 기록하고 틀린 사례의 원인을 데이터에서 찾는다.</li>
-          <li>모델 결과로 동작하는 Scratch 프로그램의 구조를 안다.</li>
+          <li>새 사진으로 테스트한 결과로 정확도를 계산하고 기록한다.</li>
         </ul>
       </div>
     </div>
@@ -466,8 +480,8 @@
   <div class="easy"><b class="t">쉽게 말하면</b><span>교과서는 모둠이 <b>다섯 역할</b>을 나눠 프로젝트를 해요. 우리 수행평가는 <b>개별 수행</b>이라, 이 다섯 역할을 <b>나 혼자 모두</b> 맡는다고 생각하면 돼요.</span></div>
   <div class="roles">
     <div><i>🧭</i><b>프로젝트 기획자</b>주제를 정하고 일정과 방향을 이끌어요<em>내 문제·계획 정하기</em></div>
-    <div><i>📦</i><b>데이터 수집가</b>필요한 데이터를 모으고 정확한지 확인해요<em>클래스별 예시 모으기</em></div>
-    <div><i>🔍</i><b>데이터 분석가</b>데이터의 패턴과 추세를 살펴요<em>개수 균형·치우침 점검</em></div>
+    <div><i>📦</i><b>데이터 수집가</b>필요한 데이터를 모으고 정확한지 확인해요<em>클래스별 사진 찍기</em></div>
+    <div><i>🔍</i><b>데이터 분석가</b>데이터의 패턴과 추세를 살펴요<em>사진 정리 · 장수 균형 · 배경 치우침 점검</em></div>
     <div><i>🛠️</i><b>모델 개발자</b>알맞은 방법으로 모델을 만들고 훈련해요<em>학습 · 테스트 · 개선</em></div>
     <div><i>🎤</i><b>프로젝트 발표자</b>결과를 요약해 발표하고 보고서를 써요<em>활동지 · 성찰 · 현장 서술</em></div>
   </div>
@@ -501,109 +515,110 @@
 
 <!-- 2 ML4Kids 따라 하기 -->
 <section class="page" data-name="ML4Kids 따라 하기" data-acc="#1f9d74">
-  <div class="head"><div class="num">02</div><div><h2>ML4Kids 따라 하기</h2><p>예시 프로젝트: 쇼핑 리뷰 긍정 / 부정 (유형 카드 02)</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>ML4Kids는 <b>훈련 → 학습 &amp; 평가 → 만들기</b> 세 칸으로 되어 있어요. 데이터를 넣고(훈련), 모델을 만들어 시험해 보고(학습 &amp; 평가), Scratch로 프로그램을 만들어요(만들기). 손글씨 숫자 실습 때와 같은 순서예요.</span></div>
+  <div class="head"><div class="num">02</div><div><h2>ML4Kids 따라 하기</h2><p>예시 프로젝트: 분리배출 사진 플라스틱 / 종이 (이미지)</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>ML4Kids는 <b>훈련 → 학습 &amp; 평가</b> 순서로 써요. 클래스를 만들고 사진을 넣고(훈련), 모델을 만들어 새 사진으로 시험해 봐요(학습 &amp; 평가). 손글씨 숫자를 그려서 학습시켰던 실습과 같은 순서예요. 비슷한 이미지 학습 도구도 순서는 같아요.</span></div>
   <div class="card">
     <ol class="vsteps">
-      <li><b>새 프로젝트 만들기</b><p>학급 계정으로 로그인 → 「프로젝트」 → 「+ 새 프로젝트 추가」 → 이름(예: 리뷰감정)을 쓰고 인식 대상을 <b>텍스트</b>로 골라 「만들기」.</p></li>
-      <li><b>레이블(클래스) 만들기</b><p>「훈련」 → 오른쪽 위 「+ 새로운 레이블 추가」 → <b>긍정</b>, <b>부정</b> 두 개를 만들어요.</p></li>
-      <li><b>학습 데이터 넣기</b><p>레이블 상자 아래 「데이터 추가」로 아래 문장을 <b>직접 입력</b>해요. 클래스마다 <b>8개씩, 개수를 똑같이</b> 맞춰요.</p></li>
-      <li><b>테스트 문장은 따로 떼어 두기</b><p>3번 화면의 테스트 문장 4개는 <b>절대 학습 데이터에 넣지 않아요.</b> 넣으면 처음 보는 문장을 맞히는지 알 수 없어요.</p></li>
+      <li><b>새 프로젝트 만들기</b><p>학급 계정으로 로그인 → 「프로젝트」 → 「+ 새 프로젝트 추가」 → 이름(예: 분리배출)을 쓰고 인식 대상을 <b>이미지</b>로 골라 「만들기」.</p></li>
+      <li><b>레이블(클래스) 만들기</b><p>「훈련」 → 오른쪽 위 「+ 새로운 레이블 추가」 → <b>플라스틱</b>, <b>종이</b> 두 개를 만들어요.</p></li>
+      <li><b>사진 넣기</b><p>레이블 상자 아래에서 <b>웹캠으로 찍기</b>, <b>그리기</b>, 내가 찍은 사진 넣기 중 하나로 사진을 넣어요. 교실의 플라스틱·종이 물건으로 클래스마다 <b>10장 정도</b>, 장수를 비슷하게 넣어 봐요. (버튼 이름은 화면에 따라 조금 다를 수 있어요)</p></li>
+      <li><b>사진 정리하기 (전처리)</b><p>흔들려서 물건이 안 보이는 사진, 다른 칸에 잘못 넣은 사진, 거의 똑같은 사진을 빼거나 옮겨요. 무엇을 왜 뺐는지 적어 둬요.</p></li>
+      <li><b>테스트 사진은 따로 떼어 두기</b><p>시험할 물건(클래스마다 2개 이상)은 <b>처음부터 정해 두고 학습에 넣지 않아요.</b> 넣으면 처음 보는 사진을 맞히는지 알 수 없어요.</p></li>
       <li><b>학습시키기</b><p>「학습 &amp; 평가」 칸에서 학습 버튼을 누르고 끝날 때까지 기다려요.</p></li>
-      <li><b>테스트하기</b><p>같은 화면의 입력 칸에 테스트 문장을 하나씩 넣고, <b>예측 결과와 신뢰도</b>를 표에 적어요.</p></li>
+      <li><b>테스트하기</b><p>같은 화면에서 웹캠이나 사진으로 테스트 사진을 하나씩 넣고, <b>예측 결과와 신뢰도</b>를 표에 적어요. 결과가 나온 화면은 캡처해 둬요.</p></li>
     </ol>
   </div>
-  <div class="sim" style="margin-top:4px">
-    <div class="cls" style="--k:#1f9d74"><h4>긍정 <small>8개</small></h4><ul id="d0"></ul></div>
-    <div class="cls" style="--k:#d64535"><h4>부정 <small>8개</small></h4><ul id="d1"></ul></div>
+  <div class="card">
+    <h3>📷 아래 모의 실험에 쓸 학습 사진 <span class="muted" style="font-weight:400;font-size:.88rem">(배경 색 = 찍은 책상)</span></h3>
+    <div class="sim">
+      <div class="cls" style="--k:#2f6fd0"><h4>플라스틱 <small id="n0">8장</small></h4><div class="phs" id="d0"></div></div>
+      <div class="cls" style="--k:#e0702b"><h4>종이 <small id="n1">8장</small></h4><div class="phs" id="d1"></div></div>
+    </div>
+    <p class="note">사진을 잘 보세요. 플라스틱은 모두 <b>흰 책상</b>, 종이는 모두 <b>나무 책상</b>에서 찍었어요. 이게 다음 화면에서 문제가 돼요.</p>
   </div>
-  <p class="note">유형 카드 02의 시작 예시를 줄여 만든 연습용 문장이에요. 수행평가에서는 시작 예시에 <b>내가 직접 모은 데이터</b>를 더하고, 직접 모은 것과 구분해 기록해요(활동지 2).</p>
   <div class="quiz" data-quiz="2"></div>
 </section>
 
 <!-- 3 테스트·개선 -->
 <section class="page" data-name="테스트 · 개선" data-acc="#e0702b">
-  <div class="head"><div class="num">03</div><div><h2>테스트 · 틀린 사례 · 개선</h2><p>수행평가 27·28차시의 핵심 · 활동지 3~4번 연습</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>아래는 ML4Kids처럼 <b>문장 속 글자 조각을 보고</b> 긍정·부정을 맞히는 간단한 모의 모델이에요(실제 ML4Kids와 계산 방식은 달라요). 순서대로 ① 1차 학습 → ② 테스트 → ③ 틀린 이유 찾기 → ④ 데이터 고르기 → ⑤ <b>같은 테스트</b>로 다시 확인을 해 봐요.</span></div>
+  <div class="head"><div class="num">03</div><div><h2>테스트 · 틀린 사례 · 개선</h2><p>수행평가의 핵심 · 새 사진으로 시험하고 원인 찾기</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>아래는 사진의 <b>배경 · 반짝임 · 모양</b>이 학습 사진과 얼마나 비슷한지로 플라스틱·종이를 맞히는 간단한 모의 모델이에요(실제 ML4Kids와 계산 방식은 달라요). 순서대로 ① 1차 학습 → ② 테스트 → ③ 틀린 이유 찾기 → ④ 고칠 사진 고르기 → ⑤ <b>같은 테스트</b>로 다시 확인을 해 봐요.</span></div>
   <div class="card">
-    <h3>① ② 1차 학습 후 테스트 <span class="muted" style="font-weight:400;font-size:.88rem">테스트 문장은 학습에 쓰지 않은 4개</span></h3>
+    <h3>① ② 1차 학습 후 테스트 <span class="muted" style="font-weight:400;font-size:.88rem">테스트 사진은 학습에 쓰지 않은 4장</span></h3>
     <table class="tt" id="t1"></table>
     <div class="score2"><div><small>1차 결과</small><b id="s1"></b></div><div><small>개선 후 결과</small><b id="s2">—</b></div></div>
   </div>
   <div class="card">
-    <h3>③ 틀린 사례의 원인 찾기</h3>
-    <p class="muted" style="margin-top:0">틀린 문장과 학습 데이터를 비교해 보세요. 힌트 버튼을 누르면 생각할 거리가 나와요.</p>
+    <h3>③ 틀린 사진의 원인 찾기</h3>
+    <p class="muted" style="margin-top:0">틀린 사진과 학습 사진을 비교해 보세요. 힌트 버튼을 누르면 생각할 거리가 나와요.</p>
     <div class="row"><button class="btn sm ghost" id="hint1">힌트 ①</button><button class="btn sm ghost" id="hint2">힌트 ②</button></div>
     <div class="callout" id="hintBox" style="display:none;font-size:.92rem"></div>
-    <div class="memo"><label>틀린 사례 하나와 그 원인 <small>(활동지 3-3처럼, 내 학습 데이터와 연결해서)</small></label><textarea data-memo="why" rows="3"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>틀린 사진 하나와 그 원인 <small>(내 학습 사진과 연결해서)</small></label><textarea data-memo="why" rows="3"></textarea><div class="saved"></div></div>
   </div>
   <div class="card">
-    <h3>④ 어떤 데이터를 더할까? <span class="muted" style="font-weight:400;font-size:.88rem">원인을 고칠 데이터를 최대 3개 골라요</span></h3>
+    <h3>④ 어떤 사진을 더 찍어 넣을까? <span class="muted" style="font-weight:400;font-size:.88rem">원인을 고칠 사진을 최대 3장 골라요</span></h3>
     <div class="sim">
-      <div class="cls" style="--k:#1f9d74"><h4>긍정에 추가</h4><div class="cand" id="c0"></div></div>
-      <div class="cls" style="--k:#d64535"><h4>부정에 추가</h4><div class="cand" id="c1"></div></div>
+      <div class="cls" style="--k:#2f6fd0"><h4>플라스틱에 추가</h4><div class="cand" id="c0"></div></div>
+      <div class="cls" style="--k:#e0702b"><h4>종이에 추가</h4><div class="cand" id="c1"></div></div>
     </div>
     <div class="row" style="margin-top:10px"><button class="btn" id="retrain">⑤ 다시 학습하고 같은 테스트로 확인</button><button class="btn ghost sm" id="resetSim">처음으로</button></div>
     <table class="tt" id="t2" style="margin-top:10px"></table>
     <div class="callout" id="cmpMsg" style="display:none;font-size:.92rem"></div>
-    <div class="memo"><label>무엇을 왜 더했고, 같은 테스트에서 어떻게 달라졌나 <small>(활동지 4처럼, 나아지지 않았다면 그 이유도)</small></label><textarea data-memo="improve" rows="3"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>고칠 방향: 무엇을 왜 더했고, 같은 테스트에서 어떻게 달라졌나 <small>(나아지지 않았다면 그 이유도)</small></label><textarea data-memo="improve" rows="3"></textarea><div class="saved"></div></div>
   </div>
   <div class="quiz" data-quiz="3"></div>
 </section>
 
-<!-- 4 Scratch -->
-<section class="page" data-name="Scratch 연결" data-acc="#9b4fc4">
-  <div class="head"><div class="num">04</div><div><h2>Scratch 연결</h2><p>모델의 예측 결과로 실제로 움직이는 프로그램 · 활동지 5번</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>「만들기」 → Scratch 3을 열면 <b>내 모델 전용 블록</b>이 생겨요. 입력을 모델에 넣어 <b>레이블</b>(예: 긍정)을 받아 오는 블록으로 <b>만약 ~라면</b>을 만들면, 결과에 따라 다르게 움직이는 프로그램이 돼요.</span></div>
+<!-- 4 결과 기록 -->
+<section class="page" data-name="결과 기록 · 평가 지표" data-acc="#9b4fc4">
+  <div class="head"><div class="num">04</div><div><h2>결과 기록 · 평가 지표</h2><p>내 모델이 실제로 작동한다는 기록 · 정확도 계산하기</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>내가 만든 모델이 <b>실제로 작동한다</b>는 것은, 학습에 쓰지 않은 <b>새 사진</b>을 넣었을 때 결과가 나온다는 뜻이에요. 그 결과를 「몇 장 중 몇 장」, 「정확도 몇 %」처럼 <b>숫자로 정리한 것</b>이 평가 지표예요.</span></div>
   <div class="grid2">
     <div class="card">
-      <h3>예시 프로그램: 리뷰를 입력하면 별점 보여 주기</h3>
-      <div class="blocks">
-        <span class="blk ev">깃발을 클릭했을 때</span>
-        <span class="blk lk">「리뷰를 입력하세요」 묻고 기다리기</span>
-        <span class="blk ctl">만약 <i>대답</i> 을 인식한 레이블 = <i>긍정</i> 이라면</span>
-        <span class="blk lk in">「⭐⭐⭐⭐⭐ 좋은 리뷰네요!」 말하기</span>
-        <span class="blk ctl">아니면</span>
-        <span class="blk lk in">「⚠️ 불만 리뷰예요」 말하기</span>
-        <span class="blk ml">신뢰도 보기: <i>대답</i> 을 인식한 신뢰도</span>
+      <h3>🧮 정확도 계산기 <span class="muted" style="font-weight:400;font-size:.88rem">(1차 모의 실험 결과가 들어 있어요)</span></h3>
+      <div class="acc">
+        <div><label>플라스틱 테스트 장수</label><input type="number" min="0" id="aN0"></div>
+        <div><label>그중 맞힌 장수</label><input type="number" min="0" id="aK0"></div>
+        <div><label>종이 테스트 장수</label><input type="number" min="0" id="aN1"></div>
+        <div><label>그중 맞힌 장수</label><input type="number" min="0" id="aK1"></div>
       </div>
-      <p class="note">파란 블록이 ML4Kids가 만들어 주는 내 모델 블록이에요. 화면의 블록 이름은 조금 다를 수 있어요.</p>
+      <div class="score2" id="accOut"></div>
+      <p class="note">정확도 = 맞힌 장수 ÷ 테스트 장수. 클래스별로 따로 보면 <b>어느 클래스를 자주 틀리는지</b> 알 수 있어요.</p>
     </div>
     <div class="card">
-      <h3>✅ 프로그램 점검</h3>
+      <h3>📸 남겨 둘 화면</h3>
       <ul style="list-style:none;padding:0;margin:0;line-height:2">
-        <li>☐ 모델 블록의 결과(레이블)로 <b>분기</b>한다 (모델 없이 정해진 대로만 움직이면 안 돼요)</li>
-        <li>☐ <b>모든 클래스</b>에 대해 다른 동작이 있다</li>
-        <li>☐ 테스트 문장을 넣어 실제로 끝까지 실행된다</li>
-        <li>☐ 실행 화면을 캡처하거나 링크를 저장했다</li>
-        <li>☐ (선택) 신뢰도가 낮으면 「잘 모르겠어요」라고 말하게 했다</li>
+        <li>☐ 훈련 화면: 클래스마다 사진이 몇 장인지 보이게</li>
+        <li>☐ 테스트 화면: 새 사진을 넣고 결과와 신뢰도가 나온 화면</li>
+        <li>☐ 테스트 결과표: 사진마다 정답·예측·맞음/틀림</li>
+        <li>☐ (고쳐 봤다면) 고친 뒤 <b>같은 테스트</b> 사진의 결과</li>
       </ul>
-      <p class="note">채점 기준 요소 ①: 「실행 가능한 산출물」이 없거나 실행되지 않으면 40점을 받을 수 없어요.</p>
+      <p class="note">이 화면들이 「내 모델이 실제로 실행된다」는 기록이 돼요.</p>
     </div>
   </div>
-  <div class="memo card"><label>내 수행평가 주제라면 Scratch에서 어떤 동작을 만들까? <small>(클래스마다)</small></label><textarea data-memo="myScratch" rows="2" placeholder="예: 조용 → 집중 아이콘, 시끄러움 → 휴식 알림 소리"></textarea><div class="saved"></div></div>
+  <div class="memo card"><label>내 주제라면 테스트 사진은 무엇으로 할까? <small>(클래스마다 2장 이상, 학습에 넣지 않을 것)</small></label><textarea data-memo="myTest" rows="2" placeholder="예: 하늘 주제 → 학습 때와 다른 창문에서 찍은 맑은 하늘 2장, 흐린 하늘 2장"></textarea><div class="saved"></div></div>
   <div class="quiz" data-quiz="4"></div>
 </section>
 
 <!-- 5 성찰 -->
 <section class="page" data-name="성찰 써 보기" data-acc="#d64535">
-  <div class="head"><div class="num">05</div><div><h2>성찰 써 보기</h2><p>요소 ② 60점 연습 · 활동지 6번과 현장 서술</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>60점 글은 <b>성능 수치 → 틀린 원인 → 개선 방향과 결과 → 한계 → 사회적 영향</b>이 <b>내 숫자</b>와 함께 5문장 이상 들어간 글이에요. 아래 틀에 오늘 연습 결과를 넣어 한 문장씩 써 봐요.</span></div>
+  <div class="head"><div class="num">05</div><div><h2>성찰 써 보기</h2><p>요소 ② 60점 연습 · 활동지와 현장 서술</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>60점 글은 <b>성능 수치 → 틀린 원인 → 개선 방향 → 한계 → 사회적 영향</b>이 <b>내 숫자</b>와 함께 5문장 이상 들어간 글이에요. 아래 틀에 오늘 연습 결과를 넣어 한 문장씩 써 봐요.</span></div>
   <div class="card">
     <h3>오늘 연습의 내 숫자</h3>
     <div class="score2" id="myNums"></div>
   </div>
   <div class="card">
     <div class="memo">
-      <label>① 성능 <small>예: 테스트 4개 중 2개를 맞혀 1차 정확도는 50%였다.</small></label><textarea data-memo="r1" rows="2"></textarea>
-      <label>② 틀린 원인 <small>예: 「~예요」로 끝나는 문장이 부정 데이터에만 있어서 칭찬 리뷰도 부정으로 판단했다.</small></label><textarea data-memo="r2" rows="2"></textarea>
-      <label>③ 개선과 결과 <small>예: 긍정에 「가성비 최고예요」를 더하자 같은 테스트 4개 중 4개를 맞혔다.</small></label><textarea data-memo="r3" rows="2"></textarea>
-      <label>④ 한계 <small>예: 학습 데이터가 16개뿐이라 처음 보는 표현에는 여전히 약하다.</small></label><textarea data-memo="r4" rows="2"></textarea>
-      <label>⑤ 사회적 영향 <small>예: 실제 쇼핑몰에서 쓰면 사투리나 줄임말을 쓰는 사람의 리뷰가 잘못 분류되어 불공정할 수 있다.</small></label><textarea data-memo="r5" rows="2"></textarea>
+      <label>① 성능 <small>예: 테스트 사진 4장 중 2장을 맞혀 1차 정확도는 50%였다.</small></label><textarea data-memo="r1" rows="2"></textarea>
+      <label>② 틀린 원인 <small>예: 플라스틱은 흰 책상, 종이는 나무 책상에서만 찍어서 나무 책상 위 생수병을 종이로 판단했다.</small></label><textarea data-memo="r2" rows="2"></textarea>
+      <label>③ 개선 방향 (고쳐 봤다면 결과도) <small>예: 두 클래스 모두 두 책상에서 골고루 찍은 사진을 더 넣어야 한다. 실제로 2장을 더하자 같은 테스트 4장 중 4장을 맞혔다.</small></label><textarea data-memo="r3" rows="2"></textarea>
+      <label>④ 한계 <small>예: 학습 사진이 16장뿐이라 어두운 곳이나 처음 보는 모양의 물건에는 여전히 약하다.</small></label><textarea data-memo="r4" rows="2"></textarea>
+      <label>⑤ 사회적 영향 <small>예: 실제 분리배출함에 쓰면 특정 장소에서 찍힌 쓰레기를 계속 잘못 나눠 재활용이 안 될 수 있고, 카메라에 사람 얼굴이 찍히지 않게 해야 한다.</small></label><textarea data-memo="r5" rows="2"></textarea>
       <div class="saved"></div>
     </div>
   </div>
-  <div class="callout">📝 수행평가 마지막 시간 <b>현장 서술</b>은 인터넷·생성형 AI를 끄고, 내 프로젝트 화면과 활동지만 보고 써요. 문항은 그날 받아요. 오늘처럼 <b>내 숫자와 내 데이터</b>를 근거로 쓰는 연습이 그대로 도움이 돼요.</div>
+  <div class="callout">📝 수행평가 마지막 시간 <b>현장 서술</b>은 인터넷·생성형 AI를 끄고, 내 프로젝트 화면과 활동지만 보고 써요. 문항은 그날 받아요. 오늘처럼 <b>내 숫자와 내 사진</b>을 근거로 쓰는 연습이 그대로 도움이 돼요.</div>
 </section>
 
 <!-- 6 마무리 -->
@@ -611,7 +626,7 @@
   <div class="head"><div class="num">06</div><div><h2>마무리</h2><p>핵심 문장 · 수행평가 준비물 · 마무리 퀴즈 · 질문폼</p></div></div>
   <div class="key3">
     <div style="--k:#2f6fd0">인공지능 프로젝트는 <b>문제 정의 → 데이터 수집 → 데이터 전처리 → 유형·알고리즘 선정 → 모델 학습 → 성능 평가 및 수정</b> 순서로 수행한다.</div>
-    <div style="--k:#e0702b">테스트 사례는 학습에 쓰지 않고, 틀린 사례의 원인을 <b>학습 데이터</b>에서 찾아 고친 뒤 <b>같은 테스트</b>로 개선 전·후를 비교한다.</div>
+    <div style="--k:#e0702b">테스트 사진은 학습에 쓰지 않고, 새 사진으로 시험한 결과를 <b>정확도</b>로 정리하며, 틀린 사진의 원인을 <b>학습 사진</b>에서 찾아 <b>개선 방향</b>을 정한다.</div>
     <div style="--k:#9b4fc4">성능 평가와 성찰은 「충분히」, 「괜찮았다」가 아니라 <b>내 프로젝트의 이름과 숫자</b>를 근거로 쓴다.</div>
   </div>
   <div class="card">
@@ -668,11 +683,11 @@ const QUIZ={
  1:[{q:'교과서 펭귄 프로젝트에서 k-최근접 이웃 모델의 성능을 높이려고 한 작업은?',o:['표준화','데이터 삭제','클래스 줄이기'],a:0,w:'체질량(g)처럼 숫자가 큰 속성이 거리를 좌우하지 않도록 수치를 같은 규모로 맞춰요.'},
     {q:'수집된 데이터를 검사해 패턴이나 추세를 찾는 역할은?',o:['프로젝트 기획자','데이터 분석가','프로젝트 발표자'],a:1,w:'개별 수행인 우리 수행평가에서는 이 역할도 내가 맡아요. 클래스별 개수 균형과 치우침을 살펴요.'}],
  2:[{q:'ML4Kids에서 레이블(클래스)을 만들고 예시 데이터를 넣는 곳은?',o:['훈련','학습 & 평가','만들기'],a:0,w:'훈련 → 학습 & 평가 → 만들기 순서예요.'},
-    {q:'테스트에 쓸 문장을 학습 데이터에 넣으면 안 되는 까닭은?',o:['처음 보는 데이터를 맞히는지 알 수 없어서','학습이 너무 느려져서','레이블이 사라져서'],a:0,w:'이미 본 문장은 당연히 잘 맞혀요. 성능은 처음 보는 데이터로 재야 해요.'}],
+    {q:'테스트에 쓸 사진을 학습 데이터에 넣으면 안 되는 까닭은?',o:['처음 보는 사진을 맞히는지 알 수 없어서','학습이 너무 느려져서','레이블이 사라져서'],a:0,w:'이미 본 사진은 당연히 잘 맞혀요. 성능은 처음 보는 사진으로 재야 해요.'}],
  3:[{q:'개선 전·후를 비교할 때 지켜야 할 것은?',o:['개선 후에는 더 쉬운 테스트로 바꾼다','같은 테스트 사례로 비교한다','테스트 개수를 늘려 점수를 높인다'],a:1,w:'테스트가 바뀌면 나아진 것이 데이터 덕분인지 알 수 없어요.'},
-    {q:'모의 실험에서 「선물했는데 반응이 최고예요」를 부정으로 틀린 까닭으로 알맞은 것은?',o:['「~예요」로 끝나는 문장이 부정 데이터에만 있어서','문장이 너무 길어서','긍정 클래스가 없어서'],a:0,w:'표현이 한쪽 클래스에만 몰린 것도 데이터의 치우침(편향)이에요.'}],
- 4:[{q:'ML4Kids로 만든 Scratch 프로그램이 「인공지능 프로그램」이 되려면?',o:['모델이 알려 준 레이블에 따라 다르게 동작해야 한다','배경 그림이 많아야 한다','소리가 꼭 나와야 한다'],a:0,w:'만약 (인식한 레이블 = 긍정) 이라면 … 처럼 모델 결과로 분기해요.'},
-    {q:'모델이 자기 예측을 얼마나 확신하는지 보여 주는 값은?',o:['레이블','신뢰도','에포크'],a:1,w:'신뢰도가 낮으면 「잘 모르겠어요」처럼 다르게 처리할 수도 있어요.'}],
+    {q:'모의 실험에서 「나무 책상 위 생수병」을 종이로 틀린 까닭으로 알맞은 것은?',o:['학습 사진에서 종이만 나무 책상에서 찍어서','생수병이 너무 커서','종이 클래스가 없어서'],a:0,w:'배경이 한쪽 클래스에만 몰린 것도 데이터의 치우침(편향)이에요. 모델이 물건 대신 배경을 배웠어요.'}],
+ 4:[{q:'테스트 사진 8장 중 6장을 맞혔다. 정확도는?',o:['75%','60%','86%'],a:0,w:'6 ÷ 8 = 0.75, 즉 75%예요.'},
+    {q:'정확도를 클래스별로 따로 보는 까닭은?',o:['어느 클래스를 자주 틀리는지 알 수 있어서','계산이 쉬워져서','정확도가 저절로 높아져서'],a:0,w:'전체 정확도가 같아도 한 클래스만 계속 틀릴 수 있어요. 그 클래스의 사진을 살펴보면 고칠 방향이 보여요.'}],
  6:[{q:'인공지능 프로젝트 수행 과정의 순서로 알맞은 것은?',o:['문제 정의 → 데이터 수집 → 데이터 전처리 → 유형·알고리즘 선정 → 모델 학습 → 성능 평가 및 수정','데이터 수집 → 모델 학습 → 문제 정의 → 데이터 전처리 → 성능 평가 → 알고리즘 선정','모델 학습 → 데이터 수집 → 성능 평가 → 문제 정의 → 전처리 → 알고리즘 선정'],a:0,w:'교과서 180쪽 펭귄 프로젝트 수행 과정이에요.'},
     {q:'교과서 펭귄 프로젝트와 관련된 SDGs 목표는?',o:['14번 해양 생태계 보전','4번 양질의 교육','8번 좋은 일자리'],a:0,w:'남극 펭귄은 기후 변화의 영향을 먼저 받는 생물학적 지표 역할을 해요.'},
     {q:'클래스별 학습 데이터 개수를 비슷하게 맞추는 까닭은?',o:['한 클래스로 치우친 예측을 줄이려고','학습 시간을 늘리려고','테스트를 생략하려고'],a:0,w:'데이터가 많은 클래스 쪽으로 판단이 쏠릴 수 있어요.'},
@@ -824,42 +839,55 @@ function chips(box,key,opts,multi){
   $('pgRaw').onclick=()=>run(false); $('pgStd').onclick=()=>run(true); run(false);
 })();
 
-/* 02~03 리뷰 분류 모의 모델 */
-const POS0=['배송이 빨라서 좋아요','품질이 정말 좋아요','디자인이 예쁘고 마음에 들어요','가격 대비 만족스러워요','친구에게도 추천하고 싶어요','색깔이 사진이랑 똑같아요','포장이 꼼꼼해서 만족해요','사이즈가 딱 맞아요'];
-const NEG0=['배송이 너무 느려요','품질이 별로예요','사진이랑 색이 달라요','가격에 비해 실망이에요','금방 고장났어요','냄새가 심해요','포장이 엉망이었어요','사이즈가 작아요'];
-const TESTS=[['정말 만족해요 또 살게요',0],['선물했는데 반응이 최고예요',0],['배송은 빨랐지만 품질이 별로예요',1],['생각보다 작고 얇아요',1]];
-const CANDS=[['가성비 최고예요',0],['선물용으로 최고예요',0],['생각보다 훨씬 좋아요',0],['너무 얇아서 아쉬워요',1],['생각보다 별로였어요',1],['다시는 안 살 거예요',1]];
-const LBL=['긍정','부정'];
-const tok=s=>{const t=[];s.trim().split(/\s+/).forEach(w=>{if(w.length===1)t.push(w);for(let i=0;i<w.length-1;i++)t.push(w.slice(i,i+2));});return t;};
-function trainNB(P,N){const m=[{},{}],tot=[0,0],V=new Set();[P,N].forEach((L,c)=>L.forEach(s=>tok(s).forEach(t=>{m[c][t]=(m[c][t]||0)+1;tot[c]++;V.add(t);})));return{m,tot,V:V.size,n:[P.length,N.length]};}
-function predNB(M,s){const lp=[0,1].map(c=>Math.log(M.n[c]/(M.n[0]+M.n[1]))+tok(s).reduce((a,t)=>a+Math.log(((M.m[c][t]||0)+1)/(M.tot[c]+M.V)),0));const mx=Math.max(...lp);const e=lp.map(x=>Math.exp(x-mx));const z=e[0]+e[1];const p=[e[0]/z,e[1]/z];const c=p[0]>=p[1]?0:1;return{c,conf:Math.round(p[c]*100)};}
-$('d0').innerHTML=POS0.map(s=>`<li>${s}</li>`).join(''); $('d1').innerHTML=NEG0.map(s=>`<li>${s}</li>`).join('');
+/* 02~03 사진 분류 모의 모델 (배경·반짝임·모양 비교) */
+const LBL=['플라스틱','종이'];
+// [그림, 이름, 정답(0 플라스틱 / 1 종이), 배경(w 흰 책상 / d 나무 책상), 표면(s 반짝 / m 무광), 모양]
+const TR0=[['🧴','생수병',0,'w','s','병'],['🧴','샴푸통',0,'w','s','통'],['🥤','음료 컵',0,'w','s','컵'],['🧴','요구르트병',0,'w','s','병'],['🥡','도시락 용기',0,'w','s','용기'],['🔘','병뚜껑',0,'w','s','뚜껑'],['🧴','세제통',0,'w','s','통'],['🥡','과일 용기',0,'w','s','용기'],
+ ['📦','택배 상자',1,'d','m','상자'],['📰','신문',1,'d','m','납작'],['📒','공책',1,'d','m','납작'],['🥛','우유팩',1,'d','m','팩'],['🧻','휴지심',1,'d','m','원통'],['📄','전단지',1,'d','m','납작'],['🛍️','종이봉투',1,'d','m','봉투'],['📦','과자 상자',1,'d','m','상자']];
+const TESTS=[['🧴','나무 책상 위 생수병',0,'d','s','병'],['📰','흰 책상 위 신문',1,'w','m','납작'],['🥤','흰 책상 위 투명 컵',0,'w','s','컵'],['📦','나무 책상 위 상자',1,'d','m','상자']];
+const CANDS=[['🧴','나무 책상 위 생수병',0,'d','s','병'],['🥤','나무 책상 위 음료 컵',0,'d','s','컵'],['🔘','흰 책상 위 병뚜껑',0,'w','s','뚜껑'],['📄','흰 책상 위 전단지',1,'w','m','납작'],['📦','흰 책상 위 택배 상자',1,'w','m','상자'],['📒','나무 책상 위 공책',1,'d','m','납작']];
+const BGN={w:'흰 책상',d:'나무 책상'};
+const card=(x,cls)=>`<span class="ph ${x[3]}${cls?' '+cls:''}" title="${BGN[x[3]]}"><i>${x[0]}</i>${x[1]}</span>`;
+const sim=(a,b)=>2*(a[3]===b[3])+1*(a[4]===b[4])+0.5*(a[5]===b[5]);
+function pred(train,x){
+  const sc=[0,1].map(c=>{const v=train.filter(t=>t[2]===c).map(t=>sim(t,x)).sort((p,q)=>q-p).slice(0,3); return v.reduce((a,b)=>a+b,0)/v.length;});
+  const c=sc[0]>=sc[1]?0:1; return {c,conf:Math.round((sc[c]+0.5)/(sc[0]+sc[1]+1)*100)};
+}
 let R1=null,R2=null,SEL=new Set();
-function testAll(P,N){const M=trainNB(P,N);return TESTS.map(([s,y])=>({s,y,...predNB(M,s)}));}
-function table(id,res,prev){$(id).innerHTML=`<tr><th class="l">테스트 문장</th><th>정답</th>${prev?'<th>1차 예측</th>':''}<th>${prev?'개선 후 예측':'예측 (신뢰도)'}</th><th>결과</th></tr>`+res.map((r,i)=>`<tr><td class="l">${r.s}</td><td>${LBL[r.y]}</td>${prev?`<td>${LBL[prev[i].c]} (${prev[i].conf}%)</td>`:''}<td>${LBL[r.c]} (${r.conf}%)</td><td class="${r.c===r.y?'r':'w'}">${r.c===r.y?'맞음':'틀림'}</td></tr>`).join('');}
+const trainSet=()=>TR0.concat([...SEL].map(i=>CANDS[i]));
+function drawTrain(){[0,1].forEach(c=>{const L=trainSet().filter(t=>t[2]===c); $('d'+c).innerHTML=L.map((t,k)=>card(t,k>=8?'new':'')).join(''); $('n'+c).textContent=L.length+'장';});}
+function testAll(train){return TESTS.map(x=>({x,y:x[2],...pred(train,x)}));}
+function table(id,res,prev){$(id).innerHTML=`<tr><th class="l">테스트 사진</th><th>정답</th>${prev?'<th>1차 예측</th>':''}<th>${prev?'개선 후 예측':'예측 (신뢰도)'}</th><th>결과</th></tr>`+res.map((r,i)=>`<tr><td class="l">${card(r.x)}</td><td>${LBL[r.y]}</td>${prev?`<td>${LBL[prev[i].c]} (${prev[i].conf}%)</td>`:''}<td>${LBL[r.c]} (${r.conf}%)</td><td class="${r.c===r.y?'r':'w'}">${r.c===r.y?'맞음':'틀림'}</td></tr>`).join('');}
 const nOk=r=>r.filter(x=>x.c===x.y).length;
-function first(){R1=testAll(POS0,NEG0); table('t1',R1); $('s1').textContent=`${nOk(R1)} / ${TESTS.length}`; nums();}
-function drawCands(){[0,1].forEach(c=>{$('c'+c).innerHTML=CANDS.map((x,i)=>x[1]===c?`<button data-i="${i}" class="${SEL.has(i)?'on':''}" style="--k:${c?'#d64535':'#1f9d74'}">+ ${x[0]}</button>`:'').join(''); $('c'+c).querySelectorAll('button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i; if(SEL.has(i)) SEL.delete(i); else if(SEL.size<3) SEL.add(i); drawCands();});});}
+function first(){R1=testAll(TR0); table('t1',R1); $('s1').textContent=`${nOk(R1)} / ${TESTS.length}`; nums(); accFill(R1);}
+function drawCands(){[0,1].forEach(c=>{$('c'+c).innerHTML=CANDS.map((x,i)=>x[2]===c?`<button data-i="${i}" class="${SEL.has(i)?'on':''}" style="--k:${c?'#e0702b':'#2f6fd0'}">+ ${card(x)}</button>`:'').join(''); $('c'+c).querySelectorAll('button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i; if(SEL.has(i)) SEL.delete(i); else if(SEL.size<3) SEL.add(i); drawCands();});});}
 $('retrain').onclick=()=>{
-  const P=POS0.concat([...SEL].filter(i=>CANDS[i][1]===0).map(i=>CANDS[i][0])), N=NEG0.concat([...SEL].filter(i=>CANDS[i][1]===1).map(i=>CANDS[i][0]));
-  R2=testAll(P,N); table('t2',R2,R1); $('s2').textContent=`${nOk(R2)} / ${TESTS.length}`;
-  const a=nOk(R1),b=nOk(R2), added=[...SEL].map(i=>`「${CANDS[i][0]}」(${LBL[CANDS[i][1]]})`).join(', ')||'아무것도';
+  R2=testAll(trainSet()); table('t2',R2,R1); $('s2').textContent=`${nOk(R2)} / ${TESTS.length}`; drawTrain();
+  const a=nOk(R1),b=nOk(R2), added=[...SEL].map(i=>`「${CANDS[i][1]}」(${LBL[CANDS[i][2]]})`).join(', ')||'아무것도';
+  const same=[...SEL].length&&[...SEL].every(i=>(CANDS[i][2]===0)===(CANDS[i][3]==='w'));
   $('cmpMsg').style.display='block';
-  $('cmpMsg').innerHTML=(SEL.has(2)&&b<=a?'「생각보다」라는 말이 긍정에도 들어가면서 「생각보다 작고 얇아요」를 더 헷갈리게 됐어요. <b>같은 표현이 두 클래스에 섞이면</b> 오히려 나빠질 수 있어요. ':'')+`${added}를 더했더니 같은 테스트 4개 중 <b>${a}개 → ${b}개</b>를 맞혔어요. `+(b===4?'틀린 원인에 맞는 데이터를 골랐어요!':b>a?'나아졌지만 아직 틀린 문장이 있어요. 그 문장의 원인을 다시 살펴봐요.':'나아지지 않았어요. 수행평가였다면 이것도 근거와 함께 그대로 쓰면 돼요.');
+  $('cmpMsg').innerHTML=(same?'고른 사진이 모두 <b>원래와 같은 배경</b>이라 치우침이 그대로예요. ':'')+`${added}를 더했더니 같은 테스트 4장 중 <b>${a}장 → ${b}장</b>을 맞혔어요. `+(b===4?'틀린 원인(배경 치우침)에 맞는 사진을 골랐어요!':b>a?'나아졌지만 아직 틀린 사진이 있어요. 그 사진의 원인을 다시 살펴봐요.':'나아지지 않았어요. 수행평가였다면 이것도 근거와 함께 그대로 쓰면 돼요.');
   nums();
 };
-$('resetSim').onclick=()=>{SEL.clear();R2=null;$('t2').innerHTML='';$('s2').textContent='—';$('cmpMsg').style.display='none';drawCands();nums();};
-const HINTS=['「선물했는데 반응이 최고예요」는 칭찬인데 부정으로 나왔어요. 학습 데이터에서 <b>「~예요」로 끝나는 문장</b>은 어느 쪽에 있나요? (별로예요, 실망이에요…) 모델은 뜻이 아니라 <b>자주 함께 나온 글자 조각</b>을 보고 판단해요.','「생각보다 작고 얇아요」는 신뢰도가 낮아요. <b>「얇다」</b>는 학습 데이터에 한 번도 없었고, 부정 데이터의 「작아요」와 「작고」는 모양이 달라서 모델에게는 다른 조각이에요. 학습 데이터에 <b>없는 표현</b>은 잘 못 맞혀요.'];
+$('resetSim').onclick=()=>{SEL.clear();R2=null;$('t2').innerHTML='';$('s2').textContent='—';$('cmpMsg').style.display='none';drawCands();drawTrain();nums();};
+const HINTS=['틀린 두 장(나무 책상 위 생수병, 흰 책상 위 신문)의 <b>배경</b>을 보세요. 학습 사진에서 나무 책상은 어느 클래스에만 있었나요? 모델은 물건만 보는 게 아니라 <b>사진 전체</b>를 봐요.','사진에서 가장 넓은 부분은 물건이 아니라 <b>책상(배경)</b>이에요. 학습 사진의 배경이 클래스마다 달랐기 때문에, 모델은 「흰 책상 = 플라스틱, 나무 책상 = 종이」라고 배워 버렸어요. 3단원의 표정 알아보기 인공지능과 같은 <b>학습 데이터 편향</b>이에요.'];
 $('hint1').onclick=()=>{$('hintBox').style.display='block';$('hintBox').innerHTML=HINTS[0];};
 $('hint2').onclick=()=>{$('hintBox').style.display='block';$('hintBox').innerHTML=HINTS[1];};
-function nums(){ if(!$('myNums')) return; const a=R1?nOk(R1):0, b=R2?nOk(R2):null;
-  $('myNums').innerHTML=`<div><small>학습 데이터</small><b>${8+[...SEL].filter(i=>CANDS[i][1]===0).length} / ${8+[...SEL].filter(i=>CANDS[i][1]===1).length}</b><small>긍정 / 부정 개수</small></div><div><small>1차 테스트</small><b>${a} / 4</b><small>정확도 ${a*25}%</small></div><div><small>개선 후 같은 테스트</small><b>${b==null?'—':b+' / 4'}</b><small>${b==null?'03 화면에서 개선해 보세요':'정확도 '+b*25+'%'}</small></div>`; }
-drawCands(); first();
+function nums(){ if(!$('myNums')) return; const a=R1?nOk(R1):0, b=R2?nOk(R2):null, T=trainSet();
+  $('myNums').innerHTML=`<div><small>학습 사진</small><b>${T.filter(t=>t[2]===0).length} / ${T.filter(t=>t[2]===1).length}</b><small>플라스틱 / 종이 장수</small></div><div><small>1차 테스트</small><b>${a} / 4</b><small>정확도 ${a*25}%</small></div><div><small>개선 후 같은 테스트</small><b>${b==null?'—':b+' / 4'}</b><small>${b==null?'03 화면에서 개선해 보세요':'정확도 '+b*25+'%'}</small></div>`; }
+/* 04 정확도 계산기 */
+function accCalc(){
+  const v=k=>Math.max(0,parseInt($(k).value,10)||0), n0=v('aN0'),k0=Math.min(v('aK0'),n0),n1=v('aN1'),k1=Math.min(v('aK1'),n1), pc=(k,n)=>n?Math.round(k/n*100)+'%':'—';
+  $('accOut').innerHTML=`<div><small>전체 정확도</small><b>${pc(k0+k1,n0+n1)}</b><small>${k0+k1} / ${n0+n1}장</small></div><div><small>플라스틱</small><b>${pc(k0,n0)}</b><small>${k0} / ${n0}장</small></div><div><small>종이</small><b>${pc(k1,n1)}</b><small>${k1} / ${n1}장</small></div>`;
+}
+function accFill(R){ const c=y=>R.filter(r=>r.y===y); $('aN0').value=c(0).length; $('aK0').value=c(0).filter(r=>r.c===0).length; $('aN1').value=c(1).length; $('aK1').value=c(1).filter(r=>r.c===1).length; accCalc(); }
+['aN0','aK0','aN1','aK1'].forEach(k=>$(k).addEventListener('input',accCalc));
+drawTrain(); drawCands(); first();
 
 /* 06 준비물 */
-chips('ready','readyPick',['ML4Kids 학급 계정으로 로그인됨','내 주제 · 입력 · 출력 · 클래스 정함','클래스별 데이터 모을 계획(개수 비슷하게)','테스트 사례 4개 이상 따로 준비','Scratch 연결 방법 알기','근거는 내 이름과 숫자로'],true);
+chips('ready','readyPick',['ML4Kids 학급 계정으로 로그인됨','내 주제 · 넣을 사진 · 클래스 정함','클래스별 사진 찍을 계획(장수 비슷하게, 배경 골고루)','테스트 사진 따로 정해 둠','흐린·잘못 넣은 사진 정리하는 법 알기','정확도 계산하고 결과 화면 캡처하는 법 알기','근거는 내 이름과 숫자로'],true);
 
-const MEMOLIST=[['why','틀린 사례와 원인'],['improve','개선한 것과 같은 테스트 결과'],['myScratch','내 주제의 Scratch 동작'],['r1','성찰 ① 성능'],['r2','성찰 ② 틀린 원인'],['r3','성찰 ③ 개선과 결과'],['r4','성찰 ④ 한계'],['r5','성찰 ⑤ 사회적 영향'],['readyPick','수행평가 준비 확인']];
+const MEMOLIST=[['why','틀린 사례와 원인'],['improve','개선한 것과 같은 테스트 결과'],['myTest','내 주제의 테스트 사진'],['r1','성찰 ① 성능'],['r2','성찰 ② 틀린 원인'],['r3','성찰 ③ 개선과 결과'],['r4','성찰 ④ 한계'],['r5','성찰 ⑤ 사회적 영향'],['readyPick','수행평가 준비 확인']];
 onShow[5]=nums;
 onShow[6]=()=>memoSummary('msum',MEMOLIST);
 

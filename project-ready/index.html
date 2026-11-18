@@ -432,7 +432,7 @@
     <div class="route" aria-hidden="true">
       <div class="st" style="animation-delay:.2s"><i>💭</i><div><b>내 생각 정리</b><small>3단원 사례 → 내 입장 → 나의 약속</small></div></div>
       <div class="ar" style="animation-delay:.6s">↓</div>
-      <div class="st" style="animation-delay:.8s"><i>🧩</i><div><b>무엇을 만들까</b><small>모델 · Scratch 프로그램 · 내 기록</small></div></div>
+      <div class="st" style="animation-delay:.8s"><i>🧩</i><div><b>무엇을 만들까</b><small>이미지 모델 · 시험 결과 · 내 기록</small></div></div>
       <div class="ar" style="animation-delay:1.2s">↓</div>
       <div class="st" style="animation-delay:1.4s"><i>🎯</i><div><b>주제 정하기</b><small>좋은 주제 · 피할 주제</small></div></div>
       <div class="ar" style="animation-delay:1.8s">↓</div>
@@ -505,11 +505,11 @@
 <!-- 2 무엇을 만들까 -->
 <section class="page" data-name="무엇을 만들까" data-acc="#2f6fd0">
   <div class="head"><div class="num">02</div><div><h2>무엇을 만들까</h2><p>프로젝트를 마치면 내 손에 남는 것 세 가지</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>오늘은 만드는 방법보다 <b>다 만들었을 때의 모습</b>을 먼저 봐요. 내가 정한 문제를 푸는 <b>인공지능 모델</b>을 만들고, 그 결과로 움직이는 <b>Scratch 프로그램</b>을 만들고, 그 과정을 <b>기록</b>해요. 도구를 쓰는 방법은 따로 연습하는 시간이 있어요.</span></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>사진을 보고 어느 칸(클래스)인지 맞히는 <b>이미지 인공지능 모델</b>을 직접 만들어요. 내가 모은 사진으로 학습시키고, <b>처음 보는 사진</b>을 넣어 잘 맞히는지 시험하고, 그 과정을 <b>기록</b>해요. 도구는 ML4Kids(또는 선생님이 안내하는 비슷한 이미지 학습 도구)를 써요.</span></div>
   <div class="cards3">
-    <div class="kc" style="--k:#2f6fd0"><div class="ic">🧠</div><h4>ML4Kids 모델</h4><p>내가 정한 클래스(칸) 2개 이상에 내가 모은 데이터를 넣어 학습시킨 인공지능</p><small>예: 「플라스틱」 사진 10장, 「종이」 사진 10장</small></div>
-    <div class="kc" style="--k:#e0702b"><div class="ic">🐱</div><h4>Scratch 프로그램</h4><p>모델이 알려 준 결과에 따라 <b>클래스마다 다르게</b> 움직이는 프로그램</p><small>예: 플라스틱이면 「파란 통에 넣어요」</small></div>
-    <div class="kc" style="--k:#1f9d74"><div class="ic">📝</div><h4>내 기록</h4><p>모은 데이터 개수와 출처, 테스트 결과, 틀린 사례와 고친 방법, 한계와 사회적 영향에 대한 내 생각</p><small>단계마다 차례대로 적어 둬요</small></div>
+    <div class="kc" style="--k:#2f6fd0"><div class="ic">🧠</div><h4>이미지 분류 모델</h4><p>내가 정한 클래스 2개 이상에 내가 모은 사진을 넣어 학습시킨 인공지능</p><small>예: 「플라스틱」 사진 10장, 「종이」 사진 10장</small></div>
+    <div class="kc" style="--k:#e0702b"><div class="ic">🧪</div><h4>시험한 결과</h4><p>학습에 쓰지 않은 <b>새 사진</b>을 넣었을 때 결과(클래스)와 신뢰도가 나오는 화면, 그리고 몇 장 중 몇 장을 맞혔는지</p><small>예: 테스트 4장 중 3장 맞힘 → 정확도 75%</small></div>
+    <div class="kc" style="--k:#1f9d74"><div class="ic">📝</div><h4>내 기록</h4><p>모은 사진 수와 찍은 방법, 정리하며 뺀 사진과 그 까닭, 테스트 결과, 틀린 사진과 원인, 고칠 방향, 한계와 사회적 영향에 대한 내 생각</p><small>단계마다 차례대로 적어 둬요</small></div>
   </div>
   <div class="card" style="margin-top:18px">
     <h3>🔁 예시로 한 바퀴 돌아 보기 · 재활용 분류</h3>
@@ -519,10 +519,13 @@
     <div class="row" style="margin-top:10px"><button class="btn ghost sm" id="rcPrev">← 앞 단계</button><button class="btn sm" id="rcNext">다음 단계 →</button></div>
   </div>
   <div class="card">
-    <h3>🐱 데이터 유형마다 Scratch 프로그램은 이렇게 생겨요</h3>
-    <div class="apps" id="scBtns" style="grid-template-columns:repeat(4,1fr)"></div>
-    <div class="cview" id="scView"></div>
-    <p class="note">파란 블록은 ML4Kids가 내 모델로 만들어 주는 블록이에요. 화면에 보이는 블록 이름은 조금 다를 수 있어요.</p>
+    <h3>🖥️ ML4Kids 이미지 프로젝트는 이렇게 생겼어요</h3>
+    <div class="cards3">
+      <div class="kc" style="--k:#1f9d74"><div class="ic">📥</div><h4>훈련</h4><p>클래스(레이블)를 만들고 사진을 넣어요. 웹캠으로 찍거나, 그림을 그리거나, 내가 찍은 사진을 넣을 수 있어요.</p></div>
+      <div class="kc" style="--k:#2f6fd0"><div class="ic">🧠</div><h4>학습 &amp; 평가</h4><p>「학습」 버튼으로 모델을 만들고, <b>새 사진</b>을 넣어 결과와 신뢰도를 확인해요.</p></div>
+      <div class="kc" style="--k:#9b4fc4"><div class="ic">📸</div><h4>결과 남기기</h4><p>사진 개수가 보이는 훈련 화면과, 테스트 결과가 나온 화면을 캡처해 둬요. 내 인공지능이 실제로 작동한다는 기록이 돼요.</p></div>
+    </div>
+    <p class="note">손글씨 숫자를 그려서 학습시켰던 실습과 같은 순서예요. 도구 쓰는 방법은 따로 연습하는 시간이 있어요.</p>
   </div>
   <div class="card" style="--acc:#2f6fd0"><div class="quiz" data-quiz="2"></div></div>
 </section>
@@ -530,13 +533,13 @@
 <!-- 3 주제 정하기 -->
 <section class="page" data-name="주제 정하기" data-acc="#1f9d74">
   <div class="head"><div class="num">03</div><div><h2>주제 정하기</h2><p>인공지능이 무엇을 보고(입력) 무엇으로 나눌지(출력) 정하기</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>주제는 「<b>무엇을 넣으면 어느 칸으로 나눠 주는 인공지능</b>」인지 정하는 일이에요. 좋은 주제는 내가 수업 시간에 데이터를 <b>직접 모을 수 있고</b>, 결과가 <b>2~3개의 칸</b>으로 분명하게 나뉘어요.</span></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>주제는 「<b>어떤 사진을 넣으면 어느 칸으로 나눠 주는 인공지능</b>」인지 정하는 일이에요. 좋은 주제는 내가 수업 시간에 사진을 <b>직접 찍거나 그릴 수 있고</b>, 결과가 <b>2~3개의 칸</b>으로 분명하게 나뉘어요.</span></div>
   <div class="card">
     <h3>✅ 좋은 주제의 네 가지 조건</h3>
     <div class="cards4">
       <div class="kc" style="--k:#1f9d74"><div class="ic">🗂️</div><h4>칸이 2~3개로 나뉜다</h4><p>클래스가 2개 이상이고, 칸끼리 겹치지 않아요.</p><small>예: 긍정 / 부정</small></div>
-      <div class="kc" style="--k:#2f6fd0"><div class="ic">✋</div><h4>직접 모을 수 있다</h4><p>교실이나 집에서 내가 찍고, 녹음하고, 쓸 수 있는 데이터예요.</p><small>예: 필통·물병 사진, 손뼉 소리</small></div>
-      <div class="kc" style="--k:#9b4fc4"><div class="ic">👀</div><h4>사람도 구분할 수 있다</h4><p>사람이 봐도 정답을 정할 수 없으면 인공지능도 배울 수 없어요. 칸을 나누는 기준이 분명해야 해요.</p></div>
+      <div class="kc" style="--k:#2f6fd0"><div class="ic">✋</div><h4>직접 모을 수 있다</h4><p>교실이나 집에서 내가 직접 찍거나 그릴 수 있는 사진이에요.</p><small>예: 필통·물병 사진, 손 모양 사진</small></div>
+      <div class="kc" style="--k:#9b4fc4"><div class="ic">👀</div><h4>사람도 구분할 수 있다</h4><p>사람이 사진을 봐도 정답을 정할 수 없으면 인공지능도 배울 수 없어요. 칸을 나누는 기준이 분명해야 해요.</p></div>
       <div class="kc" style="--k:#e0702b"><div class="ic">🤝</div><h4>쓰임이 있다</h4><p>누구에게 어떤 도움이 되는지, 틀리면 누가 곤란한지 말할 수 있어요.</p><small>3단원에서 배운 내용과 이어져요</small></div>
     </div>
   </div>
@@ -545,10 +548,10 @@
     <table class="tbl">
       <tr><th class="l" style="width:46%">이런 주제는</th><th class="l">왜 피할까</th></tr>
       <tr><td>클래스가 하나뿐이거나, 답이 너무 뻔한 주제 <span class="muted">(빨간 종이 / 파란 종이처럼 틀릴 일이 거의 없는 것)</span></td><td>틀린 사례를 찾아 원인을 알아보고 고치는 과정을 할 수 없어요.</td></tr>
-      <tr><td>사람의 얼굴, 이름, 학번, 목소리로 <b>누구인지</b> 맞히는 주제</td><td>다른 사람의 개인정보를 모으게 돼요.</td></tr>
-      <tr><td>인터넷에서 연예인·캐릭터 사진이나 남이 쓴 글을 모아야 하는 주제</td><td>저작권과 초상권을 지키기 어려워요.</td></tr>
+      <tr><td>사람의 얼굴 사진으로 <b>누구인지</b> 맞히는 주제</td><td>다른 사람의 개인정보를 모으게 돼요.</td></tr>
+      <tr><td>인터넷에서 연예인·캐릭터 사진이나 남이 찍은 사진을 모아야 하는 주제</td><td>저작권과 초상권을 지키기 어려워요.</td></tr>
       <tr><td>사람을 외모·성별·사는 곳 등으로 나누거나, 폭력·혐오와 관련된 주제</td><td>3단원에서 배운 편향과 차별을 내가 만들게 돼요.</td></tr>
-      <tr><td>수업 시간에 모을 수 없는 데이터가 필요한 주제 <span class="muted">(몇 년 치 주가, 병원 진료 기록 등)</span></td><td>데이터를 직접 모으고 확인할 수 없어요.</td></tr>
+      <tr><td>수업 시간에 찍을 수 없는 사진이 필요한 주제 <span class="muted">(병원 엑스레이, 멀리 사는 동물 등)</span></td><td>사진을 직접 모으고 확인할 수 없어요.</td></tr>
     </table>
   </div>
   <div class="card">
@@ -557,25 +560,24 @@
     <div id="topicGame"></div>
   </div>
   <div class="card">
-    <h3>💡 데이터 유형별 예시 주제</h3>
+    <h3>💡 이런 주제를 해 볼 수 있어요</h3>
     <table class="tbl">
-      <tr><th class="l" style="width:16%">유형</th><th class="l">이런 문제에 어울려요</th><th class="l">예시 (클래스)</th></tr>
-      <tr><td><b>텍스트</b></td><td>문장의 감정·뜻·주제 나누기</td><td>댓글 감정(칭찬 / 비난) · 학교 공지(긴급 / 일반) · 날씨 질문(야외 / 실내)</td></tr>
-      <tr><td><b>숫자</b></td><td>두 가지 수치로 상태 나누기</td><td>기온·강수확률로 활동 장소(실내 / 실외) · 수면·공부 시간으로 습관(양호 / 부족)</td></tr>
-      <tr><td><b>이미지</b></td><td>물건·손 모양·간단한 장면 나누기</td><td>분리배출(플라스틱 / 종이) · 손 모양(가위 / 바위 / 보) · 하늘(맑음 / 흐림)</td></tr>
-      <tr><td><b>소리</b></td><td>짧은 소리·말 나누기</td><td>교실 소리(조용 / 시끄러움) · 대답(예 / 아니오) · 손뼉 / 손가락 튕기기</td></tr>
+      <tr><th class="l" style="width:30%">주제</th><th class="l">클래스 예시</th><th class="l">사진 모으는 법</th></tr>
+      <tr><td><b>분리배출 도우미</b></td><td>플라스틱 / 종이 / 캔</td><td>집과 교실의 물건을 직접 찍기</td></tr>
+      <tr><td><b>손 모양 게임</b></td><td>가위 / 바위 / 보</td><td>웹캠으로 내 손 찍기 (얼굴은 빼고)</td></tr>
+      <tr><td><b>오늘 하늘</b></td><td>맑음 / 흐림</td><td>여러 날 창밖 하늘 찍기</td></tr>
+      <tr><td><b>식물 돌보미</b></td><td>싱싱함 / 시듦</td><td>교실·집 화분의 잎 찍기</td></tr>
+      <tr><td><b>필기구 정리</b></td><td>연필 / 펜 / 지우개</td><td>내 필통 속 물건 찍기</td></tr>
+      <tr><td><b>도형 그림 알아보기</b></td><td>동그라미 / 세모 / 네모</td><td>ML4Kids 그리기 기능으로 직접 그리기</td></tr>
     </table>
-    <details style="margin-top:10px"><summary>주제가 떠오르지 않으면 · 유형 카드 10종</summary>
-      <p class="muted" style="font-size:.88rem">유형 카드를 고르면 시작 예시가 있어요. 시작 예시에 <b>내가 직접 모은 데이터</b>를 더해서 써요.</p>
-      <div class="types" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:8px" id="typeCards"></div>
-    </details>
+    <p class="note">사진 대신 직접 그린 그림을 써도 돼요. 위 주제를 그대로 써도 되고, 내 생활에서 새 주제를 찾아도 좋아요.</p>
   </div>
   <div class="card">
     <h3>✏️ 내 주제 후보 <span class="muted" style="font-weight:400;font-size:.88rem">(다음 시간에 SDGs와 연결해 더 다듬어요)</span></h3>
     <div class="qbuild">어떻게 하면 <input type="text" data-memo="howMight" placeholder="예: 플라스틱과 종이를 헷갈리지 않고 분리배출할"> 수 있을까?</div>
     <div class="saved"></div>
     <table class="plan" style="margin-top:10px">
-      <tr><td>데이터 유형</td><td><div id="dtype"></div></td></tr>
+      <tr><td>어떤 사진을 넣을까</td><td><input type="text" data-memo="input" placeholder="예: 분리배출할 물건 사진"></td></tr>
       <tr><td>클래스 A</td><td><input type="text" data-memo="classA" placeholder="예: 플라스틱"></td></tr>
       <tr><td>클래스 B</td><td><input type="text" data-memo="classB" placeholder="예: 종이"></td></tr>
       <tr><td>클래스 C (선택)</td><td><input type="text" data-memo="classC"></td></tr>
@@ -591,25 +593,38 @@
   <div class="head"><div class="num">04</div><div><h2>데이터 모으기</h2><p>몇 개를, 어떻게 모으고, 무엇을 조심할까</p></div></div>
   <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능은 내가 넣어 준 데이터만큼만 배워요. 데이터가 적거나 <b>한쪽으로 치우치면</b>, 3단원에서 본 표정 알아보기 인공지능처럼 특정 상황에서만 계속 틀리는 인공지능이 돼요.</span></div>
   <div class="card">
-    <h3>📌 모든 유형에 공통인 약속</h3>
+    <h3>📌 사진을 모을 때의 약속</h3>
     <div class="cards4">
-      <div class="kc" style="--k:#9b4fc4"><div class="ic">📏</div><h4>8개 이상, 비슷하게</h4><p>클래스마다 8개 이상 모으고, 클래스끼리 개수를 비슷하게 맞춰요.</p></div>
-      <div class="kc" style="--k:#2f6fd0"><div class="ic">✋</div><h4>직접 모은 데이터</h4><p>유형 카드의 시작 예시를 쓰면 클래스마다 <b>3개 이상</b> 직접 더하고, 둘을 나눠 기록해요. 이미지·소리는 모두 직접 찍고 녹음해요.</p></div>
-      <div class="kc" style="--k:#d64535"><div class="ic">🧪</div><h4>테스트 4개는 따로</h4><p>테스트할 사례 4개 이상은 <b>처음부터 떼어 두고</b> 학습에 넣지 않아요.</p></div>
-      <div class="kc" style="--k:#1f9d74"><div class="ic">🗂️</div><h4>어디서 몇 개</h4><p>클래스마다 몇 개를, 어디서 어떻게 모았는지 적어 둬요.</p></div>
+      <div class="kc" style="--k:#9b4fc4"><div class="ic">📏</div><h4>넉넉하게, 비슷하게</h4><p>클래스마다 10장 정도 모으고, 클래스끼리 장수를 비슷하게 맞춰요.</p></div>
+      <div class="kc" style="--k:#2f6fd0"><div class="ic">✋</div><h4>내가 직접</h4><p>사진은 내가 직접 찍거나 그려요. 남이 찍은 사진은 쓰지 않아요.</p></div>
+      <div class="kc" style="--k:#d64535"><div class="ic">🧪</div><h4>테스트 사진은 따로</h4><p>시험할 사진(클래스마다 2장 이상)은 <b>처음부터 떼어 두고</b> 학습에 넣지 않아요.</p></div>
+      <div class="kc" style="--k:#1f9d74"><div class="ic">🗂️</div><h4>어떻게 몇 장</h4><p>클래스마다 몇 장을, 어디서 어떤 조건으로 찍었는지 적어 둬요.</p></div>
     </div>
   </div>
   <div class="card">
-    <h3>🧭 데이터 유형별로 모으는 법</h3>
-    <div class="apps" id="dtBtns" style="grid-template-columns:repeat(4,1fr)"></div>
-    <div class="cview" id="dtView"></div>
+    <h3>📷 이렇게 찍어요</h3>
+    <div class="cards3">
+      <div class="kc" style="--k:#1f9d74"><h4>골고루</h4><p>· 밝은 곳·어두운 곳, 가까이·멀리, 여러 각도와 배경에서 찍어요.</p><p>· 두 클래스 모두 <b>같은 조건</b>으로 찍어요.</p><p>· 같은 물건만 여러 번 찍지 말고 여러 물건을 찍어요.</p></div>
+      <div class="kc" style="--k:#d64535"><h4>이러면 치우쳐요</h4><p>플라스틱은 흰 책상, 종이는 나무 책상에서만 찍으면 모델이 물건이 아니라 <b>배경 색</b>으로 구분해요. 3단원의 표정 알아보기 인공지능이 밝은 사진만 배운 것과 같아요.</p></div>
+      <div class="kc" style="--k:#2f6fd0"><h4>테스트 사진으로 좋은 것</h4><p>학습에 없던 장소·각도에서 찍은 사진, 두 클래스가 헷갈릴 만한 물건</p><small>테스트 사진은 학습에 넣지 않아요</small></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧹 사진 정리하기 <span class="muted" style="font-weight:400;font-size:.88rem">(데이터 전처리)</span></h3>
+    <p class="muted" style="margin-top:0">모은 사진을 그대로 넣지 않고, 학습시키기 전에 한 번 정리해요. 무엇을 왜 뺐는지도 적어 둬요.</p>
+    <div class="cards4">
+      <div class="kc" style="--k:#9b4fc4"><div class="ic">🌫️</div><h4>흐린 사진 빼기</h4><p>흔들리거나 너무 어두워서 물건이 잘 안 보이는 사진</p></div>
+      <div class="kc" style="--k:#d64535"><div class="ic">🔀</div><h4>잘못 넣은 사진 고치기</h4><p>다른 클래스 물건이 찍혔거나, 다른 칸에 잘못 넣은 사진</p></div>
+      <div class="kc" style="--k:#2f6fd0"><div class="ic">👯</div><h4>거의 같은 사진 줄이기</h4><p>같은 자리에서 연달아 찍어 거의 똑같은 사진이 너무 많을 때</p></div>
+      <div class="kc" style="--k:#1f9d74"><div class="ic">⚖️</div><h4>장수 맞추기</h4><p>한 클래스만 사진이 많으면 더 찍거나 줄여서 비슷하게</p></div>
+    </div>
   </div>
   <div class="card">
     <h3>🔒 저작권과 개인정보 지키기</h3>
     <div class="cards3">
-      <div class="kc" style="--k:#1f9d74"><div class="ic">⭕</div><h4>써도 돼요</h4><p>내가 직접 찍은 물건·풍경 사진 <span class="muted">(사람 얼굴 없이)</span></p><p>내가 직접 쓴 문장, 직접 잰 숫자</p><p>내 목소리, 내가 낸 소리</p></div>
-      <div class="kc" style="--k:#f2a516"><div class="ic">⚠️</div><h4>조심해서 써요</h4><p><b>친구의 목소리·손 사진</b>: 먼저 허락을 받고, 얼굴과 이름이 나오지 않게 해요.</p><p><b>인터넷의 사진·글</b>: 되도록 쓰지 않아요. 꼭 써야 하면 누구나 써도 된다고 표시된 것인지 확인하고 출처를 적어요.</p><p><b>생성형 AI가 알려 준 아이디어</b>: 참고만 하고, 실제 데이터는 내가 고르고 확인해요. 썼다면 어디에 어떻게 썼는지 기록해요.</p></div>
-      <div class="kc" style="--k:#d64535"><div class="ic">❌</div><h4>안 돼요</h4><p>사람 얼굴이 나온 사진</p><p>이름·학번·전화번호·주소가 들어 있는 글 <span class="muted">(공지문 속 실명도 지워요)</span></p><p>허락 없이 녹음한 다른 사람의 목소리</p><p>연예인·캐릭터 사진</p></div>
+      <div class="kc" style="--k:#1f9d74"><div class="ic">⭕</div><h4>써도 돼요</h4><p>내가 직접 찍은 물건·풍경 사진 <span class="muted">(사람 얼굴 없이)</span></p><p>내가 직접 그린 그림</p><p>내 손·내 물건 사진</p></div>
+      <div class="kc" style="--k:#f2a516"><div class="ic">⚠️</div><h4>조심해서 써요</h4><p><b>친구의 손 사진</b>: 먼저 허락을 받고, 얼굴과 이름표가 나오지 않게 해요.</p><p><b>인터넷의 사진</b>: 되도록 쓰지 않아요. 꼭 써야 하면 누구나 써도 된다고 표시된 것인지 확인하고 출처를 적어요.</p><p><b>생성형 AI가 알려 준 아이디어</b>: 참고만 하고, 실제 데이터는 내가 고르고 확인해요. 썼다면 어디에 어떻게 썼는지 기록해요.</p></div>
+      <div class="kc" style="--k:#d64535"><div class="ic">❌</div><h4>안 돼요</h4><p>사람 얼굴이 나온 사진</p><p>이름·학번·전화번호가 보이는 사진 <span class="muted">(이름표, 공책 표지 등)</span></p><p>허락 없이 찍은 다른 사람의 모습</p><p>연예인·캐릭터 사진</p></div>
     </div>
   </div>
   <div class="card" style="--acc:#9b4fc4"><div class="quiz" data-quiz="4"></div></div>
@@ -626,13 +641,13 @@
     <table class="plan">
       <tr><td>클래스마다 모을 개수</td><td><input type="text" data-memo="cnt" placeholder="예: 플라스틱 10장, 종이 10장"></td></tr>
       <tr><td>어떻게 모을까</td><td><textarea data-memo="how" rows="2" placeholder="예: 집과 교실에서 직접 찍기. 밝은 곳·어두운 곳, 가까이·멀리를 두 클래스 모두 골고루"></textarea></td></tr>
-      <tr><td>직접 더할 데이터 <small class="muted">(시작 예시를 쓸 때)</small></td><td><input type="text" data-memo="mine" placeholder="예: 내가 실제로 쓴 리뷰 말투로 클래스마다 3문장 더하기"></td></tr>
+      <tr><td>사진 정리할 때 볼 것</td><td><input type="text" data-memo="mine" placeholder="예: 흐린 사진과 다른 물건이 같이 찍힌 사진은 뺀다"></td></tr>
       <tr><td>테스트 사례 4개 후보 <small class="muted">(학습에 넣지 않음)</small></td><td><textarea data-memo="tests" rows="2" placeholder="예: 반투명 컵, 작은 뚜껑, 구겨진 종이, 신문지"></textarea></td></tr>
       <tr><td>개인정보·저작권 지킬 것</td><td><input type="text" data-memo="safe" placeholder="예: 사람 얼굴이 찍히지 않게 물건만 찍는다"></td></tr>
     </table>
-    <h3 style="margin-top:16px">🐱 만들 것</h3>
+    <h3 style="margin-top:16px">🧪 시험하기</h3>
     <table class="plan">
-      <tr><td>Scratch에서 클래스마다 할 동작</td><td><input type="text" data-memo="program" placeholder="예: 플라스틱이면 파란 통, 종이면 초록 통을 보여 준다"></td></tr>
+      <tr><td>새 사진으로 어떻게 시험할까</td><td><input type="text" data-memo="program" placeholder="예: 테스트 사진 4장을 하나씩 넣고 결과와 신뢰도를 표에 적은 뒤 정확도를 계산한다"></td></tr>
     </table>
     <h3 style="margin-top:16px">⚖️ 3단원과 이어 보기</h3>
     <table class="plan">
@@ -650,8 +665,8 @@
   <div class="head"><div class="num">06</div><div><h2>마무리</h2><p>핵심 문장 · 마무리 퀴즈 · 생각 정리 질문폼</p></div></div>
   <div class="key3">
     <div style="--k:#e0702b">3단원에서 배운 <b>편향 · 책임성 · 공정성 · 투명성</b>은 내가 인공지능을 만들 때 지켜야 할 약속이 된다.</div>
-    <div style="--k:#2f6fd0">프로젝트에서는 <b>ML4Kids 모델</b>, 모델 결과로 움직이는 <b>Scratch 프로그램</b>, 데이터·테스트·고친 과정을 담은 <b>기록</b>을 만든다.</div>
-    <div style="--k:#9b4fc4">데이터는 클래스마다 <b>8개 이상 비슷한 개수</b>로 직접·골고루 모으고, <b>테스트 4개는 따로</b> 두며, <b>개인정보와 저작권</b>을 지킨다.</div>
+    <div style="--k:#2f6fd0">프로젝트에서는 사진으로 학습한 <b>이미지 분류 모델</b>을 만들고, <b>새 사진으로 시험한 결과</b>와 사진 모으기·정리·테스트·고칠 방향을 담은 <b>기록</b>을 남긴다.</div>
+    <div style="--k:#9b4fc4">사진은 클래스마다 <b>비슷한 장수</b>로 직접·골고루 찍고, 학습 전에 <b>정리</b>하며, <b>테스트 사진은 따로</b> 두고, <b>개인정보와 저작권</b>을 지킨다.</div>
   </div>
   <div class="card" style="--acc:#0f2742"><h3>마무리 퀴즈</h3><div class="quiz" data-quiz="6"></div></div>
   <div class="card"><h3>개념 퀴즈 결과</h3><table id="result"></table><button class="btn ghost" id="quizReset">퀴즈 다시 풀기</button></div>
@@ -660,7 +675,7 @@
     <h3>질문폼에 내 생각 쓰기</h3>
     <ol>
       <li>3단원 사례 하나에서 인공지능이 <b>도움이 되는 점과 해가 될 수 있는 점</b>, 그리고 <b>내 생각과 까닭</b> 쓰기</li>
-      <li><b>내 프로젝트 계획</b>: 「어떻게 하면 ___?」 · 데이터 유형 · 클래스 · 모을 데이터의 개수와 방법 · 테스트 사례를 따로 두는 방법</li>
+      <li><b>내 프로젝트 계획</b>: 「어떻게 하면 ___?」 · 어떤 사진을 넣을지 · 클래스 · 모을 사진 수와 찍는 방법 · 테스트 사진을 따로 두는 방법</li>
       <li>내 인공지능이 틀리거나 치우치면 <b>누가 곤란해질지</b>, 이를 막기 위해 데이터를 모을 때 지킬 <b>나의 약속</b> 쓰기</li>
     </ol>
     <p>질문폼에는 붙여넣기가 되지 않아요. 아래 메모를 보면서 직접 다시 써 주세요. 오늘 만든 계획은 다음 시간에 그대로 이어져요.</p>
@@ -700,14 +715,14 @@ const WHO=(function(){
 
 /* 퀴즈 */
 const QUIZ={
- 2:[{q:'Scratch 프로그램을 알맞게 만든 것은?',o:['모델과 상관없이 늘 「플라스틱이에요」라고 말한다','모델이 알려 준 결과에 따라 클래스마다 다르게 움직인다','멋진 배경과 음악이 많이 들어 있다'],a:1,w:'모델의 결과(레이블)로 갈라져야 인공지능 프로그램이에요. 모든 클래스에 다른 동작이 있어야 해요.'},
+ 2:[{q:'내가 만든 인공지능이 실제로 작동한다는 것을 가장 잘 보여 주는 것은?',o:['학습시킨 사진 목록만 캡처한 화면','처음 보는 사진을 넣었을 때 결과와 신뢰도가 나온 화면','모델 이름을 멋지게 지은 화면'],a:1,w:'학습에 쓰지 않은 새 사진을 넣어 결과가 나와야 모델이 실제로 판단한다는 것을 알 수 있어요.'},
     {q:'예시에서 고친 뒤에 같은 테스트 사진 4장으로 다시 확인한 까닭은?',o:['고치기 전과 후를 공정하게 비교하려고','새 사진을 찍기 귀찮아서','테스트 사진은 많을수록 무조건 좋아서'],a:0,w:'테스트가 바뀌면 나아진 것이 고친 덕분인지 알 수 없어요.'}],
  3:[{q:'주제를 정할 때 「사람도 보고 구분할 수 있는지」 따져 보는 까닭은?',o:['칸을 나누는 기준이 분명해야 인공지능도 배울 수 있어서','사람이 구분할 수 있으면 인공지능이 필요 없어서','데이터를 적게 모아도 되어서'],a:0,w:'정답을 정할 수 없는 문제는 데이터에 붙일 레이블도 정할 수 없어요.'},
-    {q:'「좋은 글 / 나쁜 글」 주제를 더 낫게 고친 것은?',o:['「글 / 그림」으로 바꾼다','「칭찬 댓글 / 비난 댓글」처럼 기준이 분명한 칸으로 바꾼다','클래스를 「좋은 글」 하나로 줄인다'],a:1,w:'「좋다」의 기준이 사람마다 달라요. 칸의 뜻이 분명해야 해요.'}],
+    {q:'「예쁜 사진 / 안 예쁜 사진」 주제를 더 낫게 고친 것은?',o:['「사진 / 그림」으로 바꾼다','「맑은 하늘 / 흐린 하늘」처럼 기준이 분명한 칸으로 바꾼다','클래스를 「예쁜 사진」 하나로 줄인다'],a:1,w:'「예쁘다」의 기준이 사람마다 달라요. 칸의 뜻이 분명해야 해요.'}],
  4:[{q:'플라스틱은 모두 흰 책상에서, 종이는 모두 갈색 책상에서 찍었다. 생길 수 있는 문제는?',o:['모델이 물건이 아니라 책상 색으로 구분할 수 있다','사진이 많아져서 학습이 안 된다','아무 문제도 없다'],a:0,w:'두 클래스 모두 같은 조건에서 골고루 찍어야 물건의 특징을 배워요.'},
     {q:'테스트 사례를 다루는 방법으로 알맞은 것은?',o:['학습 데이터 중에서 4개를 골라 테스트한다','테스트할 4개는 처음부터 떼어 두고 학습에 넣지 않는다','틀린 테스트 사례를 학습에 넣은 뒤 같은 사례로 다시 테스트한다'],a:1,w:'학습에 들어간 사례로 테스트하면 처음 보는 데이터를 맞히는지 알 수 없어요.'},
     {q:'데이터로 써도 되는 것은?',o:['인터넷에서 내려받은 연예인 사진','내가 직접 찍은 필통과 물병 사진','친구 얼굴이 나온 단체 사진'],a:1,w:'사람 얼굴이 없는, 내가 직접 찍은 사진이 가장 안전해요.'}],
- 6:[{q:'프로젝트 주제로 가장 알맞은 것은?',o:['친구 얼굴 사진으로 이름 맞히기','손뼉 소리와 손가락 튕기는 소리 구분하기','내일 주가가 오를지 맞히기'],a:1,w:'직접 녹음할 수 있고, 칸이 분명하고, 개인정보 걱정이 없어요.'},
+ 6:[{q:'프로젝트 주제로 가장 알맞은 것은?',o:['친구 얼굴 사진으로 이름 맞히기','손 모양 사진으로 가위·바위·보 구분하기','인터넷에서 모은 연예인 사진 나누기'],a:1,w:'직접 찍을 수 있고, 칸이 분명하고, 개인정보·저작권 걱정이 없어요.'},
     {q:'클래스마다 데이터 개수를 비슷하게 맞추는 까닭은?',o:['개수가 많은 클래스 쪽으로 예측이 치우치지 않게 하려고','화면이 보기 좋아서','학습 시간을 늘리려고'],a:0,w:'한 클래스만 많으면 모델이 그쪽으로 답하기 쉬워져요. 3단원의 학습 데이터 편향이에요.'},
     {q:'3단원의 「투명성」을 내 프로젝트에서 지키는 방법은?',o:['잘 맞은 결과만 골라 기록한다','데이터를 어디서 몇 개 모았는지, 틀린 결과까지 기록한다','데이터 출처는 비밀로 한다'],a:1,w:'어떤 데이터로 어떻게 만들었는지 알 수 있어야 믿을 수 있어요.'}],
 };
@@ -868,11 +883,11 @@ chips('promise','promise',[
 const RC=[
  {ic:'🎯',n:'문제',k:'#e0702b',t:'문제 정하기',b:'「어떻게 하면 플라스틱과 종이를 헷갈리지 않고 분리배출할 수 있을까?」<br>입력: 물건 사진 · 출력: <b>플라스틱</b> 또는 <b>종이</b>',r:'문제 한 문장 · 입력 · 출력 · 클래스 2개'},
  {ic:'📦',n:'데이터',k:'#9b4fc4',t:'데이터 모으기',b:'집과 교실에서 직접 찍은 사진을 플라스틱 10장, 종이 10장 모아요. 밝은 곳·어두운 곳, 가까이·멀리를 두 클래스 모두 골고루 찍어요. 학습에 안 쓸 <b>테스트 사진 4장</b>은 따로 둬요.',r:'플라스틱 10장 · 종이 10장 · 모두 직접 촬영 · 테스트 4장 따로'},
- {ic:'🧠',n:'학습',k:'#2f6fd0',t:'학습시키기',b:'ML4Kids에 클래스 두 개를 만들고 사진을 넣은 뒤 「학습」을 눌러 모델을 만들어요.',r:'학습을 마친 화면'},
- {ic:'🧪',n:'테스트',k:'#d64535',t:'테스트하기',b:'떼어 둔 사진 4장을 하나씩 넣어 봐요. <b>4개 중 2개</b>를 맞혔어요. 반투명 플라스틱 컵을 「종이」로, 구겨진 종이를 「플라스틱」으로 틀렸어요.',r:'테스트 4개 중 2개 맞음 · 틀린 사례 2건'},
+ {ic:'🧹',n:'정리',k:'#0f8a8a',t:'사진 정리하기 (전처리)',b:'흔들려서 물건이 안 보이는 사진 2장을 빼고, 종이 칸에 잘못 들어간 플라스틱 뚜껑 사진을 플라스틱 칸으로 옮겼어요. 장수는 클래스마다 9장으로 맞췄어요.',r:'뺀 사진·옮긴 사진과 그 까닭 · 정리 후 플라스틱 9장 · 종이 9장'},
+ {ic:'🧠',n:'학습',k:'#2f6fd0',t:'학습시키기',b:'ML4Kids에 클래스 두 개를 만들고 사진을 넣은 뒤 「학습」을 눌러 모델을 만들어요.',r:'사진 개수가 보이는 훈련 화면 캡처'},
+ {ic:'🧪',n:'테스트',k:'#d64535',t:'테스트하기',b:'떼어 둔 사진 4장을 하나씩 넣어 봐요. <b>4장 중 2장</b>을 맞혀 정확도는 <b>50%</b>예요. 반투명 플라스틱 컵을 「종이」로, 구겨진 종이를 「플라스틱」으로 틀렸어요.',r:'테스트 결과표 · 4장 중 2장 맞음 · 정확도 50% · 결과 화면 캡처'},
  {ic:'🔍',n:'원인',k:'#f2a516',t:'틀린 이유 찾기',b:'학습 데이터를 다시 보니 플라스틱 사진은 모두 <b>투명한 페트병</b>, 종이 사진은 모두 <b>반듯한 상자</b>였어요. 데이터가 한쪽 모양으로 치우쳐 있었어요.',r:'틀린 원인을 내 학습 데이터와 연결해서'},
- {ic:'🔧',n:'개선',k:'#1f9d74',t:'고치고 다시 확인하기',b:'반투명 컵·뚜껑 사진 3장, 구겨진 종이 사진 3장을 더해 다시 학습했어요. <b>같은 테스트 사진 4장</b>으로 확인하니 <b>4개 중 3개</b>를 맞혔어요.',r:'무엇을 왜 더했는지 · 고치기 전 2개 → 고친 뒤 3개'},
- {ic:'🐱',n:'Scratch',k:'#2f6fd0',t:'프로그램 만들기',b:'사진을 넣으면 모델 결과에 따라 플라스틱이면 「파란 통에 넣어요」, 종이면 「초록 통에 넣어요」라고 말하고, 신뢰도가 낮으면 「다시 찍어 주세요」라고 말해요.',r:'실행 화면 캡처'},
+ {ic:'🔧',n:'개선',k:'#1f9d74',t:'고칠 방향 정하고 고쳐 보기',b:'원인에 맞게 <b>반투명 컵·뚜껑 사진과 구겨진 종이 사진을 더 찍어 넣자</b>고 정했어요. 실제로 3장씩 더해 다시 학습하고 <b>같은 테스트 사진 4장</b>으로 확인하니 <b>4장 중 3장</b>(75%)을 맞혔어요.',r:'고칠 방향과 그 까닭 · 고쳐 봤다면 같은 테스트로 50% → 75%'},
  {ic:'💭',n:'생각',k:'#0f2742',t:'한계와 사회적 영향',b:'아직 어두운 곳에서 찍은 사진에는 약해요. 실제 분리배출함에 쓰인다면 잘못 분류된 쓰레기는 재활용되지 못할 수 있고, 카메라에 지나가는 사람의 얼굴이 찍히지 않게 해야 해요.',r:'내 숫자와 내 데이터를 근거로 한 생각'},
 ];
 (function(){
@@ -890,22 +905,13 @@ const RC=[
   show();
 })();
 
-/* 02 유형별 Scratch */
-const B=(c,t,ind)=>`<span class="blk ${c}${ind?' in':''}">${t}</span>`;
-tabs('scBtns','scView',[
- {ic:'💬',n:'텍스트',ex:'리뷰를 넣으면 별점 보여 주기',bl:B('ev','깃발을 클릭했을 때')+B('ctl','「리뷰를 입력하세요」 묻고 기다리기')+B('ctl','만약 <span class="blk ml" style="display:inline-block;margin:0">(<i>대답</i>) 인식한 레이블</span> = <i>긍정</i> 이라면')+B('lk','「⭐⭐⭐⭐⭐ 좋은 리뷰네요!」 말하기',1)+B('ctl','아니면')+B('lk','「⚠️ 불만 리뷰예요」 말하기',1),tip:'묻고 기다리기로 받은 <b>대답</b>을 모델에 넣어요.'},
- {ic:'🔢',n:'숫자',ex:'기온과 강수확률로 활동 장소 추천하기',bl:B('ev','깃발을 클릭했을 때')+B('ctl','「기온은?」 묻고 기다리기 → 기온에 저장')+B('ctl','「강수확률은?」 묻고 기다리기 → 강수확률에 저장')+B('ctl','만약 <span class="blk ml" style="display:inline-block;margin:0">(<i>기온</i>, <i>강수확률</i>) 인식한 레이블</span> = <i>실외</i> 이라면')+B('lk','「밖에서 놀기 좋아요!」 말하기',1)+B('ctl','아니면')+B('lk','「오늘은 실내 활동!」 말하기',1),tip:'학습할 때 넣은 <b>두 가지 숫자</b>를 같은 순서로 넣어요.'},
- {ic:'📷',n:'이미지',ex:'사진으로 분리배출 안내하기',bl:B('ev','깃발을 클릭했을 때')+B('lk','카메라(또는 업로드한 사진)를 모양으로 가져오기')+B('ctl','만약 <span class="blk ml" style="display:inline-block;margin:0">(<i>모양 이미지</i>) 인식한 레이블</span> = <i>플라스틱</i> 이라면')+B('lk','「파란 통에 넣어요」 말하기',1)+B('ctl','아니면')+B('lk','「초록 통에 넣어요」 말하기',1),tip:'스프라이트의 <b>모양(이미지)</b>을 모델에 넣어요.'},
- {ic:'🎤',n:'소리',ex:'교실 소리로 집중·휴식 아이콘 보여 주기',bl:B('ev','깃발을 클릭했을 때')+B('ml','듣기 시작하기')+B('ev','<i>조용</i> 소리를 들었을 때')+B('lk','📖 집중 아이콘 보이기',1)+B('ev','<i>시끄러움</i> 소리를 들었을 때')+B('lk','☕ 휴식 아이콘 보이기',1),tip:'소리 모델은 <b>듣기 시작하기</b>를 한 뒤, 클래스마다 「소리를 들었을 때」 블록으로 움직여요.'},
-],it=>`<div class="grid2"><div><h4>예시: ${it.ex}</h4><div class="blocks">${it.bl}</div></div><div class="callout" style="margin-top:0">${it.tip}<br><br>✅ 모든 클래스에 다른 동작이 있어야 해요.<br>✅ 모델 블록 없이 정해진 대로만 움직이면 안 돼요.<br>✅ (선택) 신뢰도가 낮으면 「잘 모르겠어요」라고 말하게 해 봐요.</div></div>`);
-
 /* 03 주제 판정 */
 sorter('topicGame',{
   cats:[{n:'⭕ 좋아요',k:'#1f9d74'},{n:'🔧 고치면 돼요',k:'#f2a516'},{n:'❌ 피해요',k:'#d64535'}],
   items:[
     {ic:'☁️',t:'하늘 사진으로 「맑음 / 흐림」 구분하기',c:0,w:'직접 찍을 수 있고, 칸이 분명해요.'},
-    {ic:'👏',t:'손뼉 소리와 손가락 튕기는 소리 구분하기',c:0,w:'직접 녹음할 수 있고 개인정보 걱정이 없어요.'},
-    {ic:'📝',t:'「좋은 글 / 나쁜 글」 나누기',c:1,w:'「좋다」의 기준이 흐려요. 「칭찬 댓글 / 비난 댓글」처럼 기준을 분명히 하면 좋아요.'},
+    {ic:'✋',t:'손 모양 사진으로 「가위 / 바위 / 보」 구분하기',c:0,w:'웹캠으로 직접 찍을 수 있어요. 얼굴은 나오지 않게 찍어요.'},
+    {ic:'🖼️',t:'「예쁜 사진 / 안 예쁜 사진」 나누기',c:1,w:'「예쁘다」의 기준이 사람마다 달라요. 「맑은 하늘 / 흐린 하늘」처럼 기준을 분명히 하면 좋아요.'},
     {ic:'🗑️',t:'쓰레기 사진을 「쓰레기」 클래스 하나로 모으기',c:1,w:'클래스가 하나면 나눌 수 없어요. 「플라스틱 / 종이」처럼 2개 이상으로 나눠요.'},
     {ic:'🎨',t:'빨간 색종이와 파란 색종이 구분하기',c:1,w:'너무 쉬워서 틀릴 일이 거의 없어요. 실제 쓰임이 있는 문제로 바꿔 봐요.'},
     {ic:'🧑',t:'친구 얼굴 사진으로 누구인지 맞히기',c:2,w:'친구의 얼굴은 개인정보예요.'},
@@ -914,41 +920,20 @@ sorter('topicGame',{
   ],
   end:'⭕는 그대로, 🔧는 <b>칸의 기준이나 개수</b>를 고치면 좋은 주제가 돼요. ❌는 개인정보·저작권·차별 문제가 있어요.'
 });
-$('typeCards').innerHTML=[
- ['01 텍스트','날씨·활동 문의','야외활동 적합 / 실내활동 권장','#2f6fd0'],['02 텍스트','쇼핑 리뷰 감정','긍정 / 부정','#2f6fd0'],['03 텍스트','학교 공지 긴급도','긴급 / 일반','#2f6fd0'],
- ['04 숫자','학습 습관 점검','양호 / 부족','#1f9d74'],['05 숫자','실내외 활동 추천','실내 / 실외','#1f9d74'],['06 숫자','도서관 대출 적합성','대출 권장 / 보류','#1f9d74'],
- ['07 이미지','재활용 분류','플라스틱 / 종이','#9b4fc4'],['08 이미지','손 제스처','가위 / 바위','#9b4fc4'],
- ['09 소리','교실 소음 수준','조용 / 시끄러움','#d64535'],['10 소리','간단 응답 음성','예 / 아니오','#d64535'],
-].map(t=>`<div style="--k:${t[3]}"><b>${t[0]} · ${t[1]}</b>${t[2]}</div>`).join('');
-chips('dtype','dtypePick',['텍스트','숫자','이미지','소리'],false);
 function topicCheck(){
   const n=['classA','classB','classC'].filter(k=>(MEMO[k]||'').trim()).length;
-  const items=[[!!(MEMO.howMight||'').trim(),'문제를 한 문장으로 썼다'],[!!MEMO.dtypePick,'데이터 유형을 골랐다'],[n>=2,'클래스를 2개 이상 정했다']];
-  $('topicCheck').innerHTML='<b>스스로 점검</b><br>'+items.map(([ok,t])=>(ok?'✅ ':'⬜ ')+t).join('<br>')+'<br><span class="muted" style="font-size:.88rem">그리고 네 가지 조건(칸이 나뉜다 · 직접 모을 수 있다 · 사람도 구분할 수 있다 · 쓰임이 있다)에 맞는지 다시 확인해 보세요.</span>';
+  const items=[[!!(MEMO.howMight||'').trim(),'문제를 한 문장으로 썼다'],[!!(MEMO.input||'').trim(),'어떤 사진을 넣을지 정했다'],[n>=2,'클래스를 2개 이상 정했다']];
+  $('topicCheck').innerHTML='<b>스스로 점검</b><br>'+items.map(([ok,t])=>(ok?'✅ ':'⬜ ')+t).join('<br>')+'<br><span class="muted" style="font-size:.88rem">그리고 네 가지 조건(칸이 나뉜다 · 직접 찍을 수 있다 · 사람도 구분할 수 있다 · 쓰임이 있다)에 맞는지 다시 확인해 보세요.</span>';
 }
-document.querySelectorAll('[data-memo=howMight],[data-memo=classA],[data-memo=classB],[data-memo=classC]').forEach(t=>t.addEventListener('memo',topicCheck));
-$('dtype').addEventListener('memo',topicCheck);
+document.querySelectorAll('[data-memo=howMight],[data-memo=input],[data-memo=classA],[data-memo=classB],[data-memo=classC]').forEach(t=>t.addEventListener('memo',topicCheck));
 onShow[3]=topicCheck;
-
-/* 04 유형별 데이터 */
-tabs('dtBtns','dtView',[
- {ic:'💬',n:'텍스트',k:'#2f6fd0',cnt:'클래스마다 문장 <b>8개 이상</b>',how:['같은 뜻이라도 말투·길이·단어를 다르게 써요.','내가 겪은 일, 내가 쓸 법한 말로 직접 써요.','시작 예시를 쓰면 클래스마다 3문장 이상 직접 더해요.'],bias:'한 클래스 문장만 모두 「~요」로 끝나거나 같은 단어가 반복되면, 모델이 뜻이 아니라 그 말투나 단어로 판단해요.',test:'학습에 없던 표현, 줄임말, 칸을 정하기 애매한 문장'},
- {ic:'🔢',n:'숫자',k:'#1f9d74',cnt:'클래스마다 <b>8행 이상</b> (특징값 2개씩)',how:['단위를 하나로 맞춰요. (분이면 모두 분으로)','아주 큰 값, 아주 작은 값, 두 칸의 경계 근처 값을 골고루 넣어요.','직접 재거나 조사한 값을 쓰고, 어디서 얻었는지 적어요.'],bias:'한 클래스에는 아주 극단적인 값만 있으면, 경계 근처 사례에서 자꾸 틀려요.',test:'두 클래스의 경계 근처 값'},
- {ic:'📷',n:'이미지',k:'#9b4fc4',cnt:'클래스마다 <b>직접 찍은 사진 8장 이상</b>',how:['밝은 곳·어두운 곳, 가까이·멀리, 여러 배경에서 골고루 찍어요.','두 클래스 모두 <b>같은 조건</b>으로 찍어요.','물건만 나오게 찍고, 사람 얼굴이 들어가지 않게 해요.'],bias:'플라스틱은 흰 책상, 종이는 갈색 책상에서만 찍으면 모델이 물건이 아니라 배경 색으로 구분해요.',test:'다른 장소·다른 각도에서 찍은 사진, 두 클래스가 헷갈릴 만한 물건'},
- {ic:'🎤',n:'소리',k:'#d64535',cnt:'클래스마다 <b>1~2초 녹음 8개 이상</b> + 「배경 소음」',how:['ML4Kids 소리 프로젝트에는 <b>배경 소음</b> 칸이 따로 있어요. 아무 소리도 내지 않을 때의 교실 소리도 8개 정도 녹음해요.','같은 기기, 같은 거리에서 길이와 크기를 비슷하게 녹음해요.','소리의 원인을 여러 가지로 해요. (손뼉도 세게·약하게, 다른 손으로)'],bias:'한 클래스에만 에어컨·선풍기 소리가 깔려 있으면, 모델이 그 잡음으로 구분해요.',test:'다른 거리에서 낸 소리, 경계에 있는 중간 크기 소리 (친구 목소리는 허락받고)'},
-],it=>`<div class="cx" style="--acc:${it.k};margin:0"><h3>${it.ic} ${it.n}</h3><p class="lead2">📏 ${it.cnt}</p>
-<div class="cards3" style="margin-top:8px">
-<div class="kc" style="--k:#1f9d74"><h4>이렇게 모아요</h4>${it.how.map(h=>`<p>· ${h}</p>`).join('')}</div>
-<div class="kc" style="--k:#d64535"><h4>이러면 치우쳐요</h4><p>${it.bias}</p></div>
-<div class="kc" style="--k:#2f6fd0"><h4>테스트 사례로 좋은 것</h4><p>${it.test}</p><small>테스트 4개 이상은 학습에 넣지 않아요</small></div>
-</div></div>`);
 
 /* 05 계획 한 장 */
 function planSum(){
   const v=k=>esc((MEMO[k]||'').trim());
   const cls=['classA','classB','classC'].map(v).filter(Boolean).join(' / ');
   const row=(l,x)=>`<tr><td>${l}</td><td>${x||'<span class="muted">(아직 안 정함)</span>'}</td></tr>`;
-  $('topicSum').innerHTML=`<table class="plan">${row('어떻게 하면 ___ 할 수 있을까?',v('howMight')?'어떻게 하면 '+v('howMight')+' 수 있을까?':'')}${row('데이터 유형',v('dtypePick'))}${row('클래스',cls)}</table>`;
+  $('topicSum').innerHTML=`<table class="plan">${row('어떻게 하면 ___ 할 수 있을까?',v('howMight')?'어떻게 하면 '+v('howMight')+' 수 있을까?':'')}${row('어떤 사진을 넣을까',v('input'))}${row('클래스',cls)}</table>`;
   const p=[(MEMO.promise||'').split(' · ').filter(Boolean).map(esc).join('<br>'),v('promiseOwn')].filter(Boolean).join('<br>');
   $('promiseSum').innerHTML=p?`<span style="color:var(--ink)">${p}</span>`:'(1번 화면에서 고르면 여기에 나와요)';
 }
@@ -957,8 +942,8 @@ $('printPlan').onclick=()=>{planSum(); window.print();};
 
 /* 06 마무리 */
 const MEMOLIST=[['caseP','고른 3단원 사례'],['help','도움이 되는 점'],['harm','해가 될 수 있는 점'],['stance','내 생각과 그 까닭'],['promise','고른 나의 약속'],['promiseOwn','내 말로 쓴 나의 약속'],
- ['howMight','어떻게 하면 ___ 할 수 있을까?'],['dtypePick','데이터 유형'],['classA','클래스 A'],['classB','클래스 B'],['classC','클래스 C'],
- ['cnt','클래스마다 모을 개수'],['how','어떻게 모을까'],['mine','직접 더할 데이터'],['tests','테스트 사례 후보'],['safe','개인정보·저작권 지킬 것'],['program','Scratch에서 할 동작'],['whoHurt','틀리면 곤란한 사람'],['whoUnfair','치우치면 불리한 사람']];
+ ['howMight','어떻게 하면 ___ 할 수 있을까?'],['input','어떤 사진을 넣을까'],['classA','클래스 A'],['classB','클래스 B'],['classC','클래스 C'],
+ ['cnt','클래스마다 모을 개수'],['how','어떻게 모을까'],['mine','사진 정리할 때 볼 것'],['tests','테스트 사례 후보'],['safe','개인정보·저작권 지킬 것'],['program','새 사진으로 시험하는 방법'],['whoHurt','틀리면 곤란한 사람'],['whoUnfair','치우치면 불리한 사람']];
 onShow[6]=()=>memoSummary('msum',MEMOLIST);
 
 /* 진도 보내기 ②: 화면 이동·퀴즈·메모·창 이탈을 선생님 시트로 */
