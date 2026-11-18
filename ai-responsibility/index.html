@@ -372,7 +372,7 @@
         <span class="kicker">왜 배울까</span>
         <ul>
           <li>인공지능은 결과가 나온 이유를 알기 어렵고, 잘못되었을 때 <b>책임이 누구에게 있는지</b> 가리기도 어려워요.</li>
-          <li>4단원에서 내가 직접 인공지능 모델을 만들 때 지켜야 할 기준이 돼요.</li>
+          <li>앞으로 인공지능을 쓰는 사람으로서 무엇을 요구하고 확인해야 하는지 알 수 있어요.</li>
         </ul>
       </div>
       <div class="why">
@@ -585,7 +585,7 @@
       <div><b style="font-size:.93rem">인공지능의 발전은 우리에게 어떤 변화를 가져올까?</b><textarea data-memo="kq1" rows="4"></textarea></div>
       <div><b style="font-size:.93rem">인공지능 사회의 구성원으로서 갖추어야 할 윤리 의식은 무엇일까?</b><textarea data-memo="kq2" rows="4"></textarea></div>
     </div>
-    <div class="memo"><label>🧭 4단원에서 내가 인공지능 모델을 만들 때 지킬 나의 원칙 한 가지 <small>예: 학습 데이터가 한쪽으로 치우치지 않았는지 먼저 확인한다</small></label><textarea data-memo="myRule" rows="2"></textarea></div>
+    <div class="memo"><label>🧭 인공지능 사회의 구성원으로서 내가 지킬 원칙 한 가지 <small>예: 인공지능이 내린 결과를 그대로 믿지 않고, 어떤 근거로 나왔는지 먼저 확인한다</small></label><textarea data-memo="myRule" rows="2"></textarea></div>
     <div class="saved"></div>
   </div>
   <div class="card" style="--acc:#0f2742">
@@ -603,7 +603,7 @@
     <ol>
       <li>병원 오진단 사례를 <b>환자(사용자)</b> 입장에서 책임성·공정성·투명성으로 분석하고, 병원이나 개발자가 할 일 쓰기</li>
       <li>범죄 예측 CCTV 사례: 기준이 편향되면 생길 문제, <b>대중의 안전 vs 개인의 자유</b>에 대한 내 입장과 까닭, 세 가지 가치를 지키는 방안 쓰기</li>
-      <li><b>3단원 총정리</b>: 핵심 질문 하나에 3단원 낱말 세 개 이상으로 답하고, 4단원에서 모델을 만들 때 지킬 나의 원칙 쓰기</li>
+      <li><b>3단원 총정리</b>: 핵심 질문 하나에 3단원 낱말 세 개 이상으로 답하고, 인공지능 사회의 구성원으로서 내가 지킬 원칙 쓰기</li>
     </ol>
     <p>질문폼에는 붙여넣기가 되지 않아요. 아래 메모를 보면서 직접 다시 써 주세요.</p>
     <a class="go" href="https://aiquiz26.vercel.app/forms/ai-24-3-1-3.html" target="_blank" rel="noopener">질문폼 열기 →</a>
@@ -899,7 +899,7 @@ chips('futPick','futPick',['편향','윤리적 딜레마','사회적 책임'],tr
 chips('capPick','capPick',['추상화 능력','자동화 능력','창의·융합 능력','디지털 의사소통·협업 능력','디지털 윤리 의식','디지털 기술 활용 능력','인공지능 문제 해결력','데이터 문해력','인공지능 윤리 의식'],true);
 
 /* 07 마무리 */
-const MEMOLIST=[['hosR','병원 사례 · 책임성'],['hosF','병원 사례 · 공정성'],['hosT','병원 사례 · 투명성'],['cc1','CCTV 기준이 편향되면'],['cc2pick','대중의 안전 vs 개인의 자유'],['cc2','그렇게 생각한 까닭'],['cc3r','CCTV · 책임성 방안'],['cc3f','CCTV · 공정성 방안'],['cc3t','CCTV · 투명성 방안'],['kq1','핵심 질문 1'],['kq2','핵심 질문 2'],['myRule','4단원에서 지킬 나의 원칙']];
+const MEMOLIST=[['hosR','병원 사례 · 책임성'],['hosF','병원 사례 · 공정성'],['hosT','병원 사례 · 투명성'],['cc1','CCTV 기준이 편향되면'],['cc2pick','대중의 안전 vs 개인의 자유'],['cc2','그렇게 생각한 까닭'],['cc3r','CCTV · 책임성 방안'],['cc3f','CCTV · 공정성 방안'],['cc3t','CCTV · 투명성 방안'],['kq1','핵심 질문 1'],['kq2','핵심 질문 2'],['myRule','내가 지킬 원칙']];
 onShow[7]=()=>memoSummary('msum',MEMOLIST);
 
 /* 진도 보내기 ②: 화면 이동·퀴즈·메모·창 이탈을 선생님 시트로 */
