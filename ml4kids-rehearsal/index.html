@@ -655,7 +655,7 @@
     <div class="memo"><label>그 주제의 인공지능이 실제로 쓰인다면 누가, 어떤 도움을 받을까요?</label><textarea data-memo="pickWho" rows="2"></textarea><div class="saved"></div></div>
     <div class="memo"><label>오늘 본 「배경으로 판단하는 실수」를 막으려면, 그 주제로 사진을 찍을 때 무엇을 조심할까요?</label><textarea data-memo="pickPhoto" rows="2"></textarea><div class="saved"></div></div>
   </div>
-  <div class="callout">📋 <b>주제 정하기</b> · 아래 버튼으로 <b>주제 목록 시트</b>를 열고, 아래쪽 탭에서 <b>내 반(인C · 인F · 인G)</b>을 골라요. 고른 주제 줄의 <b>학번·이름</b> 칸에 적으면 끝! 반 안에서는 한 주제에 한 사람, <b>먼저 적은 사람</b>이 그 주제를 해요. 친구 이름은 지우거나 고치지 않아요.<br><a class="btn" style="display:inline-block;margin-top:10px;text-decoration:none" href="https://docs.google.com/spreadsheets/d/1pEWf1SH7gDhvgppT5416qvCFduUTU61PPbZpcP-mccE/edit" target="_blank" rel="noopener">📋 주제 목록 시트 열기 →</a></div>
+  <div class="callout">📋 <b>주제 정하기</b> · 아래 버튼으로 <b>우리 반 주제 목록 시트</b>를 열고, 아래쪽 <b>반 이름 탭</b>에서 고른 주제 줄의 <b>학번·이름</b> 칸에 적으면 끝! 한 주제에 한 사람, <b>먼저 적은 사람</b>이 그 주제를 해요. 친구 이름은 지우거나 고치지 않아요. 주제·클래스 칸은 잠겨 있어 고칠 수 없어요.<div id="topicSheetBtn" style="margin-top:10px"></div></div>
 </section>
 
 <!-- 7 마무리 -->
@@ -913,6 +913,17 @@ const MEMOLIST=[['why','틀린 사례와 원인'],['improve','개선한 것과 �
 onShow[5]=nums;
 onShow[7]=()=>memoSummary('msum',MEMOLIST);
 
+
+/* 반별 주제 목록 시트: 내 반 시트만 보이기 */
+(function(){
+  const SHEETS={C:'https://docs.google.com/spreadsheets/d/154jIcE7LDqEHczzDMuIiWAkjmNLN6vjoOUYmYt-rnj4/edit',F:'https://docs.google.com/spreadsheets/d/1sWr6_BYgw8F_Ng4k9QVRSglBh2zAJtnjSL048Xd3v5M/edit',G:'https://docs.google.com/spreadsheets/d/1XeKg4wJgsPniCeFdfscP7eVtsnNlgIU4RdfM1ZDMTkk/edit'};
+  const box=$('topicSheetBtn'); if(!box) return;
+  const btn=(k,label)=>`<a class="btn" style="display:inline-block;margin:0 8px 6px 0;text-decoration:none" href="${SHEETS[k]}" target="_blank" rel="noopener">${label}</a>`;
+  const m=String(WHO.cls||'').toUpperCase().match(/([CFG])\s*$/);
+  if(m) box.innerHTML=btn(m[1],`📋 인${m[1]}반 주제 목록 시트 열기 →`);
+  else if(WHO.preview) box.innerHTML='<small class="muted">교사 미리보기 · 반별 시트</small><br>'+['C','F','G'].map(k=>btn(k,`📋 인${k}반 시트 →`)).join('');
+  else box.innerHTML='<b>처음 화면에서 학번과 이름을 넣으면 우리 반 시트 버튼이 여기에 나와요.</b>';
+})();
 /* 진도 보내기 ②: 화면 이동·퀴즈·메모·창 이탈을 선생님 시트로 */
 (function(){
   if(WHO.off) return;
