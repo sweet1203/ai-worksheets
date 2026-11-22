@@ -401,6 +401,13 @@
   input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
   .pg-toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:#0f2742;color:#fff;padding:9px 16px;border-radius:999px;font-size:.9rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transition:opacity .2s;pointer-events:none}
   .pg-toast.on{opacity:1}
+
+  /* 26 다시 쓰기 */
+  #score{display:none}
+  .tg{margin:14px 0 6px;font-size:1rem}.tg:first-child{margin-top:0}
+  .tps{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+  .tp{background:#fff;border:1px solid #d9e0ec;border-left:5px solid var(--acc);border-radius:10px;padding:8px 10px;font-size:.9rem}
+  .tp b{display:block}.tp span{display:block;color:#33404f}.tp small{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
 </style>
 </head>
 <body>
@@ -420,10 +427,10 @@
       <span class="tag">인공지능 기초 · Ⅳ. 인공지능 프로젝트 · 1. 지속 가능 발전 문제 해결</span>
       <h1>수행평가 전에<br>한 바퀴 미리 돌아 보기</h1>
       <div class="story"><b>남극 연구소의 부상당한 펭귄</b><br>남극 연구소에서 다친 펭귄을 발견했는데 어떤 종인지 알 수 없어요. 종마다 먹이와 치료 방법이 달라 꼭 알아야 하는데, 카메라도 고장 났어요. <b>부리와 날개 같은 생김새만으로</b> 펭귄의 종을 구별하는 인공지능을 만들 수 있을까요?</div>
-      <p>교과서 펭귄 프로젝트로 프로젝트 수행 과정을 익히고, <b style="color:#fff">분리배출 사진 분류</b>라는 이미지 예시 프로젝트로 수행평가의 전 과정을 미리 연습해요. 오늘 연습은 성적에 들어가지 않아요.</p>
+      <p>교과서 펭귄 프로젝트로 프로젝트 수행 과정을 익히고, <b style="color:#fff">분리배출 사진 분류</b>라는 이미지 예시 프로젝트로 수행평가의 전 과정을 미리 연습해요. 그리고 <b style="color:#fff">실제 인공지능이 똑같은 실수를 한 사례</b>를 보고, 마지막에 <b style="color:#fff">내 주제</b>를 골라요. 오늘 연습은 성적에 들어가지 않아요.</p>
       <ol>
         <li>프로젝트 수행 과정 (펭귄)</li><li>ML4Kids 따라 하기</li><li>테스트 · 틀린 사례 · 개선</li>
-        <li>결과 기록 · 평가 지표</li><li>성찰 써 보기</li><li>마무리 · 질문폼</li>
+        <li>결과 기록 · 평가 지표</li><li>성찰 써 보기</li><li>내 주제 고르기</li><li>마무리 · 질문폼</li>
       </ol>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
@@ -510,7 +517,10 @@
     <table class="dist" id="pgT" style="margin-top:8px"></table>
     <div class="callout" id="pgMsg" style="font-size:.92rem"></div>
   </div>
-  <div class="quiz" data-quiz="1"></div>
+  <div class="card">
+    <h3>💬 내 생각 꺼내기</h3>
+    <div class="memo"><label>다친 펭귄의 종을 잘못 알면 어떤 일이 생길까요? 이처럼 <b>틀리면 곤란한</b> 인공지능이 우리 주변에도 있을까요?</label><textarea data-memo="pgWrong" rows="2"></textarea><div class="saved"></div></div>
+  </div>
 </section>
 
 <!-- 2 ML4Kids 따라 하기 -->
@@ -535,8 +545,8 @@
       <div class="cls" style="--k:#e0702b"><h4>종이 <small id="n1">8장</small></h4><div class="phs" id="d1"></div></div>
     </div>
     <p class="note">사진을 잘 보세요. 플라스틱은 모두 <b>흰 책상</b>, 종이는 모두 <b>나무 책상</b>에서 찍었어요. 이게 다음 화면에서 문제가 돼요.</p>
+    <div class="memo"><label>💬 이 사진들로 학습하면 어떤 일이 생길 것 같나요? 다음 화면을 보기 전에 미리 예상해 써 봐요.</label><textarea data-memo="predict" rows="2"></textarea><div class="saved"></div></div>
   </div>
-  <div class="quiz" data-quiz="2"></div>
 </section>
 
 <!-- 3 테스트·개선 -->
@@ -566,7 +576,17 @@
     <div class="callout" id="cmpMsg" style="display:none;font-size:.92rem"></div>
     <div class="memo"><label>고칠 방향: 무엇을 왜 더했고, 같은 테스트에서 어떻게 달라졌나 <small>(나아지지 않았다면 그 이유도)</small></label><textarea data-memo="improve" rows="3"></textarea><div class="saved"></div></div>
   </div>
-  <div class="quiz" data-quiz="3"></div>
+  <div class="card">
+    <h3>📰 실제 인공지능도 이런 실수를 했어요</h3>
+    <p class="muted" style="margin-top:0">모의 실험의 모델은 물건 대신 <b>책상 색</b>을 보고 판단했어요. 실제 연구와 현장에서도 같은 일이 있었어요.</p>
+    <div class="cards3">
+      <div class="kc" style="--k:#2f6fd0"><div class="ic">🐺</div><h4>늑대와 허스키</h4><p>늑대 사진에는 대부분 <b>눈(雪)</b>이 함께 찍혀 있었어요. 이 사진으로 학습한 모델은 동물이 아니라 눈을 보고, 눈 위의 허스키를 늑대라고 했어요. 연구자들이 「인공지능이 무엇을 보고 판단했는지 설명하는 방법」을 보여 주려고 일부러 만든 실험이에요.</p><small>출처: Ribeiro 외, 「Why Should I Trust You?」(2016)</small></div>
+      <div class="kc" style="--k:#d64535"><div class="ic">🩻</div><h4>폐 엑스레이와 병원</h4><p>폐렴을 찾는 인공지능이 병의 흔적만이 아니라 <b>어느 병원에서 찍은 사진인지</b>까지 알아챘어요. 폐렴 환자가 많은 병원의 사진이 많았기 때문이에요. 다른 병원 사진으로 시험하면 성능이 떨어지는 경우가 많았어요.</p><small>출처: Zech 외, 학술지 PLOS Medicine(2018)</small></div>
+      <div class="kc" style="--k:#9b4fc4"><div class="ic">🖐🏾</div><h4>피부 질환과 피부색</h4><p>피부 질환을 찾는 인공지능의 학습 사진은 대부분 <b>밝은 피부</b>였어요. 그래서 어두운 피부에서는 성능이 떨어진다는 연구가 이어졌고, 어두운 피부 사진을 더 넣어 다시 학습하자 차이가 줄었어요.</p><small>출처: 스탠퍼드대 연구진 등 피부과 AI 연구(2021~2022)</small></div>
+    </div>
+    <div class="memo"><label>💬 세 사례와 오늘 모의 실험의 공통점은 무엇일까요?</label><textarea data-memo="realSame" rows="2"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>💬 피부 질환 사례처럼 데이터가 치우치면 <b>누가</b> 손해를 볼까요? 내 주제라면 어떤 사람이나 상황이 빠지기 쉬울까요?</label><textarea data-memo="realWho" rows="2"></textarea><div class="saved"></div></div>
+  </div>
 </section>
 
 <!-- 4 결과 기록 -->
@@ -596,8 +616,9 @@
       <p class="note">이 화면들이 「내 모델이 실제로 실행된다」는 기록이 돼요.</p>
     </div>
   </div>
+  <div class="callout">📰 <b>실제 숫자로 보기</b> · 농촌진흥청의 농작물 병해충 사진 진단 앱은 영상 인식 정확도가 <b>96.6%</b>라고 밝혔어요(2024). 아주 높아 보이지만 <b>100장 가운데 3~4장은 틀린다</b>는 뜻이에요.</div>
+  <div class="memo card"><label>💬 정확도 96.6%라면 믿고 써도 될까요? 틀리는 3~4장이 농업인에게는 어떤 일일지, 그래서 사람은 무엇을 함께 해야 할지 써 봐요.</label><textarea data-memo="accMeaning" rows="2"></textarea><div class="saved"></div></div>
   <div class="memo card"><label>내 주제라면 테스트 사진은 무엇으로 할까? <small>(클래스마다 2장 이상, 학습에 넣지 않을 것)</small></label><textarea data-memo="myTest" rows="2" placeholder="예: 하늘 주제 → 학습 때와 다른 창문에서 찍은 맑은 하늘 2장, 흐린 하늘 2장"></textarea><div class="saved"></div></div>
-  <div class="quiz" data-quiz="4"></div>
 </section>
 
 <!-- 5 성찰 -->
@@ -618,12 +639,28 @@
       <div class="saved"></div>
     </div>
   </div>
-  <div class="callout">📝 수행평가 마지막 시간 <b>현장 서술</b>은 인터넷·생성형 AI를 끄고, 내 프로젝트 화면과 활동지만 보고 써요. 문항은 그날 받아요. 오늘처럼 <b>내 숫자와 내 사진</b>을 근거로 쓰는 연습이 그대로 도움이 돼요.</div>
+  <div class="callout">📝 수행평가 마지막 시간 <b>현장 서술</b>은 활동지 ③ 한 창만 열어 두고 다른 창·생성형 AI는 모두 닫은 채, 내 프로젝트 화면과 앞에서 낸 활동지 내용만 보고 써요. 문항은 그날 받아요. 오늘처럼 <b>내 숫자와 내 사진</b>을 근거로 쓰는 연습이 그대로 도움이 돼요.</div>
 </section>
 
-<!-- 6 마무리 -->
+<!-- 6 내 주제 고르기 -->
+<section class="page" data-name="내 주제 고르기" data-acc="#1f9d74">
+  <div class="head"><div class="num">06</div><div><h2>내 주제 고르기</h2><p>주제 목록 30개 · 친구와 겹치지 않게</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>오늘 연습한 과정을 <b>내 주제</b>로 다시 하게 돼요. 아래 30개 주제는 모두 <b>수업 시간에 직접 찍거나 그릴 수 있고</b>, 얼굴·이름표·남이 찍은 사진이 필요 없는 주제예요. 고르기 전에 <b>내 관심사와 진로</b>, 그리고 <b>그 인공지능이 누구에게 도움이 될지</b>를 생각해 봐요.</span></div>
+  <div class="card">
+    <h4 class="tg">🏫 교실에서 바로 찍기</h4><div class="tps"><div class="tp"><b>1. 손 모양 게임</b><span>가위 / 바위 / 보</span><small>얼굴이 화면에 나오지 않게 손만 · 건강하고 행복한 삶</small></div><div class="tp"><b>2. 수어 숫자 알아보기</b><span>1 / 2 / 3 (수어 손 모양)</span><small>얼굴 빼고 손만, 배경을 바꿔 가며 · 모든 종류의 불평등 해소</small></div><div class="tp"><b>3. 손 씻기 동작 확인</b><span>손바닥 비비기 / 손등 문지르기 / 손가락 깍지</span><small>얼굴 빼고 손만 · 건강하고 행복한 삶</small></div><div class="tp"><b>4. 만지지 않는 손 신호</b><span>손바닥 펴기 / 주먹 / 엄지 위로</span><small>얼굴 빼고 손만 · 건강하고 행복한 삶</small></div><div class="tp"><b>5. 필기구 분류</b><span>연필 / 볼펜 / 형광펜</span><small>이름 스티커가 보이지 않게 · 지속 가능한 생산과 소비</small></div><div class="tp"><b>6. 연필심 상태</b><span>뾰족함 / 뭉툭함 / 부러짐</span><small>가까이 찍기 · 여러 자루로 · 지속 가능한 생산과 소비</small></div><div class="tp"><b>7. 교과서 구분</b><span>국어 / 수학 / 영어 교과서</span><small>이름 쓴 부분은 가리고 찍기 · 모두를 위한 양질의 교육</small></div><div class="tp"><b>9. 이면지 판별</b><span>뒷면 비었음 / 양면 사용됨</span><small>이름·학번이 보이지 않게 접거나 가리기 · 지속 가능한 생산과 소비</small></div><div class="tp"><b>13. 물 마시기 확인</b><span>가득 / 절반 / 빔</span><small>병 종류와 배경을 바꿔 가며 · 건강하고 행복한 삶</small></div><div class="tp"><b>14. 플러그 상태</b><span>꽂힘 / 뽑힘</span><small>감전 조심 · 손대지 말고 찍기만 · 에너지의 친환경적 생산과 소비</small></div><div class="tp"><b>15. 멀티탭 스위치</b><span>켜짐 / 꺼짐</span><small>불빛이 비치는 각도를 여러 가지로 · 에너지의 친환경적 생산과 소비</small></div><div class="tp"><b>16. 창문 상태</b><span>열림 / 닫힘</span><small>바깥 사람이 찍히지 않게 · 에너지의 친환경적 생산과 소비</small></div><div class="tp"><b>17. 의자 정리</b><span>책상 안으로 넣음 / 빠져 있음</span><small>친구가 앉아 있지 않을 때 · 지속 가능한 도시와 주거지</small></div><div class="tp"><b>18. 쓰레기통 상태</b><span>여유 있음 / 가득 참</span><small>위생 · 손으로 만지지 않기 · 지속 가능한 도시와 주거지</small></div><div class="tp"><b>19. 교실 바닥 청소 확인</b><span>깨끗함 / 쓰레기 있음</span><small>사람 발이나 얼굴이 찍히지 않게 · 지속 가능한 도시와 주거지</small></div><div class="tp"><b>20. 신발 끈 확인</b><span>묶임 / 풀림</span><small>내 신발만 · 여러 켤레면 더 좋음 · 건강하고 행복한 삶</small></div><div class="tp"><b>21. 신발 종류</b><span>실내화 / 운동화</span><small>내 신발이나 허락받은 신발만 · 지속 가능한 도시와 주거지</small></div></div><h4 class="tg">🎒 준비물이 필요해요</h4><div class="tps"><div class="tp"><b>8. 동전 구분</b><span>10원 / 100원 / 500원</span><small>앞면·뒷면 모두 · 여러 각도 · 모든 종류의 불평등 해소</small></div><div class="tp"><b>10. 컵 종류 구분</b><span>텀블러 / 페트병 / 종이컵</span><small>같은 배경에서 세 가지 모두 · 지속 가능한 생산과 소비</small></div><div class="tp"><b>11. 투명 페트병 분리배출</b><span>라벨 뗌 / 라벨 붙음</span><small>병 모양을 여러 가지로 · 지속 가능한 생산과 소비</small></div><div class="tp"><b>12. 우유갑 분리배출</b><span>펼쳐 말림 / 그대로</span><small>씻어서 말린 뒤 찍기 · 지속 가능한 생산과 소비</small></div><div class="tp"><b>22. 낙엽 종류</b><span>은행잎 / 단풍잎 / 그 밖의 잎</span><small>잎 모양이 다양하게 · 육상 생태계 보전</small></div><div class="tp"><b>23. 화분 잎 상태</b><span>싱싱함 / 시듦</span><small>같은 잎만 찍지 않기 · 육상 생태계 보전</small></div><div class="tp"><b>24. 바나나 익은 정도</b><span>덜 익음 / 잘 익음 / 너무 익음</span><small>밝기를 바꿔 가며 · 식량안보와 지속 가능한 농업</small></div></div><h4 class="tg">✏️ ML4Kids로 그리기</h4><div class="tps"><div class="tp"><b>25. 도형 그림</b><span>동그라미 / 세모 / 네모</span><small>크기·위치·선 굵기를 다양하게 · 모두를 위한 양질의 교육</small></div><div class="tp"><b>26. 한글 자음 손글씨</b><span>ㄱ / ㄴ / ㄷ</span><small>여러 사람이 쓴 것처럼 모양을 다양하게 · 모두를 위한 양질의 교육</small></div><div class="tp"><b>27. 화살표 방향</b><span>위 / 오른쪽 / 왼쪽</span><small>길이·굵기를 다양하게 · 모든 종류의 불평등 해소</small></div><div class="tp"><b>28. 날씨 기호</b><span>해 / 구름 / 비</span><small>같은 그림만 반복하지 않기 · 기후 변화 대응</small></div><div class="tp"><b>29. 표정 이모티콘</b><span>웃음 / 슬픔 / 화남</span><small>실제 사람 얼굴 사진은 쓰지 않음 · 건강하고 행복한 삶</small></div><div class="tp"><b>30. 교통 표지판 그림</b><span>정지 / 양보 / 진입 금지</span><small>모양과 크기를 다양하게 · 지속 가능한 도시와 주거지</small></div></div>
+  </div>
+  <div class="card">
+    <h3>💬 고르기 전에 생각하기</h3>
+    <div class="memo"><label>하고 싶은 주제 1·2·3순위와 그 까닭 <small>내 관심사·진로와 이어지는 점이 있다면 함께 써요. (먼저 이름을 적은 친구가 있으면 다음 순위로)</small></label><textarea data-memo="pick" rows="3"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>그 주제의 인공지능이 실제로 쓰인다면 누가, 어떤 도움을 받을까요?</label><textarea data-memo="pickWho" rows="2"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>오늘 본 「배경으로 판단하는 실수」를 막으려면, 그 주제로 사진을 찍을 때 무엇을 조심할까요?</label><textarea data-memo="pickPhoto" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+  <div class="callout">📋 <b>주제 정하기</b> · 선생님이 알려 주는 <b>주제 목록 시트</b>의 <b>내 반 탭</b>에서, 고른 주제 줄의 학번·이름 칸에 적어요. 반 안에서는 한 주제에 한 사람, <b>먼저 적은 사람</b>이 그 주제를 해요. 친구 이름은 지우거나 고치지 않아요.</div>
+</section>
+
+<!-- 7 마무리 -->
 <section class="page" data-name="마무리 · 질문폼" data-acc="#0f2742">
-  <div class="head"><div class="num">06</div><div><h2>마무리</h2><p>핵심 문장 · 수행평가 준비물 · 마무리 퀴즈 · 질문폼</p></div></div>
+  <div class="head"><div class="num">07</div><div><h2>마무리</h2><p>핵심 문장 · 수행평가 준비물 · 질문폼</p></div></div>
   <div class="key3">
     <div style="--k:#2f6fd0">인공지능 프로젝트는 <b>문제 정의 → 데이터 수집 → 데이터 전처리 → 유형·알고리즘 선정 → 모델 학습 → 성능 평가 및 수정</b> 순서로 수행한다.</div>
     <div style="--k:#e0702b">테스트 사진은 학습에 쓰지 않고, 새 사진으로 시험한 결과를 <b>정확도</b>로 정리하며, 틀린 사진의 원인을 <b>학습 사진</b>에서 찾아 <b>개선 방향</b>을 정한다.</div>
@@ -633,8 +670,7 @@
     <h3>🎒 다음 시간(수행평가) 준비물 확인</h3>
     <div id="ready"></div>
   </div>
-  <div class="card" style="--acc:#0f2742"><h3>마무리 퀴즈</h3><div class="quiz" data-quiz="6"></div></div>
-  <div class="card"><h3>개념 퀴즈 결과</h3><table id="result"></table><button class="btn ghost" id="quizReset">퀴즈 다시 풀기</button></div>
+  <div hidden><table id="result"></table><button id="quizReset" type="button"></button></div>
   <div class="formgo">
     <span class="kicker">생각 정리 과제</span>
     <h3>질문폼에 내 생각 쓰기</h3>
@@ -679,21 +715,7 @@ const WHO=(function(){
 })();
 
 /* 퀴즈 */
-const QUIZ={
- 1:[{q:'교과서 펭귄 프로젝트에서 k-최근접 이웃 모델의 성능을 높이려고 한 작업은?',o:['표준화','데이터 삭제','클래스 줄이기'],a:0,w:'체질량(g)처럼 숫자가 큰 속성이 거리를 좌우하지 않도록 수치를 같은 규모로 맞춰요.'},
-    {q:'수집된 데이터를 검사해 패턴이나 추세를 찾는 역할은?',o:['프로젝트 기획자','데이터 분석가','프로젝트 발표자'],a:1,w:'개별 수행인 우리 수행평가에서는 이 역할도 내가 맡아요. 클래스별 개수 균형과 치우침을 살펴요.'}],
- 2:[{q:'ML4Kids에서 레이블(클래스)을 만들고 예시 데이터를 넣는 곳은?',o:['훈련','학습 & 평가','만들기'],a:0,w:'훈련 → 학습 & 평가 → 만들기 순서예요.'},
-    {q:'테스트에 쓸 사진을 학습 데이터에 넣으면 안 되는 까닭은?',o:['처음 보는 사진을 맞히는지 알 수 없어서','학습이 너무 느려져서','레이블이 사라져서'],a:0,w:'이미 본 사진은 당연히 잘 맞혀요. 성능은 처음 보는 사진으로 재야 해요.'}],
- 3:[{q:'개선 전·후를 비교할 때 지켜야 할 것은?',o:['개선 후에는 더 쉬운 테스트로 바꾼다','같은 테스트 사례로 비교한다','테스트 개수를 늘려 점수를 높인다'],a:1,w:'테스트가 바뀌면 나아진 것이 데이터 덕분인지 알 수 없어요.'},
-    {q:'모의 실험에서 「나무 책상 위 생수병」을 종이로 틀린 까닭으로 알맞은 것은?',o:['학습 사진에서 종이만 나무 책상에서 찍어서','생수병이 너무 커서','종이 클래스가 없어서'],a:0,w:'배경이 한쪽 클래스에만 몰린 것도 데이터의 치우침(편향)이에요. 모델이 물건 대신 배경을 배웠어요.'}],
- 4:[{q:'테스트 사진 8장 중 6장을 맞혔다. 정확도는?',o:['75%','60%','86%'],a:0,w:'6 ÷ 8 = 0.75, 즉 75%예요.'},
-    {q:'정확도를 클래스별로 따로 보는 까닭은?',o:['어느 클래스를 자주 틀리는지 알 수 있어서','계산이 쉬워져서','정확도가 저절로 높아져서'],a:0,w:'전체 정확도가 같아도 한 클래스만 계속 틀릴 수 있어요. 그 클래스의 사진을 살펴보면 고칠 방향이 보여요.'}],
- 6:[{q:'인공지능 프로젝트 수행 과정의 순서로 알맞은 것은?',o:['문제 정의 → 데이터 수집 → 데이터 전처리 → 유형·알고리즘 선정 → 모델 학습 → 성능 평가 및 수정','데이터 수집 → 모델 학습 → 문제 정의 → 데이터 전처리 → 성능 평가 → 알고리즘 선정','모델 학습 → 데이터 수집 → 성능 평가 → 문제 정의 → 전처리 → 알고리즘 선정'],a:0,w:'교과서 180쪽 펭귄 프로젝트 수행 과정이에요.'},
-    {q:'교과서 펭귄 프로젝트와 관련된 SDGs 목표는?',o:['14번 해양 생태계 보전','4번 양질의 교육','8번 좋은 일자리'],a:0,w:'남극 펭귄은 기후 변화의 영향을 먼저 받는 생물학적 지표 역할을 해요.'},
-    {q:'클래스별 학습 데이터 개수를 비슷하게 맞추는 까닭은?',o:['한 클래스로 치우친 예측을 줄이려고','학습 시간을 늘리려고','테스트를 생략하려고'],a:0,w:'데이터가 많은 클래스 쪽으로 판단이 쏠릴 수 있어요.'},
-    {q:'성찰 글의 근거로 가장 알맞은 것은?',o:['정확도가 꽤 높았다','같은 테스트 4개 중 2개에서 4개로 늘었다','열심히 해서 뿌듯했다'],a:1,w:'개선 전·후를 같은 테스트의 숫자로 비교한 문장이에요.'},
-    {q:'교과서 펭귄 데이터에서 숫자 범위가 가장 커서 표준화하지 않으면 거리를 좌우하는 속성은?',o:['부리 길이','체질량','지느러미 길이'],a:1,w:'체질량은 수천 g이라 mm 단위 속성보다 숫자가 훨씬 커요.'}],
-};
+const QUIZ={};
 const QK='u4b-quiz-v1'+WHO.sfx;
 const MK='u4b-memo-v1'+WHO.sfx;
 
@@ -885,11 +907,11 @@ function accFill(R){ const c=y=>R.filter(r=>r.y===y); $('aN0').value=c(0).length
 drawTrain(); drawCands(); first();
 
 /* 06 준비물 */
-chips('ready','readyPick',['ML4Kids 학급 계정으로 로그인됨','내 주제 · 넣을 사진 · 클래스 정함','클래스별 사진 찍을 계획(장수 비슷하게, 배경 골고루)','테스트 사진 따로 정해 둠','흐린·잘못 넣은 사진 정리하는 법 알기','정확도 계산하고 결과 화면 캡처하는 법 알기','근거는 내 이름과 숫자로'],true);
+chips('ready','readyPick',['ML4Kids 학급 계정으로 로그인됨','주제 목록에 내 이름 적음','내 주제 · 넣을 사진 · 클래스 정함','클래스별 사진 찍을 계획(장수 비슷하게, 배경 골고루)','테스트 사진 따로 정해 둠','흐린·잘못 넣은 사진 정리하는 법 알기','정확도 계산하고 결과 화면 캡처하는 법 알기','근거는 내 이름과 숫자로'],true);
 
-const MEMOLIST=[['why','틀린 사례와 원인'],['improve','개선한 것과 같은 테스트 결과'],['myTest','내 주제의 테스트 사진'],['r1','성찰 ① 성능'],['r2','성찰 ② 틀린 원인'],['r3','성찰 ③ 개선과 결과'],['r4','성찰 ④ 한계'],['r5','성찰 ⑤ 사회적 영향'],['readyPick','수행평가 준비 확인']];
+const MEMOLIST=[['why','틀린 사례와 원인'],['improve','개선한 것과 같은 테스트 결과'],['myTest','내 주제의 테스트 사진'],['r1','성찰 ① 성능'],['r2','성찰 ② 틀린 원인'],['r3','성찰 ③ 개선과 결과'],['r4','성찰 ④ 한계'],['r5','성찰 ⑤ 사회적 영향'],['readyPick','수행평가 준비 확인'],['pgWrong','틀리면 곤란한 인공지능'],['predict','학습 전 예상'],['realSame','실제 사례와의 공통점'],['realWho','데이터가 치우치면 손해 보는 사람'],['accMeaning','정확도 96.6%의 의미'],['pick','고르고 싶은 주제와 까닭'],['pickWho','그 주제가 돕는 사람'],['pickPhoto','사진 찍을 때 조심할 점']];
 onShow[5]=nums;
-onShow[6]=()=>memoSummary('msum',MEMOLIST);
+onShow[7]=()=>memoSummary('msum',MEMOLIST);
 
 /* 진도 보내기 ②: 화면 이동·퀴즈·메모·창 이탈을 선생님 시트로 */
 (function(){
