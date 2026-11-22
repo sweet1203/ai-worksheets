@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>수행평가 안내 · 문제 정의</title>
+<title>사회 문제와 인공지능 · 나의 관심사</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -387,6 +387,20 @@
   input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
   .pg-toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:#0f2742;color:#fff;padding:9px 16px;border-radius:999px;font-size:.9rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transition:opacity .2s;pointer-events:none}
   .pg-toast.on{opacity:1}
+
+  /* 25 다시 쓰기: 문제 카드 · 사례 */
+  #score{display:none}
+  .prob{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:8px}
+  .pc{background:#fff;border-radius:14px;box-shadow:0 6px 16px rgba(15,39,66,.08);padding:14px 16px;border-top:6px solid var(--acc)}
+  .pc .pt{display:flex;gap:8px;align-items:center}.pc .pi{font-size:1.6rem;line-height:1}.pc .pt b{font-size:1.05rem}
+  .pc .big{font-family:"Black Han Sans",sans-serif;font-size:2rem;color:var(--acc);margin:6px 0 2px;line-height:1.1}
+  .pc p{margin:6px 0;font-size:.94rem}.pc p.who{color:#7a2b22;font-weight:700}
+  .pc small{display:block;color:var(--muted);font-size:.78rem;margin-top:6px}
+  .sdgtag{display:inline-block;border-radius:999px;padding:1px 10px;margin:2px 2px 2px 0;font-size:.82rem;font-weight:700;color:#fff;background:var(--c)}
+  .badge{display:inline-block;font-size:.78rem;font-weight:700;background:#eef2f8;color:#33404f;border-radius:999px;padding:2px 10px;vertical-align:middle;margin-left:6px}
+  .cs{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:8px 0;border-top:1px dashed #d9e0ec;font-size:.95rem}
+  .cs b{color:var(--acc)}
+  @media (max-width:560px){.cs{grid-template-columns:1fr;gap:2px}}
 </style>
 </head>
 <body>
@@ -404,11 +418,11 @@
   <div class="cover">
     <div class="in">
       <span class="tag">인공지능 기초 · Ⅳ. 인공지능 프로젝트 · 1. 지속 가능 발전 문제 해결</span>
-      <h1>인공지능으로<br>어떤 문제를 풀어 볼까?</h1>
-      <p>오늘부터 2차 수행평가를 준비해요. 먼저 수행평가에서 무엇을 하는지 알아보고, 세계가 함께 정한 목표인 <b style="color:#fff">지속가능발전목표(SDGs)</b>와 <b style="color:#fff">인공지능 문제 해결 5단계</b>를 배운 뒤, <b style="color:#fff">내 프로젝트 주제</b>를 정해요.</p>
+      <h1>지금 우리 사회의 문제,<br>데이터와 인공지능은 어떻게 다가갈까?</h1>
+      <p>우리 사회에는 어떤 문제가 있고 <b style="color:#fff">얼마나 심각할까요?</b> 세계와 우리나라는 그 문제를 <b style="color:#fff">데이터와 인공지능으로 어떻게</b> 풀고 있을까요? 그리고 <b style="color:#fff">나는 어떤 문제에 마음이 가나요?</b> 정답 맞히기가 아니라, 내 생각을 꺼내 보는 시간이에요.</p>
       <ol>
-        <li>2차 수행평가 한눈에 보기</li><li>지속가능발전목표(SDGs)</li><li>SDGs를 돕는 인공지능</li>
-        <li>인공지능 문제 해결 5단계</li><li>내 프로젝트 주제 정하기</li><li>마무리 · 질문폼</li>
+        <li>얼마나 심각할까</li><li>세계가 함께 정한 목표</li><li>데이터·AI는 어떻게 다가갈까</li>
+        <li>한 사례로 따라가 보기</li><li>나의 관심사와 진로</li><li>2차 수행평가 한눈에</li><li>마무리 · 질문폼</li>
       </ol>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn" style="background:var(--amber);color:var(--navy);box-shadow:none" onclick="go(1)">시작하기 →</button>
@@ -416,27 +430,27 @@
       </div>
     </div>
     <div class="route" aria-hidden="true">
-      <div class="st" style="animation-delay:.2s"><i>🌍</i><div><b>지속가능발전목표</b><small>17개 목표 · 단 한 사람도 소외되지 않게</small></div></div>
+      <div class="st" style="animation-delay:.2s"><i>📊</i><div><b>문제의 크기</b><small>산불 · 고독사 · 재활용 · 보행자 · 농촌 · 바다</small></div></div>
       <div class="ar" style="animation-delay:.6s">↓</div>
-      <div class="st" style="animation-delay:.8s"><i>🤖</i><div><b>AI for Good</b><small>의료 · 농업 · 해양 · 일자리 · 기후</small></div></div>
+      <div class="st" style="animation-delay:.8s"><i>🌍</i><div><b>세계의 목표 SDGs</b><small>단 한 사람도 소외되지 않게</small></div></div>
       <div class="ar" style="animation-delay:1.2s">↓</div>
-      <div class="st" style="animation-delay:1.4s"><i>🪜</i><div><b>문제 해결 5단계</b><small>정의 → 데이터 → 알고리즘 → 학습 → 평가·수정</small></div></div>
+      <div class="st" style="animation-delay:1.4s"><i>🤖</i><div><b>교과서 사례 + 지금 실제 사례</b><small>어떤 데이터로 무엇을 알아내나</small></div></div>
       <div class="ar" style="animation-delay:1.8s">↓</div>
-      <div class="st" style="animation-delay:2s"><i>🎯</i><div><b>내 프로젝트 주제</b><small>어떻게 하면 ___ 할 수 있을까?</small></div></div>
+      <div class="st" style="animation-delay:2s"><i>🧭</i><div><b>나의 관심사와 진로</b><small>어떻게 하면 ___ 할 수 있을까?</small></div></div>
     </div>
   </div>
 
   <div id="intro" class="today">
     <div class="today-lead">
       <span class="kicker">오늘 우리는</span>
-      <p>2차 수행평가가 <b>무엇을 만들고 어떻게 채점되는지</b> 확인하고, <b>지속가능발전목표(SDGs)</b>와 인공지능이 그 목표를 돕는 사례를 살펴봅니다. 그리고 교과서의 <b>주제 선정 3단계</b>로 내 프로젝트의 문제와 입력·출력, 클래스를 정합니다.</p>
+      <p>실제 숫자로 <b>사회 문제가 얼마나 심각한지</b> 보고, 교과서 사례와 <b>지금 실제로 쓰이는 인공지능</b>이 그 문제에 어떻게 다가가는지 살펴봅니다. 마지막으로 <b>내 관심사와 진로</b>에서 출발해 내가 풀고 싶은 문제를 한 문장으로 적어 봅니다. 화면마다 있는 질문에는 정답이 없어요. 내 생각을 그대로 써요.</p>
     </div>
     <div class="why3">
       <div class="why">
-        <span class="kicker">왜 배울까</span>
+        <span class="kicker">왜 할까</span>
         <ul>
-          <li>좋은 프로젝트는 <b>좋은 문제 정의</b>에서 시작해요. 문제가 흐리면 데이터도, 평가도 흐려져요.</li>
-          <li>오늘 정한 주제와 계획이 다음 시간 연습과 수행평가로 그대로 이어져요.</li>
+          <li>인공지능 프로젝트는 기술보다 <b>문제</b>에서 시작해요. 누가 왜 힘든지 알아야 무엇을 만들지 정할 수 있어요.</li>
+          <li>앞으로 어떤 일을 하든 <b>내 분야의 문제를 데이터로 보는 눈</b>이 필요해요.</li>
         </ul>
       </div>
       <div class="why">
@@ -447,24 +461,151 @@
         </ul>
       </div>
       <div class="why">
-        <span class="kicker">배우고 나면 할 수 있는 것</span>
+        <span class="kicker">오늘 남길 것</span>
         <ul class="can">
-          <li>2차 수행평가의 과정과 채점 기준을 설명한다.</li>
-          <li>SDGs와 인공지능 활용 사례를 연결한다.</li>
-          <li>「어떻게 하면 ___ 할 수 있을까?」로 내 프로젝트 문제를 정의한다.</li>
+          <li>가장 마음이 쓰이는 사회 문제와 그 까닭</li>
+          <li>인상 깊은 인공지능 사례와 그 한계</li>
+          <li>내 관심사·진로에서 찾은 「어떻게 하면 ___ 할 수 있을까?」</li>
         </ul>
       </div>
     </div>
-    <div style="text-align:center;margin-top:20px"><button class="btn" style="background:var(--navy)" onclick="go(1)">01 수행평가 한눈에 보기 →</button></div>
+    <div style="text-align:center;margin-top:20px"><button class="btn" style="background:var(--navy)" onclick="go(1)">01 얼마나 심각할까 →</button></div>
   </div>
 </section>
 
-<!-- 1 수행평가 한눈에 -->
+<!-- 1 문제의 크기 -->
+<section class="page" data-name="얼마나 심각할까" data-acc="#d64535">
+  <div class="head"><div class="num">01</div><div><h2>얼마나 심각할까</h2><p>숫자로 보는 지금 우리 사회의 문제</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능 이야기보다 <b>문제</b>가 먼저예요. 뉴스로 스쳐 지나간 문제도 <b>숫자</b>로 보면 크기가 보이고, <b>누가 가장 힘든지</b>도 보여요. 카드를 천천히 읽어 보세요.</span></div>
+  <div class="prob" id="probCards"></div>
+  <p class="muted" style="font-size:.86rem">숫자는 발표 기관과 시점에 따라 조금씩 달라요. 카드 아래에 출처와 시점을 적어 두었어요.</p>
+  <div class="card">
+    <h3>💬 내 생각 꺼내기</h3>
+    <div class="memo"><label>가장 마음이 쓰이는 문제는 무엇이고, 왜 그런가요? <small>숫자를 보고 놀란 점이 있다면 함께 써요.</small></label><textarea data-memo="worry" rows="3"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>그 문제로 가장 힘든 사람은 누구일까요? 그 사람의 하루는 어떨까요?</label><textarea data-memo="whoHard" rows="2"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>우리 학교·동네·집에서 본 비슷한 장면이 있나요? <small>작은 장면이어도 좋아요. 예: 분리배출함 옆에 섞여 버려진 컵</small></label><textarea data-memo="problem" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+</section>
+
+<!-- 2 SDGs -->
+<section class="page" data-name="세계가 함께 정한 목표" data-acc="#1f9d74">
+  <div class="head"><div class="num">02</div><div><h2>세계가 함께 정한 목표 · SDGs</h2><p>교과서 171쪽 · 지속 가능 발전을 위한 인류 공동의 약속</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>앞에서 본 문제들은 우리나라만의 문제가 아니에요. 세계는 2015년에 「<b>지금 우리도, 미래 세대도 계속 잘 살 수 있게</b> 2030년까지 이것만은 해내자」며 17가지 목표를 정했어요. 이것이 <b>지속가능발전목표(SDGs)</b>예요.</span></div>
+  <div class="cards3">
+    <div class="kc" style="--k:#1f9d74"><div class="ic">🌐</div><h4>SDGs란?</h4><p><b>S</b>ustainable <b>D</b>evelopment <b>G</b>oals. 2015년 유엔(UN)이 2030년까지 달성하기로 한 인류 공동의 목표예요.</p></div>
+    <div class="kc" style="--k:#2f6fd0"><div class="ic">🤝</div><h4>단 한 사람도 소외되지 않게</h4><p>슬로건은 「Leave no one behind」. 사람·지구 환경·번영·평화·파트너십 <b>5개 영역</b>, <b>17개 목표</b>와 <b>169개 세부 목표</b>로 이루어져요.</p></div>
+    <div class="kc" style="--k:#e0702b"><div class="ic">🇰🇷</div><h4>우리나라의 K-SDGs</h4><p>유엔 SDGs를 우리 상황에 맞게 바꾼 국가 지속가능발전목표예요. 제4차 기본 계획(2021~2040)은 17개 목표를 유지하고 <b>119개 세부 목표, 236개 지표</b>를 제시해요.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>🔗 앞에서 본 문제는 어느 목표와 이어질까</h3>
+    <p class="muted" style="margin-top:0">한 문제가 여러 목표와 이어지기도 해요. 내 생각과 다르면 그 까닭을 생각해 봐요.</p>
+    <table class="plan" id="probSdg"></table>
+  </div>
+  <div class="card">
+    <h3>🧩 17개 목표를 눌러 보세요 <span class="muted" style="font-weight:400;font-size:.88rem">(국가 지속가능발전목표 K-SDGs 표기)</span></h3>
+    <div class="sdg" id="sdgGrid"></div>
+    <div class="sdgv" id="sdgView">목표를 하나 누르면 내용과 인공지능 활용 아이디어가 나와요.</div>
+  </div>
+  <div class="card">
+    <h3>💬 내 생각 꺼내기</h3>
+    <p class="muted" style="margin-top:0">내가 가장 마음 쓰이는 문제와 가까운 목표를 골라요. 여러 개 골라도 돼요.</p>
+    <div id="mySdg"></div>
+    <div class="memo"><label>그 목표를 고른 까닭 <small>앞 화면에서 쓴 문제와 연결해 써요.</small></label><textarea data-memo="sdgWhy" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+</section>
+
+<!-- 3 데이터·AI는 어떻게 다가갈까 -->
+<section class="page" data-name="데이터·AI는 어떻게" data-acc="#2f6fd0">
+  <div class="head"><div class="num">03</div><div><h2>데이터와 인공지능은 어떻게 다가갈까</h2><p>교과서 172~173쪽 AI for Good · 그리고 지금 실제로 쓰이는 인공지능</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능이 문제를 혼자 「해결」하지는 않아요. 사람이 다 볼 수 없던 것을 <b>대신 보고 듣고</b>, 일이 커지기 전에 <b>미리 알려 주면</b>, <b>사람</b>이 더 빨리 움직여 문제를 풀어요. 사례마다 <b>어떤 데이터로 → 무엇을 알아내고 → 사람은 무엇을 하는지</b> 보세요.</span></div>
+  <div class="cards4">
+    <div class="kc" style="--k:#2f6fd0"><div class="ic">👀</div><h4>대신 보고 듣기</h4><p>사진·영상·소리 속에서 연기, 전기톱 소리, 병든 잎을 찾아 <b>분류·탐지</b>해요.</p></div>
+    <div class="kc" style="--k:#9b4fc4"><div class="ic">🔮</div><h4>미리 알기</h4><p>쌓인 데이터의 패턴으로 수확량, 에너지 사용량, 위험이 커질 곳을 <b>예측</b>해요.</p></div>
+    <div class="kc" style="--k:#1f9d74"><div class="ic">📞</div><h4>빠짐없이 살피기</h4><p>사람이 매일 할 수 없는 일을 24시간, 수만 곳에서 <b>반복해서 지켜봐요</b>.</p></div>
+    <div class="kc" style="--k:#e0702b"><div class="ic">🎯</div><h4>먼저 도울 곳 찾기</h4><p>도움이 급한 사람, 먼저 가 봐야 할 곳을 골라 <b>사람의 손이 먼저 닿게</b> 해요.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>🗂️ 사례를 눌러 보세요 <span class="muted" style="font-weight:400;font-size:.88rem">📘 교과서 사례 · 📰 지금 실제 사례</span></h3>
+    <div class="apps" id="caseBtns"></div>
+    <div class="cview" id="caseView"></div>
+  </div>
+  <div class="callout">🔍 <b>함께 보면 좋은 점</b> · 📰 농작물 병해충 사진 진단은 <b>사진을 넣으면 어느 칸인지 알려 주는 이미지 분류</b>예요. 우리가 ML4Kids로 만들 모델과 같은 방식이에요.</div>
+  <div class="card">
+    <h3>💬 내 생각 꺼내기</h3>
+    <div class="memo"><label>가장 인상 깊은 사례와 그 까닭</label><textarea data-memo="caseWhy" rows="2"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>그 인공지능이 틀리면 누가 어떤 일을 겪을까요?</label><textarea data-memo="caseWrong" rows="2"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>그 문제에서 인공지능에게 맡겨도 되는 일과, 사람이 꼭 해야 하는 일은 무엇일까요?</label><textarea data-memo="caseHuman" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+</section>
+
+<!-- 4 한 사례로 따라가 보기 -->
+<section class="page" data-name="한 사례로 따라가 보기" data-acc="#9b4fc4">
+  <div class="head"><div class="num">04</div><div><h2>한 사례로 따라가 보기 · 인공지능 문제 해결 5단계</h2><p>교과서 174~175쪽 · 산불 연기를 알아보는 인공지능을 만든다면</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능으로 문제를 푸는 과정은 5단계예요. <b>무엇을 풀지 정하고 → 데이터를 모아 다듬고 → 방법을 고르고 → 학습시키고 → 평가해서 고쳐요.</b> 앞에서 본 산불 감시 카메라를 우리가 만든다고 생각하며 따라가 봐요. 아래 초록 칸은 우리가 <b>ML4Kids로 할 때</b>의 모습이에요.</span></div>
+  <div class="five">
+    <div style="--k:#2f6fd0"><b class="n">1</b><h4>문제 정의</h4><p>「어떻게 하면 <b>산불 연기를 더 빨리 알아챌</b> 수 있을까?」 카메라 사진을 넣으면 <b>연기 있음 / 연기 없음</b>을 알려 주는 <b>분류</b> 문제로 정해요. 목표는 구체적이고 측정할 수 있게: 「연기를 몇 장 중 몇 장 찾나」.</p><div class="ml">ML4Kids: 문제 한 문장, 넣을 사진(입력)과 맞힐 것(출력), 클래스 정하기</div></div>
+    <div style="--k:#1f9d74"><b class="n">2</b><h4>데이터 수집 및 전처리</h4><p>연기 사진만 모으면 안 돼요. 연기와 헷갈리는 <b>구름·안개·먼지</b> 사진, 낮과 저녁, 여러 계절 사진을 골고루 모아요. 흐린 사진은 빼고, 잘못 붙은 이름표는 고치고, 시험용 사진은 따로 떼어 둬요(수집 → 분석 → 전처리 → 분할).</p><div class="ml">ML4Kids: 클래스별 사진 찍기, 흐리거나 잘못 넣은 사진 정리, 장수 맞추기, 테스트 사진 따로 두기</div></div>
+    <div style="--k:#e0702b"><b class="n">3</b><h4>유형과 알고리즘 선정</h4><p>맞힐 것이 「종류」라서 분류, 데이터가 사진이라서 이미지 모델을 골라요. 데이터 크기와 특성, 계산에 드는 시간도 생각해요.</p><div class="ml">ML4Kids: 이미지 프로젝트 = 사진을 클래스로 나누는 분류</div></div>
+    <div style="--k:#d64535"><b class="n">4</b><h4>모델 학습</h4><p>훈련용 사진으로 모델을 학습시켜요. 모델은 연기 사진들의 공통된 특징을 스스로 찾아요.</p><div class="ml">ML4Kids: 「학습」 버튼으로 모델 만들기</div></div>
+    <div style="--k:#0f8a8a"><b class="n">5</b><h4>성능 평가 및 수정</h4><p>떼어 둔 사진으로 시험해요. <b>연기를 놓친 사진</b>과 <b>구름을 연기라고 한 사진</b>을 따로 세어 보고, 원인에 맞게 데이터를 더하거나 고쳐 다시 시험해요.</p><div class="ml">ML4Kids: 새 사진으로 테스트 → 정확도 → 틀린 사진의 원인 → 고칠 방향</div></div>
+  </div>
+  <div class="callout">📰 <b>실제로는</b> · 산불 감시 카메라에 AI를 붙여 더 빨리 연기를 찾은 사례도 있지만, 전국 무인 감시 카메라가 <b>처음 발견한 산불은 전체의 약 3%</b>에 그쳤다는 보도도 있어요(2026년 3월). 카메라가 볼 수 없는 곳이 많고, 사람의 신고가 더 빠른 경우도 있기 때문이에요. 시험에서 잘 맞히는 모델과 <b>현장에서 실제로 도움이 되는 모델</b>은 다를 수 있어요.</div>
+  <div class="card">
+    <h3>💬 내 생각 꺼내기</h3>
+    <div class="memo"><label>연기를 <b>놓치는 것</b>과 구름을 연기로 <b>잘못 알리는 것</b>, 어느 쪽이 더 문제일까요? 까닭은?</label><textarea data-memo="missOrFalse" rows="2"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>시험에서는 잘 맞혔는데 현장에서 도움이 적었다면, 무엇을 더 살펴야 했을까요?</label><textarea data-memo="fieldGap" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+</section>
+
+<!-- 5 나의 관심사와 진로 -->
+<section class="page" data-name="나의 관심사와 진로" data-acc="#e0702b">
+  <div class="head"><div class="num">05</div><div><h2>나의 관심사와 진로에서 문제 찾기</h2><p>교과서 176~177쪽 주제 선정 3단계 · 내가 풀고 싶은 문제</p></div></div>
+  <div class="easy"><b class="t">쉽게 말하면</b><span>좋은 주제는 <b>내가 마음 쓰이는 곳</b>에서 나와요. 인공지능은 개발자만의 도구가 아니라 <b>간호사, 사회복지사, 교사, 디자이너, 농업인, 소방관</b>이 모두 함께 쓰는 도구가 되고 있어요. 내 관심사와 꿈꾸는 일에서 출발해 봐요. 적은 내용은 이 기기에만 저장돼요.</span></div>
+  <div class="card">
+    <h3>🧭 나는 무엇에 관심이 있나요? <span class="muted" style="font-weight:400;font-size:.88rem">여러 개 골라도 돼요</span></h3>
+    <div id="interest"></div>
+    <div class="memo"><label>꿈꾸는 일이나 진로 <small>아직 정하지 않았다면 「해 보고 싶은 일」을 써도 돼요.</small></label><input type="text" data-memo="career" placeholder="예: 간호사, 환경공학자, 디자이너, 아직 모르지만 사람을 돕는 일"><div class="saved"></div></div>
+  </div>
+  <div class="card">
+    <h3>🧑‍🔧 앞의 사례에서 함께 일한 사람들</h3>
+    <p class="muted" style="margin-top:0">인공지능 사례 뒤에는 늘 여러 직업의 사람이 함께 있어요. 내 진로와 가까운 줄을 찾아봐요.</p>
+    <table class="plan" id="jobTable"></table>
+  </div>
+  <div class="card">
+    <h3>💬 내 생각 꺼내기</h3>
+    <div class="memo"><label>내가 꿈꾸는 일(또는 관심 분야)에서 마주칠 사회 문제는 무엇일까요?</label><textarea data-memo="careerProblem" rows="2"></textarea><div class="saved"></div></div>
+    <div class="memo"><label>그 일에서 인공지능이 도울 수 있는 것과, 사람인 내가 꼭 해야 할 것은?</label><textarea data-memo="careerAI" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+  <div class="card">
+    <h3>💡 떠오른 아이디어 나눠 보기 · 관심도 × 구체화 정도</h3>
+    <p class="muted" style="margin-top:0">아이디어를 적고 칸을 눌러 넣어 보세요. <b>관심도도 높고 구체적인 칸</b>의 아이디어가 해결 가능성이 커요.</p>
+    <div class="row"><input type="text" id="ideaIn" placeholder="아이디어 한 줄 (예: 사진으로 시든 화분 알려 주기)" style="flex:1;min-width:200px"><span class="muted" style="font-size:.85rem">입력 후 아래 칸을 누르면 들어가요</span></div>
+    <div class="quad" id="quad">
+      <div></div><div class="ax">구체화 정도 낮음</div><div class="ax">구체화 정도 높음</div>
+      <div class="ax v">관심도 높음</div><div class="cell" data-q="hi-lo"><small>관심은 크지만 아직 막연함</small></div><div class="cell best" data-q="hi-hi"><small>⭐ 관심도 높고 구체적 — 이걸로!</small></div>
+      <div class="ax v">관심도 낮음</div><div class="cell" data-q="lo-lo"><small>나중에</small></div><div class="cell" data-q="lo-hi"><small>구체적이지만 관심이 적음</small></div>
+    </div>
+    <div class="row" style="margin-top:6px"><button class="btn ghost sm" id="quadReset">아이디어 비우기</button></div>
+  </div>
+  <div class="card">
+    <h3>✏️ 질문 형태로 쓰기</h3>
+    <div class="qbuild">어떻게 하면 <input type="text" data-memo="howMight" placeholder="예: 물이 필요한 화분을 늦지 않게 알아챌"> 수 있을까?</div>
+    <div class="saved"></div>
+    <table class="plan" style="margin-top:10px">
+      <tr><td>사진으로 한다면 무엇을 넣을까 (입력)</td><td><input type="text" data-memo="input" placeholder="예: 화분 잎 사진"></td></tr>
+      <tr><td>무엇을 알려 줄까 (출력 · 클래스)</td><td><input type="text" data-memo="output" placeholder="예: 싱싱함 / 시듦"></td></tr>
+    </table>
+    <div class="saved"></div>
+    <div class="callout" style="margin-bottom:0">📋 실제 프로젝트 주제는 <b>예시 프로젝트 연습을 마친 뒤</b> 주제 목록에서 <b>친구와 겹치지 않게</b> 하나 골라요. 오늘 적은 관심사와 문제에 가장 가까운 주제를 고르면 돼요.</div>
+  </div>
+</section>
+
+<!-- 6 수행평가 한눈에 -->
 <section class="page" data-name="수행평가 한눈에" data-acc="#d64535">
-  <div class="head"><div class="num">01</div><div><h2>2차 수행평가 한눈에 보기</h2><p>인공지능 프로젝트 수행 · 100점(25%) · 개별 수행</p></div></div>
+  <div class="head"><div class="num">06</div><div><h2>2차 수행평가 한눈에 보기</h2><p>인공지능 프로젝트 수행 · 100점(25%) · 개별 수행</p></div></div>
   <div class="easy"><b class="t">쉽게 말하면</b><span>내가 정한 문제를 푸는 <b>이미지 인공지능 모델</b>을 ML4Kids(또는 비슷한 이미지 학습 도구)로 직접 찍은 사진을 넣어 학습시키고, <b>처음 보는 사진</b>으로 시험해 성능을 평가해요. 점수는 <b>정확도가 높은지</b>가 아니라 <b>틀린 것을 찾아 근거를 들어 고쳤는지</b>로 매겨요.</span></div>
   <div class="flow2">
-    <div style="--k:#2f6fd0"><b>25차시 · 오늘</b><span>수행평가 안내, SDGs, 문제 해결 5단계, <b>주제 고르기 연습</b></span></div>
+    <div style="--k:#2f6fd0"><b>25차시 · 오늘</b><span>사회 문제와 인공지능 사례, 나의 관심사·진로, <b>주제 아이디어</b></span></div>
     <div class="ar">→</div>
     <div style="--k:#1f9d74"><b>26차시</b><span>예시 프로젝트로 <b>전체 과정 연습</b> (성적 미반영) → <b>주제 목록에서 내 주제 고르기</b> (친구와 겹치지 않게)</span></div>
     <div class="ar">→</div>
@@ -480,108 +621,25 @@
   <div class="callout">⏰ 수행평가는 <b>수업 시간에만</b> 해요. 매시간 한 내용은 그 시간의 <b>제출 폼</b>에 직접 써서 내요(복사·붙여넣기가 되지 않아요). <b>매시간 낸 내용으로 채점</b>해요. 생성형 AI는 <b>수행평가 이전</b>에 주제 탐색·데이터 구성 아이디어에만 쓸 수 있고, 썼다면 제출 폼에 기록해요. 자세한 채점표와 진행 과정은 아래 버튼의 안내 페이지에 있어요.<br><a class="btn sm" style="display:inline-block;margin-top:8px;text-decoration:none" href="../ml4kids-project/" target="_blank" rel="noopener">2차 수행평가 안내 전체 보기 →</a></div>
 </section>
 
-<!-- 2 SDGs -->
-<section class="page" data-name="지속가능발전목표" data-acc="#1f9d74">
-  <div class="head"><div class="num">02</div><div><h2>지속가능발전목표(SDGs)</h2><p>교과서 171쪽 · 지속 가능 발전을 위한 인류 공동의 약속</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>지속 가능 발전은 <b>지금 우리도 잘 살고, 미래 세대도 계속 잘 살 수 있게</b> 사회·경제·환경을 함께 챙기는 발전이에요. 이를 위해 세계가 2015년에 「2030년까지 이것만은 해내자」고 정한 17가지 목표가 <b>SDGs</b>예요.</span></div>
-  <div class="cards3">
-    <div class="kc" style="--k:#1f9d74"><div class="ic">🌐</div><h4>SDGs란?</h4><p><b>S</b>ustainable <b>D</b>evelopment <b>G</b>oals. 2015년 유엔(UN)이 2030년까지 달성하기로 한 인류 공동의 목표예요.</p></div>
-    <div class="kc" style="--k:#2f6fd0"><div class="ic">🤝</div><h4>단 한 사람도 소외되지 않게</h4><p>슬로건은 「Leave no one behind」. 사람·지구 환경·번영·평화·파트너십 <b>5개 영역</b>, <b>17개 목표</b>와 <b>169개 세부 목표</b>로 이루어져요.</p></div>
-    <div class="kc" style="--k:#e0702b"><div class="ic">🇰🇷</div><h4>우리나라의 K-SDGs</h4><p>유엔 SDGs를 우리 상황에 맞게 바꾼 국가 지속가능발전목표예요. 제4차 기본 계획(2021~2040)은 17개 목표를 유지하고 <b>119개 세부 목표, 236개 지표</b>를 제시해요.</p></div>
-  </div>
-  <div class="card" style="margin-top:16px">
-    <h3>🧩 17개 목표를 눌러 보세요 <span class="muted" style="font-weight:400;font-size:.88rem">(국가 지속가능발전목표 K-SDGs 표기)</span></h3>
-    <div class="sdg" id="sdgGrid"></div>
-    <div class="sdgv" id="sdgView">목표를 하나 누르면 내용과 인공지능 활용 아이디어가 나와요.</div>
-  </div>
-  <div class="quiz" data-quiz="2"></div>
-</section>
-
-<!-- 3 AI for Good -->
-<section class="page" data-name="SDGs를 돕는 인공지능" data-acc="#2f6fd0">
-  <div class="head"><div class="num">03</div><div><h2>SDGs를 돕는 인공지능 (AI for Good)</h2><p>교과서 172~173쪽</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>인공지능은 생활을 편리하게 할 뿐 아니라 <b>기후 변화 같은 큰 사회 문제</b>를 푸는 데도 쓰여요. 인공지능으로 SDGs를 이루려는 노력을 <b>AI for Good</b>이라고 불러요. 교과서 사례가 <b>어떤 데이터로 무엇을 맞히는지</b> 눈여겨봐요.</span></div>
-  <div class="apps" id="goodBtns"></div>
-  <div class="cview" id="goodView"></div>
-  <div class="card" style="margin-top:16px"><h3>🎯 이 인공지능은 어느 목표를 도울까?</h3><div id="goodGame"></div></div>
-  <div class="quiz" data-quiz="3"></div>
-</section>
-
-<!-- 4 문제 해결 5단계 -->
-<section class="page" data-name="문제 해결 5단계" data-acc="#9b4fc4">
-  <div class="head"><div class="num">04</div><div><h2>인공지능 문제 해결 5단계</h2><p>교과서 174~175쪽 · 2단원의 기계학습 과정을 프로젝트에 맞게</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>2단원에서 배운 기계학습 과정과 같아요. <b>무엇을 풀지 정하고 → 데이터를 모아 다듬고 → 방법을 고르고 → 학습시키고 → 평가해서 고친다.</b> 아래 초록 칸은 이 단계가 <b>ML4Kids 수행평가에서는 무엇인지</b>예요.</span></div>
-  <div class="five">
-    <div style="--k:#2f6fd0"><b class="n">1</b><h4>문제 정의</h4><p>인공지능으로 풀 수 있는 문제인지, SDGs와 관련 있는지 살피고 목표를 <b>구체적이고 측정할 수 있게</b> 정해요. 분류 문제인지 회귀(예측) 문제인지도 구분해요.</p><div class="ml">ML4Kids: 문제 한 문장, 입력·출력, 클래스 정하기</div></div>
-    <div style="--k:#1f9d74"><b class="n">2</b><h4>데이터 수집 및 전처리</h4><p>데이터 수집 → 분석 → 전처리 → 분할. 데이터가 온전하지 않으면 모델이 잘못 배워요.</p><div class="ml">ML4Kids: 클래스별 사진 찍기, 흐리거나 잘못 넣은 사진 정리하기, 장수 맞추기, 테스트 사진은 따로 빼 두기</div></div>
-    <div style="--k:#e0702b"><b class="n">3</b><h4>유형과 알고리즘 선정</h4><p>기계학습 유형(분류·예측·군집), 데이터 크기와 특성, 계산 복잡도와 훈련 시간을 고려해요. 여러 알고리즘을 비교하면 좋아요.</p><div class="ml">ML4Kids: 이미지 프로젝트 = 사진을 클래스로 나누는 분류 문제</div></div>
-    <div style="--k:#d64535"><b class="n">4</b><h4>모델 학습</h4><p>훈련 데이터로 학습시키고, 테스트 데이터로 성능을 평가해 적합한 모델을 만들어요.</p><div class="ml">ML4Kids: 「학습」 버튼으로 모델 만들기</div></div>
-    <div style="--k:#0f8a8a"><b class="n">5</b><h4>성능 평가 및 수정</h4><p>평가 지표 선택 → 성능 측정 → 개선 → 수정된 모델 재평가 → 모델 적용.</p><div class="ml">ML4Kids: 새 사진으로 테스트 → 정확도 계산 → 틀린 사진의 원인 → 고칠 방향 (고쳐 봤다면 <b>같은 테스트</b>로 다시)</div></div>
-  </div>
-  <div class="card" style="margin-top:16px"><h3>🎯 이 일은 몇 단계일까?</h3><div id="stepGame"></div></div>
-  <div class="quiz" data-quiz="4"></div>
-</section>
-
-<!-- 5 주제 정하기 -->
-<section class="page" data-name="내 주제 정하기" data-acc="#e0702b">
-  <div class="head"><div class="num">05</div><div><h2>내 프로젝트 주제 정하기</h2><p>교과서 176~177쪽 주제 선정 3단계 · 주제 고르기 연습</p></div></div>
-  <div class="easy"><b class="t">쉽게 말하면</b><span>① SDGs에서 관심 있는 목표와 문제를 찾고 → ② 아이디어를 <b>관심도</b>와 <b>구체화 정도</b>로 나눠 본 뒤 → ③ 「<b>어떻게 하면 ___ 할 수 있을까?</b>」로 문제를 질문 형태로 정해요. 마지막으로 ML4Kids로 할 수 있게 <b>입력·출력·클래스</b>까지 정하면 끝! 적은 내용은 이 기기에만 저장돼요.</span></div>
-  <div class="callout">📋 실제 프로젝트 주제는 <b>예시 프로젝트 연습을 마친 뒤</b> 주제 목록에서 <b>친구와 겹치지 않게</b> 하나 골라요. 오늘은 좋은 주제를 알아보는 눈을 기르는 연습이에요. 여기서 생각한 것과 가까운 주제를 고르면 돼요.</div>
-  <div class="card">
-    <h3>① 목표 탐지 · 관심 있는 SDGs 목표 고르기</h3>
-    <div id="mySdg"></div>
-    <div class="memo"><label>그 목표와 관련해 우리 주변에서 보이는 문제 <small>예: 분리배출을 자주 헷갈린다(12번), 화분 식물이 시들어도 늦게 알아챈다(15번)</small></label><textarea data-memo="problem" rows="2"></textarea><div class="saved"></div></div>
-  </div>
-  <div class="card">
-    <h3>② 아이디어 분류 · 관심도 × 구체화 정도</h3>
-    <p class="muted" style="margin-top:0">떠오른 아이디어를 적고 칸을 눌러 넣어 보세요. <b>관심도도 높고 구체적인 칸</b>의 아이디어가 해결 가능성이 커요.</p>
-    <div class="row"><input type="text" id="ideaIn" placeholder="아이디어 한 줄 (예: 사진으로 분리배출 도와주기)" style="flex:1;min-width:200px"><span class="muted" style="font-size:.85rem">입력 후 아래 칸을 누르면 들어가요</span></div>
-    <div class="quad" id="quad">
-      <div></div><div class="ax">구체화 정도 낮음</div><div class="ax">구체화 정도 높음</div>
-      <div class="ax v">관심도 높음</div><div class="cell" data-q="hi-lo"><small>관심은 크지만 아직 막연함</small></div><div class="cell best" data-q="hi-hi"><small>⭐ 관심도 높고 구체적 — 이걸로!</small></div>
-      <div class="ax v">관심도 낮음</div><div class="cell" data-q="lo-lo"><small>나중에</small></div><div class="cell" data-q="lo-hi"><small>구체적이지만 관심이 적음</small></div>
-    </div>
-    <div class="row" style="margin-top:6px"><button class="btn ghost sm" id="quadReset">아이디어 비우기</button></div>
-  </div>
-  <div class="card">
-    <h3>③ 문제 정의 · 질문 형태로 쓰기</h3>
-    <div class="qbuild">어떻게 하면 <input type="text" data-memo="howMight" placeholder="예: 물건 사진을 보고 플라스틱과 종이를 헷갈리지 않고 나눌"> 수 있을까?</div>
-    <div class="saved"></div>
-  </div>
-  <div class="card">
-    <h3>④ ML4Kids 프로젝트로 바꾸기</h3>
-    <table class="plan">
-      <tr><td>데이터</td><td><b>이미지</b> <span class="muted">(직접 찍은 사진이나 직접 그린 그림)</span></td></tr>
-      <tr><td>입력 (무엇을 넣나)</td><td><input type="text" data-memo="input" placeholder="예: 분리배출할 물건 사진"></td></tr>
-      <tr><td>출력 (무엇을 맞히나)</td><td><input type="text" data-memo="output" placeholder="예: 플라스틱 / 종이"></td></tr>
-      <tr><td>클래스 A</td><td><input type="text" data-memo="classA" placeholder="예: 플라스틱"></td></tr>
-      <tr><td>클래스 B</td><td><input type="text" data-memo="classB" placeholder="예: 종이"></td></tr>
-      <tr><td>클래스 C (선택)</td><td><input type="text" data-memo="classC"></td></tr>
-      <tr><td>새 사진으로 어떻게 시험할까</td><td><input type="text" data-memo="program" placeholder="예: 학습에 안 쓴 사진 4장을 넣고 몇 장을 맞히는지 센다"></td></tr>
-    </table>
-    <div class="saved"></div>
-    <details style="margin-top:10px"><summary>주제가 떠오르지 않으면 · 이미지 주제 예시</summary>
-      <div class="types" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:8px" id="typeCards"></div>
-    </details>
-  </div>
-</section>
-
-<!-- 6 마무리 -->
+<!-- 7 마무리 -->
 <section class="page" data-name="마무리 · 질문폼" data-acc="#0f2742">
-  <div class="head"><div class="num">06</div><div><h2>마무리</h2><p>핵심 문장 · 마무리 퀴즈 · 생각 정리 질문폼</p></div></div>
+  <div class="head"><div class="num">07</div><div><h2>마무리</h2><p>오늘의 핵심 · 생각 정리 질문폼</p></div></div>
   <div class="key3">
-    <div style="--k:#1f9d74"><b>지속가능발전목표(SDGs)</b>는 2015년 유엔이 정한 2030년까지의 17개 목표로, 「단 한 사람도 소외되지 않는 것」을 내세운다.</div>
-    <div style="--k:#9b4fc4">인공지능 문제 해결은 <b>문제 정의 → 데이터 수집 및 전처리 → 유형과 알고리즘 선정 → 모델 학습 → 성능 평가 및 수정</b>의 5단계로 진행한다.</div>
-    <div style="--k:#e0702b">주제는 <b>목표 탐지 → 아이디어 분류(관심도·구체화 정도) → 문제 정의</b>로 정하고, 문제는 「어떻게 하면 ___ 할 수 있을까?」처럼 질문 형태로 쓴다.</div>
+    <div style="--k:#d64535">사회 문제는 <b>숫자</b>로 보면 크기가, <b>사람</b>으로 보면 무게가 보인다. 인공지능 프로젝트는 <b>누가 왜 힘든지</b>에서 시작한다.</div>
+    <div style="--k:#2f6fd0">데이터와 인공지능은 사람이 다 볼 수 없던 것을 <b>대신 보고, 미리 알리고, 빠짐없이 살펴</b> 사람이 더 빨리 움직이게 돕는다. 틀릴 수 있으니 <b>한계와 사람의 몫</b>을 함께 생각한다.</div>
+    <div style="--k:#e0702b">문제 해결은 <b>문제 정의 → 데이터 수집 및 전처리 → 유형과 알고리즘 선정 → 모델 학습 → 성능 평가 및 수정</b>으로 진행하고, 주제는 내 관심사와 진로에서 찾아 「어떻게 하면 ___ 할 수 있을까?」로 쓴다.</div>
   </div>
-  <div class="card" style="--acc:#0f2742"><h3>마무리 퀴즈</h3><div class="quiz" data-quiz="6"></div></div>
-  <div class="card"><h3>개념 퀴즈 결과</h3><table id="result"></table><button class="btn ghost" id="quizReset">퀴즈 다시 풀기</button></div>
+  <div class="card">
+    <h3>💬 오늘을 한 문장으로</h3>
+    <div class="memo"><label>오늘 가장 오래 남는 생각은 무엇인가요?</label><textarea data-memo="oneLine" rows="2"></textarea><div class="saved"></div></div>
+  </div>
+  <div hidden><table id="result"></table><button id="quizReset" type="button"></button></div>
   <div class="formgo">
     <span class="kicker">생각 정리 과제</span>
     <h3>질문폼에 내 생각 쓰기</h3>
     <ol>
       <li>SDGs를 내 말로 설명하고, 목표 하나와 그 목표를 돕는 <b>인공지능 사례</b> 쓰기</li>
-      <li>인공지능 문제 해결 5단계를 <b>내 ML4Kids 프로젝트</b>에 대입해 단계마다 할 일 쓰기</li>
+      <li>인공지능 문제 해결 5단계를 <b>내 프로젝트 아이디어</b>에 대입해 단계마다 할 일 쓰기</li>
       <li><b>내 프로젝트 계획</b>: 「어떻게 하면 ___?」 · 입력(사진)과 출력 · 클래스 · 고른 이유</li>
     </ol>
     <p>질문폼에는 붙여넣기가 되지 않아요. 아래 메모를 보면서 직접 다시 써 주세요. 오늘 정한 계획은 실제 주제를 고를 때 그대로 도움이 돼요.</p>
@@ -620,19 +678,7 @@ const WHO=(function(){
 })();
 
 /* 퀴즈 */
-const QUIZ={
- 2:[{q:'지속가능발전목표(SDGs)에 대한 설명으로 알맞은 것은?',o:['2015년 유엔이 2030년까지 달성하기로 한 17개 목표','우리나라가 2030년에 처음 만든 3개 목표','기업이 이익을 늘리려고 정한 목표'],a:0,w:'5개 영역, 17개 목표, 169개 세부 목표로 이루어져 있어요.'},
-    {q:'SDGs의 슬로건은?',o:['더 빠르게, 더 높게','단 한 사람도 소외되지 않는 것','인공지능을 모든 곳에'],a:1,w:'Leave no one behind — 모두를 포용하는 발전을 뜻해요.'}],
- 3:[{q:'기상 조건, 토양 특성, 품종 데이터로 수확량을 예측해 물 사용을 줄이는 인공지능은 어떤 목표와 가장 관련 있을까?',o:['식량안보와 지속 가능한 농업','성평등 보장','인권·정의·평화'],a:0,w:'교과서 172쪽 농업 사례예요. 수확량은 최대로, 물 사용은 줄여요.'},
-    {q:'위성 이미지와 선박 추적 데이터로 불법 조업 패턴을 찾는 인공지능이 돕는 목표는?',o:['해양 생태계 보전','양질의 교육','좋은 일자리 확대와 경제 성장'],a:0,w:'이미지 인식·추적으로 해양 종의 이동과 오염원도 관측해요.'}],
- 4:[{q:'「연속적인 값을 맞히는 회귀 문제인지, 범주를 맞히는 분류 문제인지 구분한다」는 어느 단계에서 하는 일일까?',o:['문제 정의','모델 학습','성능 평가 및 수정'],a:0,w:'문제 정의 단계에서 목표를 구체적으로 정하고 문제 유형도 구분해요.'},
-    {q:'ML4Kids 프로젝트에서 「테스트에서 틀린 사례를 보고 데이터를 고친 뒤 같은 테스트로 다시 확인」하는 것은 몇 단계일까?',o:['데이터 수집 및 전처리','성능 평가 및 수정','유형과 알고리즘 선정'],a:1,w:'성능 측정 → 개선 → 수정된 모델 재평가의 흐름이에요.'}],
- 6:[{q:'K-SDGs 제4차 지속 가능 발전 기본 계획에 대한 설명으로 알맞은 것은?',o:['17개 목표를 유지하고 119개 세부 목표와 236개 지표를 제시했다','목표를 5개로 줄였다','유엔 SDGs와 관계없이 새로 만들었다'],a:0,w:'유엔 SDGs를 우리 상황에 맞게 자국화한 계획(2021~2040)이에요.'},
-    {q:'주제 선정 3단계의 순서로 알맞은 것은?',o:['문제 정의 → 목표 탐지 → 아이디어 분류','목표 탐지 → 아이디어 분류 → 문제 정의','아이디어 분류 → 문제 정의 → 목표 탐지'],a:1,w:'SDGs에서 문제를 찾고, 관심도·구체화 정도로 나눈 뒤, 질문 형태로 정의해요.'},
-    {q:'아이디어를 분류할 때 「구체화 정도」를 보는 까닭은?',o:['구체적일수록 문제의 원인을 파악하고 해결 방안을 내기 쉬워서','구체적일수록 데이터가 필요 없어서','구체적일수록 점수가 자동으로 높아져서'],a:0,w:'구체화 정도는 필요한 자원·시간·노력의 양을 결정해요.'},
-    {q:'교과서 예시처럼 문제를 질문 형태로 바르게 쓴 것은?',o:['소외 계층','어떻게 하면 소외 계층의 삶의 질을 향상시키는 데 도움을 줄 수 있을까?','인공지능 로봇을 만든다.'],a:1,w:'「어떻게 하면 ___ 할 수 있을까?」 형태로 쓰면 목표가 분명해져요.'},
-    {q:'데이터 수집 및 전처리 단계의 세부 순서로 알맞은 것은?',o:['데이터 분할 → 수집 → 분석 → 전처리','데이터 수집 → 분석 → 전처리 → 분할','전처리 → 분석 → 분할 → 수집'],a:1,w:'모은 데이터를 분석하고 다듬은 뒤 훈련용과 테스트용으로 나눠요.'}],
-};
+const QUIZ={};
 const QK='u4a-quiz-v1'+WHO.sfx;
 const MK='u4a-memo-v1'+WHO.sfx;
 
@@ -764,10 +810,23 @@ function chips(box,key,opts,multi){
 }
 
 
+/* 01 문제의 크기 */
+const PROB=[
+ {ic:'🔥',t:'대형 산불',big:'약 4만 5천 ha',d:'2025년 3월 경북·경남 대형 산불. 열흘 만에야 큰불이 잡혔고, 서울 면적의 70%가 넘는 숲이 탔어요.',who:'사망자 27명. 대부분 대피가 어려운 고령층이었어요.',src:'산림청 잠정 집계·언론 보도(2025.3). 이후 피해가 더 크다는 조사 주장도 있어요.',g:[13,15]},
+ {ic:'🏚️',t:'고독사',big:'3,924명',d:'2024년, 가족·이웃과 떨어져 혼자 지내다 아무도 모르게 세상을 떠난 사람이에요. 1년 전보다 7.2% 늘었어요.',who:'10명 중 8명이 남성. 1인 가구가 늘면서 해마다 늘고 있어요.',src:'보건복지부 고독사 실태조사(2025.11 발표)',g:[3,1]},
+ {ic:'♻️',t:'플라스틱 재활용',big:'10~20%대',d:'분리배출한 플라스틱 가운데 실제로 새 원료로 다시 쓰이는 비율(추정). 통계상 재활용률은 50~60%대지만, 태워서 에너지로 쓴 것까지 재활용으로 셌기 때문이에요.',who:'섞이거나 더러운 플라스틱은 선별장에서 골라내기 어려워 결국 태워져요.',src:'한국환경연구원·그린피스 분석, 언론 보도(기준과 시점마다 달라요)',g:[12]},
+ {ic:'🚸',t:'보행자 교통사고',big:'67%',d:'2024년 길을 걷다 교통사고로 숨진 920명 가운데 65세 이상이 616명이에요. 전체 교통사고 사망자(2,521명)는 줄었지만 보행 사망자는 늘었어요.',who:'걸음이 느린 어르신, 눈에 잘 띄지 않는 어린이',src:'경찰청·한국교통안전공단(2025 발표)',g:[11,3]},
+ {ic:'🌾',t:'늙어 가는 농촌',big:'55.8%',d:'농가 인구 가운데 65세 이상 비율(2024년). 우리나라 전체 고령 인구 비율(19.2%)의 약 2.9배예요.',who:'일손이 모자라 작물의 병을 늦게 알아채면 한 해 농사를 잃을 수 있어요.',src:'통계청 2024 농림어업조사(2025.4 발표)',g:[2]},
+ {ic:'🐟',t:'보이지 않는 어선',big:'약 75%',d:'전 세계 산업용 어선 가운데 공개 위치 추적에 잡히지 않는 배의 비율(2017~2021 분석). 위치를 숨긴 배 가운데에는 불법 조업을 하는 배도 있어요.',who:'물고기가 줄면 바다 생태계도, 바다에 기대 사는 어민도 함께 힘들어져요.',src:'Global Fishing Watch 연구, 학술지 Nature(2024.1)',g:[14]},
+ {ic:'👁️',t:'보이지 않는 정보',big:'일상의 장면',d:'편의점의 우유와 두유, 약 봉투의 글씨, 버스 번호… 눈으로 확인해야 하는 정보가 생활 곳곳에 있어요.',who:'시각장애인, 눈이 어두운 어르신',src:'',g:[10]},
+ {ic:'🌳',t:'사라지는 숲',big:'교과서 사례',d:'열대 우림은 너무 넓어 사람이 다 지킬 수 없어요. 아무도 모르는 사이 불법으로 나무가 베어져요.',who:'숲에 기대 사는 동물과 사람, 그리고 기후',src:'교과서 AI for Good 사례',g:[15,13]},
+];
+$('probCards').innerHTML=PROB.map(p=>`<div class="pc"><div class="pt"><span class="pi">${p.ic}</span><b>${p.t}</b></div><div class="big">${p.big}</div><p>${p.d}</p><p class="who">👥 ${p.who}</p>${p.src?`<small>출처: ${p.src}</small>`:''}</div>`).join('');
+
 /* 02 SDGs 17 */
 const SDG=[
  ['빈곤층 감소와 사회 안전망 강화','#e5243b','도움이 필요한 가구를 데이터로 빨리 찾아 지원하기'],
- ['식량안보와 지속 가능한 농업','#c99630','기상·토양·품종 데이터로 수확량 예측 (교과서 172쪽)'],
+ ['식량안보와 지속 가능한 농업','#c99630','기상·토양·품종 데이터로 수확량 예측 (교과서 172쪽), 사진으로 작물 병해충 진단'],
  ['건강하고 행복한 삶','#4c9f38','진단 데이터로 질병의 패턴 찾기, 맞춤형 치료, 의료 상담 챗봇 (교과서 172쪽)'],
  ['모두를 위한 양질의 교육','#c5192d','학생마다 알맞은 속도와 방식으로 배우게 돕는 맞춤형 교육'],
  ['성평등 보장','#ff3a21','고용·승진·급여 결정에서 성 편견을 찾아 고치기 (교과서 173쪽)'],
@@ -775,12 +834,12 @@ const SDG=[
  ['에너지의 친환경적 생산과 소비','#d9a400','에너지 사용량을 예측해 낭비 줄이기'],
  ['좋은 일자리 확대와 경제 성장','#a21942','반복 작업 자동화로 생산성을 높이고 새 일자리 만들기 (교과서 173쪽)'],
  ['산업 혁신과 사회 기반 시설 확충','#fd6925','다리·도로 사진으로 손상 부분 찾기'],
- ['모든 종류의 불평등 해소','#dd1367','음성 인식·번역으로 정보 격차 줄이기'],
- ['지속 가능한 도시와 주거지','#f08a14','실시간 교통 분석으로 막히지 않는 길 추천'],
+ ['모든 종류의 불평등 해소','#dd1367','카메라로 글자·사물을 읽어 주는 앱, 음성 인식·번역으로 정보 격차 줄이기'],
+ ['지속 가능한 도시와 주거지','#f08a14','횡단보도 카메라로 보행자를 알아보고 신호 늘려 주기, 실시간 교통 분석'],
  ['지속 가능한 생산과 소비','#bf8b2e','사진으로 재활용품 분류하기'],
- ['기후 변화 대응','#3f7e44','탄소 배출량 예측, 지능형 교통 경로 추천 (교과서 173쪽)'],
- ['해양 생태계 보전','#0a97d9','이미지로 해양 종 관측, 불법 조업·기름 유출 찾기 (교과서 172쪽)'],
- ['육상 생태계 보전','#56c02b','숲의 소리로 불법 벌목 감지하기'],
+ ['기후 변화 대응','#3f7e44','탄소 배출량 예측, 지능형 교통 경로 추천 (교과서 173쪽), 산불 연기 자동 감지'],
+ ['해양 생태계 보전','#0a97d9','이미지로 해양 종 관측, 위성 사진으로 불법 조업·기름 유출 찾기 (교과서 172쪽)'],
+ ['육상 생태계 보전','#56c02b','숲의 소리로 불법 벌목 감지하기 (교과서)'],
  ['인권·정의·평화','#00689d','가짜 뉴스와 혐오 표현 찾기'],
  ['지구촌 협력 확대','#19486a','여러 나라 데이터를 모아 함께 문제 풀기'],
 ];
@@ -789,65 +848,39 @@ const SDG=[
   const bs=[...$('sdgGrid').querySelectorAll('button')];
   bs.forEach(b=>b.onclick=()=>{const i=+b.dataset.i,g=SDG[i]; bs.forEach(x=>x.classList.toggle('on',x===b)); $('sdgView').style.setProperty('--c',g[1]); $('sdgView').innerHTML=`<b style="color:${g[1]}">${i+1}. ${g[0]}</b><br>🤖 인공지능 활용 아이디어: ${g[2]}`;});
 })();
+$('probSdg').innerHTML=PROB.map(p=>`<tr><td>${p.ic} ${p.t}</td><td>${p.g.map(n=>`<span class="sdgtag" style="--c:${SDG[n-1][1]}">${n}. ${SDG[n-1][0]}</span>`).join(' ')}</td></tr>`).join('');
+chips('mySdg','mySdgPick',SDG.map((g,i)=>`${i+1}. ${g[0]}`),true);
 
-/* 03 AI for Good */
-const GOOD=[
- {ic:'🩺',n:'의료',g:3,d:'진단 데이터를 분석해 질병의 패턴과 이상을 찾아 진단하고, 유전적·환경적 데이터로 맞춤형 치료를 제안해요. 방대한 데이터로 전염병을 예측하고 챗봇으로 의료 상담도 해요.',data:'진단 데이터, 병력·증상, 유전적·환경적 데이터'},
- {ic:'🌾',n:'농업',g:2,d:'기상 조건, 토양 특성, 품종처럼 수확량에 영향을 주는 데이터로 모델을 만들어 작물의 성장과 수확량을 예측해요. 수확량은 최대화하면서 물 사용은 줄여요.',data:'기상 조건, 토양 특성, 품종'},
- {ic:'🐋',n:'해양',g:14,d:'이미지 인식·추적으로 해양 종의 개체군과 이동을 관측하고, 위성 이미지와 선박 추적 데이터로 불법 조업을 찾아요. 기름 유출이나 플라스틱 폐기물 같은 오염원도 탐지해요.',data:'위성 이미지, 선박 추적, 센서·해양 데이터'},
- {ic:'💼',n:'일자리',g:8,d:'반복적인 작업을 자동화해 생산성과 효율을 높이고, 인공지능 전문가라는 새 일자리를 만들어요. 고용·승진·급여 결정의 성 편견을 찾아 공평한 일터를 만드는 데도 쓰여요.',data:'업무 데이터, 고용·승진·급여 기록'},
- {ic:'🌡️',n:'기후',g:13,d:'기계학습으로 기업·산업·국가의 탄소 배출량과 자원 사용량을 예측하고, 에너지 낭비를 줄이는 제어 시스템을 만들어요. 실시간 교통을 분석해 탄소를 덜 내는 경로도 추천해요.',data:'탄소 배출량, 자원·에너지 사용량, 교통 상황'},
+/* 03 사례 */
+const CASES=[
+ {k:'📘',ic:'🌳',n:'숲의 소리',g:[15],p:'열대 우림의 불법 벌목. 숲이 너무 넓어 사람이 다 지킬 수 없어요.',data:'나무에 매단 기기(처음에는 버려진 휴대폰과 태양광 패널)가 24시간 녹음한 숲의 소리',ai:'소리가 <b>전기톱·트럭 소리인지 아닌지 분류</b>해, 맞으면 바로 알림을 보내요.',man:'알림을 받은 숲 경비원이 현장으로 출동해요.',real:'비영리 단체 레인포레스트 커넥션(RFCx)이 여러 나라 숲에서 운영해 왔어요.',lim:'비·동물 소리가 섞이면 헷갈릴 수 있고, 깊은 숲속 기기를 계속 관리해야 해요. 알림을 받아도 출동할 사람이 없으면 소용없어요.',jobs:'숲 보호 활동가, 생태학자, 음향 엔지니어',src:'교과서 AI for Good · Rainforest Connection'},
+ {k:'📘',ic:'🪸',n:'산호를 먹는 불가사리',g:[14],p:'호주 그레이트배리어리프에서 가시불가사리가 크게 늘면 산호를 먹어 치워요. 넓은 바다를 잠수부가 다 살필 수 없어요.',data:'배에 매단 수중 카메라 영상',ai:'영상 속 <b>가시불가사리를 실시간으로 찾아 표시(탐지)</b>해요.',man:'잠수 방제팀이 표시된 곳으로 가서 불가사리를 없애요.',real:'호주 연방과학산업연구기구(CSIRO)와 구글이 2022년에 함께 만들고 모델을 공개했어요.',lim:'물이 흐리거나 산호 틈에 숨은 불가사리는 놓칠 수 있어요.',jobs:'해양생물학자, 수중 카메라·로봇 엔지니어, 잠수 방제 요원',src:'교과서 AI for Good · CSIRO·Google(2022)'},
+ {k:'📘',ic:'📚',n:'교과서 다섯 분야',g:[3,2,14,8,13],p:'의료 · 농업 · 해양 · 일자리 · 기후',data:'<b>의료</b> 진단 데이터 · <b>농업</b> 기상·토양·품종 데이터 · <b>해양</b> 위성 이미지·선박 추적 데이터 · <b>일자리</b> 작업·인사 데이터 · <b>기후</b> 탄소 배출·자원 사용·교통 데이터',ai:'<b>의료</b> 질병 패턴 찾기·맞춤 치료 제안 · <b>농업</b> 수확량 예측으로 물 아끼기 · <b>해양</b> 해양 종 관측·불법 조업과 기름 유출 찾기 · <b>일자리</b> 반복 작업 자동화, 성 편견 찾기 · <b>기후</b> 배출량 예측, 탄소를 덜 내는 길 추천',man:'의사·농업인·해양 감시원·인사 담당자·정책 담당자가 결과를 보고 결정해요.',real:'',lim:'데이터가 한쪽으로 치우치면 결과도 치우쳐요(3단원의 편향).',jobs:'의사, 농업 연구원, 해양학자, 인사 담당자, 환경 정책 전문가',src:'교과서 172~173쪽'},
+ {k:'📰',ic:'🔥',n:'산불 연기 감시',g:[13,15],p:'산불은 처음 몇 분이 중요해요. 넓은 산을 사람 눈으로 계속 지켜보기 어려워요.',data:'산 위 감시 카메라 영상',ai:'화면 속이 <b>연기·불꽃인지, 구름·안개인지 분류</b>해 자동으로 알려요.',man:'상황실이 화면을 확인하고 진화 인력을 보내요.',real:'산림청이 AI와 연결한 지능형 CCTV로 24시간 연기·불꽃을 감지하는 체계를 넓혀 왔고, 한 지자체 플랫폼은 2026년 1월 산불에서 연기를 6~7분 더 빨리 감지했다고 보도됐어요.',lim:'2026년 3월 보도에 따르면 전국 무인 감시 카메라가 처음 발견한 산불은 약 3%에 그쳤어요. 카메라가 볼 수 없는 곳이 많아 드론·위성과 함께 써야 한다는 지적이 나와요.',jobs:'산림 공무원, 소방관, 재난 데이터 분석가, 드론 운용사',src:'산림청 산불방지 대책(2023)·언론 보도(2026)'},
+ {k:'📰',ic:'📞',n:'AI 안부 전화',g:[3,10],p:'혼자 사는 어르신이 며칠씩 아무와도 말하지 않는 일이 생겨요. 담당 공무원이 모두에게 매일 전화하기 어려워요.',data:'어르신과 나눈 통화 대화(음성)',ai:'말을 알아듣고 대화하며(<b>음성 인식·자연어 처리</b>) 「아프다」 같은 <b>위험한 말을 알아채</b> 담당자에게 알려요.',man:'사회복지 담당자가 직접 찾아가거나 전화해 확인해요.',real:'네이버 「클로바 케어콜」은 2024년 8월 기준 전국 128개 시군구에서 약 3만 명이 이용한다고 회사가 밝혔어요.',lim:'효과 자료가 대부분 회사 발표예요. 기계와의 대화가 사람의 방문과 관계를 대신할 수는 없고, 대화 내용은 민감한 개인정보예요.',jobs:'사회복지사, 간호사, 돌봄 서비스 기획자, 대화형 AI 개발자',src:'네이버 발표·언론 보도(2024)'},
+ {k:'📰',ic:'♻️',n:'재활용 회수 로봇',g:[12],p:'섞이거나 더러운 플라스틱은 선별장에서 골라내기 어려워 재활용되지 못해요.',data:'투입구 카메라로 찍은 사진과 센서 값',ai:'들어온 것이 <b>캔인지 페트병인지 분류</b>해 따로 압착해 모아요.',man:'시민은 깨끗이 비워 넣고 포인트를 받고, 모인 재료는 재활용 업체가 가져가요.',real:'수퍼빈의 「네프론」이 2018년 서울 은평구에 처음 설치된 뒤 여러 지자체로 늘었어요.',lim:'기계가 있는 곳까지 가져가야 하고, 오염된 용기는 받지 않아요. 기계가 있어도 버리는 습관이 바뀌어야 해요.',jobs:'환경공학자, 자원순환 기업 기획자, 로봇 엔지니어',src:'수퍼빈·언론 보도'},
+ {k:'📰',ic:'🛰️',n:'바다의 숨은 배 찾기',g:[14],p:'위치 신호를 끈 채 몰래 고기를 잡는 배는 넓은 바다에서 찾기 어려워요.',data:'2017~2021년 위성 사진(레이더·광학)과 선박 위치 신호(AIS)',ai:'위성 사진에서 <b>배를 찾아내고(탐지)</b>, 위치 신호와 비교해 신호를 끈 「숨은 배」를 가려내요.',man:'해양경찰과 보호구역 관리자가 감시와 단속에 써요.',real:'국제 단체 글로벌 피싱 워치(Global Fishing Watch) 연구팀이 산업용 어선의 약 75%가 공개 추적에 잡히지 않는다는 결과를 2024년 Nature에 발표했어요.',lim:'위성 사진이 선명하지 않아 20m보다 작은 배는 잘 못 찾아요. 숨은 배가 모두 불법인 것도 아니에요.',jobs:'해양학자, 해양경찰, 위성 영상 분석가',src:'Global Fishing Watch, Nature(2024.1)'},
+ {k:'📰',ic:'🍓',n:'작물 병해충 사진 진단',g:[2],p:'농촌 인구의 절반 넘게가 65세 이상이에요. 작물의 병을 늦게 알아채면 한 해 농사를 잃어요.',data:'농업인이 스마트폰으로 찍은 잎·열매 사진',ai:'사진을 보고 <b>어떤 병해충인지 분류</b>하고 방제 방법을 알려 줘요. 우리가 만들 이미지 분류 모델과 같은 방식이에요.',man:'농업인이 결과를 보고 방제하고, 애매하면 농업기술센터 전문가에게 확인해요.',real:'농촌진흥청 앱은 35개 작물, 372종 병해충을 다루고 영상 인식 정확도가 96.6%라고 밝혔어요. 2024년 9월부터 누구나 쓸 수 있게 열렸어요.',lim:'학습하지 않은 병이나 흐린 사진은 틀릴 수 있어요. 정확도 96.6%여도 100장 중 3~4장은 틀린다는 뜻이에요.',jobs:'농업인, 스마트팜 전문가, 식물병리학자, 농업 데이터 분석가',src:'농촌진흥청 발표(2024)'},
+ {k:'📰',ic:'📱',n:'눈을 대신하는 앱',g:[10],p:'시각장애인은 상품 이름, 약 봉투 글씨, 색깔처럼 눈으로 확인하는 정보를 얻기 어려워요.',data:'스마트폰 카메라로 찍은 사진',ai:'사진 속 <b>글자를 읽고 사물·색을 알아본 뒤</b> 소리로 알려 줘요.',man:'사용자가 결과를 듣고 판단하고, 개발자는 사용자 의견을 듣고 고쳐요.',real:'우리나라에서 만든 「설리번플러스」 같은 무료 앱을 시각장애인과 저시력인이 쓰고 있어요.',lim:'편의점 상품을 인식할 때 필요 없는 정보까지 읽어 준다는 사용자 의견이 있어요. 약 이름을 잘못 읽으면 위험할 수 있어요.',jobs:'특수교사, 보조공학 전문가, UX 디자이너, 접근성 개발자',src:'앱 소개·사용자 후기'},
+ {k:'📰',ic:'🚦',n:'스마트 횡단보도',g:[11,3],p:'걸음이 느린 어르신과 어린이는 초록불 안에 다 건너지 못하거나, 운전자 눈에 늦게 띄어요.',data:'횡단보도 AI 카메라 영상',ai:'<b>보행자와 차를 알아보고</b> 운전자에게 경고하며, 건널 시간이 모자라면 초록불을 늘려 줘요.',man:'교통공학자와 지자체가 설치 위치를 정하고 효과를 점검해요.',real:'여러 지자체가 초등학교 통학로 등에 설치하고 있어요. 대구시는 보행자가 다 건너지 못하면 신호를 몇 초씩 늘려 주는 방식을 쓰고 있어요.',lim:'사고가 얼마나 줄었는지에 대한 독립적인 평가는 아직 부족해요. 길을 지나는 사람이 카메라에 찍히는 개인정보 문제도 있어요.',jobs:'교통공학자, 도시계획가, 경찰',src:'국토교통부 스마트시티·지자체 보도'},
 ];
-tabs('goodBtns','goodView',GOOD,c=>`<div class="card" style="margin:0;border-left:6px solid ${SDG[c.g-1][1]}"><h3>${c.ic} ${c.n} · SDGs ${c.g}번 「${SDG[c.g-1][0]}」</h3><p>${c.d}</p><div class="dl"><b>쓰는 데이터</b><span>${c.data}</span></div></div>`);
-$('goodBtns').style.gridTemplateColumns='repeat(5,1fr)';
-sorter('goodGame',{
-  cats:[[2,'🌾'],[3,'🩺'],[13,'🌡️'],[14,'🐋']].map(([g,ic])=>({n:`${ic} ${g}번 ${SDG[g-1][0].split(' ')[0]}…`,k:SDG[g-1][1]})),
-  items:[
-    {t:'기상 조건과 토양 데이터로 올해 쌀 수확량을 예측한다.',c:0},
-    {t:'엑스레이 사진에서 폐렴 의심 부분을 찾는다.',c:1},
-    {t:'환자의 증상을 듣고 상담해 주는 의료 챗봇을 만든다.',c:1},
-    {t:'공장의 에너지 사용량을 예측해 낭비를 줄인다.',c:2},
-    {t:'실시간 교통을 분석해 탄소를 덜 내는 길을 추천한다.',c:2},
-    {t:'위성 사진으로 바다의 기름 유출을 찾는다.',c:3},
-    {t:'선박 추적 데이터로 불법 조업 패턴을 찾는다.',c:3},
-    {t:'작물 사진으로 병든 잎을 골라낸다.',c:0},
-  ],
-  end:'하나의 인공지능이 여러 목표를 함께 도울 때도 있어요. 내 프로젝트가 <b>어느 목표와 가장 가까운지</b> 말할 수 있으면 돼요.'
-});
+tabs('caseBtns','caseView',CASES.map(c=>({ic:c.ic,n:`${c.k} ${c.n}`,c})),it=>{const c=it.c; const row=(h,v)=>v?`<div class="cs"><b>${h}</b><span>${v}</span></div>`:''; return `<div class="card" style="margin:0;border-left:6px solid ${SDG[c.g[0]-1][1]}"><h3>${c.ic} ${c.n} <span class="badge">${c.k==='📘'?'📘 교과서 사례':'📰 지금 실제 사례'}</span></h3><p style="margin-top:0">${c.g.map(n=>`<span class="sdgtag" style="--c:${SDG[n-1][1]}">${n}. ${SDG[n-1][0]}</span>`).join(' ')}</p>${row('어떤 문제',c.p)}${row('쓰는 데이터',c.data)}${row('인공지능이 하는 일',c.ai)}${row('사람이 하는 일',c.man)}${row('실제로는',c.real)}${row('한계 · 생각할 점',c.lim)}${row('함께 일하는 사람들',c.jobs)}<small class="muted">출처: ${c.src}</small></div>`;});
 
-/* 04 5단계 분류 */
-sorter('stepGame',{
-  cats:[{n:'1 문제 정의',k:'#2f6fd0'},{n:'2 데이터',k:'#1f9d74'},{n:'3 유형·알고리즘',k:'#e0702b'},{n:'4 학습',k:'#d64535'},{n:'5 평가·수정',k:'#0f8a8a'}],
-  items:[
-    {t:'「어떻게 하면 사진으로 플라스틱과 종이를 나눌 수 있을까?」라고 정한다.',c:0},
-    {t:'클래스마다 사진을 10장씩 찍고, 흐린 사진과 거의 똑같은 사진을 뺀다.',c:1},
-    {t:'테스트에 쓸 사진 4장을 학습 데이터와 따로 떼어 둔다.',c:1,w:'데이터 분할도 2단계에 들어가요.'},
-    {t:'맞힐 것이 종류이므로 분류 문제로 정하고, 이미지 프로젝트로 만든다.',c:2},
-    {t:'ML4Kids에서 「학습」 버튼을 눌러 모델을 만든다.',c:3},
-    {t:'테스트 사진 4장 중 몇 장을 맞혔는지 세고, 틀린 사진을 기록한다.',c:4},
-    {t:'틀린 원인을 보고 사진을 더 찍어 넣은 뒤 같은 테스트로 다시 확인한다.',c:4},
-  ],
-  end:'2단원에서 배운 6단계(문제 정의 → 데이터 수집 → 전처리 → 알고리즘 선정 → 학습 → 평가)를 프로젝트용으로 5단계로 묶은 거예요.'
-});
-
-/* 05 주제 정하기 */
-chips('mySdg','mySdgPick',SDG.map((g,i)=>`${i+1}. ${g[0]}`));
+/* 05 나의 관심사와 진로 */
+chips('interest','interest',['🌍 환경·기후','🐾 동물·생태','🩺 건강·의료','🧓 어르신·돌봄','♿ 장애·접근성','🏫 교육·학교생활','🚦 안전·교통','🍚 음식·농업','🎨 디자인·예술','🎬 미디어·콘텐츠','⚽ 스포츠','💰 경제·소비','🏙️ 도시·공간','⚖️ 법·인권'],true);
+$('jobTable').innerHTML='<tr><td><b>사례</b></td><td><b>함께 일하는 사람들</b></td></tr>'+CASES.map(c=>`<tr><td>${c.ic} ${c.n}</td><td>${c.jobs}</td></tr>`).join('');
 (function(){
-  const KEY='quadIdeas'; let Q=(MEMO[KEY]&&JSON.parse(MEMO[KEY]))||{};
+  const KEY='quadIdeas'; let Q={}; try{Q=(MEMO[KEY]&&JSON.parse(MEMO[KEY]))||{};}catch(e){Q={};}
   const cells=[...$('quad').querySelectorAll('.cell')];
   function draw(){ cells.forEach(c=>{const q=c.dataset.q; c.querySelectorAll('span').forEach(s=>s.remove()); (Q[q]||[]).forEach(t=>{const s=document.createElement('span'); s.textContent=t; c.appendChild(s);});}); }
   cells.forEach(c=>c.onclick=()=>{const v=$('ideaIn').value.trim(); if(!v) return; (Q[c.dataset.q]=Q[c.dataset.q]||[]).push(v); $('ideaIn').value=''; MEMO[KEY]=JSON.stringify(Q); MEMO.bestIdea=(Q['hi-hi']||[]).join(' / '); store.set(MK,MEMO); draw();});
   $('quadReset').onclick=()=>{Q={}; MEMO[KEY]='{}'; MEMO.bestIdea=''; store.set(MK,MEMO); draw();};
   draw();
 })();
-$('typeCards').innerHTML=[
- ['분리배출 도우미','플라스틱 / 종이 / 캔','집·교실 물건 찍기','#2f6fd0'],['손 모양 게임','가위 / 바위 / 보','웹캠으로 손만 찍기','#1f9d74'],['오늘 하늘','맑음 / 흐림','창밖 하늘 찍기','#9b4fc4'],
- ['식물 돌보미','싱싱함 / 시듦','화분 잎 찍기','#1f9d74'],['필기구 정리','연필 / 펜 / 지우개','필통 속 물건 찍기','#e0702b'],['도형 그림','동그라미 / 세모 / 네모','ML4Kids에서 직접 그리기','#d64535'],
-].map(t=>`<div style="--k:${t[3]}"><b>${t[0]}</b>${t[1]}<small>${t[2]}</small></div>`).join('');
 
-/* 06 마무리 */
-const MEMOLIST=[['mySdgPick','관심 있는 SDGs 목표'],['problem','관련된 우리 주변 문제'],['bestIdea','관심도 높고 구체적인 아이디어'],['howMight','어떻게 하면 ___ 할 수 있을까?'],['input','입력'],['output','출력'],['classA','클래스 A'],['classB','클래스 B'],['classC','클래스 C'],['program','새 사진으로 시험하는 방법']];
-onShow[6]=()=>memoSummary('msum',MEMOLIST);
+/* 07 마무리 */
+const MEMOLIST=[['worry','가장 마음이 쓰이는 문제와 까닭'],['whoHard','가장 힘든 사람'],['problem','우리 주변에서 본 장면'],['mySdgPick','가까운 SDGs 목표'],['sdgWhy','그 목표를 고른 까닭'],['caseWhy','인상 깊은 사례와 까닭'],['caseWrong','그 인공지능이 틀리면'],['caseHuman','AI에게 맡길 일 · 사람이 할 일'],['missOrFalse','놓치기 vs 잘못 알리기'],['fieldGap','시험과 현장의 차이'],['interest','나의 관심사'],['career','꿈꾸는 일'],['careerProblem','내 진로에서 마주칠 사회 문제'],['careerAI','그 일에서 AI와 나의 몫'],['bestIdea','관심도 높고 구체적인 아이디어'],['howMight','어떻게 하면 ___ 할 수 있을까?'],['input','입력(사진)'],['output','출력 · 클래스'],['oneLine','오늘을 한 문장으로']];
+onShow[7]=()=>memoSummary('msum',MEMOLIST);
 
 /* 진도 보내기 ②: 화면 이동·퀴즈·메모·창 이탈을 선생님 시트로 */
 (function(){
