@@ -71,6 +71,49 @@
   .muted{color:var(--muted)}
   .note{font-size:.84rem;color:var(--muted)}
   footer{text-align:center;color:var(--muted);font-size:.82rem;padding:20px}
+
+  /* 제출 폼 미리 보기 */
+  .pv{background:#fff;border-radius:16px;box-shadow:var(--shadow);margin:0 0 12px;overflow:hidden}
+  .pv>summary{list-style:none;padding:14px 18px;font-weight:900;font-size:1.02rem;color:var(--ink);display:flex;gap:10px;align-items:center}
+  .pv>summary::-webkit-details-marker{display:none}
+  .pv>summary::after{content:"▾";margin-left:auto;color:var(--muted)}
+  .pv[open]>summary::after{content:"▴"}
+  .pw{display:inline-block;background:var(--navy);color:#fff;border-radius:999px;font-size:.78rem;padding:1px 10px;font-weight:700;white-space:nowrap}
+  .pi{position:relative;padding:4px 18px 16px;border-top:1px solid var(--line);background:repeating-linear-gradient(-45deg,#fff 0 18px,#fbfaf7 18px 36px)}
+  .stamp{position:sticky;top:52px;float:right;margin:10px 0 6px 10px;background:#fdecea;color:var(--red);border:2px solid var(--red);border-radius:8px;padding:2px 10px;font-weight:900;font-size:.82rem;z-index:2}
+  .pi .lead{color:var(--muted);font-size:.9rem;margin:12px 0 4px}
+  .ps h4{margin:16px 0 6px;font-size:1rem;color:var(--navy)}
+  .pf{margin:8px 0}
+  .pl{font-weight:700;font-size:.9rem;margin-bottom:4px}
+  .pl small{color:var(--muted);font-weight:400}
+  .pb{border:1.5px dashed #c9c2b5;border-radius:10px;background:#f7f5f0;color:#9aa3ae;font-size:.86rem;padding:8px 12px;min-height:38px}
+  .pb.tall{min-height:72px}
+  .pb.sel{min-height:0}
+  .pn{font-size:.86rem;color:#33404f;background:#eef3fb;border-radius:10px;padding:8px 12px;margin:8px 0}
+  .pc{list-style:none;margin:4px 0;padding:0;font-size:.9rem}
+  .pc li{padding:3px 0}
+  .tw{overflow-x:auto}
+  table.pt td{height:32px;background:#f7f5f0}
+  table.pt td.no,table.ex td:first-child{text-align:center;color:var(--muted);width:34px}
+  /* 예시 사례 */
+  .exflow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin:10px 0 14px}
+  .exflow div{flex:1 1 140px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:10px 12px;text-align:center}
+  .exflow b{display:block;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.5rem;color:var(--navy)}
+  .exflow span{font-size:.84rem;color:var(--muted)}
+  .exflow i{font-style:normal;align-self:center;color:var(--amber);font-weight:900}
+  .ex1{border-top:7px solid var(--mint)}.ex2{border-top:7px solid var(--purple)}.ex3{border-top:7px solid var(--red)}
+  .card h3 .pw{margin-right:6px;vertical-align:2px}
+  .card h4{margin:16px 0 6px;font-size:1rem;color:var(--navy)}
+  table.kv td:first-child{width:28%;font-weight:700;background:#fbfaf7;font-size:.88rem}
+  table.ex td{font-variant-numeric:tabular-nums}
+  table.cmp td:first-child{width:auto;text-align:left;color:var(--ink);font-weight:700}
+  b.o{color:var(--mint)}b.x{color:var(--red)}
+  .sub{font-weight:700;font-size:.9rem;margin:12px 0 4px}
+  .why{background:#e7f6ef;border-radius:12px;padding:9px 13px;font-size:.9rem;margin:10px 0}
+  ol.sent{margin:4px 0;padding-left:22px}
+  ol.sent li{margin:7px 0}
+  .tg{display:inline-block;font-size:.74rem;background:#f3e9fa;color:var(--purple);border-radius:999px;padding:0 8px;margin-right:6px;font-weight:700;vertical-align:1px}
+  @media (max-width:820px){table.kv td:first-child{width:34%}.stamp{position:static;float:none;display:inline-block}}
   /* page-guard: 글자 선택·복사 막기 (입력 칸은 편집 가능) */
   body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
@@ -81,14 +124,14 @@
 <body>
 <nav class="top"><div class="wrap">
   <b>2차 수행평가</b>
-  <a href="#summary">한눈에</a><a href="#standards">성취기준</a><a href="#rubric">채점 기준</a><a href="#rules">공통 조건</a><a href="#process">진행 과정</a><a href="#ai">생성형 AI</a><a href="#submit">제출물</a>
+  <a href="#summary">한눈에</a><a href="#standards">성취기준</a><a href="#rubric">채점 기준</a><a href="#rules">공통 조건</a><a href="#process">진행 과정</a><a href="#ai">생성형 AI</a><a href="#submit">제출물</a><a href="#forms">제출 폼 미리 보기</a><a href="#example">예시 사례</a>
 </div></nav>
 <main class="wrap">
 
 <section class="hero">
   <span class="tag">인공지능 기초 · Ⅳ. 인공지능 프로젝트 · 2차 수행평가</span>
   <h1>내가 정한 문제를<br>이미지 인공지능으로 해결하기</h1>
-  <p>Machine Learning for Kids(ML4Kids) 또는 비슷한 이미지 학습 도구로, 내가 직접 찍은 사진을 학습시켜 <b style="color:#fff">이미지 분류 모델</b>을 만들고, 학습에 쓰지 않은 새 사진으로 시험해 성능을 평가합니다.</p>
+  <p>Machine Learning for Kids(ML4Kids) 또는 비슷한 이미지 학습 도구로, 직접 찍거나 그리거나 인터넷에서 찾은 사진을 학습시켜 <b style="color:#fff">이미지 분류 모델</b>을 만들고, 학습에 쓰지 않은 새 사진으로 시험해 성능을 평가합니다.</p>
   <p><b style="color:#fff">최종 정확도로 순위를 매기지 않습니다.</b> 성능을 숫자로 평가하고, 틀린 사진의 원인을 찾아 근거를 들어 개선 방향을 정하는 과정이 중요합니다.</p>
   <div class="flow"><span>🎯 프로젝트 선정</span><i>→</i><span>📷 사진 모으기·정리</span><i>→</i><span>🧠 학습</span><i>→</i><span>🧪 새 사진으로 테스트·정확도</span><i>→</i><span>🔧 틀린 원인·개선 방향</span><i>→</i><span>✍️ 성찰·제출</span></div>
 </section>
@@ -165,7 +208,7 @@
   <p class="muted" style="margin-top:0">평가계획의 「데이터 수집·전처리·모델 학습 → 실행 가능한 산출물 → 평가 지표 → 개선 방향 → 사회적 영향」을 이미지 프로젝트에 맞게 풀어 쓴 거예요. <b>(권장)</b>은 하면 더 좋은 일이에요.</p>
   <ul>
     <li>사진을 나누는 <b>클래스 2개 이상</b>을 정한다</li>
-    <li>사진은 <b>직접 찍거나 그린다</b>. 클래스마다 몇 장을, 어떻게 찍었는지 기록한다 <span class="muted">(권장: 클래스마다 10장 정도, 장수 비슷하게, 배경·밝기·각도 골고루)</span></li>
+    <li>사진은 <b>직접 찍거나 그리거나, 인터넷에서 찾는다</b>(섞어도 됨). 클래스마다 몇 장을, 어떻게 모았는지 기록한다. 인터넷 사진은 <b>출처(사이트)</b>를 적고, 사람 얼굴·연예인·캐릭터 사진은 쓰지 않는다 <span class="muted">(권장: 클래스마다 10장 정도, 장수 비슷하게, 배경·밝기·각도 골고루)</span></li>
     <li>학습 전에 <b>사진을 정리</b>한다(전처리: 흐린 사진·잘못 넣은 사진·거의 같은 사진 정리, 장수 맞추기). 무엇을 왜 뺐는지 기록한다</li>
     <li>학습에 <b>쓰지 않은 테스트 사진</b>을 따로 둔다 <span class="muted">(권장: 클래스마다 2장 이상)</span></li>
     <li>모델을 학습시키고, 새 사진을 넣었을 때 <b>결과가 나오는 화면</b>을 남긴다 (실행 가능한 산출물)</li>
@@ -178,7 +221,7 @@
 </div>
 
 <h2 id="process"><span class="n">5</span>진행 과정</h2>
-<p class="muted" style="margin-top:-4px">시간마다 해야 할 일을 체크하며 진행해요. 체크 표시는 이 기기에만 저장돼요. 괄호 안 번호는 그 시간 활동지(제출 폼)의 문항 번호예요.</p>
+<p class="muted" style="margin-top:-4px">시간마다 해야 할 일을 체크하며 진행해요. 체크 표시는 이 기기에만 저장돼요. 괄호 안 번호는 그 시간 활동지(제출 폼)의 문항 번호예요. 활동지에 무엇을 쓰는지는 <a href="#forms">8. 제출 폼 미리 보기</a>에서 볼 수 있어요.</p>
 <div class="steps" id="steps">
 
   <div class="stage" style="--k:var(--blue)">
@@ -213,12 +256,12 @@
     <div class="bd">
       <ul class="chk" data-k="s1">
         <li><input type="checkbox"><span class="t">문제·넣을 사진·출력·클래스와 인공지능으로 해결하는 이유를 적었다 <span class="ws">①-1</span></span></li>
-        <li><input type="checkbox"><span class="t">클래스별로 사진을 직접 찍고, 장수와 찍은 방법을 기록했다 <span class="ws">①-2</span></span></li>
+        <li><input type="checkbox"><span class="t">클래스별로 사진을 모으고(직접 찍기·그리기 또는 인터넷), 장수와 모은 방법·출처를 기록했다 <span class="ws">①-2</span></span></li>
         <li><input type="checkbox"><span class="t">흐린 사진·잘못 넣은 사진·거의 같은 사진을 정리하고, 무엇을 왜 뺐는지 적었다 <span class="ws">①-2</span></span></li>
         <li><input type="checkbox"><span class="t">사진을 이렇게 구성한 근거(장수 균형·배경과 밝기 다양성)를 적었다 <span class="ws">①-2</span></span></li>
         <li><input type="checkbox"><span class="t">ML4Kids에서 학습을 마쳤다 <span class="ws">①-3</span></span></li>
         <li><input type="checkbox"><span class="t">학습에 쓰지 않은 테스트 사진으로 시험하고 결과(예측·신뢰도)를 표에 적었다 <span class="ws">①-3</span></span></li>
-        <li><input type="checkbox"><span class="t">끝날 때 훈련 화면(사진 장수)과 테스트 결과 화면을 캡처해 <b>리로스쿨</b>에 올렸고, <b>활동지 ①</b>을 제출했다 <a class="ws" href="https://aiquiz26.vercel.app/forms/ai-271-project-1.html" target="_blank" rel="noopener">활동지 ① 열기 →</a></span></li>
+        <li><input type="checkbox"><span class="t">끝날 때 훈련 화면(사진 장수)과 테스트 결과 화면을 캡처해 <b>리로스쿨</b>에 올렸고, <b>활동지 ①</b>을 제출했다 <a class="ws" href="#form1">활동지 ① 미리 보기 ↓</a></span></li>
       </ul>
       <div class="prog"><i></i></div>
     </div>
@@ -233,7 +276,7 @@
         <li><input type="checkbox"><span class="t">원인에 맞는 개선 방향을 정했다 <span class="ws">②-3</span></span></li>
         <li><input type="checkbox"><span class="t">(권장) 실제로 사진을 고치고 다시 학습해 <b>같은 테스트 사진</b>으로 전·후를 비교했다 <span class="ws">②-3</span></span></li>
         <li><input type="checkbox"><span class="t">(권장) 친구나 선생님의 의견을 듣고 반영했는지 적었다 <span class="ws">②-3</span></span></li>
-        <li><input type="checkbox"><span class="t">끝날 때 테스트 결과 화면(고쳤다면 고친 뒤 화면도)을 캡처해 <b>리로스쿨</b>에 올렸고, <b>활동지 ②</b>를 제출했다 <a class="ws" href="https://aiquiz26.vercel.app/forms/ai-281-project-2.html" target="_blank" rel="noopener">활동지 ② 열기 →</a></span></li>
+        <li><input type="checkbox"><span class="t">끝날 때 테스트 결과 화면(고쳤다면 고친 뒤 화면도)을 캡처해 <b>리로스쿨</b>에 올렸고, <b>활동지 ②</b>를 제출했다 <a class="ws" href="#form2">활동지 ② 미리 보기 ↓</a></span></li>
       </ul>
       <div class="prog"><i></i></div>
     </div>
@@ -246,7 +289,7 @@
         <li><input type="checkbox"><span class="t">앞 시간에 못 끝낸 단계를 마무리했다</span></li>
         <li><input type="checkbox"><span class="t">다른 창과 생성형 AI를 모두 닫고, 내 사진·모델을 근거로 한계와 사회적 영향을 5문장 이상 직접 썼다 (데이터 편향, 특정 환경에서 성능 저하, 잘못 분류했을 때의 피해, 공정성, 개인정보 등) <span class="ws">③-1</span></span></li>
         <li><input type="checkbox"><span class="t">생성형 AI 활용 기록을 적었다 (안 썼으면 「사용하지 않음」) <span class="ws">③-2</span></span></li>
-        <li><input type="checkbox"><span class="t">빠진 ML4Kids 캡처를 <b>리로스쿨</b>에 올리고, <b>활동지 ③</b>을 제출했다 <a class="ws" href="https://aiquiz26.vercel.app/forms/ai-291-project-3.html" target="_blank" rel="noopener">활동지 ③ 열기 →</a></span></li>
+        <li><input type="checkbox"><span class="t">빠진 ML4Kids 캡처를 <b>리로스쿨</b>에 올리고, <b>활동지 ③</b>을 제출했다 <a class="ws" href="#form3">활동지 ③ 미리 보기 ↓</a></span></li>
         <li><input type="checkbox"><span class="t">선생님께 내 프로젝트 화면을 보여 주며 1~2분 말로 설명했다 (구술 확인: 내가 직접 한 것인지 확인해요. 설명하지 못한 내용은 인정되지 않을 수 있어요) <span class="ws">③-3</span></span></li>
       </ul>
       <div class="prog"><i></i></div>
@@ -285,6 +328,76 @@
       <li>자발적 미제출 또는 장기간 미인정 결석으로 인한 미응시는 해당 영역 최하점의 차하점(−1점)을 받습니다.</li>
     </ul>
   </div>
+</div>
+
+<h2 id="forms"><span class="n">8</span>제출 폼 미리 보기</h2>
+<div class="callout">👀 수업 시간에 쓰는 <b>활동지(제출 폼) ①·②·③</b>에 어떤 칸이 있는지 미리 보는 화면이에요. 여기에는 쓸 수 없고, 실제 제출 폼은 <b>그 시간에 선생님이 열어 줘요</b>. 회색 글씨는 칸에 들어 있는 안내 문구예요. 무엇을 기록해야 하는지 미리 알아 두고, 사진을 모을 때부터 <b>장수·출처·뺀 사진과 까닭</b>을 메모해 두면 좋아요.</div>
+<details class="pv" id="form1" open>
+  <summary><span class="pw">27차시</span> 활동지 ① 계획 · 사진 · 학습 · 테스트</summary>
+  <div class="pi">
+    <div class="stamp">미리 보기 · 여기에는 쓸 수 없어요</div>
+    <p class="lead">오늘 한 일을 적어 내요. 끝나기 전에 꼭 제출하고, 고칠 것이 생기면 다시 제출해도 돼요(마지막에 낸 것을 봐요).</p>
+    <div class="ps"><h4>1. 프로젝트 계획</h4><div class="pf"><div class="pl">고른 주제 (주제 목록 번호와 이름 · 자유 주제면 「자유 번호」와 주제 이름)</div><div class="pb">예: 11번 투명 페트병 분리배출 / 자유3 급식 잔반 양</div></div><div class="pf"><div class="pl">「어떻게 하면 ___ 할 수 있을까?」</div><div class="pb">어떻게 하면 … 수 있을까?</div></div><div class="pf"><div class="pl">넣을 사진(입력) → 맞힐 것(출력)</div><div class="pb">예: 페트병 사진 → 라벨 뗌 / 라벨 붙음</div></div><div class="pf"><div class="pl">클래스 (2개 이상)</div><div class="pb">예: 라벨 뗌 / 라벨 붙음</div></div><div class="pf"><div class="pl">이 문제를 이미지 인공지능으로 해결하려는 까닭</div><div class="pb tall">누구에게 어떤 도움이 되는지, 왜 사진으로 판단하는지</div></div></div><div class="ps"><h4>2. 사진 모으기와 정리 (전처리)</h4><div class="pf"><div class="pl">클래스별 사진 장수 (정리 전 → 정리 후)</div><div class="pb tall">예: 라벨 뗌 12장 → 10장 / 라벨 붙음 11장 → 10장</div></div><div class="pf"><div class="pl">사진을 어디서 어떻게 모았나 (직접 찍기·그리기 또는 인터넷 검색)</div><div class="pb tall">직접 찍었다면 장소·배경·밝기·각도를, 인터넷에서 찾았다면 검색어·사이트와 고른 기준을 적어요. 예: 교실 책상과 바닥에서 밝기를 바꿔 찍었다 / 「페트병 라벨」로 검색해 픽사베이에서 배경이 서로 다른 사진을 골랐다.</div></div><div class="pf"><div class="pl">정리하며 뺀 사진·옮긴 사진과 그 까닭</div><div class="pb tall">예: 워터마크·글자가 크게 들어간 사진 2장, 거의 같은 사진 1장을 뺐다. 까닭은 …</div></div><div class="pf"><div class="pl">사진을 이렇게 구성한 근거</div><div class="pb tall">장수를 맞춘 까닭, 배경·밝기를 다양하게 한 까닭 등</div></div></div><div class="ps"><h4>3. 학습과 테스트</h4><div class="pf"><div class="pl">ML4Kids 프로젝트 이름</div><div class="pb"></div></div><div class="pf"><div class="pl">테스트 사진을 어떻게 따로 두었나</div><div class="pb tall">학습에 넣지 않은 사진을 클래스마다 몇 장, 어디서 골랐는지. 학습 사진과 같은 사진·같은 페이지의 비슷한 사진은 쓰지 않아요.</div></div><div class="pf"><div class="pl">테스트 기록표 (테스트 사진마다 한 줄 · 클래스마다 3장 이상 권장)</div><div class="tw"><table class="pt"><tr><th>#</th><th>사진 설명 · 출처(사이트)</th><th>정답 클래스</th><th>모델 예측</th><th>신뢰도(%)</th><th>맞음?</th></tr><tr><td class="no">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="no">2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="no">⋮</td><td colspan="5" class="muted">… 12줄까지</td></tr></table></div></div><p class="pn">🔢 기록표를 채우면 폼이 O/X 개수를 자동으로 세고, 정답과 예측이 다른데 O라고 쓰면 알려 줘요.</p><div class="pf"><div class="pl">끝나기 전에 확인</div><ul class="pc"><li>☐ ML4Kids에서 학습을 마쳤다</li><li>☐ 테스트 사진은 학습에 넣은 사진과 겹치지 않는다</li><li>☐ 훈련 화면(클래스별 사진 장수)을 캡처해 리로스쿨 과제에 올렸다</li><li>☐ 테스트 결과 화면을 캡처해 리로스쿨 과제에 올렸다</li></ul></div></div>
+  </div>
+</details><details class="pv" id="form2">
+  <summary><span class="pw">28차시</span> 활동지 ② 정확도 · 원인 · 개선 방향</summary>
+  <div class="pi">
+    <div class="stamp">미리 보기 · 여기에는 쓸 수 없어요</div>
+    <p class="lead">지난 시간 테스트 결과로 성능을 평가하고, 틀린 사진의 원인과 개선 방향을 적어요. 끝나기 전에 꼭 제출해요.</p>
+    <div class="ps"><h4>1. 평가 지표 (정확도)</h4><p class="pn">지난 시간 ① 폼의 테스트 기록표(O/X)를 보고 직접 세어 계산해요. 정확도(%) = 맞힌 장수 ÷ 테스트 장수 × 100 (소수 첫째 자리에서 반올림). 칸을 채우면 오른쪽 「계산 확인」에 맞는지 바로 표시돼요.</p><div class="pf"><div class="pl">클래스별 정확도</div><div class="tw"><table class="pt"><tr><th>#</th><th>클래스</th><th>테스트 장수</th><th>맞힌 장수</th><th>정확도(%)</th><th>계산 확인</th></tr><tr><td class="no">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="no">2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="no">⋮</td><td colspan="5" class="muted">… 4줄까지</td></tr></table></div></div><div class="pf"><div class="pl">전체 테스트 장수</div><div class="pb">예: 9</div></div><div class="pf"><div class="pl">전체 맞힌 장수</div><div class="pb">예: 7</div></div><div class="pf"><div class="pl">전체 정확도(%)</div><div class="pb">예: 78</div></div><div class="pf"><div class="pl">전체 정확도 계산 과정 (식으로)</div><div class="pb tall">예: 7 ÷ 9 × 100 = 77.7… → 78%</div></div><p class="pn">✓ 칸을 채우면 「계산 확인」에 맞아요 / 다시 계산이 표시돼요 (정답을 알려 주지는 않아요).</p><div class="pf"><div class="pl">이 숫자로 알 수 있는 것</div><div class="pb tall">어느 클래스를 자주 틀리는지, 맞았지만 신뢰도가 낮은 사진은 무엇인지, 테스트 장수가 적어 한 장이 몇 %p를 움직이는지 등</div></div></div><div class="ps"><h4>2. 틀린 사진의 원인</h4><div class="pf"><div class="pl">틀린 사진 (틀린 것이 없으면 신뢰도가 가장 낮은 사진)</div><div class="pb tall">어떤 사진을 무엇으로 예측했나, 정답은 무엇인가, 신뢰도는?</div></div><div class="pf"><div class="pl">원인 — 내 학습 사진과 연결해서</div><div class="pb tall">내 학습 사진에서 어떤 점(장수·배경·밝기·모양 등)이 치우쳐 있었나</div></div></div><div class="ps"><h4>3. 개선 방향</h4><div class="pf"><div class="pl">원인에 맞는 개선 방향과 그 까닭</div><div class="pb tall">무엇을 어떻게 바꾸면 나아질지, 왜 그렇게 생각하는지</div></div><div class="pf"><div class="pl">(권장) 실제로 고쳐 본 결과 <small>(선택)</small></div><div class="pb tall">무엇을 바꿨고, 같은 테스트 사진으로 다시 해 보니 어떻게 달라졌나 (안 했으면 비워 둬요)</div></div><div class="pf"><div class="pl">(권장) 개선 전·후 비교 — 같은 테스트 사진으로</div><div class="tw"><table class="pt"><tr><th>#</th><th>사진 번호·설명</th><th>개선 전 예측</th><th>개선 전 신뢰도(%)</th><th>개선 후 예측</th><th>개선 후 신뢰도(%)</th></tr><tr><td class="no">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="no">2</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="no">⋮</td><td colspan="5" class="muted">… 6줄까지</td></tr></table></div></div><div class="pf"><div class="pl">(권장) 개선 후 전체 정확도와 계산식 <small>(선택)</small></div><div class="pb">예: 9장 중 8장 → 8 ÷ 9 × 100 ≈ 89% (개선 전 78%)</div></div><div class="pf"><div class="pl">(권장) 친구·선생님 의견과 반영한 점 <small>(선택)</small></div><div class="pb tall">안 했으면 비워 둬요</div></div><div class="pf"><div class="pl">끝나기 전에 확인</div><ul class="pc"><li>☐ 테스트 결과 화면(고쳤다면 고친 뒤 화면도)을 캡처해 리로스쿨 과제에 올렸다</li></ul></div></div>
+  </div>
+</details><details class="pv" id="form3">
+  <summary><span class="pw">29차시</span> 활동지 ③ 한계 · 사회적 영향 · AI 기록</summary>
+  <div class="pi">
+    <div class="stamp">미리 보기 · 여기에는 쓸 수 없어요</div>
+    <p class="lead">내 프로젝트의 한계와 사회적 영향을 쓰고, 생성형 AI 활용 기록을 남겨요. 이 시간에는 다른 창과 생성형 AI를 모두 닫고 이 폼만 열어 둔 채 직접 써요. 쓰는 동안 선생님이 한 명씩 불러 내 프로젝트를 1~2분 말로 설명하는 구술 확인을 해요.</p>
+    <div class="ps"><h4>1. 한계와 사회적 영향</h4><div class="pf"><div class="pl">내 사진·모델을 근거로 5문장 이상</div><div class="pb tall">데이터 편향, 특정 환경에서 성능이 떨어지는 점, 잘못 분류했을 때의 피해, 공정성, 개인정보 등. 내 숫자와 내 사진을 근거로 써요.</div></div></div><div class="ps"><h4>2. 생성형 AI 활용 기록</h4><div class="pf"><div class="pl">생성형 AI를 썼나요?</div><div class="pb sel">사용하지 않음 / 사용함 중에서 고르기 ▾</div></div><div class="pf"><div class="pl">썼다면: AI 종류 · 활용 목적 · 실제로 반영한 내용 <small>(선택)</small></div><div class="pb tall">수행평가 이전에 주제 탐색·데이터 구성 아이디어에만 쓸 수 있어요</div></div></div><div class="ps"><h4>3. 보충 · 마무리 확인</h4><div class="pf"><div class="pl">앞 시간에 못 낸 내용 보충 <small>(선택)</small></div><div class="pb tall"></div></div><div class="pf"><div class="pl">끝나기 전에 확인</div><ul class="pc"><li>☐ 빠진 ML4Kids 화면 캡처를 리로스쿨 과제에 올렸다</li><li>☐ 선생님께 내 프로젝트를 말로 설명했다 (구술 확인)</li></ul></div></div>
+  </div>
+</details>
+
+<h2 id="example"><span class="n">9</span>참고자료 · 예시 사례</h2>
+<div class="callout">📝 「아, 이런 식으로 쓰는구나!」를 알 수 있도록 한 학생의 프로젝트를 처음부터 끝까지 예로 보여 줘요. 주제는 주제 목록에 없는 <b>우산 정리 확인 (접힘 / 펼쳐짐)</b>이에요. 사진·숫자는 모두 지어낸 예시라서, 내 활동지에는 <b>내 프로젝트에서 실제로 나온 사진과 숫자</b>를 써야 해요. 문장을 그대로 따라 쓰는 것이 아니라 <b>무엇을 어떤 순서로, 얼마나 구체적으로 쓰는지</b>를 보세요.</div>
+
+<div class="exflow">
+  <div><b>78%</b><span>처음 정확도<br>9장 중 7장</span></div><i>→</i>
+  <div><b>원인</b><span>펼쳐짐 사진이<br>모두 진한 색 우산</span></div><i>→</i>
+  <div><b>개선</b><span>투명·어두운 색 우산,<br>어두운 사진 추가</span></div><i>→</i>
+  <div><b>89%</b><span>같은 테스트 사진<br>9장 중 8장</span></div>
+</div>
+
+<div class="card ex1">
+  <h3><span class="pw">27차시</span> 활동지 ① 계획 · 사진 · 학습 · 테스트</h3>
+  <h4>1. 프로젝트 계획</h4><div class="tw"><table class="kv"><tr><th>칸</th><th>예시</th></tr><tr><td>고른 주제</td><td>자유○ 우산 정리 확인 <span class="muted">(주제 목록에 없는 예시 주제)</span></td></tr><tr><td>「어떻게 하면 ___ 할 수 있을까?」</td><td>어떻게 하면 비 오는 날 우산을 접어서 정리했는지 자동으로 확인할 수 있을까?</td></tr><tr><td>넣을 사진 → 맞힐 것</td><td>우산 사진 → 접힘 / 펼쳐짐</td></tr><tr><td>클래스</td><td>접힘 / 펼쳐짐</td></tr><tr><td>이미지 인공지능으로 해결하려는 까닭</td><td>비 오는 날 교실과 복도에 우산을 펼쳐 둔 채 말리면 통로가 막히고 바닥이 젖어 미끄러지는 사고가 날 수 있는데, 우리 학교 복도에는 펼친 우산이 자주 놓여 있다. 우산이 접혔는지 펼쳐졌는지는 눈으로 보면 바로 알 수 있는 모양의 차이라 사진으로 판단하기에 알맞다. 복도 사진만 찍으면 펼친 우산이 있는지 알려 주는 모델이 있으면 학생들과 생활 안전을 맡은 선생님께 도움이 된다.</td></tr></table></div>
+  <h4>2. 사진 모으기와 정리 (전처리)</h4><div class="tw"><table class="kv"><tr><th>칸</th><th>예시</th></tr><tr><td>클래스별 사진 장수 (정리 전 → 정리 후)</td><td>접힘 13장 → 10장 / 펼쳐짐 12장 → 10장</td></tr><tr><td>사진을 어디서 어떻게 모았나</td><td>접힘 6장, 펼쳐짐 6장은 우리 반 친구들의 우산을 빌려 교실에서 직접 찍었다. 흰 책상, 갈색 사물함, 회색 바닥 세 곳에서 창가 쪽(밝음)과 복도 쪽(어두움)을 바꾸고, 우산을 세우거나 눕혀 각도를 다르게 했다. 나머지는 인터넷에서 「접은 우산」, 「펼친 우산」으로 검색해 픽사베이에서 배경이 서로 다른 사진을 골랐다. 사람이 우산을 쓰고 있는 사진은 얼굴이 나올 수 있어 고르지 않았다.</td></tr><tr><td>정리하며 뺀 사진·옮긴 사진과 그 까닭</td><td>접힘에서 흔들려 우산 모양이 흐린 사진 2장, 거의 같은 각도로 연달아 찍은 사진 1장을 뺐다. 펼쳐짐에서는 워터마크 글자가 우산 위에 크게 들어간 인터넷 사진 1장, 접은 우산과 펼친 우산이 함께 나온 사진 1장을 뺐다. 흐린 사진과 워터마크는 모델이 우산이 아닌 다른 특징을 배울 수 있고, 섞인 사진은 정답이 두 개라 학습을 헷갈리게 하기 때문이다.</td></tr><tr><td>사진을 이렇게 구성한 근거</td><td>한 클래스 사진이 더 많으면 모델이 그 클래스로 많이 예측할 수 있어서 두 클래스를 10장씩 맞췄다. 우산은 교실, 복도, 현관처럼 놓이는 곳마다 배경과 밝기가 달라서 배경 3가지, 밝기 2가지를 섞었다. 직접 찍은 사진과 인터넷 사진을 클래스마다 반씩 넣어 한쪽 방법에만 치우치지 않게 했다.</td></tr></table></div>
+  <p class="why">💡 <b>여기를 보세요</b> — 장수(13 → 10장), 장소·밝기·각도, 검색어·사이트, 뺀 사진과 <b>그 까닭</b>까지 적혀 있어요. 「사진을 모았다」만 쓰면 선택 근거가 부족해요.</p>
+  <h4>3. 학습과 테스트</h4><div class="tw"><table class="kv"><tr><th>칸</th><th>예시</th></tr><tr><td>ML4Kids 프로젝트 이름</td><td>15번 우산 정리</td></tr><tr><td>테스트 사진을 어떻게 따로 두었나</td><td>학습에 넣지 않은 사진을 접힘 5장, 펼쳐짐 4장 따로 두었다. 직접 찍은 사진은 학습 사진과 다른 날, 다른 우산으로 찍었고, 인터넷 사진은 학습 사진을 가져온 페이지가 아닌 다른 검색 결과에서 골랐다.</td></tr></table></div>
+  <p class="sub">테스트 기록표</p><div class="tw"><table class="ex"><tr><th>#</th><th>사진 설명 · 출처(사이트)</th><th>정답 클래스</th><th>모델 예측</th><th>신뢰도(%)</th><th>맞음?</th></tr><tr><td>1</td><td>우산꽂이에 꽂힌 접은 검정 우산 · 직접 찍음</td><td>접힘</td><td>접힘</td><td>92</td><td><b class="o">O</b></td></tr><tr><td>2</td><td>책상 옆에 세워 둔 접은 남색 우산 · 직접 찍음</td><td>접힘</td><td>접힘</td><td>85</td><td><b class="o">O</b></td></tr><tr><td>3</td><td>창가 햇빛 아래 접은 체크무늬 우산 · 직접 찍음</td><td>접힘</td><td>접힘</td><td>64</td><td><b class="o">O</b></td></tr><tr><td>4</td><td>초록 배경의 접은 빨간 우산 · 픽사베이</td><td>접힘</td><td>접힘</td><td>77</td><td><b class="o">O</b></td></tr><tr><td>5</td><td>바닥에 눕혀 둔 접은 장우산 · 픽사베이</td><td>접힘</td><td>접힘</td><td>71</td><td><b class="o">O</b></td></tr><tr><td>6</td><td>복도에 펼쳐 둔 노란 우산 · 직접 찍음</td><td>펼쳐짐</td><td>펼쳐짐</td><td>95</td><td><b class="o">O</b></td></tr><tr><td>7</td><td>잔디 위에 펼쳐 놓은 파란 우산 · 픽사베이</td><td>펼쳐짐</td><td>펼쳐짐</td><td>88</td><td><b class="o">O</b></td></tr><tr><td>8</td><td>교실 바닥에 펼쳐 둔 투명 비닐우산 · 직접 찍음</td><td>펼쳐짐</td><td>접힘</td><td>73</td><td><b class="x">X</b></td></tr><tr><td>9</td><td>어두운 복도 바닥에 펼친 검정 우산 · 직접 찍음</td><td>펼쳐짐</td><td>접힘</td><td>58</td><td><b class="x">X</b></td></tr></table></div>
+  <p class="note">자동 집계: 9장 · O 7 · X 2 &nbsp;|&nbsp; 신뢰도(%)는 ML4Kids 「Learn &amp; Test」에서 사진을 넣었을 때 나오는 숫자를 그대로 적어요.</p>
+</div>
+
+<div class="card ex2">
+  <h3><span class="pw">28차시</span> 활동지 ② 정확도 · 원인 · 개선 방향</h3>
+  <h4>1. 평가 지표 (정확도)</h4><div class="tw"><table class="ex"><tr><th>클래스</th><th>테스트 장수</th><th>맞힌 장수</th><th>정확도(%)</th><th>계산 확인</th></tr><tr><td>접힘</td><td>5</td><td>5</td><td>100</td><td>✓ 맞아요</td></tr><tr><td>펼쳐짐</td><td>4</td><td>2</td><td>50</td><td>✓ 맞아요</td></tr></table></div><div class="tw"><table class="kv"><tr><th>칸</th><th>예시</th></tr><tr><td>전체 테스트 장수 · 맞힌 장수</td><td>9장 · 7장</td></tr><tr><td>전체 정확도와 계산 과정</td><td>7 ÷ 9 × 100 = 77.77… → 반올림 <b>78%</b></td></tr><tr><td>이 숫자로 알 수 있는 것</td><td>접힘은 5장 모두 맞혔지만 펼쳐짐은 4장 중 2장만 맞혀 50%로, 모델은 펼친 우산을 접힘으로 잘못 보는 쪽으로 치우쳐 있다. 맞힌 사진 중에도 3번(창가 햇빛, 64%)은 신뢰도가 낮아 밝기가 강하면 헷갈린다는 것을 알 수 있다. 테스트가 9장뿐이라 한 장이 약 11%p를 움직이므로, 이 숫자만으로 모델이 좋다 나쁘다 단정하기는 어렵다.</td></tr></table></div>
+  <p class="why">💡 <b>여기를 보세요</b> — 전체만이 아니라 <b>클래스별</b>로 나눠 보니 「펼쳐짐」만 50%라는 게 드러나요. 테스트가 적으면 한 장이 몇 %p를 움직이는지도 생각해요.</p>
+  <h4>2. 틀린 사진의 원인</h4><div class="tw"><table class="kv"><tr><th>칸</th><th>예시</th></tr><tr><td>틀린 사진</td><td>8번: 교실 바닥에 펼쳐 둔 투명 비닐우산을 「접힘」으로 예측(신뢰도 73%), 정답은 펼쳐짐. 9번: 어두운 복도 바닥에 펼친 검정 우산을 「접힘」으로 예측(58%), 정답은 펼쳐짐.</td></tr><tr><td>원인 — 내 학습 사진과 연결해서</td><td>내 「펼쳐짐」 학습 사진 10장은 모두 노랑·파랑·빨강처럼 색이 진한 우산이었고, 투명 우산은 한 장도 없었다. 그래서 모델은 「진한 색이 넓게 퍼져 있으면 펼쳐짐」으로 배웠을 가능성이 크고, 천이 투명해 뒤 바닥이 비쳐 보이는 투명 우산은 펼친 모양이 잘 드러나지 않아 접힌 것처럼 보였다. 또 펼쳐짐 사진 10장 중 어두운 곳에서 찍은 사진은 2장뿐이라, 어두운 바닥 위의 검정 우산은 배경과 잘 구별되지 않아 틀린 것으로 보인다.</td></tr></table></div>
+  <p class="why">💡 <b>여기를 보세요</b> — 원인을 「사진이 부족해서」가 아니라 <b>내 학습 사진의 특징</b>(우산 색, 어두운 사진 장수)과 연결했어요.</p>
+  <h4>3. 개선 방향</h4><div class="tw"><table class="kv"><tr><th>칸</th><th>예시</th></tr><tr><td>원인에 맞는 개선 방향과 그 까닭</td><td>「펼쳐짐」 클래스에 투명 우산·어두운 색 우산 사진을 4장, 어두운 곳에서 찍은 사진을 2장 더 넣는다. 원인이 우산 색과 밝기가 한쪽으로 치우친 것이므로, 다양한 우산 색과 밝기를 보여 주면 모델이 색이 아니라 「우산살이 둥글게 퍼져 있는지」를 배울 것이라고 생각한다. 클래스 장수 차이가 생기지 않도록 「접힘」에도 어두운 사진 2장과 접은 투명 우산 사진 2장을 더 넣어 14장씩 맞춘다.</td></tr><tr><td>(권장) 실제로 고쳐 본 결과</td><td>위처럼 사진을 추가해 14장씩 다시 학습시키고, 처음과 같은 테스트 사진 9장으로 다시 테스트했다. 8번(투명 우산)은 펼쳐짐으로 바르게 바뀌었지만, 9번(어두운 곳 검정 우산)은 여전히 접힘으로 예측해 어두운 사진이 더 필요하다.</td></tr><tr><td>(권장) 개선 후 전체 정확도와 계산식</td><td>9장 중 8장 → 8 ÷ 9 × 100 = 88.88… ≈ <b>89%</b> (개선 전 78%)</td></tr><tr><td>(권장) 친구·선생님 의견과 반영한 점</td><td>짝이 「비 오는 날 복도는 불을 꺼 두는 때가 많아 어둡다」고 해서 어두운 사진을 추가하는 데 반영했다.</td></tr></table></div>
+  <p class="sub">(권장) 개선 전·후 비교 — 같은 테스트 사진으로</p><div class="tw"><table class="ex"><tr><th>사진 번호·설명</th><th>개선 전 예측</th><th>개선 전 신뢰도(%)</th><th>개선 후 예측</th><th>개선 후 신뢰도(%)</th></tr><tr><td>3 창가 햇빛 접은 체크무늬 우산</td><td>접힘</td><td>64</td><td>접힘</td><td>79</td></tr><tr><td>8 펼쳐 둔 투명 비닐우산</td><td>접힘</td><td>73</td><td><b class="o">펼쳐짐</b></td><td>81</td></tr><tr><td>9 어두운 곳 펼친 검정 우산</td><td>접힘</td><td>58</td><td>접힘</td><td>52</td></tr></table></div>
+  <p class="note">고친 뒤에도 9번은 틀렸어요. 개선이 다 성공하지 않아도 괜찮아요. 무엇이 나아지고 무엇이 남았는지 정직하게 쓰는 것이 중요해요.</p>
+</div>
+
+<div class="card ex3">
+  <h3><span class="pw">29차시</span> 활동지 ③ 한계 · 사회적 영향 · AI 기록</h3>
+  <h4>1. 한계와 사회적 영향 (5문장 이상)</h4><ol class="sent"><li><span class="tg">데이터 편향</span>내 모델은 처음에 펼쳐짐 사진을 색이 진한 우산으로만 학습해서 펼친 투명 우산을 접힘으로 잘못 판단했는데, 이것은 학습 데이터가 한쪽으로 치우치면 모델도 치우친 기준을 배운다는 데이터 편향의 예이다.</li><li><span class="tg">테스트 장수의 한계</span>사진을 추가해 정확도가 78%에서 89%로 올랐지만 테스트 사진이 9장뿐이어서, 비 오는 날 실제 복도의 수많은 우산에서도 같은 성능이 나온다고 보장할 수 없다.</li><li><span class="tg">사용 환경 · 피해</span>어두운 곳의 검정 우산은 개선 후에도 틀렸기 때문에, 이 모델을 불이 꺼진 복도에 그대로 쓰면 펼쳐진 우산을 놓쳐 미끄러짐 사고를 막지 못할 수 있다.</li><li><span class="tg">반대쪽 피해 · 신뢰</span>반대로 잘 접어 둔 우산을 「펼쳐짐」으로 잘못 판단하면 규칙을 지킨 학생이 괜히 지적을 받게 되고, 사람들이 이 시스템을 믿지 않게 될 수 있다.</li><li><span class="tg">공정성</span>내 학습 사진은 대부분 단색 장우산이어서 무늬가 많은 우산이나 작은 접이식 우산을 쓰는 학생의 우산은 더 자주 틀릴 수 있으므로, 실제로 쓰려면 다양한 우산 사진을 더 모으고 사람이 최종 확인하는 과정이 필요하다.</li><li><span class="tg">개인정보</span>또 복도에서 사진을 찍을 때 지나가는 학생의 얼굴이 함께 찍힐 수 있으므로, 바닥과 우산꽂이만 찍히도록 카메라 방향을 정하고 사진을 저장하지 않는 등 개인정보 보호도 고려해야 한다.</li></ol>
+  <p class="why">💡 <b>여기를 보세요</b> — 6문장 모두 <b>내 사진</b>(진한 색 단색 장우산)이나 <b>내 숫자</b>(78% → 89%, 테스트 9장)를 근거로 들었고, 편향 · 사용 환경 · 잘못 분류했을 때의 피해(양쪽) · 공정성 · 개인정보를 골고루 다뤘어요.</p>
+  <h4>2. 생성형 AI 활용 기록</h4><div class="tw"><table class="kv"><tr><th>칸</th><th>예시</th></tr><tr><td>생성형 AI를 썼나요?</td><td>사용함</td></tr><tr><td>AI 종류 · 활용 목적 · 반영한 내용</td><td>수행평가 전 주제 정하기 때 생성형 AI에 「학교 생활 안전 문제 중 사진으로 구별할 수 있는 것」을 물어 우산 정리 주제 아이디어를 얻었다. 「배경과 밝기를 다양하게 찍으라」는 데이터 구성 조언을 참고해 배경 3가지·밝기 2가지로 찍었다. 사진 선정, 학습, 테스트, 정확도 계산, 원인 분석은 직접 했다.</td></tr></table></div>
+  <h4>3. 마무리 확인</h4>
+  <ul class="pc"><li>☑ 빠진 ML4Kids 화면 캡처를 리로스쿨 과제에 올렸다</li><li>☑ 선생님께 내 프로젝트를 말로 설명했다 (구술 확인)</li></ul>
+</div>
+
+<div class="card">
+  <h3>이렇게 쓰면 아쉬워요</h3>
+  <div class="tw"><table class="ex cmp"><tr><th>칸</th><th>아쉬운 답</th><th>왜 아쉬울까</th><th>이렇게 바꾸면</th></tr><tr><td>사진 모은 방법</td><td>「인터넷에서 찾았다.」</td><td>검색어·사이트·고른 기준이 없어 선택 근거가 흐려요</td><td>검색어, 사이트, 배경·밝기를 다르게 고른 기준까지</td></tr><tr><td>테스트 사진</td><td>「학습한 사진 몇 장을 다시 넣어 봤다.」</td><td>학습 사진으로 시험하면 성능을 제대로 잴 수 없어요</td><td>학습에 넣지 않은 새 사진을 따로 두기</td></tr><tr><td>정확도</td><td>「거의 다 맞혔다.」</td><td>숫자가 없어 평가 지표가 아니에요</td><td>7 ÷ 9 × 100 ≈ 78%처럼 식과 숫자</td></tr><tr><td>원인</td><td>「사진이 부족해서 틀린 것 같다.」</td><td>내 학습 사진의 어떤 점이 치우쳤는지 없어요</td><td>「펼쳐짐 10장이 모두 진한 색 우산이었다」처럼 구체적으로</td></tr><tr><td>개선 방향</td><td>「사진을 더 많이 넣으면 좋아질 것이다.」</td><td>원인과 이어지지 않는 일반적인 말이에요</td><td>원인(투명 우산·어두운 사진 없음)에 맞는 사진 종류와 장수</td></tr><tr><td>사회적 영향</td><td>「AI는 편리하지만 조심해야 한다. 재미있었다.」</td><td>내 프로젝트 근거가 없는 감상이에요</td><td>내 숫자·사진을 근거로 편향·피해·개인정보를 5문장 이상</td></tr></table></div>
 </div>
 </main>
 <footer>인공지능 기초 · 2026학년도 2학기 교수학습 및 평가 운영 계획에 따름</footer>
